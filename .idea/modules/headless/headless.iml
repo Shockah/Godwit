@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module external.linked.project.id=":headless" external.linked.project.path="$MODULE_DIR$/../../../headless" external.root.project.path="$MODULE_DIR$/../../.." external.system.id="GRADLE" external.system.module.group="Godwit" external.system.module.version="0.0.1-SNAPSHOT" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="false">
+    <output url="file://$MODULE_DIR$/../../../headless/build/classes/main" />
+    <output-test url="file://$MODULE_DIR$/../../../headless/build/classes/test" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/../../../headless">
+      <sourceFolder url="file://$MODULE_DIR$/../../../headless/src/main/groovy" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../headless/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../headless/src/test/groovy" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../headless/src/test/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../headless/src/main/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../headless/src/test/resources" type="java-test-resource" />
+      <excludeFolder url="file://$MODULE_DIR$/../../../headless/.gradle" />
+      <excludeFolder url="file://$MODULE_DIR$/../../../headless/build" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>
