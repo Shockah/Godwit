@@ -2,6 +2,7 @@ package io.shockah.godwit.geom
 
 import com.badlogic.gdx.math.Vector2
 import groovy.transform.CompileStatic
+import io.shockah.godwit.Math2
 
 /**
  * Created by michaldolas on 03.11.16.
@@ -22,6 +23,18 @@ final class Vec2 {
         this(vec.x, vec.y)
     }
 
+    static Vec2 angled(float dist, float angle) {
+        new Vec2(Math2.ldirX(dist, angle), Math2.ldirY(dist, angle))
+    }
+
+    @Override
+    boolean equals(Object obj) {
+        if (!(obj instanceof Vec2))
+            return false
+        Vec2 v = obj as Vec2
+        x == v.x && y == v.y
+    }
+
     Object asType(Class clazz) {
         if (clazz == Vector2)
             return new Vector2(x, y)
@@ -40,27 +53,43 @@ final class Vec2 {
     }
 
     Vec2 plus(Vec2 v) {
-        new Vec2(x + v.x, y + v.y)
+        plus(v.x, v.y)
+    }
+
+    Vec2 plus(float x, float y) {
+        new Vec2(this.x + x as float, this.y + y as float)
     }
 
     Vec2 minus(Vec2 v) {
-        new Vec2(x - v.x, y - v.y)
+        minus(v.x, v.y)
+    }
+
+    Vec2 minus(float x, float y) {
+        new Vec2(this.x - x as float, this.y - y as float)
     }
 
     Vec2 multiply(Vec2 v) {
-        new Vec2(x * v.x, y * v.y)
+        multiply(v.x, v.y)
     }
 
     Vec2 multiply(float f) {
-        new Vec2(x * f as float, y * f as float)
+        multiply(f, f)
+    }
+
+    Vec2 multiply(float x, float y) {
+        new Vec2(this.x * x as float, this.y * y as float)
     }
 
     Vec2 div(Vec2 v) {
-        new Vec2(x / v.x as float, y / v.y as float)
+        div(v.x, v.y)
     }
 
     Vec2 div(float f) {
-        new Vec2(x / f as float, y / f as float)
+        div(f, f)
+    }
+
+    Vec2 div(float x, float y) {
+        new Vec2(this.x / x as float, this.y / y as float)
     }
 
     Vec2 positive() {
@@ -69,5 +98,17 @@ final class Vec2 {
 
     Vec2 negative() {
         new Vec2(-x, -y)
+    }
+
+    Vec2 x() {
+        new Vec2(x, 0)
+    }
+
+    Vec2 y() {
+        new Vec2(0, y)
+    }
+
+    float length() {
+        Math.sqrt(x * x + y * y)
     }
 }

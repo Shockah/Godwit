@@ -1,6 +1,10 @@
 package io.shockah.godwit.geom
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import groovy.transform.CompileStatic
+import io.shockah.godwit.geom.polygon.Polygon
+import io.shockah.godwit.geom.polygon.Polygonable
+import io.shockah.godwit.gl.Gfx
 
 /**
  * Created by michaldolas on 03.11.16.
@@ -11,68 +15,68 @@ class Rectangle extends Shape implements Polygonable {
     Vec2 size
 
     static Rectangle centered(float x, float y, float w, float h) {
-        new Rectangle(x - w * 0.5f as float, y - h * 0.5f as float, w, h)
+        centered(new Vec2(x, y), new Vec2(w, h))
     }
 
     static Rectangle centered(float x, float y, Vec2 size) {
-        centered(x, y, size.x, size.y)
+        centered(new Vec2(x, y), size)
     }
 
     static Rectangle centered(Vec2 pos, float w, float h) {
-        centered(pos.x, pos.y, w, h)
+        centered(pos, new Vec2(w, h))
     }
 
     static Rectangle centered(Vec2 pos, Vec2 size) {
-        centered(pos.x, pos.y, size.x, size.y)
+        new Rectangle(pos - size * 0.5f, size)
     }
 
     static Rectangle centered(float x, float y, float l) {
-        centered(x, y, l, l)
+        centered(new Vec2(x, y), new Vec2(l, l))
     }
 
     static Rectangle centered(Vec2 pos, float l) {
-        centered(pos.x, pos.y, l, l)
+        centered(pos, new Vec2(l, l))
     }
 
     static Rectangle centered(float w, float h) {
-        centered(0, 0, w, h)
+        centered(Vec2.Zero, new Vec2(w, h))
     }
 
     static Rectangle centered(Vec2 size) {
-        centered(0, 0, size.x, size.y)
+        centered(Vec2.Zero, size)
     }
 
     Rectangle(float x, float y, float w, float h) {
-        pos = new Vec2(x, y)
-        size = new Vec2(w, h)
+        this(new Vec2(x, y), new Vec2(w, h))
     }
 
     Rectangle(float x, float y, Vec2 size) {
-        this(x, y, size.x, size.y)
+        this(new Vec2(x, y), size)
     }
 
     Rectangle(Vec2 pos, float w, float h) {
-        this(pos.x, pos.y, w, h)
+        this(pos, new Vec2(w, h))
     }
 
     Rectangle(Vec2 pos, Vec2 size) {
-        this(pos.x, pos.y, size.x, size.y)
+        this.pos = pos
+        this.size = size
     }
 
     Rectangle(float x, float y, float l) {
-        this(x, y, l, l)
+        this(new Vec2(x, y), new Vec2(l, l))
     }
 
     Rectangle(Vec2 pos, float l) {
-        this(pos.x, pos.y, l, l)
+        this(pos, new Vec2(l, l))
     }
 
     Rectangle(float w, float h) {
-        this(0, 0, w, h)
+        this(Vec2.Zero, new Vec2(w, h))
     }
 
     Rectangle(Vec2 size) {
-        this(0, 0, size.x, size.y)
+        this(Vec2.Zero, size)
     }
 
     @Override
@@ -87,14 +91,14 @@ class Rectangle extends Shape implements Polygonable {
     @Override
     boolean equals(Object obj) {
         if (!(obj instanceof Rectangle))
-            return false;
-        Rectangle rect = obj as Rectangle;
-        pos == rect.pos && size == rect.size;
+            return false
+        Rectangle rect = obj as Rectangle
+        pos == rect.pos && size == rect.size
     }
 
     @Override
     String toString() {
-        String.format("[Rectangle: @%s, %.2fx%.2f]", pos, size.x, size.y);
+        String.format("[Rectangle: @%s, %.2fx%.2f]", pos, size.x, size.y)
     }
 
     @Override
@@ -104,5 +108,31 @@ class Rectangle extends Shape implements Polygonable {
 
     Vec2 center() {
         pos + size * 0.5f
+    }
+
+    @Override
+    void translate(float x, float y) {
+        pos = pos.plus(x, y)
+    }
+
+    @Override
+    void draw(Gfx gfx, boolean filled, float x, float y) {
+        gfx.prepareShapes(filled ? ShapeRenderer.ShapeType.Filled : ShapeRenderer.ShapeType.Line)
+        gfx.shapes.rect(x + pos.x as float, y + pos.y as float, size.x, size.y)
+    }
+
+    @Override
+    boolean contains(float x, float y) {
+        return x >= pos.x && y >= pos.y && x < pos.x + size.x && y < pos.y + size.y
+    }
+
+    @Override
+    Polygon asPolygon() {
+        def p = new Polygon()
+        p << pos
+        p << pos + size.x()
+        p << pos + size
+        p << pos + size.y()
+        p
     }
 }

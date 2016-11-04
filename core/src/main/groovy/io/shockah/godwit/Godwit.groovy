@@ -1,7 +1,9 @@
 package io.shockah.godwit
 
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.OrthographicCamera
 import groovy.transform.CompileStatic
+import io.shockah.godwit.gl.BlendMode
 import io.shockah.godwit.gl.Gfx
 import io.shockah.godwit.gl.GfxContextManager
 
@@ -13,7 +15,6 @@ final class Godwit {
     private static Godwit instance
 
     protected State state, newState
-    protected EntityGroup<Entity> entities
     protected OrthographicCamera camera = new OrthographicCamera()
     final Gfx gfx = new Gfx()
 
@@ -33,32 +34,23 @@ final class Godwit {
 
     void tick() {
         if (newState) {
-            if (entities)
-                entities.destroy()
             if (state)
                 state.destroy()
-            entities = new EntityGroup<>()
-            entities.create()
             state = newState
             newState = null
             state.create()
         }
 
-        if (state) {
-            state.preUpdate()
-            entities.update()
-            state.postUpdate()
-        }
+        if (state)
+            state.update()
 
         GfxContextManager.bindSurface(null)
         gfx.updateCamera()
         gfx.clear(Color.BLACK)
         gfx.setBlendMode(BlendMode.Normal)
 
-        if (state) {
-            entities.render(gfx)
+        if (state)
             state.render(gfx)
-        }
 
         gfx.endTick()
         GfxContextManager.bindSurface(null)
