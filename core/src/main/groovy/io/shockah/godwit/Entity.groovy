@@ -21,6 +21,14 @@ class Entity {
         destroyed
     }
 
+    @PackageScope setCreated(boolean created) {
+        this.created = created
+    }
+
+    @PackageScope setDestroyed(boolean destroyed) {
+        this.destroyed = destroyed
+    }
+
     @PackageScope final void create() {
         if (created || destroyed)
             return
@@ -32,7 +40,7 @@ class Entity {
         if (created || destroyed)
             return
         assert godwit, "No Godwit instance provided."
-        create(godwit.entities)
+        create(godwit.state)
     }
 
     final void create(EntityGroup<? extends Entity> group) {

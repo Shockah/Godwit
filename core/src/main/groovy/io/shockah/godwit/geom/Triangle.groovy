@@ -69,10 +69,10 @@ class Triangle extends Shape implements Polygonable {
 
     @Override
     Rectangle getBoundingBox() {
-        float minX = Math2.min(pos1.x, pos2.x, pos3.x)
-        float minY = Math2.min(pos1.y, pos2.y, pos3.y)
-        float maxX = Math2.max(pos1.x, pos2.x, pos3.x)
-        float maxY = Math2.max(pos1.y, pos2.y, pos3.y)
+        float minX = (float)Math2.min(pos1.x, pos2.x, pos3.x)
+        float minY = (float)Math2.min(pos1.y, pos2.y, pos3.y)
+        float maxX = (float)Math2.max(pos1.x, pos2.x, pos3.x)
+        float maxY = (float)Math2.max(pos1.y, pos2.y, pos3.y)
         new Rectangle(minX, minY, maxX - minX as float, maxY - minY as float)
     }
 

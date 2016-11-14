@@ -90,14 +90,14 @@ class Gfx {
 
     void setColor(float r, float g, float b, float a) {
         prepareContext()
-        color = c
+        color = new Color(r, g, b, a)
         sprites.setColor(r, g, b, a)
         shapes.setColor(r, g, b, a)
     }
 
     void setColor(float r, float g, float b) {
         prepareContext()
-        color = c
+        color = new Color(r, g, b, 1f)
         sprites.setColor(r, g, b, 1f)
         shapes.setColor(r, g, b, 1f)
     }

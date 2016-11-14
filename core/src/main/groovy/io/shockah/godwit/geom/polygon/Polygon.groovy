@@ -59,10 +59,10 @@ class Polygon extends Shape {
             x[i] = v.x
             y[i] = v.y
         }
-        float minX = Math2.min(x)
-        float minY = Math2.min(y)
-        float maxX = Math2.max(x)
-        float maxY = Math2.max(y)
+        float minX = (float)Math2.min(x)
+        float minY = (float)Math2.min(y)
+        float maxX = (float)Math2.max(x)
+        float maxY = (float)Math2.max(y)
         new Rectangle(minX, minY, maxX - minX as float, maxY - minY as float)
     }
 
@@ -87,7 +87,8 @@ class Polygon extends Shape {
             return
         def triangulator = triangulator()
         for (Vec2 point : points) {
-            triangulator << point
+            //triangulator << point
+            triangulator.addPolyPoint(point)
         }
 
         triangulated.clear()
