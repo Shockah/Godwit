@@ -1,40 +1,39 @@
 buildscript {
-  repositories {
-    mavenLocal()
-    mavenCentral()
-    jcenter()
-    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
-  }
-  dependencies {
-    classpath "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
-  }
+	repositories {
+		mavenLocal()
+		mavenCentral()
+		maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+		jcenter()
+	}
 }
 
-allprojects {
-  apply plugin: 'eclipse'
-  apply plugin: 'idea'
+ext {
+	appName = "Godwit"
+	gdxVersion = "1.9.6"
 }
 
-configure(subprojects) {
-  apply plugin: 'java'
-  apply plugin: 'groovy'
-  sourceCompatibility = 1.7
+repositories {
+	mavenLocal()
+	mavenCentral()
+	maven {
+		url "https://oss.sonatype.org/content/repositories/snapshots/"
+	}
+	maven {
+		url "https://oss.sonatype.org/content/repositories/releases/"
+	}
 }
 
-subprojects {
-  version = '0.0.1-SNAPSHOT'
-  ext.appName = 'Godwit'
-  repositories {
-    mavenLocal()
-    mavenCentral()
-    jcenter()
-    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
-  }
+apply plugin: "groovy"
+
+dependencies {
+	compileOnly "org.codehaus.groovy:groovy:2.4.10"
+	compile "com.badlogicgames.gdx:gdx:$gdxVersion"
 }
 
-// Clearing Eclipse project data in root folder:
-tasks.eclipse.doLast {
-  delete '.project'
-  delete '.classpath'
-  delete '.settings/'
-}
+apply plugin: "java"
+
+sourceCompatibility = 1.7
+[compileJava, compileTestJava]*.options*.encoding = "UTF-8"
+
+sourceSets.main.java.srcDirs = []
+sourceSets.main.groovy.srcDirs = ["src"]
