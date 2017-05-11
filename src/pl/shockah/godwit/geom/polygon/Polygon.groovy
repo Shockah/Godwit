@@ -3,10 +3,7 @@ package pl.shockah.godwit.geom.polygon
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import groovy.transform.CompileStatic
 import pl.shockah.godwit.Math2
-import pl.shockah.godwit.geom.Rectangle
-import pl.shockah.godwit.geom.Shape
-import pl.shockah.godwit.geom.Triangle
-import pl.shockah.godwit.geom.Vec2
+import pl.shockah.godwit.geom.*
 import pl.shockah.godwit.gl.Gfx
 
 @CompileStatic
@@ -42,7 +39,7 @@ class Polygon extends Shape {
         if (closed != polygon.closed || points.size() != polygon.points.size())
             return false
         for (int i in 0..<points.size()) {
-            if (!points[i].equals(polygon.points[i]))
+            if (points[i] != polygon.points[i])
                 return false
         }
         return true
@@ -95,7 +92,6 @@ class Polygon extends Shape {
             return
         def triangulator = triangulator()
         for (Vec2 point : points) {
-            //triangulator << point
             triangulator.addPolyPoint(point)
         }
 
@@ -164,6 +160,16 @@ class Polygon extends Shape {
     void putAt(int index, Vec2 value) {
         points[index] = value
         dirty = true
+    }
+
+    List<Line> getLines() {
+        List<Line> lines = []
+        for (int i in 1..<points.size()) {
+            lines << new Line(points[i - 1], points[i])
+        }
+        if (closed)
+            lines << new Line(points.last(), points.first())
+        return lines
     }
 
     static class NoHoles extends Polygon {
