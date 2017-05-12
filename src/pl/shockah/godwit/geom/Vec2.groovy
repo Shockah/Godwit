@@ -109,6 +109,14 @@ final class Vec2 {
         return new Vec2(-x, -y)
     }
 
+    Vec2 withX(float x) {
+        return new Vec2(x, y)
+    }
+
+    Vec2 withY(float y) {
+        return new Vec2(x, y)
+    }
+
     Vec2 x() {
         return new Vec2(x, 0)
     }
