@@ -6,10 +6,14 @@ import pl.shockah.godwit.Math2
 
 @CompileStatic
 final class Vec2 {
-    static Vec2 Zero = new Vec2(0, 0)
+    static Vec2 Zero = new Vec2()
 
     final float x
     final float y
+
+    Vec2() {
+        this(0, 0)
+    }
 
     Vec2(float x, float y) {
         this.x = x
@@ -101,10 +105,6 @@ final class Vec2 {
         return new Vec2(this.x / x as float, this.y / y as float)
     }
 
-    Vec2 positive() {
-        return this
-    }
-
     Vec2 negative() {
         return new Vec2(-x, -y)
     }
@@ -119,5 +119,12 @@ final class Vec2 {
 
     float length() {
         return Math.sqrt(x * x + y * y)
+    }
+
+    Vec2 normalized() {
+        float length = length()
+        if (length == 1f)
+            return this
+        return this * (1f / length as float)
     }
 }
