@@ -6,7 +6,7 @@ import pl.shockah.godwit.Math2
 
 @CompileStatic
 final class Vec2 {
-    static Vec2 Zero = new Vec2()
+    public static Vec2 Zero = new Vec2()
 
     final float x
     final float y
