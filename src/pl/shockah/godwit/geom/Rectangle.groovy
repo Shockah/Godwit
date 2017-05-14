@@ -108,7 +108,7 @@ class Rectangle extends Shape implements Polygonable {
         return copyRectangle()
     }
 
-    Vec2 center() {
+    Vec2 getCenter() {
         return pos + size * 0.5f
     }
 
@@ -132,9 +132,9 @@ class Rectangle extends Shape implements Polygonable {
     Polygon asPolygon() {
         def p = new Polygon()
         p << pos
-        p << pos + size.x()
+        p << pos + size.onlyX
         p << pos + size
-        p << pos + size.y()
+        p << pos + size.onlyY
         return p
     }
 }

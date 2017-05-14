@@ -90,6 +90,10 @@ class Gfx {
 		}
 	}
 
+	Color getColor() {
+		return color
+	}
+
 	void setColor(Color c) {
 		prepareContext()
 		color = c

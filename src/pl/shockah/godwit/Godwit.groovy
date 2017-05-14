@@ -11,8 +11,8 @@ import pl.shockah.godwit.gl.GfxContextManager
 final class Godwit {
 	private static Godwit instance
 
-	State state
-	State newState
+	protected State state
+	protected State newState
 	protected OrthographicCamera camera = new OrthographicCamera()
 	final Gfx gfx = new Gfx()
 
@@ -24,6 +24,10 @@ final class Godwit {
 
 	OrthographicCamera getCamera() {
 		return camera
+	}
+
+	State getState() {
+		return state
 	}
 
 	void setState(State state) {

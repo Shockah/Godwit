@@ -69,12 +69,24 @@ final class Vec2 {
         return plus(v.x, v.y)
     }
 
+    Vec2 plus(float f) {
+        if (x == 0 && y == 0)
+            return this
+        return angled(length + f as float, angle)
+    }
+
     Vec2 plus(float x, float y) {
         return new Vec2(this.x + x as float, this.y + y as float)
     }
 
     Vec2 minus(Vec2 v) {
         return minus(v.x, v.y)
+    }
+
+    Vec2 minus(float f) {
+        if (x == 0 && y == 0)
+            return this
+        return angled(-(length + f) as float, angle)
     }
 
     Vec2 minus(float x, float y) {
@@ -117,20 +129,28 @@ final class Vec2 {
         return new Vec2(x, y)
     }
 
-    Vec2 x() {
+    Vec2 getOnlyX() {
         return new Vec2(x, 0)
     }
 
-    Vec2 y() {
+    Vec2 getOnlyY() {
         return new Vec2(0, y)
     }
 
-    float length() {
+    float getLength() {
         return Math.sqrt(x * x + y * y)
     }
 
-    Vec2 normalized() {
-        float length = length()
+    float getAngle() {
+        return Zero.getAngle(this)
+    }
+
+    float getAngle(Vec2 v) {
+        return Math.toDegrees(Math.atan2(y - v.y, v.x - x))
+    }
+
+    Vec2 getNormalized() {
+        float length = this.length
         if (length == 1f)
             return this
         return this * (1f / length as float)

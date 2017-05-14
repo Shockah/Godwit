@@ -71,7 +71,7 @@ class Circle extends Shape implements Polygonable {
 
     @Override
     boolean contains(float x, float y) {
-        return pos.minus(x, y).length() <= radius
+        return pos.minus(x, y).length <= radius
     }
 
     @Override
