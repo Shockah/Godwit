@@ -102,9 +102,9 @@ class Line extends Shape {
             return null
 
         float ua = (dx2 * (pos1.y - line.pos1.y)) - (dy2 * (pos1.x - line.pos1.x))
-        ua /= denom
+        ua = ua / denom as float
         float ub = (dx1 * (pos1.y - line.pos1.y)) - (dy1 * (pos1.x - line.pos1.x))
-        ub /= denom
+        ub = ub / denom as float
 
         /*if ((limit) && ((ua < 0) || (ua > 1) || (ub < 0) || (ub > 1)))
             return null*/
