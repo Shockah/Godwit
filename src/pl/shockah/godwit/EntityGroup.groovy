@@ -10,7 +10,7 @@ class EntityGroup<T extends Entity> extends Entity {
 		return Float.compare(o1.depth, o2.depth)
 	} as Comparator<Entity>
 
-	protected List<T> entities = new SortedLinkedList<>(depthComparator as Comparator<T>)
+	List<T> entities = new SortedLinkedList<>(depthComparator as Comparator<T>)
 	protected List<T> toCreate = new SortedLinkedList<>(depthComparator as Comparator<T>)
 	protected List<T> toDestroy = new SortedLinkedList<>(depthComparator as Comparator<T>)
 
