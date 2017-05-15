@@ -75,6 +75,19 @@ class Circle extends Shape implements Polygonable {
     }
 
     @Override
+    boolean collides(Shape shape, boolean tryAgain) {
+        //TODO: Circle --><-- Line
+        //TODO: Circle --><-- Rectangle
+        if (shape instanceof Circle)
+            return collides(shape as Circle)
+        return super.collides(shape, tryAgain)
+    }
+
+    boolean collides(Circle circle) {
+        return (circle.pos - pos).length < radius + circle.radius
+    }
+
+    @Override
     Polygon asPolygon() {
         return asPolygon(Math.ceil(Math.PI * radius * 0.5f) as int)
     }

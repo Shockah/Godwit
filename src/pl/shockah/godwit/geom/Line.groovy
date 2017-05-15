@@ -79,4 +79,41 @@ class Line extends Shape {
     boolean contains(float x, float y) {
         return false
     }
+
+    @Override
+    boolean collides(Shape shape, boolean tryAgain) {
+        if (shape instanceof Line)
+            return collides(shape as Line)
+        return super.collides(shape, tryAgain)
+    }
+
+    boolean collides(Line line) {
+        return intersect(line) != null
+    }
+
+    Vec2 intersect(Line line) {
+        float dx1 = pos2.x - pos1.x
+        float dx2 = line.pos2.x - line.pos1.x
+        float dy1 = pos2.y - pos1.y
+        float dy2 = line.pos2.y - line.pos1.y
+        float denom = (dy2 * dx1) - (dx2 * dy1)
+
+        if (denom == 0)
+            return null
+
+        float ua = (dx2 * (pos1.y - line.pos1.y)) - (dy2 * (pos1.x - line.pos1.x))
+        ua /= denom
+        float ub = (dx1 * (pos1.y - line.pos1.y)) - (dy1 * (pos1.x - line.pos1.x))
+        ub /= denom
+
+        /*if ((limit) && ((ua < 0) || (ua > 1) || (ub < 0) || (ub > 1)))
+            return null*/
+
+        float u = ua
+
+        float ix = pos1.x + (u * (pos2.x - pos1.x))
+        float iy = pos1.y + (u * (pos2.y - pos1.y))
+
+        return new Vec2(ix, iy)
+    }
 }

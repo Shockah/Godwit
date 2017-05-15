@@ -26,4 +26,14 @@ abstract class Shape {
     }
 
     abstract boolean contains(float x, float y)
+
+    final boolean collides(Shape shape) {
+        return collides(shape, true)
+    }
+
+    boolean collides(Shape shape, boolean tryAgain) {
+        if (tryAgain)
+            return shape.collides(this, false)
+        throw new IllegalArgumentException()
+    }
 }

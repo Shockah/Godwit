@@ -155,4 +155,8 @@ final class Vec2 {
             return this
         return this * (1f / length as float)
     }
+
+    Vec2 getAbs() {
+        return new Vec2(Math.abs(x), Math.abs(y))
+    }
 }

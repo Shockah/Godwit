@@ -129,6 +129,30 @@ class Rectangle extends Shape implements Polygonable {
     }
 
     @Override
+    boolean collides(Shape shape, boolean tryAgain) {
+        if (shape instanceof Rectangle)
+            return collides(shape as Rectangle)
+        if (shape instanceof Line)
+            return collides(shape as Line)
+        return super.collides(shape, tryAgain)
+    }
+
+    boolean collides(Line line) {
+        if (contains(line.pos1) || contains(line.pos2))
+            return true
+        for (Line myLine : asPolygon().lines) {
+            if (myLine.collides(line))
+                return true
+        }
+        return false
+    }
+
+    boolean collides(Rectangle rectangle) {
+        Vec2 v = (center - rectangle.center).abs - (size * 0.5f + rectangle.size * 0.5f)
+        return v.x < 0 && v.y < 0
+    }
+
+    @Override
     Polygon asPolygon() {
         def p = new Polygon()
         p << pos
