@@ -36,11 +36,11 @@ class Rectangle extends Shape implements Polygonable {
     }
 
     static Rectangle centered(float w, float h) {
-        return centered(Vec2.Zero, new Vec2(w, h))
+        return centered(new Vec2(), new Vec2(w, h))
     }
 
     static Rectangle centered(Vec2 size) {
-        return centered(Vec2.Zero, size)
+        return centered(new Vec2(), size)
     }
 
     Rectangle(float x, float y, float w, float h) {
@@ -69,11 +69,11 @@ class Rectangle extends Shape implements Polygonable {
     }
 
     Rectangle(float w, float h) {
-        this(Vec2.Zero, new Vec2(w, h))
+        this(new Vec2(), new Vec2(w, h))
     }
 
     Rectangle(Vec2 size) {
-        this(Vec2.Zero, size)
+        this(new Vec2(), size)
     }
 
     @Override
@@ -114,7 +114,8 @@ class Rectangle extends Shape implements Polygonable {
 
     @Override
     void translate(float x, float y) {
-        pos = pos.plus(x, y)
+        pos.x += x
+        pos.y += y
     }
 
     @Override

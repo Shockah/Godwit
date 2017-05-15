@@ -64,8 +64,10 @@ class Line extends Shape {
 
     @Override
     void translate(float x, float y) {
-        pos1 = pos1.plus(x, y)
-        pos2 = pos2.plus(x, y)
+        pos1.x += x
+        pos1.y += y
+        pos2.x += x
+        pos2.y += y
     }
 
     @Override

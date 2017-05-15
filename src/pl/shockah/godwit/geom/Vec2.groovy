@@ -6,10 +6,8 @@ import pl.shockah.godwit.Math2
 
 @CompileStatic
 final class Vec2 {
-    public static Vec2 Zero = new Vec2()
-
-    final float x
-    final float y
+    float x
+    float y
 
     Vec2() {
         this(0, 0)
@@ -142,7 +140,7 @@ final class Vec2 {
     }
 
     float getAngle() {
-        return Zero.getAngle(this)
+        return new Vec2().getAngle(this)
     }
 
     float getAngle(Vec2 v) {

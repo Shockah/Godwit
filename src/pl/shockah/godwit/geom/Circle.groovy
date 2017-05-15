@@ -19,7 +19,7 @@ class Circle extends Shape implements Polygonable {
     }
 
     Circle(float radius) {
-        this(Vec2.Zero, radius)
+        this(new Vec2(), radius)
     }
 
     Circle(Vec2 pos, float radius) {
@@ -41,7 +41,7 @@ class Circle extends Shape implements Polygonable {
         if (!(obj instanceof Circle))
             return false
         Circle circle = obj as Circle
-        return pos.equals(circle.pos) && radius == circle.radius
+        return pos == circle.pos && radius == circle.radius
     }
 
     @Override
@@ -61,7 +61,8 @@ class Circle extends Shape implements Polygonable {
 
     @Override
     void translate(float x, float y) {
-        pos = pos.plus(x, y)
+        pos.x += x
+        pos.y += y
     }
 
     @Override
