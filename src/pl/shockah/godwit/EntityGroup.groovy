@@ -44,7 +44,7 @@ class EntityGroup<T extends Entity> extends Entity {
 		for (T entity : toCreate) {
 			if (entity.created)
 				continue
-			assert entity.group, "Entity ${entity} is already attached to EntityGroup ${entity.group}."
+			assert !entity.group, "Entity ${entity} is already attached to EntityGroup ${entity.group}."
 			assert !entity.created && !entity.destroyed, "Entity ${entity} is in a wrong state."
 			entity.group = this
 			entity.created = true
