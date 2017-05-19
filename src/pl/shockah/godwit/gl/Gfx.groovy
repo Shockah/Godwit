@@ -163,8 +163,8 @@ class Gfx {
 
 	void clear(Color c) {
 		prepareContext()
-		Gdx.gl.glClearColor(c.r, c.g, c.b, c.a)
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_STENCIL_BUFFER_BIT | (Gdx.graphics.bufferFormat.coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0) as int)
+		Gdx.gl20.glClearColor(c.r, c.g, c.b, c.a)
+		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_STENCIL_BUFFER_BIT | (Gdx.graphics.bufferFormat.coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0) as int)
 	}
 
 	void updateCamera() {
