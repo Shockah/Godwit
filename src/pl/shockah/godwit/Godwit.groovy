@@ -1,5 +1,6 @@
 package pl.shockah.godwit
 
+import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.OrthographicCamera
 import groovy.transform.CompileStatic
@@ -15,6 +16,7 @@ final class Godwit {
 	protected State newState
 	protected OrthographicCamera camera = new OrthographicCamera()
 	final Gfx gfx = new Gfx()
+	final AssetManager assetManager
 
 	static Godwit getInstance() {
 		if (!instance)
