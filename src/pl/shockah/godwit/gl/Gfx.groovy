@@ -22,8 +22,6 @@ class Gfx {
 	private ShapeRenderer.ShapeType shapesMode
 	private BlendMode blendMode
 
-	Vec2 offset = new Vec2()
-
 	int getWidth() {
 		return Gdx.graphics.width
 	}
@@ -173,7 +171,7 @@ class Gfx {
 		def camera = Godwit.instance.camera
 		camera.viewportWidth = Gdx.graphics.width
 		camera.viewportHeight = -Gdx.graphics.height
-		camera.position.set(camera.viewportWidth * 0.5f + offset.x as float, -camera.viewportHeight * 0.5f - offset.y as float, 0f)
+		camera.position.set(camera.viewportWidth * 0.5f as float, -camera.viewportHeight * 0.5f as float, 0f)
 		camera.update()
 		updateCombinedCamera(camera.combined)
 		Gdx.gl20.glViewport(0, 0, Gdx.graphics.width, Gdx.graphics.height)
