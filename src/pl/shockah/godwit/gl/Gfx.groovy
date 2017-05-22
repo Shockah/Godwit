@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType
 import com.badlogic.gdx.math.Matrix4
-import com.badlogic.gdx.utils.viewport.FillViewport
+import com.badlogic.gdx.utils.viewport.ScreenViewport
 import com.badlogic.gdx.utils.viewport.Viewport
 import groovy.transform.CompileStatic
 import pl.shockah.godwit.geom.Shape
@@ -30,7 +30,7 @@ class Gfx {
 	Vec2 offset = new Vec2()
 
 	Gfx() {
-		viewport = new FillViewport(1, 1, camera)
+		viewport = new ScreenViewport(camera)
 	}
 
 	int getWidth() {
@@ -181,7 +181,7 @@ class Gfx {
 	void updateCamera() {
 		internalEndTick()
 		camera.setToOrtho(true, width, height)
-		viewport.setScreenSize(width, height)
+		viewport.update(width, height)
 		viewport.apply()
 		//camera.position.set(camera.viewportWidth * 0.5f + offset.x as float, -camera.viewportHeight * 0.5f + offset.y as float, 0f)
 		camera.update()
