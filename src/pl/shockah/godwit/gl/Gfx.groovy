@@ -3,12 +3,14 @@ package pl.shockah.godwit.gl
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.GL20
+import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType
 import com.badlogic.gdx.math.Matrix4
+import com.badlogic.gdx.utils.viewport.FillViewport
+import com.badlogic.gdx.utils.viewport.Viewport
 import groovy.transform.CompileStatic
-import pl.shockah.godwit.Godwit
 import pl.shockah.godwit.geom.Shape
 import pl.shockah.godwit.geom.Vec2
 
@@ -17,12 +19,19 @@ class Gfx {
 	final SpriteBatch sprites = new SpriteBatch()
 	final ShapeRenderer shapes = new ShapeRenderer()
 
+	protected OrthographicCamera camera = new OrthographicCamera()
+	Viewport viewport
+
 	private boolean spritesMode = false
 	private Color color = Color.BLACK
 	private ShapeRenderer.ShapeType shapesMode
 	private BlendMode blendMode
 
 	Vec2 offset = new Vec2()
+
+	Gfx() {
+		viewport = new FillViewport(1, 1, camera)
+	}
 
 	int getWidth() {
 		return Gdx.graphics.width
@@ -171,13 +180,13 @@ class Gfx {
 
 	void updateCamera() {
 		internalEndTick()
-		def camera = Godwit.instance.camera
-		camera.viewportWidth = Gdx.graphics.width
-		camera.viewportHeight = -Gdx.graphics.height
-		camera.position.set(camera.viewportWidth * 0.5f + offset.x as float, -camera.viewportHeight * 0.5f + offset.y as float, 0f)
+		camera.setToOrtho(true, width, height)
+		viewport.setScreenSize(width, height)
+		viewport.apply()
+		//camera.position.set(camera.viewportWidth * 0.5f + offset.x as float, -camera.viewportHeight * 0.5f + offset.y as float, 0f)
 		camera.update()
 		updateCombinedCamera(camera.combined)
-		Gdx.gl20.glViewport(0, 0, Gdx.graphics.width, Gdx.graphics.height)
+		//Gdx.gl20.glViewport(0, 0, Gdx.graphics.width, Gdx.graphics.height)
 	}
 
 	protected final void updateCombinedCamera(Matrix4 matrix) {

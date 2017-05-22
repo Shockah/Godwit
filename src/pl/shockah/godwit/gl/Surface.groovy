@@ -1,11 +1,9 @@
 package pl.shockah.godwit.gl
 
-import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.graphics.glutils.FrameBuffer
 import groovy.transform.CompileStatic
-import pl.shockah.godwit.Godwit
 
 @CompileStatic
 class Surface extends Gfx {
@@ -38,17 +36,6 @@ class Surface extends Gfx {
     @Override
     void prepareContext() {
         GfxContextManager.bindSurface(this)
-    }
-
-    @Override
-    void updateCamera() {
-        def camera = Godwit.instance.camera
-        camera.viewportWidth = region.regionWidth
-        camera.viewportHeight = region.regionHeight
-        camera.position.set(camera.viewportWidth * 0.5f as float, camera.viewportHeight * 0.5f as float, 0f)
-        camera.update()
-        updateCombinedCamera(camera.combined)
-        Gdx.gl20.glViewport(0, 0, region.regionWidth, region.regionHeight)
     }
 
     Sprite getSprite() {
