@@ -170,6 +170,7 @@ class Gfx {
 	}
 
 	void updateCamera() {
+		internalEndTick()
 		def camera = Godwit.instance.camera
 		camera.viewportWidth = Gdx.graphics.width
 		camera.viewportHeight = -Gdx.graphics.height
