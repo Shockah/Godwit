@@ -1,0 +1,15 @@
+apply plugin: "groovy"
+
+dependencies {
+	compileOnly "org.codehaus.groovy:groovy:2.4.10"
+	compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+}
+
+sourceCompatibility = 1.7
+[compileJava, compileTestJava, compileGroovy, compileTestGroovy]*.options*.encoding = "UTF-8"
+
+sourceSets.main {
+	java.srcDirs = []
+	groovy.srcDirs = ["src"]
+	resources.srcDirs = ["resources"]
+}

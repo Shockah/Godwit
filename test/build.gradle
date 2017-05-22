@@ -1,0 +1,32 @@
+apply plugin: "groovy"
+
+dependencies {
+	compile project(":godwit")
+	compileOnly "org.codehaus.groovy:groovy:2.4.10"
+	compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
+    compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+}
+
+sourceCompatibility = 1.7
+[compileJava, compileTestJava, compileGroovy, compileTestGroovy]*.options*.encoding = "UTF-8"
+
+sourceSets.main {
+	java.srcDirs = []
+	groovy.srcDirs = ["src"]
+	resources.srcDirs = ["resources"]
+}
+
+def testNames = ["Shapes"]
+
+testNames.each {
+	tasks.create("test${it}", JavaExec) {
+	    dependsOn 'classes'
+
+	    main = "pl.shockah.godwit.test.TestStarter"
+	    args it
+	    classpath = sourceSets.main.runtimeClasspath
+	    standardInput = System.in
+	    //workingDir = project.assetsDir
+	    //ignoreExitValue = true
+	}
+}
