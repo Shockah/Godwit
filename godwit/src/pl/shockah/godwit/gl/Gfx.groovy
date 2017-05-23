@@ -181,10 +181,8 @@ class Gfx {
 		internalEndTick()
 		viewport.setScreenPosition(offset.x as int, -offset.y as int)
 		viewport.apply()
-		//camera.position.set(camera.viewportWidth * 0.5f + offset.x as float, -camera.viewportHeight * 0.5f + offset.y as float, 0f)
 		camera.update()
 		updateCombinedCamera(camera.combined)
-		//Gdx.gl20.glViewport(0, 0, Gdx.graphics.width, Gdx.graphics.height)
 	}
 
 	protected final void updateCombinedCamera(Matrix4 matrix) {
