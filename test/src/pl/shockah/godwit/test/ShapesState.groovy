@@ -13,6 +13,8 @@ class ShapesState extends State {
 	protected void onRender(Gfx gfx) {
 		super.onRender(gfx)
 
+		gfx.clear(Color.GRAY)
+
 		def rect = Rectangle.centered(gfx.size / 2, gfx.size / 2)
 		def rect2 = new Rectangle(rect.pos.x - 4f as float, rect.pos.y - 4f as float, rect.size.x + 8f as float, rect.size.y + 8f as float)
 

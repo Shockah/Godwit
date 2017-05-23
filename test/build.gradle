@@ -2,7 +2,7 @@ apply plugin: "groovy"
 
 dependencies {
 	compile project(":godwit")
-	compileOnly "org.codehaus.groovy:groovy:2.4.10"
+	compile "org.codehaus.groovy:groovy:2.4.10"
 	compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
     compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
 }
@@ -16,17 +16,19 @@ sourceSets.main {
 	resources.srcDirs = ["resources"]
 }
 
+project.ext.mainClassName = "pl.shockah.godwit.test.TestStarter"
+
 def testNames = ["Shapes"]
 
 testNames.each {
-	tasks.create("test${it}", JavaExec) {
+	testName -> tasks.create("test${testName}", JavaExec) {
 	    dependsOn 'classes'
 
-	    main = "pl.shockah.godwit.test.TestStarter"
-	    args it
+	    main = project.mainClassName
+	    args testName
 	    classpath = sourceSets.main.runtimeClasspath
 	    standardInput = System.in
+		ignoreExitValue = true
 	    //workingDir = project.assetsDir
-	    //ignoreExitValue = true
 	}
 }
