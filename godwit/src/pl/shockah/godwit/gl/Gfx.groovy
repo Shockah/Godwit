@@ -19,15 +19,14 @@ class Gfx {
 	final SpriteBatch sprites = new SpriteBatch()
 	final ShapeRenderer shapes = new ShapeRenderer()
 
-	protected OrthographicCamera camera = new OrthographicCamera()
+	OrthographicCamera camera = new OrthographicCamera()
 	Viewport viewport
+	Vec2 offset = new Vec2()
 
 	private boolean spritesMode = false
 	private Color color = Color.BLACK
 	private ShapeRenderer.ShapeType shapesMode
 	private BlendMode blendMode
-
-	Vec2 offset = new Vec2()
 
 	Gfx() {
 		viewport = new ScreenViewport(camera)
@@ -180,8 +179,7 @@ class Gfx {
 
 	void updateCamera() {
 		internalEndTick()
-		camera.setToOrtho(true, width, height)
-		viewport.update(width, height)
+		viewport.setScreenPosition(offset.x as int, -offset.y as int)
 		viewport.apply()
 		//camera.position.set(camera.viewportWidth * 0.5f + offset.x as float, -camera.viewportHeight * 0.5f + offset.y as float, 0f)
 		camera.update()

@@ -18,7 +18,9 @@ sourceSets.main {
 
 project.ext.mainClassName = "pl.shockah.godwit.test.TestStarter"
 
-def testNames = ["Shapes"]
+def testNames = [
+		"AttachedViewport", "Shapes"
+]
 
 testNames.each {
 	testName -> tasks.create("test${testName}", JavaExec) {

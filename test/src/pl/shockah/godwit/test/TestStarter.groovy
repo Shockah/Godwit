@@ -14,7 +14,10 @@ final class TestStarter extends ApplicationAdapter {
 	static void main(String[] args) {
 		Class<? extends State> clazz = Class.forName("${TestStarter.package.name}.${args[0]}State")
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		new LwjglApplication(new TestStarter(clazz.newInstance()), config);
+		State state = clazz.newInstance()
+		if (state instanceof Configurable)
+			(state as Configurable).configure(config)
+		new LwjglApplication(new TestStarter(state), config);
 	}
 
 	TestStarter(State state) {
@@ -33,6 +36,7 @@ final class TestStarter extends ApplicationAdapter {
 
 	@Override
 	void resize(int width, int height) {
-		Godwit.instance.gfx.updateCamera()
+		Godwit.instance.gfx.camera.setToOrtho(true, width, height)
+		Godwit.instance.gfx.viewport.update(width, height, false)
 	}
 }

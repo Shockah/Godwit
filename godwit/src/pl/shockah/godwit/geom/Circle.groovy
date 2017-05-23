@@ -94,7 +94,7 @@ class Circle extends Shape implements Polygonable {
     }
 
     Polygon asPolygon(int precision) {
-        if (lastPoly && lastPoly.pointCount == precision && lastPrecision == precision && lastPos == pos)
+        if (lastPoly && lastPoly.pointCount == precision && lastPrecision == precision && pos == lastPos)
             return lastPoly
 
         Polygon p = new Polygon.NoHoles()
