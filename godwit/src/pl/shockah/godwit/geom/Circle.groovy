@@ -7,103 +7,103 @@ import pl.shockah.godwit.gl.Gfx
 
 @CompileStatic
 class Circle extends Shape implements Polygonable {
-    Vec2 pos
-    float radius
+	Vec2 pos
+	float radius
 
-    protected Vec2 lastPos = null
-    protected int lastPrecision = -1
-    protected Polygon lastPoly = null
+	protected Vec2 lastPos = null
+	protected int lastPrecision = -1
+	protected Polygon lastPoly = null
 
-    Circle(float x, float y, float radius) {
-        this(new Vec2(x, y), radius)
-    }
+	Circle(float x, float y, float radius) {
+		this(new Vec2(x, y), radius)
+	}
 
-    Circle(float radius) {
-        this(new Vec2(), radius)
-    }
+	Circle(float radius) {
+		this(new Vec2(), radius)
+	}
 
-    Circle(Vec2 pos, float radius) {
-        this.pos = pos
-        this.radius = radius
-    }
+	Circle(Vec2 pos, float radius) {
+		this.pos = pos
+		this.radius = radius
+	}
 
-    @Override
-    Shape copy() {
-        return copyCircle()
-    }
+	@Override
+	Shape copy() {
+		return copyCircle()
+	}
 
-    Circle copyCircle() {
-        return new Circle(pos, radius)
-    }
+	Circle copyCircle() {
+		return new Circle(pos, radius)
+	}
 
-    @Override
-    boolean equals(Object obj) {
-        if (!(obj instanceof Circle))
-            return false
-        Circle circle = obj as Circle
-        return pos == circle.pos && radius == circle.radius
-    }
+	@Override
+	boolean equals(Object obj) {
+		if (!(obj instanceof Circle))
+			return false
+		Circle circle = obj as Circle
+		return pos == circle.pos && radius == circle.radius
+	}
 
-    @Override
-    int hashCode() {
-        return pos.hashCode() * 31 + Float.hashCode(radius)
-    }
+	@Override
+	int hashCode() {
+		return pos.hashCode() * 31 + Float.hashCode(radius)
+	}
 
-    @Override
-    String toString() {
-        return String.format("[Circle: %s, radius %.2f]", pos, radius)
-    }
+	@Override
+	String toString() {
+		return String.format("[Circle: %s, radius %.2f]", pos, radius)
+	}
 
-    @Override
-    Rectangle getBoundingBox() {
-        return Rectangle.centered(pos, radius * 2f as float)
-    }
+	@Override
+	Rectangle getBoundingBox() {
+		return Rectangle.centered(pos, radius * 2f as float)
+	}
 
-    @Override
-    void translate(float x, float y) {
-        pos.x += x
-        pos.y += y
-    }
+	@Override
+	void translate(float x, float y) {
+		pos.x += x
+		pos.y += y
+	}
 
-    @Override
-    void draw(Gfx gfx, boolean filled, float x, float y) {
-        asPolygon().draw(gfx, filled, x, y)
-    }
+	@Override
+	void draw(Gfx gfx, boolean filled, float x, float y) {
+		asPolygon().draw(gfx, filled, x, y)
+	}
 
-    @Override
-    boolean contains(float x, float y) {
-        return pos.minus(x, y).length <= radius
-    }
+	@Override
+	boolean contains(float x, float y) {
+		return pos.minus(x, y).length <= radius
+	}
 
-    @Override
-    boolean collides(Shape shape, boolean tryAgain) {
-        //TODO: Circle --><-- Line
-        //TODO: Circle --><-- Rectangle
-        if (shape instanceof Circle)
-            return collides(shape as Circle)
-        return super.collides(shape, tryAgain)
-    }
+	@Override
+	boolean collides(Shape shape, boolean tryAgain) {
+		//TODO: Circle --><-- Line
+		//TODO: Circle --><-- Rectangle
+		if (shape instanceof Circle)
+			return collides(shape as Circle)
+		return super.collides(shape, tryAgain)
+	}
 
-    boolean collides(Circle circle) {
-        return (circle.pos - pos).length < radius + circle.radius
-    }
+	boolean collides(Circle circle) {
+		return (circle.pos - pos).length < radius + circle.radius
+	}
 
-    @Override
-    Polygon asPolygon() {
-        return asPolygon(Math.ceil(Math.PI * radius * 0.5f) as int)
-    }
+	@Override
+	Polygon asPolygon() {
+		return asPolygon(Math.ceil(Math.PI * radius * 0.5f) as int)
+	}
 
-    Polygon asPolygon(int precision) {
-        if (lastPoly && lastPoly.pointCount == precision && lastPrecision == precision && pos == lastPos)
-            return lastPoly
+	Polygon asPolygon(int precision) {
+		if (lastPoly && lastPoly.pointCount == precision && lastPrecision == precision && pos == lastPos)
+			return lastPoly
 
-        Polygon p = new Polygon.NoHoles()
-        for (int i in 0..<precision) {
-            p << Vec2.angled(radius, 360f / precision * i as float) + pos
-        }
+		Polygon p = new Polygon.NoHoles()
+		for (int i in 0..<precision) {
+			p << Vec2.angled(radius, 360f / precision * i as float) + pos
+		}
 
-        lastPos = pos
-        lastPrecision = precision
-        return lastPoly = p
-    }
+		lastPos = pos
+		lastPrecision = precision
+		return lastPoly = p
+	}
 }

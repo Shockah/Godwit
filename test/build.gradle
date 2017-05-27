@@ -4,7 +4,7 @@ dependencies {
 	compile project(":godwit")
 	compile "org.codehaus.groovy:groovy:2.4.10"
 	compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
-    compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+	compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
 }
 
 sourceCompatibility = 1.7
@@ -24,13 +24,13 @@ def testNames = [
 
 testNames.each {
 	testName -> tasks.create("test${testName}", JavaExec) {
-	    dependsOn 'classes'
+		dependsOn 'classes'
 
-	    main = project.mainClassName
-	    args testName
-	    classpath = sourceSets.main.runtimeClasspath
-	    standardInput = System.in
+		main = project.mainClassName
+		args testName
+		classpath = sourceSets.main.runtimeClasspath
+		standardInput = System.in
 		ignoreExitValue = true
-	    //workingDir = project.assetsDir
+		//workingDir = project.assetsDir
 	}
 }

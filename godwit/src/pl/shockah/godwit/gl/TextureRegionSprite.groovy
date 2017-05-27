@@ -6,14 +6,14 @@ import groovy.transform.CompileStatic
 
 @CompileStatic
 class TextureRegionSprite extends Sprite {
-    final TextureRegion region
+	final TextureRegion region
 
-    TextureRegionSprite(TextureRegion region) {
-        this.region = region
-    }
+	TextureRegionSprite(TextureRegion region) {
+		this.region = region
+	}
 
-    @Override
-    protected void internalDraw(SpriteBatch sb, float x, float y) {
-        sb.draw(region, x, y)
-    }
+	@Override
+	protected void internalDraw(SpriteBatch sb, float x, float y) {
+		sb.draw(region, x, y)
+	}
 }

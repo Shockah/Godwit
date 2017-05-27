@@ -4,5 +4,5 @@ import groovy.transform.CompileStatic
 
 @CompileStatic
 interface Polygonable {
-    Polygon asPolygon()
+	Polygon asPolygon()
 }
