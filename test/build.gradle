@@ -31,7 +31,8 @@ testNames.each {
 		classpath = sourceSets.main.runtimeClasspath
 		standardInput = System.in
 		ignoreExitValue = true
-		jvmArgs "-XstartOnFirstThread"
+		if (System.getProperty("os.name") == "Mac OS X")
+			jvmArgs "-XstartOnFirstThread"
 		//workingDir = project.assetsDir
 	}
 }
