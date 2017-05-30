@@ -1,9 +1,9 @@
 package pl.shockah.godwit.test
 
-import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration
 import groovy.transform.CompileStatic
 
 @CompileStatic
 interface Configurable {
-	void configure(LwjglApplicationConfiguration config)
+	void configure(Lwjgl3ApplicationConfiguration config)
 }

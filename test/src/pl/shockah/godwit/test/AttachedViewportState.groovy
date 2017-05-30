@@ -2,7 +2,7 @@ package pl.shockah.godwit.test
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
-import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration
 import com.badlogic.gdx.graphics.Color
 import groovy.transform.CompileStatic
 import pl.shockah.godwit.Entity
@@ -15,9 +15,8 @@ import pl.shockah.godwit.gl.Gfx
 @CompileStatic
 class AttachedViewportState extends State implements Configurable {
 	@Override
-	void configure(LwjglApplicationConfiguration config) {
-		config.width = 256
-		config.height = 256
+	void configure(Lwjgl3ApplicationConfiguration config) {
+		config.setWindowedMode(256, 256)
 	}
 
 	@Override

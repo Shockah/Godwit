@@ -3,7 +3,7 @@ apply plugin: "groovy"
 dependencies {
 	compile project(":godwit")
 	compile "org.codehaus.groovy:groovy:2.4.10"
-	compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
+	compile "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
 	compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
 }
 
@@ -31,6 +31,7 @@ testNames.each {
 		classpath = sourceSets.main.runtimeClasspath
 		standardInput = System.in
 		ignoreExitValue = true
+		jvmArgs "-XstartOnFirstThread"
 		//workingDir = project.assetsDir
 	}
 }
