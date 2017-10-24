@@ -5,8 +5,7 @@ import groovy.transform.PackageScope
 import pl.shockah.godwit.gl.Gfx
 
 @CompileStatic
-class Entity {
-	protected float depth = 0f
+class Entity implements Renderable {
 	protected EntityGroup<? extends Entity> group
 	@PackageScope boolean created = false
 	@PackageScope boolean destroyed = false
@@ -77,6 +76,6 @@ class Entity {
 	protected void onUpdate() {
 	}
 
-	protected void onRender(Gfx gfx) {
+	void onRender(Gfx gfx) {
 	}
 }

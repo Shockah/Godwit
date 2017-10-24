@@ -74,7 +74,7 @@ class EntityGroup<T extends Entity> extends Entity {
 	}
 
 	@Override
-	protected void onRender(Gfx gfx) {
+	void onRender(Gfx gfx) {
 		super.onRender(gfx)
 		for (Entity entity : entities) {
 			entity.render(gfx)

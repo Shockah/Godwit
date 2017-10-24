@@ -10,7 +10,7 @@ import pl.shockah.godwit.gl.Gfx
 @CompileStatic
 class ShapesState extends State {
 	@Override
-	protected void onRender(Gfx gfx) {
+	void onRender(Gfx gfx) {
 		super.onRender(gfx)
 
 		gfx.clear(Color.GRAY)
