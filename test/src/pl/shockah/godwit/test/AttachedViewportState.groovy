@@ -38,7 +38,7 @@ class AttachedViewportState extends State implements Configurable {
 		}
 
 		gfx.color = Color.RED
-		gfx.draw(Rectangle.centered(gfx.size / 2f, gfx.size * 0.2f), true)
+		gfx.drawFilled(Rectangle.centered(gfx.size / 2f, gfx.size * 0.2f))
 
 		super.onRender(gfx)
 	}
@@ -64,7 +64,7 @@ class AttachedViewportState extends State implements Configurable {
 		void onRender(@Nonnull Gfx gfx) {
 			super.onRender(gfx)
 			gfx.color = Color.WHITE
-			gfx.draw(circle, true, pos)
+			gfx.drawFilled(circle, pos)
 		}
 	}
 }

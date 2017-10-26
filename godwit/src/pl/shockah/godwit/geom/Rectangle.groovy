@@ -11,7 +11,7 @@ import javax.annotation.Nonnull
 
 @CompileStatic
 @EqualsAndHashCode
-class Rectangle extends Shape implements Polygonable {
+class Rectangle extends Shape implements Polygonable, Shape.Filled, Shape.Outline {
 	@Nonnull Vec2 position
 	@Nonnull Vec2 size
 
@@ -110,12 +110,6 @@ class Rectangle extends Shape implements Polygonable {
 	}
 
 	@Override
-	void draw(@Nonnull Gfx gfx, boolean filled, float x, float y) {
-		gfx.prepareShapes(filled ? ShapeRenderer.ShapeType.Filled : ShapeRenderer.ShapeType.Line)
-		gfx.shapes.rect(x + position.x as float, y + position.y as float, size.x, size.y)
-	}
-
-	@Override
 	boolean contains(float x, float y) {
 		return x >= position.x && y >= position.y && x < position.x + size.x && y < position.y + size.y
 	}
@@ -152,5 +146,17 @@ class Rectangle extends Shape implements Polygonable {
 		p << position + size
 		p << position + size.onlyY
 		return p
+	}
+
+	@Override
+	void drawFilled(@Nonnull Gfx gfx, float x, float y) {
+		gfx.prepareShapes(ShapeRenderer.ShapeType.Filled)
+		gfx.shapes.rect(x + position.x as float, y + position.y as float, size.x, size.y)
+	}
+
+	@Override
+	void drawOutline(@Nonnull Gfx gfx, float x, float y) {
+		gfx.prepareShapes(ShapeRenderer.ShapeType.Line)
+		gfx.shapes.rect(x + position.x as float, y + position.y as float, size.x, size.y)
 	}
 }

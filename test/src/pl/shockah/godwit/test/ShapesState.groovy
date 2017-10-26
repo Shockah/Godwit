@@ -24,13 +24,13 @@ class ShapesState extends State {
 		def circle2 = new Circle(circle.position, circle.radius + 4f as float)
 
 		gfx.color = Color.BLACK
-		gfx.draw(rect2, true)
+		gfx.drawFilled(rect2)
 		gfx.color = Color.WHITE
-		gfx.draw(rect, true)
+		gfx.drawFilled(rect)
 
 		gfx.color = Color.BLACK
-		gfx.draw(circle2, true)
+		gfx.drawFilled(circle2)
 		gfx.color = Color.WHITE
-		gfx.draw(circle, true)
+		gfx.drawFilled(circle)
 	}
 }

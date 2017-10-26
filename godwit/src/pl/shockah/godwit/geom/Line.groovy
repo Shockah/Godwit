@@ -10,7 +10,7 @@ import javax.annotation.Nullable
 
 @CompileStatic
 @EqualsAndHashCode
-class Line extends Shape {
+class Line extends Shape implements Shape.Outline {
 	@Nonnull Vec2 point1
 	@Nonnull Vec2 point2
 
@@ -63,13 +63,6 @@ class Line extends Shape {
 	}
 
 	@Override
-	void draw(@Nonnull Gfx gfx, boolean filled, float x, float y) {
-		assert !filled
-		gfx.prepareShapes(ShapeRenderer.ShapeType.Line)
-		gfx.shapes.line(x + point1.x as float ,y + point1.y as float, x + point2.x as float, y + point2.y as float)
-	}
-
-	@Override
 	boolean contains(float x, float y) {
 		return false
 	}
@@ -109,5 +102,11 @@ class Line extends Shape {
 		float iy = point1.y + (u * (point2.y - point1.y))
 
 		return new Vec2(ix, iy)
+	}
+
+	@Override
+	void drawOutline(@Nonnull Gfx gfx, float x, float y) {
+		gfx.prepareShapes(ShapeRenderer.ShapeType.Line)
+		gfx.shapes.line(x + point1.x as float ,y + point1.y as float, x + point2.x as float, y + point2.y as float)
 	}
 }

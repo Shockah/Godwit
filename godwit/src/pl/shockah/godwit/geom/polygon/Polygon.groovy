@@ -9,7 +9,7 @@ import pl.shockah.godwit.gl.Gfx
 import javax.annotation.Nonnull
 
 @CompileStatic
-class Polygon extends Shape {
+class Polygon extends Shape implements Shape.Filled, Shape.Outline {
 	@Nonnull protected List<Vec2> points = []
 	@Nonnull protected List<Triangle> triangulated = []
 	protected boolean dirty = true
@@ -105,26 +105,6 @@ class Polygon extends Shape {
 		dirty = false
 	}
 
-	@Override
-	void draw(@Nonnull Gfx gfx, boolean filled, float x, float y) {
-		if (filled) {
-			assert closed, "Can't fill an open polygon."
-			triangulate()
-			for (Triangle triangle : triangulated) {
-				triangle.draw(gfx, true, x, y)
-			}
-		} else {
-			gfx.prepareShapes(ShapeRenderer.ShapeType.Line)
-			def size = points.size()
-			def loopSize = closed ? size : (size - 1)
-			for (int i in 0..<loopSize) {
-				Vec2 v1 = points[i]
-				Vec2 v2 = points[(i + 1) % size]
-				gfx.shapes.line(x + v1.x as float, y + v1.y as float, x + v2.x as float, y + v2.y as float)
-			}
-		}
-	}
-
 	void addPoint(float x, float y) {
 		addPoint(new Vec2(x, y))
 	}
@@ -172,6 +152,27 @@ class Polygon extends Shape {
 		if (closed)
 			lines << new Line(points.last(), points.first())
 		return lines
+	}
+
+	@Override
+	void drawFilled(@Nonnull Gfx gfx, float x, float y) {
+		assert closed, "Can't fill an open polygon."
+		triangulate()
+		for (Triangle triangle : triangulated) {
+			triangle.drawFilled(gfx, x, y)
+		}
+	}
+
+	@Override
+	void drawOutline(@Nonnull Gfx gfx, float x, float y) {
+		gfx.prepareShapes(ShapeRenderer.ShapeType.Line)
+		def size = points.size()
+		def loopSize = closed ? size : (size - 1)
+		for (int i in 0..<loopSize) {
+			Vec2 v1 = points[i]
+			Vec2 v2 = points[(i + 1) % size]
+			gfx.shapes.line(x + v1.x as float, y + v1.y as float, x + v2.x as float, y + v2.y as float)
+		}
 	}
 
 	static class NoHoles extends Polygon {

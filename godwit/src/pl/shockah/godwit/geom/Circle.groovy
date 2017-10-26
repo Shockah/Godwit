@@ -8,7 +8,7 @@ import pl.shockah.godwit.gl.Gfx
 import javax.annotation.Nonnull
 
 @CompileStatic
-class Circle extends Shape implements Polygonable {
+class Circle extends Shape implements Polygonable, Shape.Filled, Shape.Outline {
 	@Nonnull Vec2 position
 	float radius
 
@@ -68,11 +68,6 @@ class Circle extends Shape implements Polygonable {
 	}
 
 	@Override
-	void draw(Gfx gfx, boolean filled, float x, float y) {
-		asPolygon().draw(gfx, filled, x, y)
-	}
-
-	@Override
 	boolean contains(float x, float y) {
 		return position.minus(x, y).length <= radius
 	}
@@ -107,5 +102,15 @@ class Circle extends Shape implements Polygonable {
 		lastPos = position
 		lastPrecision = precision
 		return lastPoly = p
+	}
+
+	@Override
+	void drawFilled(@Nonnull Gfx gfx, float x, float y) {
+		asPolygon().drawFilled(gfx, x, y)
+	}
+
+	@Override
+	void drawOutline(@Nonnull Gfx gfx, float x, float y) {
+		asPolygon().drawOutline(gfx, x, y)
 	}
 }

@@ -146,19 +146,34 @@ class Gfx {
 		draw(surface.sprite, pos.x, pos.y)
 	}
 
-	void draw(@Nonnull Shape shape, boolean filled) {
+	void drawFilled(@Nonnull Shape.Filled shape) {
 		prepareContext()
-		shape.draw(this, filled, 0f, 0f)
+		shape.drawFilled(this, 0f, 0f)
 	}
 
-	void draw(@Nonnull Shape shape, boolean filled, float x, float y) {
+	void drawFilled(@Nonnull Shape.Filled shape, float x, float y) {
 		prepareContext()
-		shape.draw(this, filled, x, y)
+		shape.drawFilled(this, x, y)
 	}
 
-	void draw(@Nonnull Shape shape, boolean filled, @Nonnull Vec2 pos) {
+	void drawFilled(@Nonnull Shape.Filled shape, @Nonnull Vec2 pos) {
 		prepareContext()
-		shape.draw(this, filled, pos.x, pos.y)
+		shape.drawFilled(this, pos)
+	}
+
+	void drawOutline(@Nonnull Shape.Outline shape) {
+		prepareContext()
+		shape.drawOutline(this, 0f, 0f)
+	}
+
+	void drawOutline(@Nonnull Shape.Outline shape, float x, float y) {
+		prepareContext()
+		shape.drawOutline(this, x, y)
+	}
+
+	void drawOutline(@Nonnull Shape.Outline shape, @Nonnull Vec2 pos) {
+		prepareContext()
+		shape.drawOutline(this, pos)
 	}
 
 	void drawPoint(float x, float y) {

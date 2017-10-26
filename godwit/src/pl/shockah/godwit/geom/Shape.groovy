@@ -1,6 +1,7 @@
 package pl.shockah.godwit.geom
 
 import groovy.transform.CompileStatic
+import groovy.transform.SelfType
 import pl.shockah.godwit.gl.Gfx
 
 import javax.annotation.Nonnull
@@ -17,12 +18,6 @@ abstract class Shape {
 
 	abstract void translate(float x, float y)
 
-	final void draw(@Nonnull Gfx gfx, boolean filled, Vec2 v) {
-		draw(gfx, filled, v.x, v.y)
-	}
-
-	abstract void draw(@Nonnull Gfx gfx, boolean filled, float x, float y)
-
 	final boolean contains(Vec2 v) {
 		return contains(v.x, v.y)
 	}
@@ -37,5 +32,23 @@ abstract class Shape {
 		if (tryAgain)
 			return shape.collides(this, false)
 		throw new IllegalArgumentException()
+	}
+
+	@SelfType(Shape)
+	trait Filled {
+		void drawFilled(@Nonnull Gfx gfx, @Nonnull Vec2 v) {
+			drawFilled(gfx, v.x, v.y)
+		}
+
+		abstract void drawFilled(@Nonnull Gfx gfx, float x, float y)
+	}
+
+	@SelfType(Shape)
+	trait Outline {
+		void drawOutline(@Nonnull Gfx gfx, @Nonnull Vec2 v) {
+			drawOutline(gfx, v.x, v.y)
+		}
+
+		abstract void drawOutline(@Nonnull Gfx gfx, float x, float y)
 	}
 }

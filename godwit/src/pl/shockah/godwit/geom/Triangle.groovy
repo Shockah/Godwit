@@ -12,7 +12,7 @@ import javax.annotation.Nonnull
 
 @CompileStatic
 @EqualsAndHashCode
-class Triangle extends Shape implements Polygonable {
+class Triangle extends Shape implements Polygonable, Shape.Filled, Shape.Outline {
 	@Nonnull Vec2 point1
 	@Nonnull Vec2 point2
 	@Nonnull Vec2 point3
@@ -84,12 +84,6 @@ class Triangle extends Shape implements Polygonable {
 		point3.y += y
 	}
 
-	@Override
-	void draw(@Nonnull Gfx gfx, boolean filled, float x, float y) {
-		gfx.prepareShapes(filled ? ShapeRenderer.ShapeType.Filled : ShapeRenderer.ShapeType.Line)
-		gfx.shapes.triangle(x + point1.x as float, y + point1.y as float, x + point2.x as float, y + point2.y as float, x + point3.x as float, y + point3.y as float)
-	}
-
 	private static float sign(float x1, float y1, float x2, float y2, float x3, float y3) {
 		return (x1 - x3) * (y2 - y3) - (x2 - x3) * (y1 - y3)
 	}
@@ -109,5 +103,17 @@ class Triangle extends Shape implements Polygonable {
 		p << point2
 		p << point3
 		return p
+	}
+
+	@Override
+	void drawFilled(@Nonnull Gfx gfx, float x, float y) {
+		gfx.prepareShapes(ShapeRenderer.ShapeType.Filled)
+		gfx.shapes.triangle(x + point1.x as float, y + point1.y as float, x + point2.x as float, y + point2.y as float, x + point3.x as float, y + point3.y as float)
+	}
+
+	@Override
+	void drawOutline(@Nonnull Gfx gfx, float x, float y) {
+		gfx.prepareShapes(ShapeRenderer.ShapeType.Line)
+		gfx.shapes.triangle(x + point1.x as float, y + point1.y as float, x + point2.x as float, y + point2.y as float, x + point3.x as float, y + point3.y as float)
 	}
 }
