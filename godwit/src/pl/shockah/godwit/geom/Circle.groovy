@@ -6,15 +6,16 @@ import pl.shockah.godwit.geom.polygon.Polygonable
 import pl.shockah.godwit.gl.Gfx
 
 import javax.annotation.Nonnull
+import javax.annotation.Nullable
 
 @CompileStatic
 class Circle extends Shape implements Polygonable, Shape.Filled, Shape.Outline {
 	@Nonnull Vec2 position
 	float radius
 
-	protected Vec2 lastPos = null
+	@Nullable protected Vec2 lastPos = null
 	protected int lastPrecision = -1
-	protected Polygon lastPoly = null
+	@Nullable protected Polygon lastPoly = null
 
 	Circle(float x, float y, float radius) {
 		this(new Vec2(x, y), radius)

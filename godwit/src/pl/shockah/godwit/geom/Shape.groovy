@@ -12,13 +12,13 @@ abstract class Shape {
 
 	@Nonnull abstract Rectangle getBoundingBox()
 
-	final void translate(Vec2 v) {
+	final void translate(@Nonnull Vec2 v) {
 		translate(v.x, v.y)
 	}
 
 	abstract void translate(float x, float y)
 
-	final boolean contains(Vec2 v) {
+	final boolean contains(@Nonnull Vec2 v) {
 		return contains(v.x, v.y)
 	}
 

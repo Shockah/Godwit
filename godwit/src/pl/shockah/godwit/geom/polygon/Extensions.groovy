@@ -7,7 +7,7 @@ import javax.annotation.Nonnull
 
 @CompileStatic
 class Extensions {
-	@Nonnull static Triangulator leftShift(Triangulator self, Vec2 point) {
+	@Nonnull static Triangulator leftShift(@Nonnull Triangulator self, @Nonnull Vec2 point) {
 		self.addPolyPoint(point)
 		return self
 	}
