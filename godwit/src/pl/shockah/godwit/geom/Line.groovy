@@ -2,28 +2,33 @@ package pl.shockah.godwit.geom
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import groovy.transform.CompileStatic
+import groovy.transform.EqualsAndHashCode
 import pl.shockah.godwit.gl.Gfx
 
+import javax.annotation.Nonnull
+import javax.annotation.Nullable
+
 @CompileStatic
+@EqualsAndHashCode
 class Line extends Shape {
-	Vec2 pos1
-	Vec2 pos2
+	@Nonnull Vec2 point1
+	@Nonnull Vec2 point2
 
 	Line(float x1, float y1, float x2, float y2) {
 		this(new Vec2(x1, y1), new Vec2(x2, y2));
 	}
 
-	Line(Vec2 pos1, float x2, float y2) {
-		this(pos1, new Vec2(x2, y2));
+	Line(@Nonnull Vec2 point1, float x2, float y2) {
+		this(point1, new Vec2(x2, y2));
 	}
 
-	Line(float x1, float y1, Vec2 pos2) {
-		this(new Vec2(x1, y1), pos2);
+	Line(float x1, float y1, @Nonnull Vec2 point2) {
+		this(new Vec2(x1, y1), point2);
 	}
 
-	Line(Vec2 pos1, Vec2 pos2) {
-		this.pos1 = pos1
-		this.pos2 = pos2
+	Line(@Nonnull Vec2 point1, @Nonnull Vec2 point2) {
+		this.point1 = point1
+		this.point2 = point2
 	}
 
 	@Override
@@ -32,49 +37,36 @@ class Line extends Shape {
 	}
 
 	Line copyLine() {
-		return new Line(pos1, pos2)
-	}
-
-	@Override
-	boolean equals(Object obj) {
-		if (!(obj instanceof Line))
-			return false
-		Line line = obj as Line
-		return pos1 == line.pos1 && pos2 == line.pos2
-	}
-
-	@Override
-	int hashCode() {
-		return pos1.hashCode() * 31 * 31 + pos2.hashCode()
+		return new Line(point1, point2)
 	}
 
 	@Override
 	String toString() {
-		return String.format("[Line: %s->%s]", pos1, pos2)
+		return String.format("[Line: %s->%s]", point1, point2)
 	}
 
 	@Override
-	Rectangle getBoundingBox() {
-		float minX = Math.min(pos1.x, pos2.x)
-		float minY = Math.min(pos1.y, pos2.y)
-		float maxX = Math.max(pos1.x, pos2.x)
-		float maxY = Math.max(pos1.y, pos2.y)
+	@Nonnull Rectangle getBoundingBox() {
+		float minX = Math.min(point1.x, point2.x)
+		float minY = Math.min(point1.y, point2.y)
+		float maxX = Math.max(point1.x, point2.x)
+		float maxY = Math.max(point1.y, point2.y)
 		return new Rectangle(minX, minY, maxX - minX as float, maxY - minY as float)
 	}
 
 	@Override
 	void translate(float x, float y) {
-		pos1.x += x
-		pos1.y += y
-		pos2.x += x
-		pos2.y += y
+		point1.x += x
+		point1.y += y
+		point2.x += x
+		point2.y += y
 	}
 
 	@Override
-	void draw(Gfx gfx, boolean filled, float x, float y) {
+	void draw(@Nonnull Gfx gfx, boolean filled, float x, float y) {
 		assert !filled
 		gfx.prepareShapes(ShapeRenderer.ShapeType.Line)
-		gfx.shapes.line(x + pos1.x as float ,y + pos1.y as float, x + pos2.x as float, y + pos2.y as float)
+		gfx.shapes.line(x + point1.x as float ,y + point1.y as float, x + point2.x as float, y + point2.y as float)
 	}
 
 	@Override
@@ -83,29 +75,29 @@ class Line extends Shape {
 	}
 
 	@Override
-	boolean collides(Shape shape, boolean tryAgain) {
+	protected boolean collides(@Nonnull Shape shape, boolean tryAgain) {
 		if (shape instanceof Line)
 			return collides(shape as Line)
 		return super.collides(shape, tryAgain)
 	}
 
-	boolean collides(Line line) {
+	boolean collides(@Nonnull Line line) {
 		return intersect(line) != null
 	}
 
-	Vec2 intersect(Line line) {
-		float dx1 = pos2.x - pos1.x
-		float dx2 = line.pos2.x - line.pos1.x
-		float dy1 = pos2.y - pos1.y
-		float dy2 = line.pos2.y - line.pos1.y
+	@Nullable Vec2 intersect(@Nonnull Line line) {
+		float dx1 = point2.x - point1.x
+		float dx2 = line.point2.x - line.point1.x
+		float dy1 = point2.y - point1.y
+		float dy2 = line.point2.y - line.point1.y
 		float denom = (dy2 * dx1) - (dx2 * dy1)
 
 		if (denom == 0)
 			return null
 
-		float ua = (dx2 * (pos1.y - line.pos1.y)) - (dy2 * (pos1.x - line.pos1.x))
+		float ua = (dx2 * (point1.y - line.point1.y)) - (dy2 * (point1.x - line.point1.x))
 		ua = ua / denom as float
-		float ub = (dx1 * (pos1.y - line.pos1.y)) - (dy1 * (pos1.x - line.pos1.x))
+		float ub = (dx1 * (point1.y - line.point1.y)) - (dy1 * (point1.x - line.point1.x))
 		ub = ub / denom as float
 
 		/*if ((limit) && ((ua < 0) || (ua > 1) || (ub < 0) || (ub > 1)))
@@ -113,8 +105,8 @@ class Line extends Shape {
 
 		float u = ua
 
-		float ix = pos1.x + (u * (pos2.x - pos1.x))
-		float iy = pos1.y + (u * (pos2.y - pos1.y))
+		float ix = point1.x + (u * (point2.x - point1.x))
+		float iy = point1.y + (u * (point2.y - point1.y))
 
 		return new Vec2(ix, iy)
 	}

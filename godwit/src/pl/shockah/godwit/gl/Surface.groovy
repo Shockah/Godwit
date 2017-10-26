@@ -5,13 +5,15 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.graphics.glutils.FrameBuffer
 import groovy.transform.CompileStatic
 
+import javax.annotation.Nonnull
+
 @CompileStatic
 class Surface extends Gfx {
-	protected final Sprite sprite
-	protected final FrameBuffer fbo
-	protected final TextureRegion region
+	@Nonnull protected final Sprite sprite
+	@Nonnull protected final FrameBuffer fbo
+	@Nonnull protected final TextureRegion region
 
-	static Surface create(int width, int height) {
+	@Nonnull static Surface create(int width, int height) {
 		GfxContextManager.bindSurface(null)
 		return new Surface(width, height)
 	}
@@ -38,15 +40,15 @@ class Surface extends Gfx {
 		GfxContextManager.bindSurface(this)
 	}
 
-	Sprite getSprite() {
+	@Nonnull Sprite getSprite() {
 		return sprite
 	}
 
-	FrameBuffer getFbo() {
+	@Nonnull FrameBuffer getFbo() {
 		return fbo
 	}
 
-	TextureRegion getTextureRegion() {
+	@Nonnull TextureRegion getTextureRegion() {
 		return region
 	}
 }

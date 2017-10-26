@@ -4,9 +4,12 @@ import groovy.transform.CompileStatic
 import groovy.transform.PackageScope
 import pl.shockah.godwit.gl.Gfx
 
+import javax.annotation.Nonnull
+import javax.annotation.Nullable
+
 @CompileStatic
 class Entity implements Renderable {
-	protected EntityGroup<? extends Entity> group
+	@Nullable protected EntityGroup<? extends Entity> group
 	@PackageScope boolean created = false
 	@PackageScope boolean destroyed = false
 
@@ -26,14 +29,14 @@ class Entity implements Renderable {
 		this.destroyed = destroyed
 	}
 
-	final void create(Godwit godwit) {
+	final void create(@Nonnull Godwit godwit) {
 		if (created || destroyed)
 			return
 		assert godwit, "No Godwit instance provided."
 		create(godwit.state)
 	}
 
-	final void create(EntityGroup<? extends Entity> group) {
+	final void create(@Nonnull EntityGroup<? extends Entity> group) {
 		if (created || destroyed)
 			return
 		assert group, "No EntityGroup provided."
@@ -58,7 +61,7 @@ class Entity implements Renderable {
 		onUpdate()
 	}
 
-	final void render(Gfx gfx) {
+	final void render(@Nonnull Gfx gfx) {
 		if (!created || destroyed)
 			return
 		onRender(gfx)
@@ -76,6 +79,6 @@ class Entity implements Renderable {
 	protected void onUpdate() {
 	}
 
-	void onRender(Gfx gfx) {
+	void onRender(@Nonnull Gfx gfx) {
 	}
 }

@@ -12,10 +12,12 @@ import pl.shockah.godwit.geom.Rectangle
 import pl.shockah.godwit.geom.Vec2
 import pl.shockah.godwit.gl.Gfx
 
+import javax.annotation.Nonnull
+
 @CompileStatic
 class AttachedViewportState extends State implements Configurable {
 	@Override
-	void configure(Lwjgl3ApplicationConfiguration config) {
+	void configure(@Nonnull Lwjgl3ApplicationConfiguration config) {
 		config.setWindowedMode(256, 256)
 	}
 
@@ -26,7 +28,7 @@ class AttachedViewportState extends State implements Configurable {
 	}
 
 	@Override
-	void onRender(Gfx gfx) {
+	void onRender(@Nonnull Gfx gfx) {
 		gfx.clear(Color.GRAY)
 
 		def entity = entities.find { it instanceof AttachmentEntity } as AttachmentEntity
@@ -42,8 +44,8 @@ class AttachedViewportState extends State implements Configurable {
 	}
 
 	class AttachmentEntity extends Entity {
-		Vec2 pos = new Vec2()
-		Circle circle = new Circle(24f)
+		@Nonnull Vec2 pos = new Vec2()
+		@Nonnull Circle circle = new Circle(24f)
 
 		@Override
 		protected void onUpdate() {
@@ -59,7 +61,7 @@ class AttachedViewportState extends State implements Configurable {
 		}
 
 		@Override
-		void onRender(Gfx gfx) {
+		void onRender(@Nonnull Gfx gfx) {
 			super.onRender(gfx)
 			gfx.color = Color.WHITE
 			gfx.draw(circle, true, pos)

@@ -14,19 +14,22 @@ import groovy.transform.CompileStatic
 import pl.shockah.godwit.geom.Shape
 import pl.shockah.godwit.geom.Vec2
 
+import javax.annotation.Nonnull
+import javax.annotation.Nullable
+
 @CompileStatic
 class Gfx {
-	final SpriteBatch sprites = new SpriteBatch()
-	final ShapeRenderer shapes = new ShapeRenderer()
+	@Nonnull final SpriteBatch sprites = new SpriteBatch()
+	@Nonnull final ShapeRenderer shapes = new ShapeRenderer()
 
-	OrthographicCamera camera = new OrthographicCamera()
-	Viewport viewport
-	Vec2 offset = new Vec2()
+	@Nonnull OrthographicCamera camera = new OrthographicCamera()
+	@Nullable Viewport viewport
+	@Nonnull Vec2 offset = new Vec2()
 
 	private boolean spritesMode = false
-	private Color color = Color.BLACK
-	private ShapeRenderer.ShapeType shapesMode
-	private BlendMode blendMode
+	@Nonnull private Color color = Color.BLACK
+	@Nullable private ShapeType shapesMode
+	@Nullable private BlendMode blendMode
 
 	Gfx() {
 		viewport = new ScreenViewport(camera)
@@ -40,7 +43,7 @@ class Gfx {
 		return Gdx.graphics.height
 	}
 
-	final Vec2 getSize() {
+	@Nonnull final Vec2 getSize() {
 		return new Vec2(width, height)
 	}
 
@@ -60,7 +63,7 @@ class Gfx {
 		spritesMode = true
 	}
 
-	void prepareShapes(ShapeType type) {
+	void prepareShapes(@Nonnull ShapeType type) {
 		prepareContext()
 		if (shapesMode == type)
 			return
@@ -74,7 +77,7 @@ class Gfx {
 		shapesMode = type
 	}
 
-	void setBlendMode(BlendMode mode) {
+	void setBlendMode(@Nonnull BlendMode mode) {
 		prepareContext()
 		if (blendMode == mode)
 			return
@@ -100,11 +103,11 @@ class Gfx {
 		}
 	}
 
-	Color getColor() {
+	@Nonnull Color getColor() {
 		return color
 	}
 
-	void setColor(Color c) {
+	void setColor(@Nonnull Color c) {
 		prepareContext()
 		color = c
 		sprites.color = c
@@ -125,35 +128,35 @@ class Gfx {
 		shapes.setColor(r, g, b, 1f)
 	}
 
-	void draw(Sprite sprite, float x, float y) {
+	void draw(@Nonnull Sprite sprite, float x, float y) {
 		prepareSprites()
 		sprite.draw(sprites, x, y)
 	}
 
-	void draw(Sprite sprite, Vec2 pos) {
+	void draw(@Nonnull Sprite sprite, @Nonnull Vec2 pos) {
 		prepareSprites()
 		sprite.draw(sprites, pos.x, pos.y)
 	}
 
-	void draw(Surface surface, float x, float y) {
-		surface.draw(surface.sprite, x, y)
+	void draw(@Nonnull Surface surface, float x, float y) {
+		draw(surface.sprite, x, y)
 	}
 
-	void draw(Surface surface, Vec2 pos) {
-		surface.draw(surface.sprite, pos.x, pos.y)
+	void draw(@Nonnull Surface surface, @Nonnull Vec2 pos) {
+		draw(surface.sprite, pos.x, pos.y)
 	}
 
-	void draw(Shape shape, boolean filled) {
+	void draw(@Nonnull Shape shape, boolean filled) {
 		prepareContext()
 		shape.draw(this, filled, 0f, 0f)
 	}
 
-	void draw(Shape shape, boolean filled, float x, float y) {
+	void draw(@Nonnull Shape shape, boolean filled, float x, float y) {
 		prepareContext()
 		shape.draw(this, filled, x, y)
 	}
 
-	void draw(Shape shape, boolean filled, Vec2 pos) {
+	void draw(@Nonnull Shape shape, boolean filled, @Nonnull Vec2 pos) {
 		prepareContext()
 		shape.draw(this, filled, pos.x, pos.y)
 	}
@@ -163,7 +166,7 @@ class Gfx {
 		shapes.point(x, y, 0f)
 	}
 
-	void drawPoint(Vec2 pos) {
+	void drawPoint(@Nonnull Vec2 pos) {
 		drawPoint(pos.x, pos.y)
 	}
 
@@ -171,7 +174,7 @@ class Gfx {
 		clear(color)
 	}
 
-	void clear(Color c) {
+	void clear(@Nonnull Color c) {
 		prepareContext()
 		Gdx.gl20.glClearColor(c.r, c.g, c.b, c.a)
 		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_STENCIL_BUFFER_BIT | (Gdx.graphics.bufferFormat.coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0) as int)
@@ -185,7 +188,7 @@ class Gfx {
 		updateCombinedCamera(camera.combined)
 	}
 
-	protected final void updateCombinedCamera(Matrix4 matrix) {
+	protected final void updateCombinedCamera(@Nonnull Matrix4 matrix) {
 		sprites.projectionMatrix = matrix
 		shapes.projectionMatrix = matrix
 	}

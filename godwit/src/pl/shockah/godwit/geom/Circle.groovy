@@ -5,9 +5,11 @@ import pl.shockah.godwit.geom.polygon.Polygon
 import pl.shockah.godwit.geom.polygon.Polygonable
 import pl.shockah.godwit.gl.Gfx
 
+import javax.annotation.Nonnull
+
 @CompileStatic
 class Circle extends Shape implements Polygonable {
-	Vec2 pos
+	@Nonnull Vec2 position
 	float radius
 
 	protected Vec2 lastPos = null
@@ -22,18 +24,18 @@ class Circle extends Shape implements Polygonable {
 		this(new Vec2(), radius)
 	}
 
-	Circle(Vec2 pos, float radius) {
-		this.pos = pos
+	Circle(@Nonnull Vec2 position, float radius) {
+		this.position = position
 		this.radius = radius
 	}
 
 	@Override
-	Shape copy() {
+	@Nonnull Shape copy() {
 		return copyCircle()
 	}
 
-	Circle copyCircle() {
-		return new Circle(pos, radius)
+	@Nonnull Circle copyCircle() {
+		return new Circle(position, radius)
 	}
 
 	@Override
@@ -41,28 +43,28 @@ class Circle extends Shape implements Polygonable {
 		if (!(obj instanceof Circle))
 			return false
 		Circle circle = obj as Circle
-		return pos == circle.pos && radius == circle.radius
+		return position == circle.position && radius == circle.radius
 	}
 
 	@Override
 	int hashCode() {
-		return pos.hashCode() * 31 + Float.hashCode(radius)
+		return position.hashCode() * 31 + Float.hashCode(radius)
 	}
 
 	@Override
 	String toString() {
-		return String.format("[Circle: %s, radius %.2f]", pos, radius)
+		return String.format("[Circle: %s, radius %.2f]", position, radius)
 	}
 
 	@Override
-	Rectangle getBoundingBox() {
-		return Rectangle.centered(pos, radius * 2f as float)
+	@Nonnull Rectangle getBoundingBox() {
+		return Rectangle.centered(position, radius * 2f as float)
 	}
 
 	@Override
 	void translate(float x, float y) {
-		pos.x += x
-		pos.y += y
+		position.x += x
+		position.y += y
 	}
 
 	@Override
@@ -72,11 +74,11 @@ class Circle extends Shape implements Polygonable {
 
 	@Override
 	boolean contains(float x, float y) {
-		return pos.minus(x, y).length <= radius
+		return position.minus(x, y).length <= radius
 	}
 
 	@Override
-	boolean collides(Shape shape, boolean tryAgain) {
+	protected boolean collides(@Nonnull Shape shape, boolean tryAgain) {
 		//TODO: Circle --><-- Line
 		//TODO: Circle --><-- Rectangle
 		if (shape instanceof Circle)
@@ -84,25 +86,25 @@ class Circle extends Shape implements Polygonable {
 		return super.collides(shape, tryAgain)
 	}
 
-	boolean collides(Circle circle) {
-		return (circle.pos - pos).length < radius + circle.radius
+	boolean collides(@Nonnull Circle circle) {
+		return (circle.position - position).length < radius + circle.radius
 	}
 
 	@Override
-	Polygon asPolygon() {
+	@Nonnull Polygon asPolygon() {
 		return asPolygon(Math.ceil(Math.PI * radius * 0.5f) as int)
 	}
 
-	Polygon asPolygon(int precision) {
-		if (lastPoly && lastPoly.pointCount == precision && lastPrecision == precision && pos == lastPos)
+	@Nonnull Polygon asPolygon(int precision) {
+		if (lastPoly && lastPoly.pointCount == precision && lastPrecision == precision && position == lastPos)
 			return lastPoly
 
 		Polygon p = new Polygon.NoHoles()
 		for (int i in 0..<precision) {
-			p << Vec2.angled(radius, 360f / precision * i as float) + pos
+			p << Vec2.angled(radius, 360f / precision * i as float) + position
 		}
 
-		lastPos = pos
+		lastPos = position
 		lastPrecision = precision
 		return lastPoly = p
 	}

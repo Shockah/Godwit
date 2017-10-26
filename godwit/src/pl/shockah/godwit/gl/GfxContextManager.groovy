@@ -3,15 +3,18 @@ package pl.shockah.godwit.gl
 import groovy.transform.CompileStatic
 import pl.shockah.godwit.Godwit
 
+import javax.annotation.Nonnull
+import javax.annotation.Nullable
+
 @CompileStatic
 final class GfxContextManager {
-	private static Surface boundSurface
+	@Nullable private static Surface boundSurface
 
-	static Gfx getCurrentGfx() {
+	@Nonnull static Gfx getCurrentGfx() {
 		return boundSurface ?: Godwit.instance.gfx
 	}
 
-	static void bindSurface(Surface surface) {
+	static void bindSurface(@Nullable Surface surface) {
 		if (boundSurface == surface)
 			return
 

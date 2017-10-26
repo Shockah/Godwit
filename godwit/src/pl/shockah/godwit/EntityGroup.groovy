@@ -4,23 +4,25 @@ import groovy.transform.CompileStatic
 import groovy.transform.PackageScope
 import pl.shockah.godwit.gl.Gfx
 
+import javax.annotation.Nonnull
+
 @CompileStatic
 class EntityGroup<T extends Entity> extends Entity {
-	protected static final Comparator<Entity> depthComparator = { Entity o1, Entity o2 ->
+	@Nonnull protected static final Comparator<Entity> depthComparator = { Entity o1, Entity o2 ->
 		return Float.compare(o1.depth, o2.depth)
 	} as Comparator<Entity>
 
-	List<T> entities = new SortedLinkedList<>(depthComparator as Comparator<T>)
-	protected List<T> toCreate = new SortedLinkedList<>(depthComparator as Comparator<T>)
-	protected List<T> toDestroy = new SortedLinkedList<>(depthComparator as Comparator<T>)
+	@Nonnull List<T> entities = new SortedLinkedList<>(depthComparator as Comparator<T>)
+	@Nonnull protected List<T> toCreate = new SortedLinkedList<>(depthComparator as Comparator<T>)
+	@Nonnull protected List<T> toDestroy = new SortedLinkedList<>(depthComparator as Comparator<T>)
 
-	@PackageScope final void markCreate(T entity) {
+	@PackageScope final void markCreate(@Nonnull T entity) {
 		if (destroyed)
 			return
 		toCreate << entity
 	}
 
-	@PackageScope final void markDestroy(T entity) {
+	@PackageScope final void markDestroy(@Nonnull T entity) {
 		if (entity.group != this || entity.destroyed)
 			return
 		if (destroyed)
@@ -74,19 +76,19 @@ class EntityGroup<T extends Entity> extends Entity {
 	}
 
 	@Override
-	void onRender(Gfx gfx) {
+	void onRender(@Nonnull Gfx gfx) {
 		super.onRender(gfx)
 		for (Entity entity : entities) {
 			entity.render(gfx)
 		}
 	}
 
-	protected void preCreate(T entity) {
+	protected void preCreate(@Nonnull T entity) {
 	}
 
-	protected void postCreate(T entity) {
+	protected void postCreate(@Nonnull T entity) {
 	}
 
-	protected void onDestroy(T entity) {
+	protected void onDestroy(@Nonnull T entity) {
 	}
 }

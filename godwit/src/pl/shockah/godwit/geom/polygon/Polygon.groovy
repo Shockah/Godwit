@@ -6,19 +6,21 @@ import pl.shockah.godwit.Math2
 import pl.shockah.godwit.geom.*
 import pl.shockah.godwit.gl.Gfx
 
+import javax.annotation.Nonnull
+
 @CompileStatic
 class Polygon extends Shape {
-	protected List<Vec2> points = []
-	protected List<Triangle> triangulated = []
+	@Nonnull protected List<Vec2> points = []
+	@Nonnull protected List<Triangle> triangulated = []
 	protected boolean dirty = true
 	boolean closed = true
 
 	@Override
-	Shape copy() {
+	@Nonnull Shape copy() {
 		return copyPolygon()
 	}
 
-	Polygon copyPolygon() {
+	@Nonnull Polygon copyPolygon() {
 		def p = new Polygon()
 		p.closed = closed
 		p.points.addAll(points)
@@ -56,7 +58,7 @@ class Polygon extends Shape {
 	}
 
 	@Override
-	Rectangle getBoundingBox() {
+	@Nonnull Rectangle getBoundingBox() {
 		float[] x = new float[points.size()]
 		float[] y = new float[points.size()]
 		for (int i in 0..<points.size()) {
@@ -83,7 +85,7 @@ class Polygon extends Shape {
 		}
 	}
 
-	protected Triangulator triangulator() {
+	@Nonnull protected Triangulator triangulator() {
 		return new NeatTriangulator()
 	}
 
@@ -104,7 +106,7 @@ class Polygon extends Shape {
 	}
 
 	@Override
-	void draw(Gfx gfx, boolean filled, float x, float y) {
+	void draw(@Nonnull Gfx gfx, boolean filled, float x, float y) {
 		if (filled) {
 			assert closed, "Can't fill an open polygon."
 			triangulate()
@@ -148,12 +150,12 @@ class Polygon extends Shape {
 		return false
 	}
 
-	Polygon leftShift(Vec2 v) {
+	@Nonnull Polygon leftShift(Vec2 v) {
 		addPoint(v)
 		return this
 	}
 
-	Vec2 getAt(int index) {
+	@Nonnull Vec2 getAt(int index) {
 		return points[index]
 	}
 
@@ -162,7 +164,7 @@ class Polygon extends Shape {
 		dirty = true
 	}
 
-	List<Line> getLines() {
+	@Nonnull List<Line> getLines() {
 		List<Line> lines = []
 		for (int i in 1..<points.size()) {
 			lines << new Line(points[i - 1], points[i])
@@ -174,7 +176,7 @@ class Polygon extends Shape {
 
 	static class NoHoles extends Polygon {
 		@Override
-		protected Triangulator triangulator() {
+		@Nonnull protected Triangulator triangulator() {
 			return new BasicTriangulator()
 		}
 	}

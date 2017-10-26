@@ -8,26 +8,29 @@ import pl.shockah.godwit.gl.BlendMode
 import pl.shockah.godwit.gl.Gfx
 import pl.shockah.godwit.gl.GfxContextManager
 
+import javax.annotation.Nonnull
+import javax.annotation.Nullable
+
 @CompileStatic
 final class Godwit {
-	private static Godwit instance
+	@Nullable private static Godwit instance
 
-	protected State state
-	protected State newState
-	final Gfx gfx = new Gfx()
-	final AssetManager assetManager
+	@Nullable protected State state
+	@Nullable protected State newState
+	@Nonnull final Gfx gfx = new Gfx()
+	final AssetManager assetManager //TODO: instantiate an AssetManager
 
-	static Godwit getInstance() {
+	@Nonnull static Godwit getInstance() {
 		if (!instance)
 			instance = new Godwit()
 		return instance
 	}
 
-	State getState() {
+	@Nullable State getState() {
 		return state
 	}
 
-	void setState(State state) {
+	void setState(@Nullable State state) {
 		newState = state
 	}
 

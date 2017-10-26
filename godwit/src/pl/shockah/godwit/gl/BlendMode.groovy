@@ -4,9 +4,11 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.GL20
 import groovy.transform.CompileStatic
 
+import javax.annotation.Nonnull
+
 @CompileStatic
 abstract class BlendMode {
-	static final BlendMode Normal = new BlendMode() {
+	@Nonnull static final BlendMode Normal = new BlendMode() {
 		@Override
 		protected void begin() {
 			Gdx.gl.glEnable(GL20.GL_BLEND)

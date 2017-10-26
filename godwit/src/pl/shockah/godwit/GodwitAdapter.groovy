@@ -3,11 +3,13 @@ package pl.shockah.godwit
 import com.badlogic.gdx.ApplicationAdapter
 import groovy.transform.CompileStatic
 
+import javax.annotation.Nonnull
+
 @CompileStatic
 class GodwitAdapter extends ApplicationAdapter {
-	final State initialState
+	@Nonnull final State initialState
 
-	GodwitAdapter(State initialState) {
+	GodwitAdapter(@Nonnull State initialState) {
 		this.initialState = initialState
 	}
 
