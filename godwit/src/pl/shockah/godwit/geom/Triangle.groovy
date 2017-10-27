@@ -108,12 +108,12 @@ class Triangle extends Shape implements Polygonable, Shape.Filled, Shape.Outline
 	@Override
 	void drawFilled(@Nonnull Gfx gfx, float x, float y) {
 		gfx.prepareShapes(ShapeRenderer.ShapeType.Filled)
-		gfx.shapes.triangle(x + point1.x as float, y + point1.y as float, x + point2.x as float, y + point2.y as float, x + point3.x as float, y + point3.y as float)
+		gfx.shapeRenderer.triangle(x + point1.x as float, y + point1.y as float, x + point2.x as float, y + point2.y as float, x + point3.x as float, y + point3.y as float)
 	}
 
 	@Override
 	void drawOutline(@Nonnull Gfx gfx, float x, float y) {
 		gfx.prepareShapes(ShapeRenderer.ShapeType.Line)
-		gfx.shapes.triangle(x + point1.x as float, y + point1.y as float, x + point2.x as float, y + point2.y as float, x + point3.x as float, y + point3.y as float)
+		gfx.shapeRenderer.triangle(x + point1.x as float, y + point1.y as float, x + point2.x as float, y + point2.y as float, x + point3.x as float, y + point3.y as float)
 	}
 }

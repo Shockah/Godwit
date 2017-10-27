@@ -8,7 +8,7 @@ import groovy.transform.CompileStatic
 import javax.annotation.Nonnull
 
 @CompileStatic
-class Surface extends Gfx {
+class Surface extends GfxImpl {
 	@Nonnull protected final Sprite sprite
 	@Nonnull protected final FrameBuffer fbo
 	@Nonnull protected final TextureRegion region

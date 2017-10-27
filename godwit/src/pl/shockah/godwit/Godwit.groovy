@@ -7,6 +7,7 @@ import pl.shockah.godwit.geom.Vec2
 import pl.shockah.godwit.gl.BlendMode
 import pl.shockah.godwit.gl.Gfx
 import pl.shockah.godwit.gl.GfxContextManager
+import pl.shockah.godwit.gl.GfxImpl
 
 import javax.annotation.Nonnull
 import javax.annotation.Nullable
@@ -17,7 +18,7 @@ final class Godwit {
 
 	@Nullable protected State state
 	@Nullable protected State newState
-	@Nonnull final Gfx gfx = new Gfx()
+	@Nonnull final GfxImpl gfx = new GfxImpl()
 	final AssetManager assetManager //TODO: instantiate an AssetManager
 
 	@Nonnull static Godwit getInstance() {

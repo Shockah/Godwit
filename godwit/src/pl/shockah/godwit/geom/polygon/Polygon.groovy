@@ -171,7 +171,7 @@ class Polygon extends Shape implements Shape.Filled, Shape.Outline {
 		for (int i in 0..<loopSize) {
 			Vec2 v1 = points[i]
 			Vec2 v2 = points[(i + 1) % size]
-			gfx.shapes.line(x + v1.x as float, y + v1.y as float, x + v2.x as float, y + v2.y as float)
+			gfx.shapeRenderer.line(x + v1.x as float, y + v1.y as float, x + v2.x as float, y + v2.y as float)
 		}
 	}
 
