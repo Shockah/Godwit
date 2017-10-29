@@ -63,9 +63,7 @@ final class Vec2 {
 	}
 
 	@Nonnull Vec2 plus(float f) {
-		if (x == 0 && y == 0)
-			return this
-		return angled(length + f as float, angle)
+		return this * (length + f as float) / length
 	}
 
 	@Nonnull Vec2 plus(float x, float y) {
@@ -77,9 +75,7 @@ final class Vec2 {
 	}
 
 	@Nonnull Vec2 minus(float f) {
-		if (x == 0 && y == 0)
-			return this
-		return angled(length - f as float, angle)
+		return this + (-f)
 	}
 
 	@Nonnull Vec2 minus(float x, float y) {
