@@ -22,6 +22,10 @@ final class Vec2 {
 		this.y = y
 	}
 
+	Vec2(@Nonnull Vec2 v) {
+		this(v.x, v.y)
+	}
+
 	Vec2(@Nonnull Vector2 vec) {
 		this(vec.x, vec.y)
 	}
@@ -75,7 +79,7 @@ final class Vec2 {
 	@Nonnull Vec2 minus(float f) {
 		if (x == 0 && y == 0)
 			return this
-		return angled(-(length + f) as float, angle)
+		return angled(length - f as float, angle)
 	}
 
 	@Nonnull Vec2 minus(float x, float y) {
