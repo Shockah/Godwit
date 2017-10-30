@@ -27,7 +27,7 @@ class LinearView<T extends Attributes> extends ViewGroup<T> {
 			Vec2 alignmentPosition = (bounds.size - view.bounds.size) * orientation.perpendicular.vector * Extensions.getLinearViewAttributes(view).alignment.vector
 			view.bounds.position = basePosition + alignmentPosition
 
-			offset += size * orientation.vector
+			offset += (size * orientation.vector).length
 		}
 	}
 
