@@ -5,13 +5,20 @@ import pl.shockah.godwit.gl.Gfx
 import pl.shockah.godwit.gl.GfxSlice
 
 import javax.annotation.Nonnull
+import javax.annotation.Nullable
 
 @CompileStatic
-abstract class ViewGroup extends View implements ViewHolder {
-	@Nonnull private final List<View> views = new ArrayList<>()
+abstract class ViewGroup<T extends Attributes> extends View implements ViewHolder {
+	@Nonnull private final List<View> views = []
+	@Nonnull protected final Map<View, T> attributes = [:]
 
-	List<View> getViews() {
+	@Nonnull List<View> getViews() {
 		return Collections.unmodifiableList(views)
+	}
+
+	@Nullable T getAttributesForView(@Nonnull View view) {
+		assert view in views
+		return attributes[view]
 	}
 
 	void add(@Nonnull View view) {
@@ -31,6 +38,14 @@ abstract class ViewGroup extends View implements ViewHolder {
 		Gfx passedGfx = new GfxSlice(gfx, bounds)
 		for (View view : views) {
 			view.onRender(passedGfx)
+		}
+	}
+
+	static abstract class Attributes {
+		@Nonnull final View view
+
+		Attributes(@Nonnull View view) {
+			this.view = view
 		}
 	}
 }
