@@ -13,7 +13,7 @@ enum WritingDirection {
 	RightToLeftAndBottomToTop(new Vec2(-1, 0), new Vec2(0, -1), new Vec2(1, 1)),
 	TopToBottomAndLeftToRight(new Vec2(0, 1), new Vec2(1, 0), new Vec2(0, 0)),
 	BottomToTopAndLeftToRight(new Vec2(0, -1), new Vec2(1, 0), new Vec2(0, 1)),
-	TopToBottomAndRightToLeft(new Vec2(0, 1), new Vec2(-1, 0), new Vec2(0, 1)),
+	TopToBottomAndRightToLeft(new Vec2(0, 1), new Vec2(-1, 0), new Vec2(1, 0)),
 	BottomToTopAndRightToLeft(new Vec2(0, -1), new Vec2(-1, 0), new Vec2(1, 1))
 
 	@Nonnull final Vec2 rowVector
