@@ -7,9 +7,9 @@ import javax.annotation.Nonnull
 
 @CompileStatic
 class LinearView<T extends Attributes> extends ViewGroup<T> {
-	@Nonnull final View.Orientation orientation
+	@Nonnull final Orientation orientation
 
-	LinearView(@Nonnull View.Orientation orientation) {
+	LinearView(@Nonnull Orientation orientation) {
 		this.orientation = orientation
 	}
 
@@ -32,9 +32,9 @@ class LinearView<T extends Attributes> extends ViewGroup<T> {
 	}
 
 	static class Attributes extends ViewGroup.Attributes {
-		@Nonnull View.Alignment alignment
+		@Nonnull Alignment alignment
 
-		Attributes(@Nonnull View view, View.Alignment alignment) {
+		Attributes(@Nonnull View view, Alignment alignment) {
 			super(view)
 			this.alignment = alignment
 		}
