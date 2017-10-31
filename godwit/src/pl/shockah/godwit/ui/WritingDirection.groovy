@@ -7,21 +7,23 @@ import javax.annotation.Nonnull
 
 @CompileStatic
 enum WritingDirection {
-	LeftToRightAndTopToBottom(new Vec2(1, 0), new Vec2(0, 1)),
-	RightToLeftAndTopToBottom(new Vec2(-1, 0), new Vec2(0, 1)),
-	LeftToRightAndBottomToTop(new Vec2(1, 0), new Vec2(0, -1)),
-	RightToLeftAndBottomToTop(new Vec2(-1, 0), new Vec2(0, -1)),
-	TopToBottomAndLeftToRight(new Vec2(0, 1), new Vec2(1, 0)),
-	BottomToTopAndLeftToRight(new Vec2(0, -1), new Vec2(1, 0)),
-	TopToBottomAndRightToLeft(new Vec2(0, 1), new Vec2(-1, 0)),
-	BottomToTopAndRightToLeft(new Vec2(0, -1), new Vec2(-1, 0))
+	LeftToRightAndTopToBottom(new Vec2(1, 0), new Vec2(0, 1), new Vec2(0, 0)),
+	RightToLeftAndTopToBottom(new Vec2(-1, 0), new Vec2(0, 1), new Vec2(1, 0)),
+	LeftToRightAndBottomToTop(new Vec2(1, 0), new Vec2(0, -1), new Vec2(0, 1)),
+	RightToLeftAndBottomToTop(new Vec2(-1, 0), new Vec2(0, -1), new Vec2(1, 1)),
+	TopToBottomAndLeftToRight(new Vec2(0, 1), new Vec2(1, 0), new Vec2(0, 0)),
+	BottomToTopAndLeftToRight(new Vec2(0, -1), new Vec2(1, 0), new Vec2(0, 1)),
+	TopToBottomAndRightToLeft(new Vec2(0, 1), new Vec2(-1, 0), new Vec2(0, 1)),
+	BottomToTopAndRightToLeft(new Vec2(0, -1), new Vec2(-1, 0), new Vec2(1, 1))
 
 	@Nonnull final Vec2 rowVector
 	@Nonnull final Vec2 columnVector
+	@Nonnull final Vec2 corner
 
-	private WritingDirection(@Nonnull Vec2 rowVector, @Nonnull Vec2 columnVector) {
+	private WritingDirection(@Nonnull Vec2 rowVector, @Nonnull Vec2 columnVector, @Nonnull Vec2 corner) {
 		this.rowVector = rowVector
 		this.columnVector = columnVector
+		this.corner = corner
 	}
 
 	boolean isLeftToRight() {
