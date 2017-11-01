@@ -64,18 +64,10 @@ trait Gfx {
 
 	abstract void prepareShapes(@Nonnull ShapeType type)
 
-	abstract void draw(@Nonnull Sprite sprite, float x, float y)
+	abstract void draw(@Nonnull Renderable renderable, float x, float y)
 
-	void draw(@Nonnull Sprite sprite, @Nonnull Vec2 pos) {
-		draw(sprite, pos.x, pos.y)
-	}
-
-	void draw(@Nonnull Surface surface, float x, float y) {
-		draw(surface.sprite, x, y)
-	}
-
-	void draw(@Nonnull Surface surface, @Nonnull Vec2 pos) {
-		draw(surface.sprite, pos.x, pos.y)
+	void draw(@Nonnull Renderable renderable, @Nonnull Vec2 pos) {
+		draw(renderable, pos.x, pos.y)
 	}
 
 	abstract void drawFilled(@Nonnull Shape.Filled shape, float x, float y)

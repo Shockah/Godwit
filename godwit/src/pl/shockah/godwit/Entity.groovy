@@ -3,6 +3,7 @@ package pl.shockah.godwit
 import groovy.transform.CompileStatic
 import groovy.transform.PackageScope
 import pl.shockah.godwit.gl.Gfx
+import pl.shockah.godwit.gl.Renderable
 
 import javax.annotation.Nonnull
 import javax.annotation.Nullable
@@ -62,9 +63,13 @@ class Entity implements Renderable {
 	}
 
 	final void render(@Nonnull Gfx gfx) {
+		render(gfx, 0f, 0f)
+	}
+
+	final void render(@Nonnull Gfx gfx, float x, float y) {
 		if (!created || destroyed)
 			return
-		onRender(gfx)
+		onRender(gfx, x, y)
 	}
 
 	protected void onCreate() {
@@ -79,6 +84,6 @@ class Entity implements Renderable {
 	protected void onUpdate() {
 	}
 
-	void onRender(@Nonnull Gfx gfx) {
+	void onRender(@Nonnull Gfx gfx, float x, float y) {
 	}
 }

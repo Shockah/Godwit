@@ -141,22 +141,12 @@ class GfxImpl implements Gfx {
 		shapes.setColor(r, g, b, 1f)
 	}
 
-	void draw(@Nonnull Sprite sprite, float x, float y) {
-		prepareSprites()
-		sprite.draw(sprites, x, y)
+	void draw(@Nonnull Renderable renderable, float x, float y) {
+		renderable.onRender(this, x, y)
 	}
 
-	void draw(@Nonnull Sprite sprite, @Nonnull Vec2 pos) {
-		prepareSprites()
-		sprite.draw(sprites, pos.x, pos.y)
-	}
-
-	void draw(@Nonnull Surface surface, float x, float y) {
-		draw(surface.sprite, x, y)
-	}
-
-	void draw(@Nonnull Surface surface, @Nonnull Vec2 pos) {
-		draw(surface.sprite, pos.x, pos.y)
+	void draw(@Nonnull Renderable renderable, @Nonnull Vec2 pos) {
+		renderable.onRender(this, pos.x, pos.y)
 	}
 
 	void drawFilled(@Nonnull Shape.Filled shape) {

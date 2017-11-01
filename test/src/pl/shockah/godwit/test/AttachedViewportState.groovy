@@ -28,7 +28,7 @@ class AttachedViewportState extends State implements Configurable {
 	}
 
 	@Override
-	void onRender(@Nonnull Gfx gfx) {
+	void onRender(@Nonnull Gfx gfx, float x, float y) {
 		gfx.clear(Color.GRAY)
 
 		def entity = entities.find { it instanceof AttachmentEntity } as AttachmentEntity
@@ -40,7 +40,7 @@ class AttachedViewportState extends State implements Configurable {
 		gfx.color = Color.RED
 		gfx.drawFilled(Rectangle.centered(gfx.size / 2f, gfx.size * 0.2f))
 
-		super.onRender(gfx)
+		super.onRender(gfx, x, y)
 	}
 
 	class AttachmentEntity extends Entity {
@@ -61,8 +61,8 @@ class AttachedViewportState extends State implements Configurable {
 		}
 
 		@Override
-		void onRender(@Nonnull Gfx gfx) {
-			super.onRender(gfx)
+		void onRender(@Nonnull Gfx gfx, float x, float y) {
+			super.onRender(gfx, x, y)
 			gfx.color = Color.WHITE
 			gfx.drawFilled(circle, pos)
 		}
