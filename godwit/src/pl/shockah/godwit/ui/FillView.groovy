@@ -3,17 +3,20 @@ package pl.shockah.godwit.ui
 import groovy.transform.CompileStatic
 import pl.shockah.godwit.geom.Vec2
 import pl.shockah.godwit.gl.Gfx
+import pl.shockah.godwit.gl.GfxSlice
 
 import javax.annotation.Nonnull
 import javax.annotation.Nullable
 
 @CompileStatic
-class FillView extends View implements ViewHolder {
+class FillView extends View implements ViewHolder<Void> {
 	@Nullable private View innerView = null
 	@Nullable private Vec2 cachedSize = null
+	@Nonnull Padding padding = new Padding()
 
 	FillView(@Nullable View innerView = null) {
-		add(innerView)
+		if (innerView)
+			add(innerView)
 	}
 
 	@Nullable View getInnerView() {
@@ -21,9 +24,9 @@ class FillView extends View implements ViewHolder {
 	}
 
 	@Override
-	void add(@Nonnull View view) {
+	void add(@Nonnull View view, @Nullable Void attributes) {
 		assert innerView == null
-		ViewHolder.super.add(view)
+		ViewHolder.super.add(view, attributes)
 		innerView = view
 
 		if (cachedSize)
@@ -46,7 +49,8 @@ class FillView extends View implements ViewHolder {
 	private void adjustBounds(@Nonnull Vec2 size) {
 		cachedSize = new Vec2(size.x, size.y)
 		bounds.size = cachedSize
-		innerView?.bounds?.size = cachedSize
+		innerView?.bounds?.position = padding.topLeftVector
+		innerView?.bounds?.size = cachedSize - padding.vector
 		onLayout()
 	}
 
@@ -56,11 +60,12 @@ class FillView extends View implements ViewHolder {
 			adjustBounds(gfx.size)
 
 		super.onRender(gfx)
-		innerView?.onRender(gfx)
+		if (innerView)
+			innerView.onRender(new GfxSlice(gfx, innerView.bounds))
 	}
 
 	@Override
 	@Nonnull Vec2 getIntrinsicSize(@Nonnull Vec2 availableSize) {
-		return cachedSize ?: super.getIntrinsicSize(availableSize)
+		return (innerView?.getIntrinsicSize(availableSize - padding.vector) ?: new Vec2()) + padding.vector
 	}
 }

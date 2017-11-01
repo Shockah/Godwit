@@ -1,4 +1,4 @@
 moduleName=Godwit extensions
 moduleVersion=1.0
-extensionClasses=pl.shockah.godwit.Extensions, pl.shockah.godwit.geom.polygon.Extensions, pl.shockah.godwit.ui.LinearView$Extensions
+extensionClasses=pl.shockah.godwit.Extensions, pl.shockah.godwit.geom.polygon.Extensions
 #staticExtensionClasses=support.StaticStringExtension

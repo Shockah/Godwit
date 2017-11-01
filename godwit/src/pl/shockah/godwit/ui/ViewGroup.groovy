@@ -8,7 +8,7 @@ import javax.annotation.Nonnull
 import javax.annotation.Nullable
 
 @CompileStatic
-abstract class ViewGroup<T extends Attributes> extends View implements ViewHolder {
+abstract class ViewGroup<T> extends View implements ViewHolder<T> {
 	@Nonnull private final List<View> views = []
 	@Nonnull protected final Map<View, T> attributes = [:]
 
@@ -21,31 +21,24 @@ abstract class ViewGroup<T extends Attributes> extends View implements ViewHolde
 		return attributes[view]
 	}
 
-	void add(@Nonnull View view) {
-		ViewHolder.super.add(view)
+	void add(@Nonnull View view, @Nullable T attributes) {
+		ViewHolder.super.add(view, attributes)
 		views.add(view)
+		this.attributes[view] = attributes
 	}
 
 	void remove(@Nonnull View view) {
 		ViewHolder.super.remove(view)
 		views.remove(view)
+		attributes.remove(view)
 	}
 
 	@Override
 	void onRender(@Nonnull Gfx gfx) {
 		super.onRender(gfx)
 
-		Gfx passedGfx = new GfxSlice(gfx, bounds)
 		for (View view : views) {
-			view.onRender(passedGfx)
-		}
-	}
-
-	static abstract class Attributes {
-		@Nonnull final View view
-
-		Attributes(@Nonnull View view) {
-			this.view = view
+			view.onRender(new GfxSlice(gfx, view.bounds))
 		}
 	}
 }

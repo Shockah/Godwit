@@ -19,20 +19,41 @@ sourceSets.main {
 project.ext.mainClassName = "pl.shockah.godwit.test.TestStarter"
 
 def testNames = [
-		"AttachedViewport", "Shapes"
+		"AttachedViewport", "Shapes",
+		["ui", "LinearView"]
 ]
 
-testNames.each {
-	testName -> tasks.create("test${testName}", JavaExec) {
+testNames.each { testEntry ->
+	def testName
+	def className
+
+	if (testEntry instanceof String) {
+		def entryString = testEntry as String
+		testName = entryString
+		className = entryString
+	} else if (testEntry instanceof List) {
+		def entryList = testEntry as List
+		testName = entryList[1]
+		className = "${entryList[0]}.${entryList[1]}"
+	} else {
+		throw new IllegalArgumentException()
+	}
+
+	tasks.create("test${testName}", JavaExec) {
 		dependsOn 'classes'
 
 		main = project.mainClassName
-		args testName
+		args className
 		classpath = sourceSets.main.runtimeClasspath
 		standardInput = System.in
 		ignoreExitValue = true
 		if (System.getProperty("os.name") == "Mac OS X")
 			jvmArgs "-XstartOnFirstThread"
 		//workingDir = project.assetsDir
+
+		if (System.getProperty('DEBUG', 'false') == 'true') {
+			jvmArgs '-Xdebug', '-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005'
+			debug true
+		}
 	}
 }

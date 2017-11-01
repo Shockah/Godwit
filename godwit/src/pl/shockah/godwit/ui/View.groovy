@@ -26,7 +26,7 @@ class View implements Renderable {
 	void onRender(@Nonnull Gfx gfx) {
 		if (backgroundColor) {
 			gfx.color = backgroundColor
-			gfx.drawFilled(bounds)
+			gfx.drawFilled(new Rectangle(bounds.size))
 		}
 	}
 

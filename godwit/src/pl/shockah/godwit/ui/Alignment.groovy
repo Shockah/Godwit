@@ -6,8 +6,13 @@ import pl.shockah.godwit.geom.Vec2
 import javax.annotation.Nonnull
 
 @CompileStatic
-interface Alignment {
-	@Nonnull Vec2 getVector()
+trait Alignment {
+	@Nonnull abstract Vec2 getVector()
+
+	@Nonnull Vec2 getNonNanVector(float nanValue = 1f) {
+		Vec2 v = vector
+		return new Vec2(Float.isNaN(v.x) ? nanValue : v.x, Float.isNaN(v.y) ? nanValue : v.y)
+	}
 
 	static enum Horizontal implements Alignment {
 		Left(new Vec2(0f, Float.NaN)), Center(new Vec2(0.5f, Float.NaN)), Right(new Vec2(1f, Float.NaN))
