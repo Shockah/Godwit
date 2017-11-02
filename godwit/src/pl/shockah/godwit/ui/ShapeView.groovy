@@ -27,11 +27,11 @@ abstract class ShapeView<T extends Shape> extends View {
 		}
 
 		@Override
-		void onRender(@Nonnull Gfx gfx) {
-			super.onRender(gfx)
+		void onRender(@Nonnull Gfx gfx, float x, float y) {
+			super.onRender(gfx, x, y)
 
 			if (shape)
-				gfx.drawFilled(shape as Shape.Filled, -shape.boundingBox.position)
+				gfx.drawFilled(shape as Shape.Filled, -shape.boundingBox.position + new Vec2(x, y))
 		}
 	}
 
@@ -41,11 +41,11 @@ abstract class ShapeView<T extends Shape> extends View {
 		}
 
 		@Override
-		void onRender(@Nonnull Gfx gfx) {
-			super.onRender(gfx)
+		void onRender(@Nonnull Gfx gfx, float x, float y) {
+			super.onRender(gfx, x, y)
 
 			if (shape)
-				gfx.drawOutline(shape as Shape.Outline, -shape.boundingBox.position)
+				gfx.drawOutline(shape as Shape.Outline, -shape.boundingBox.position + new Vec2(x, y))
 		}
 	}
 }

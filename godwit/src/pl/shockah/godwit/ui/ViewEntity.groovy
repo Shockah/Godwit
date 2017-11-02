@@ -21,8 +21,8 @@ class ViewEntity extends Entity {
 	}
 
 	@Override
-	void onRender(@Nonnull Gfx gfx) {
-		super.onRender(gfx)
-		view.onRender(gfx)
+	void onRender(@Nonnull Gfx gfx, float x, float y) {
+		super.onRender(gfx, x, y)
+		view.onRender(gfx, x, y)
 	}
 }

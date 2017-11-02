@@ -2,10 +2,10 @@ package pl.shockah.godwit.ui
 
 import com.badlogic.gdx.graphics.Color
 import groovy.transform.CompileStatic
-import pl.shockah.godwit.Renderable
 import pl.shockah.godwit.geom.Rectangle
 import pl.shockah.godwit.geom.Vec2
 import pl.shockah.godwit.gl.Gfx
+import pl.shockah.godwit.gl.Renderable
 
 import javax.annotation.Nonnull
 import javax.annotation.Nullable
@@ -23,10 +23,10 @@ class View implements Renderable {
 	}
 
 	@Override
-	void onRender(@Nonnull Gfx gfx) {
+	void onRender(@Nonnull Gfx gfx, float x, float y) {
 		if (backgroundColor) {
 			gfx.color = backgroundColor
-			gfx.drawFilled(new Rectangle(bounds.size))
+			gfx.drawFilled(new Rectangle(bounds.size), x, y)
 		}
 	}
 

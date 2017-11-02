@@ -55,13 +55,13 @@ class FillView extends View implements ViewHolder<Void> {
 	}
 
 	@Override
-	void onRender(@Nonnull Gfx gfx) {
+	void onRender(@Nonnull Gfx gfx, float x, float y) {
 		if (gfx.size != cachedSize)
 			adjustBounds(gfx.size)
 
-		super.onRender(gfx)
+		super.onRender(gfx, x, y)
 		if (innerView)
-			innerView.onRender(new GfxSlice(gfx, innerView.bounds))
+			innerView.onRender(new GfxSlice(gfx, innerView.bounds), x, y)
 	}
 
 	@Override

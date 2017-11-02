@@ -34,11 +34,11 @@ abstract class ViewGroup<T> extends View implements ViewHolder<T> {
 	}
 
 	@Override
-	void onRender(@Nonnull Gfx gfx) {
-		super.onRender(gfx)
+	void onRender(@Nonnull Gfx gfx, float x, float y) {
+		super.onRender(gfx, x, y)
 
 		for (View view : views) {
-			view.onRender(new GfxSlice(gfx, view.bounds))
+			view.onRender(new GfxSlice(gfx, view.bounds), x, y)
 		}
 	}
 }
