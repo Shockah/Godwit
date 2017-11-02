@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Color
 import groovy.transform.CompileStatic
 import pl.shockah.godwit.geom.Vec2
 import pl.shockah.godwit.gl.BlendMode
-import pl.shockah.godwit.gl.Gfx
 import pl.shockah.godwit.gl.GfxContextManager
 import pl.shockah.godwit.gl.GfxImpl
 
@@ -19,7 +18,7 @@ final class Godwit {
 	@Nullable protected State state
 	@Nullable protected State newState
 	@Nonnull final GfxImpl gfx = new GfxImpl()
-	final AssetManager assetManager //TODO: instantiate an AssetManager
+	@Nonnull final AssetManager assetManager = new AssetManager()
 
 	@Nonnull static Godwit getInstance() {
 		if (!instance)
@@ -37,15 +36,13 @@ final class Godwit {
 
 	void tick() {
 		if (newState) {
-			if (state)
-				state.destroy()
+			state?.destroy()
 			state = newState
 			newState = null
 			state.create()
 		}
 
-		if (state)
-			state.update()
+		state?.update()
 
 		GfxContextManager.bindSurface(null)
 		gfx.offset = new Vec2()
@@ -53,8 +50,7 @@ final class Godwit {
 		gfx.clear(Color.BLACK)
 		gfx.blendMode = BlendMode.Normal
 
-		if (state)
-			state.render(gfx)
+		state?.render(gfx)
 
 		gfx.endTick()
 		GfxContextManager.bindSurface(null)

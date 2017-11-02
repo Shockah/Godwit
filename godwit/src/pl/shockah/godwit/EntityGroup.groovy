@@ -76,10 +76,10 @@ class EntityGroup<T extends Entity> extends Entity {
 	}
 
 	@Override
-	void onRender(@Nonnull Gfx gfx) {
-		super.onRender(gfx)
+	void onRender(@Nonnull Gfx gfx, float x, float y) {
+		super.onRender(gfx, x, y)
 		for (Entity entity : entities) {
-			entity.render(gfx)
+			entity.render(gfx, x, y)
 		}
 	}
 

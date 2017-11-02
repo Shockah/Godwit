@@ -8,8 +8,7 @@ import groovy.transform.CompileStatic
 import javax.annotation.Nonnull
 
 @CompileStatic
-class Surface extends GfxImpl {
-	@Nonnull protected final Sprite sprite
+class Surface extends GfxImpl implements Renderable {
 	@Nonnull protected final FrameBuffer fbo
 	@Nonnull protected final TextureRegion region
 
@@ -22,7 +21,6 @@ class Surface extends GfxImpl {
 		fbo = new FrameBuffer(Pixmap.Format.RGBA8888, width, height, false, false)
 		region = new TextureRegion(fbo.colorBufferTexture, 0, 0, width, height)
 		region.flip(false, true)
-		sprite = new TextureRegionSprite(region)
 	}
 
 	@Override
@@ -40,15 +38,17 @@ class Surface extends GfxImpl {
 		GfxContextManager.bindSurface(this)
 	}
 
-	@Nonnull Sprite getSprite() {
-		return sprite
-	}
-
 	@Nonnull FrameBuffer getFbo() {
 		return fbo
 	}
 
 	@Nonnull TextureRegion getTextureRegion() {
 		return region
+	}
+
+	@Override
+	void onRender(@Nonnull Gfx gfx, float x, float y) {
+		gfx.prepareSprites()
+		gfx.spriteBatch.draw(region, x, y)
 	}
 }

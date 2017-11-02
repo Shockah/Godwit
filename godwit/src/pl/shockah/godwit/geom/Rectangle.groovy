@@ -141,10 +141,10 @@ class Rectangle extends Shape implements Polygonable, Shape.Filled, Shape.Outlin
 	@Override
 	@Nonnull Polygon asPolygon() {
 		def p = new Polygon()
-		p << position
-		p << position + size.onlyX
-		p << position + size
-		p << position + size.onlyY
+		p.addPoint(position)
+		p.addPoint(position + size.onlyX)
+		p.addPoint(position + size)
+		p.addPoint(position + size.onlyY)
 		return p
 	}
 

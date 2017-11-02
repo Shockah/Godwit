@@ -12,8 +12,8 @@ import javax.annotation.Nonnull
 @CompileStatic
 class ShapesState extends State {
 	@Override
-	void onRender(@Nonnull Gfx gfx) {
-		super.onRender(gfx)
+	void onRender(@Nonnull Gfx gfx, float x, float y) {
+		super.onRender(gfx, x, y)
 
 		gfx.clear(Color.GRAY)
 

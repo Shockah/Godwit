@@ -45,7 +45,7 @@ final class Math2 {
 		return min
 	}
 
-	static double min(float... values) {
+	static float min(float... values) {
 		def min = values[0]
 		for (int i in 1..<values.length) {
 			if (values[i] < min)
@@ -54,7 +54,7 @@ final class Math2 {
 		return min
 	}
 
-	static double min(long... values) {
+	static long min(long... values) {
 		def min = values[0]
 		for (int i in 1..<values.length) {
 			if (values[i] < min)
@@ -63,7 +63,7 @@ final class Math2 {
 		return min
 	}
 
-	static double min(int... values) {
+	static int min(int... values) {
 		def min = values[0]
 		for (int i in 1..<values.length) {
 			if (values[i] < min)
@@ -81,7 +81,7 @@ final class Math2 {
 		return max
 	}
 
-	static double max(float... values) {
+	static float max(float... values) {
 		def max = values[0]
 		for (int i in 1..<values.length) {
 			if (values[i] > max)
@@ -90,7 +90,7 @@ final class Math2 {
 		return max
 	}
 
-	static double max(long... values) {
+	static long max(long... values) {
 		def max = values[0]
 		for (int i in 1..<values.length) {
 			if (values[i] > max)
@@ -99,7 +99,7 @@ final class Math2 {
 		return max
 	}
 
-	static double max(int... values) {
+	static int max(int... values) {
 		def max = values[0]
 		for (int i in 1..<values.length) {
 			if (values[i] > max)

@@ -13,13 +13,13 @@ sourceCompatibility = 1.7
 sourceSets.main {
 	java.srcDirs = []
 	groovy.srcDirs = ["src"]
-	resources.srcDirs = ["resources"]
+	resources.srcDirs = ["resources/dist"]
 }
 
 project.ext.mainClassName = "pl.shockah.godwit.test.TestStarter"
 
 def testNames = [
-		"AttachedViewport", "Shapes",
+		"AttachedViewport", "Shapes", "Sprite",
 		["ui", "LinearView"]
 ]
 

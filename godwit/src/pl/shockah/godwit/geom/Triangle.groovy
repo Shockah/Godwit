@@ -99,9 +99,9 @@ class Triangle extends Shape implements Polygonable, Shape.Filled, Shape.Outline
 	@Override
 	@Nonnull Polygon asPolygon() {
 		def p = new Polygon()
-		p << point1
-		p << point2
-		p << point3
+		p.addPoint(point1)
+		p.addPoint(point2)
+		p.addPoint(point3)
 		return p
 	}
 

@@ -110,7 +110,7 @@ class Polygon extends Shape implements Shape.Filled, Shape.Outline {
 	}
 
 	void addPoint(Vec2 v) {
-		points << v
+		points.add(v)
 		dirty = true
 	}
 
@@ -130,11 +130,6 @@ class Polygon extends Shape implements Shape.Filled, Shape.Outline {
 		return false
 	}
 
-	@Nonnull Polygon leftShift(Vec2 v) {
-		addPoint(v)
-		return this
-	}
-
 	@Nonnull Vec2 getAt(int index) {
 		return points[index]
 	}
@@ -147,10 +142,10 @@ class Polygon extends Shape implements Shape.Filled, Shape.Outline {
 	@Nonnull List<Line> getLines() {
 		List<Line> lines = []
 		for (int i in 1..<points.size()) {
-			lines << new Line(points[i - 1], points[i])
+			lines.add(new Line(points[i - 1], points[i]))
 		}
 		if (closed)
-			lines << new Line(points.last(), points.first())
+			lines.add(new Line(points.last(), points.first()))
 		return lines
 	}
 

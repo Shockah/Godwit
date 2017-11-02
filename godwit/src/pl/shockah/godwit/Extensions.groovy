@@ -8,15 +8,15 @@ class Extensions {
 		return Math.min(Math.max(self, min), max)
 	}
 
-	static double limit(float self, float min, float max) {
+	static float limit(float self, float min, float max) {
 		return Math.min(Math.max(self, min), max)
 	}
 
-	static double limit(long self, long min, long max) {
+	static long limit(long self, long min, long max) {
 		return Math.min(Math.max(self, min), max)
 	}
 
-	static double limit(int self, int min, int max) {
+	static int limit(int self, int min, int max) {
 		return Math.min(Math.max(self, min), max)
 	}
 }

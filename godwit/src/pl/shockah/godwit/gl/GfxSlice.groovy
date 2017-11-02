@@ -115,8 +115,8 @@ class GfxSlice implements Gfx {
 	}
 
 	@Override
-	void draw(@Nonnull Sprite sprite, float x, float y) {
-		wrapped.draw(sprite, (x + bounds.position.x) as float, (y + bounds.position.y) as float)
+	void draw(@Nonnull Renderable renderable, float x, float y) {
+		wrapped.draw(renderable, (x + bounds.position.x) as float, (y + bounds.position.y) as float)
 	}
 
 	@Override
