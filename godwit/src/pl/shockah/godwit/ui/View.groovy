@@ -24,8 +24,8 @@ class View implements Renderable {
 
 	@Override
 	void onRender(@Nonnull Gfx gfx, float x, float y) {
-		if (backgroundColor) {
-			gfx.color = backgroundColor
+		backgroundColor?.with {
+			gfx.color = it
 			gfx.drawFilled(new Rectangle(bounds.size), x, y)
 		}
 	}

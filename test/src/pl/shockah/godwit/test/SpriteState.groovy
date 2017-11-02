@@ -59,13 +59,15 @@ class SpriteState extends State {
 	void onRender(@Nonnull Gfx gfx, float x, float y) {
 		super.onRender(gfx, x, y)
 
-		gfx.color = Color.WHITE
-		gfx.draw(sprite, gfx.size / 2)
+		gfx.withColor(Color.WHITE) {
+			draw(sprite, size / 2)
+		}
 
 		if (movingCountdown > 0) {
-			gfx.color = Color.RED
-			gfx.drawOutline(new Line(new Vec2(gfx.width / 2 as float, 0f), new Vec2(gfx.width / 2 as float, gfx.height)))
-			gfx.drawOutline(new Line(new Vec2(0f, gfx.height / 2 as float), new Vec2(gfx.width, gfx.height / 2 as float)))
+			gfx.withColor(Color.RED) {
+				drawOutline(new Line(new Vec2(width / 2 as float, 0f), new Vec2(width / 2 as float, height)))
+				drawOutline(new Line(new Vec2(0f, height / 2 as float), new Vec2(width, height / 2 as float)))
+			}
 		}
 	}
 }

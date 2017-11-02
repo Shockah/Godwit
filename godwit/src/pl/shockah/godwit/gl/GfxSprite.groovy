@@ -8,7 +8,7 @@ import javax.annotation.Nonnull
 
 @CompileStatic
 class GfxSprite implements Renderable {
-	@Nonnull final Sprite sprite
+	@Nonnull @Delegate final Sprite sprite
 
 	GfxSprite(@Nonnull Sprite sprite) {
 		this.sprite = sprite

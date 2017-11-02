@@ -8,6 +8,9 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType
 import com.badlogic.gdx.math.Matrix4
 import com.badlogic.gdx.utils.viewport.Viewport
 import groovy.transform.CompileStatic
+import groovy.transform.stc.ClosureParams
+import groovy.transform.stc.FirstParam
+import groovy.transform.stc.SimpleType
 import pl.shockah.godwit.geom.Shape
 import pl.shockah.godwit.geom.Vec2
 
@@ -56,13 +59,33 @@ trait Gfx {
 		setColor(new Color(r, g, b, 1.0f))
 	}
 
+	void withColor(@Nonnull Color c,
+	               @DelegatesTo(value = Gfx.class, strategy = Closure.DELEGATE_FIRST)
+	               @ClosureParams(value = SimpleType.class, options = "pl.shockah.godwit.gl.Gfx")
+	               @Nonnull Closure closure) {
+		Color oldColor = color
+		color = c
+		with(closure)
+		color = oldColor
+	}
+
 	abstract void internalEndTick()
 
 	abstract void prepareContext()
 
 	abstract void prepareSprites()
 
+	void prepareSprites(@Nonnull Closure<SpriteBatch> closure) {
+		prepareSprites()
+		closure(spriteBatch)
+	}
+
 	abstract void prepareShapes(@Nonnull ShapeType type)
+
+	void prepareShapes(@Nonnull ShapeType type, @Nonnull Closure<ShapeRenderer> closure) {
+		prepareShapes(type)
+		closure(shapeRenderer)
+	}
 
 	abstract void draw(@Nonnull Renderable renderable, float x, float y)
 

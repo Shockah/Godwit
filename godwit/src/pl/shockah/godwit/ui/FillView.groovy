@@ -15,8 +15,9 @@ class FillView extends View implements ViewHolder<Void> {
 	@Nonnull Padding padding = new Padding()
 
 	FillView(@Nullable View innerView = null) {
-		if (innerView)
-			add(innerView)
+		innerView?.with {
+			add(it)
+		}
 	}
 
 	@Nullable View getInnerView() {
@@ -29,8 +30,9 @@ class FillView extends View implements ViewHolder<Void> {
 		ViewHolder.super.add(view, attributes)
 		innerView = view
 
-		if (cachedSize)
-			adjustBounds(cachedSize)
+		cachedSize?.with {
+			adjustBounds(it)
+		}
 	}
 
 	@Override
@@ -60,8 +62,9 @@ class FillView extends View implements ViewHolder<Void> {
 			adjustBounds(gfx.size)
 
 		super.onRender(gfx, x, y)
-		if (innerView)
-			innerView.onRender(new GfxSlice(gfx, innerView.bounds), x, y)
+		innerView?.with {
+			it.onRender(new GfxSlice(gfx, it.bounds), x, y)
+		}
 	}
 
 	@Override

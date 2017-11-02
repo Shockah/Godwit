@@ -2,6 +2,7 @@ package pl.shockah.godwit.geom.polygon;
 
 import pl.shockah.godwit.geom.Vec2;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +15,7 @@ public class BasicTriangulator implements Triangulator {
 	private boolean tried;
 
 	@Override
-	public void addPolyPoint(Vec2 point) {
+	public void addPolyPoint(@Nonnull Vec2 point) {
 		if (!poly.contains(point))
 			poly.add(point);
 	}
@@ -41,7 +42,7 @@ public class BasicTriangulator implements Triangulator {
 	}
 
 	@Override
-	public Vec2 trianglePoint(int tri, int i) {
+	@Nonnull public Vec2 trianglePoint(int tri, int i) {
 		if (!tried)
 			triangulate();
 		return tris.get(tri * 3 + i);
