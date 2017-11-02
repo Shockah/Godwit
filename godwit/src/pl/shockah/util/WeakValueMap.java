@@ -1,5 +1,6 @@
 package pl.shockah.util;
 
+import javax.annotation.Nonnull;
 import java.lang.ref.WeakReference;
 import java.util.*;
 
@@ -11,12 +12,7 @@ public class WeakValueMap<K, V> implements Map<K, V> {
 	}
 
 	protected void cleanup() {
-		Iterator<Entry<K, WeakReference<V>>> it = map.entrySet().iterator();
-		while (it.hasNext()) {
-			Entry<K, WeakReference<V>> entry = it.next();
-			if (entry.getValue().get() == null)
-				it.remove();
-		}
+		map.entrySet().removeIf(entry -> entry.getValue().get() == null);
 	}
 
 	@Override
@@ -58,7 +54,7 @@ public class WeakValueMap<K, V> implements Map<K, V> {
 	public V put(K key, V value) {
 		if (value == null)
 			return null;
-		WeakReference<V> ref = map.put(key, new WeakReference<V>(value));
+		WeakReference<V> ref = map.put(key, new WeakReference<>(value));
 		return ref == null ? null : ref.get();
 	}
 
@@ -81,13 +77,13 @@ public class WeakValueMap<K, V> implements Map<K, V> {
 	}
 
 	@Override
-	public Set<K> keySet() {
+	@Nonnull public Set<K> keySet() {
 		cleanup();
 		return map.keySet();
 	}
 
 	@Override
-	public Collection<V> values() {
+	@Nonnull public Collection<V> values() {
 		cleanup();
 		List<V> values = new ArrayList<>(map.size());
 		for (WeakReference<V> ref : map.values()) {
@@ -98,7 +94,7 @@ public class WeakValueMap<K, V> implements Map<K, V> {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public Set<Entry<K, V>> entrySet() {
+	@Nonnull public Set<Entry<K, V>> entrySet() {
 		cleanup();
 		Set<Entry<K, V>> entries = new LinkedHashSet<>();
 		for (Entry<K, WeakReference<V>> entry : map.entrySet()) {
