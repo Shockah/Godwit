@@ -12,7 +12,12 @@ public class WeakValueMap<K, V> implements Map<K, V> {
 	}
 
 	protected void cleanup() {
-		map.entrySet().removeIf(entry -> entry.getValue().get() == null);
+		Iterator<Entry<K, WeakReference<V>>> it = map.entrySet().iterator();
+		while (it.hasNext()) {
+			Entry<K, WeakReference<V>> entry = it.next();
+			if (entry.getValue().get() == null)
+				it.remove();
+		}
 	}
 
 	@Override

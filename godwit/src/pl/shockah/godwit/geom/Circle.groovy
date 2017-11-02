@@ -97,7 +97,7 @@ class Circle extends Shape implements Polygonable, Shape.Filled, Shape.Outline {
 
 		Polygon p = new Polygon.NoHoles()
 		for (int i in 0..<precision) {
-			p << Vec2.angled(radius, 360f / precision * i as float) + position
+			p.addPoint(Vec2.angled(radius, 360f / precision * i as float) + position)
 		}
 
 		lastPos = position
