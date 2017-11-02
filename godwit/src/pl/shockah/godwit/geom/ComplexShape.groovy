@@ -25,7 +25,7 @@ class ComplexShape<T extends Shape> extends Shape {
 	@Nonnull ComplexShape<T> copyComplexShape() {
 		def complexShape = new ComplexShape<>()
 		for (T shape : shapes) {
-			complexShape.add(shape.copy() as T)
+			complexShape.add((T)shape.copy())
 		}
 		return complexShape
 	}
@@ -49,15 +49,6 @@ class ComplexShape<T extends Shape> extends Shape {
 		}
 	}
 
-	@Override
-	boolean contains(float x, float y) {
-		for (T shape : shapes) {
-			if (shape.contains(x, y))
-				return true
-		}
-		return false
-	}
-
 	static class Filled<T extends Shape & Shape.Filled> extends ComplexShape<T> implements Shape.Filled {
 		@Override
 		@Nonnull ComplexShape<T> copyComplexShape() {
@@ -67,7 +58,7 @@ class ComplexShape<T extends Shape> extends Shape {
 		@Nonnull Filled<T> copyComplexShapeFilled() {
 			def complexShape = new Filled<>()
 			for (T shape : shapes) {
-				complexShape.add(shape.copy() as T)
+				complexShape.add((T)shape.copy())
 			}
 			return complexShape
 		}
@@ -77,6 +68,15 @@ class ComplexShape<T extends Shape> extends Shape {
 			for (Shape.Filled shape : shapes) {
 				shape.drawFilled(gfx, x, y)
 			}
+		}
+
+		@Override
+		boolean contains(float x, float y) {
+			for (T shape : shapes) {
+				if ((shape as Shape.Filled).contains(x, y))
+					return true
+			}
+			return false
 		}
 	}
 
@@ -89,7 +89,7 @@ class ComplexShape<T extends Shape> extends Shape {
 		@Nonnull Outline<T> copyComplexShapeOutline() {
 			def complexShape = new Outline<>()
 			for (T shape : shapes) {
-				complexShape.add(shape.copy() as T)
+				complexShape.add((T)shape.copy())
 			}
 			return complexShape
 		}
@@ -102,7 +102,7 @@ class ComplexShape<T extends Shape> extends Shape {
 		}
 	}
 
-	static class FilledOutline<T extends Shape & Shape.Filled & Shape.Outline> extends ComplexShape<T> implements Shape.Filled, Shape.Outline {
+	static class FilledOutline<T extends Shape & Shape.Filled & Shape.Outline> extends Filled<T> implements Shape.Outline {
 		@Override
 		@Nonnull ComplexShape<T> copyComplexShape() {
 			return copyComplexShapeFilledOutline()
@@ -111,16 +111,9 @@ class ComplexShape<T extends Shape> extends Shape {
 		@Nonnull FilledOutline<T> copyComplexShapeFilledOutline() {
 			def complexShape = new FilledOutline<>()
 			for (T shape : shapes) {
-				complexShape.add(shape.copy() as T)
+				complexShape.add((T)shape.copy())
 			}
 			return complexShape
-		}
-
-		@Override
-		void drawFilled(@Nonnull Gfx gfx, float x, float y) {
-			for (Shape.Filled shape : shapes) {
-				shape.drawFilled(gfx, x, y)
-			}
 		}
 
 		@Override

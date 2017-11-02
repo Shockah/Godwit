@@ -9,7 +9,6 @@ import com.badlogic.gdx.math.Matrix4
 import com.badlogic.gdx.utils.viewport.Viewport
 import groovy.transform.CompileStatic
 import groovy.transform.stc.ClosureParams
-import groovy.transform.stc.FirstParam
 import groovy.transform.stc.SimpleType
 import pl.shockah.godwit.geom.Shape
 import pl.shockah.godwit.geom.Vec2
@@ -75,16 +74,22 @@ trait Gfx {
 
 	abstract void prepareSprites()
 
-	void prepareSprites(@Nonnull Closure<SpriteBatch> closure) {
+	void prepareSprites(
+			@DelegatesTo(value = SpriteBatch.class, strategy = Closure.DELEGATE_FIRST)
+			@ClosureParams(value = SimpleType.class, options = "com.badlogic.gdx.graphics.g2d.SpriteBatch")
+			@Nonnull Closure closure) {
 		prepareSprites()
-		closure(spriteBatch)
+		spriteBatch.with(closure)
 	}
 
 	abstract void prepareShapes(@Nonnull ShapeType type)
 
-	void prepareShapes(@Nonnull ShapeType type, @Nonnull Closure<ShapeRenderer> closure) {
+	void prepareShapes(@Nonnull ShapeType type,
+	                   @DelegatesTo(value = ShapeRenderer.class, strategy = Closure.DELEGATE_FIRST)
+	                   @ClosureParams(value = SimpleType.class, options = "com.badlogic.gdx.graphics.glutils.ShapeRenderer")
+	                   @Nonnull Closure closure) {
 		prepareShapes(type)
-		closure(shapeRenderer)
+		shapeRenderer.with(closure)
 	}
 
 	abstract void draw(@Nonnull Renderable renderable, float x, float y)

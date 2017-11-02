@@ -63,11 +63,6 @@ class Line extends Shape implements Shape.Outline {
 	}
 
 	@Override
-	boolean contains(float x, float y) {
-		return false
-	}
-
-	@Override
 	protected boolean collides(@Nonnull Shape shape, boolean tryAgain) {
 		if (shape instanceof Line)
 			return collides(shape as Line)
@@ -106,7 +101,8 @@ class Line extends Shape implements Shape.Outline {
 
 	@Override
 	void drawOutline(@Nonnull Gfx gfx, float x, float y) {
-		gfx.prepareShapes(ShapeRenderer.ShapeType.Line)
-		gfx.shapeRenderer.line(x + point1.x as float ,y + point1.y as float, x + point2.x as float, y + point2.y as float)
+		gfx.prepareShapes(ShapeRenderer.ShapeType.Line) {
+			line(x + point1.x as float ,y + point1.y as float, x + point2.x as float, y + point2.y as float)
+		}
 	}
 }

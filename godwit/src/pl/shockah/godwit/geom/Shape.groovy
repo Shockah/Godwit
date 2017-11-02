@@ -18,12 +18,6 @@ abstract class Shape {
 
 	abstract void translate(float x, float y)
 
-	final boolean contains(@Nonnull Vec2 v) {
-		return contains(v.x, v.y)
-	}
-
-	abstract boolean contains(float x, float y)
-
 	final boolean collides(@Nonnull Shape shape) {
 		return collides(shape, true)
 	}
@@ -41,6 +35,12 @@ abstract class Shape {
 		}
 
 		abstract void drawFilled(@Nonnull Gfx gfx, float x, float y)
+
+		boolean contains(@Nonnull Vec2 v) {
+			return contains(v.x, v.y)
+		}
+
+		abstract boolean contains(float x, float y)
 	}
 
 	@SelfType(Shape)

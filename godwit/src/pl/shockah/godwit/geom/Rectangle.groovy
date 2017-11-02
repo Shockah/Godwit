@@ -150,13 +150,15 @@ class Rectangle extends Shape implements Polygonable, Shape.Filled, Shape.Outlin
 
 	@Override
 	void drawFilled(@Nonnull Gfx gfx, float x, float y) {
-		gfx.prepareShapes(ShapeRenderer.ShapeType.Filled)
-		gfx.shapeRenderer.rect(x + position.x as float, y + position.y as float, size.x, size.y)
+		gfx.prepareShapes(ShapeRenderer.ShapeType.Filled) {
+			rect(x + position.x as float, y + position.y as float, size.x, size.y)
+		}
 	}
 
 	@Override
 	void drawOutline(@Nonnull Gfx gfx, float x, float y) {
-		gfx.prepareShapes(ShapeRenderer.ShapeType.Line)
-		gfx.shapeRenderer.rect(x + position.x as float, y + position.y as float, size.x, size.y)
+		gfx.prepareShapes(ShapeRenderer.ShapeType.Line) {
+			rect(x + position.x as float, y + position.y as float, size.x, size.y)
+		}
 	}
 }

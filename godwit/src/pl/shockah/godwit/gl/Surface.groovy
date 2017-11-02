@@ -9,8 +9,8 @@ import javax.annotation.Nonnull
 
 @CompileStatic
 class Surface extends GfxImpl implements Renderable {
-	@Nonnull protected final FrameBuffer fbo
-	@Nonnull protected final TextureRegion region
+	@Nonnull final FrameBuffer fbo
+	@Nonnull final TextureRegion region
 
 	@Nonnull static Surface create(int width, int height) {
 		GfxContextManager.bindSurface(null)
@@ -36,14 +36,6 @@ class Surface extends GfxImpl implements Renderable {
 	@Override
 	void prepareContext() {
 		GfxContextManager.bindSurface(this)
-	}
-
-	@Nonnull FrameBuffer getFbo() {
-		return fbo
-	}
-
-	@Nonnull TextureRegion getTextureRegion() {
-		return region
 	}
 
 	@Override
