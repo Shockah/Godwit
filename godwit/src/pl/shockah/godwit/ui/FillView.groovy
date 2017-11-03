@@ -9,7 +9,7 @@ import javax.annotation.Nonnull
 import javax.annotation.Nullable
 
 @CompileStatic
-class FillView extends View implements ViewHolder<Void> {
+class FillView extends ViewHolder<Void> {
 	@Nullable private View innerView = null
 	@Nullable private Vec2 cachedSize = null
 	@Nonnull Padding padding = new Padding()
@@ -25,9 +25,9 @@ class FillView extends View implements ViewHolder<Void> {
 	}
 
 	@Override
-	void add(@Nonnull View view, @Nullable Void attributes) {
+	void add(@Nonnull View view, @Nullable Void attributes = null) {
 		assert innerView == null
-		ViewHolder.super.add(view, attributes)
+		super.add(view, attributes)
 		innerView = view
 
 		cachedSize?.with {
@@ -38,7 +38,7 @@ class FillView extends View implements ViewHolder<Void> {
 	@Override
 	void remove(@Nonnull View view) {
 		assert innerView == view
-		ViewHolder.super.remove(view)
+		super.remove(view)
 		innerView = null
 	}
 

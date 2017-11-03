@@ -7,13 +7,8 @@ import javax.annotation.Nonnull
 import javax.annotation.Nullable
 
 @CompileStatic
-@SelfType(View)
-trait ViewHolder<T> {
-	void add(@Nonnull View view) {
-		add(view, null)
-	}
-
-	void add(@Nonnull View view, @Nullable T attributes) {
+abstract class ViewHolder<T> extends View {
+	void add(@Nonnull View view, @Nullable T attributes = null) {
 		assert view.parent == null
 		view.parent = this
 	}
