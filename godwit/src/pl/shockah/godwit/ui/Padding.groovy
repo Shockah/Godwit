@@ -8,7 +8,7 @@ import javax.annotation.Nonnull
 
 @CompileStatic
 @EqualsAndHashCode
-class Padding {
+final class Padding {
 	float left
 	float right
 	float top
