@@ -42,7 +42,7 @@ class Line extends Shape implements Shape.Outline {
 
 	@Override
 	String toString() {
-		return String.format("[Line: %s->%s]", point1, point2)
+		return "[Line: ${point1}->${point2}]"
 	}
 
 	@Override

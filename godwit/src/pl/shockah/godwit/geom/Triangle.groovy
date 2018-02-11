@@ -62,7 +62,7 @@ class Triangle extends Shape implements Polygonable, Shape.Filled, Shape.Outline
 
 	@Override
 	String toString() {
-		return String.format("[Triangle: %s-%s-%s]", point1, point2, point3)
+		return "[Triangle: ${point1}-${point2}-${point3}]"
 	}
 
 	@Override
