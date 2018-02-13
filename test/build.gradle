@@ -2,11 +2,12 @@ apply plugin: "groovy"
 
 dependencies {
 	compile project(":godwit")
-	compile "org.codehaus.groovy:groovy:2.4.10"
+	compile "org.codehaus.groovy:groovy:2.4.12"
 	compile "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
 	compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
 }
 
+targetCompatibility = 1.7
 sourceCompatibility = 1.7
 [compileJava, compileTestJava, compileGroovy, compileTestGroovy]*.options*.encoding = "UTF-8"
 
