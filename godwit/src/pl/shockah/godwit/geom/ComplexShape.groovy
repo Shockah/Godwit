@@ -35,10 +35,10 @@ class ComplexShape<T extends Shape> extends Shape {
 		if (shapes.empty)
 			return new Rectangle(0f, 0f)
 		def boundingBoxes = shapes.collect { it.boundingBox }
-		def minX = boundingBoxes.stream().mapToDouble { it.position.x }.min().asDouble as float
-		def minY = boundingBoxes.stream().mapToDouble { it.position.y }.min().asDouble as float
-		def maxX = boundingBoxes.stream().mapToDouble { it.position.x + it.size.x }.max().asDouble as float
-		def maxY = boundingBoxes.stream().mapToDouble { it.position.y + it.size.y }.max().asDouble as float
+		def minX = boundingBoxes.collect { it.position.x }.min() as float
+		def minY = boundingBoxes.collect { it.position.y }.min() as float
+		def maxX = boundingBoxes.collect { it.position.x + it.size.x }.min() as float
+		def maxY = boundingBoxes.collect { it.position.x + it.size.y }.min() as float
 		return new Rectangle(minX, minY, maxX - minX as float, maxY - minY as float)
 	}
 
