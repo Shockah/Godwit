@@ -67,6 +67,10 @@ class GfxSprite implements Renderable {
 		sprite.setFlip(sprite.flipX, !sprite.flipY)
 	}
 
+	void setFlip(boolean x, boolean y) {
+		sprite.setFlip(x, !y)
+	}
+
 	// by default it's the wrong way around
 	boolean isFlipY() {
 		return !sprite.flipY
