@@ -12,6 +12,7 @@ class GfxSprite implements Renderable {
 
 	GfxSprite(@Nonnull Sprite sprite) {
 		this.sprite = sprite
+		sprite.setFlip(sprite.flipX, !sprite.flipY)
 	}
 
 	@Override
@@ -56,5 +57,18 @@ class GfxSprite implements Renderable {
 
 	void rotate(float degrees) {
 		sprite.rotate(-degrees)
+	}
+
+	void flipX() {
+		sprite.setFlip(!sprite.flipX, sprite.flipY)
+	}
+
+	void flipY() {
+		sprite.setFlip(sprite.flipX, !sprite.flipY)
+	}
+
+	// by default it's the wrong way around
+	boolean isFlipY() {
+		return !sprite.flipY
 	}
 }
