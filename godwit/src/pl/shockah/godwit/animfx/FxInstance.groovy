@@ -4,9 +4,10 @@ import com.badlogic.gdx.Gdx
 import groovy.transform.CompileStatic
 
 import javax.annotation.Nonnull
+import javax.annotation.Nullable
 
 @CompileStatic
-class FxInstance {
+class FxInstance<T> {
 	enum EndAction {
 		End,
 		Loop,
@@ -14,14 +15,16 @@ class FxInstance {
 		ReverseLoop
 	}
 
-	@Nonnull final Fx fx
+	@Nullable final T object
+	@Nonnull final Fx<T> fx
 	@Nonnull final EndAction endAction
 	boolean stopped = false
 	protected float elapsed = 0f
 	protected float previous = 0f
 	protected boolean reversed = false
 
-	FxInstance(@Nonnull Fx fx, @Nonnull EndAction endAction) {
+	FxInstance(@Nullable T object, @Nonnull Fx<T> fx, @Nonnull EndAction endAction) {
+		this.object = object
 		this.fx = fx
 		this.endAction = endAction
 	}
@@ -44,7 +47,7 @@ class FxInstance {
 
 		float current = elapsed / fx.duration as float
 		float currentBound = Math.min(Math.max(current, 0f), 1f)
-		fx.update(fx.method.ease(currentBound), fx.method.ease(previous))
+		fx.update(object, fx.method.ease(currentBound), fx.method.ease(previous))
 		previous = current
 
 		if (reversed) {

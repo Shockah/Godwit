@@ -11,6 +11,7 @@ import pl.shockah.godwit.gl.Gfx
 import pl.shockah.godwit.gl.GfxSprite
 
 import javax.annotation.Nonnull
+import javax.annotation.Nullable
 
 @CompileStatic
 class AnimationState extends State {
@@ -25,8 +26,6 @@ class AnimationState extends State {
 			PennerEasing.exponentialInOut, PennerEasing.circularInOut, PennerEasing.backInOut, PennerEasing.elasticInOut, PennerEasing.bounceInOut
 	]
 	private List<GfxSprite> sprites = []
-
-	private float f = 0f
 
 	@Override
 	protected void onCreate() {
@@ -43,14 +42,14 @@ class AnimationState extends State {
 			sprite.y = 2f
 			sprites.add(sprite)
 
-			Fx fx = new AppliedFx<GfxSprite>(sprite, 5f) {
+			Fx<GfxSprite> fx = new FxImpl<GfxSprite>(5f) {
 				@Override
-				void update(float f, float previous) {
-					object.y = Easing.linear.ease(2 + Gdx.graphics.height * 0.2f, Gdx.graphics.height * 0.8f - 16, f)
+				void update(@Nullable GfxSprite object, float f, float previous) {
+					object.y = Easing.linear.ease(2 + Gdx.graphics.height * 0.2f as float, Gdx.graphics.height * 0.8f - 16 as float, f)
 				}
 			}
 			fx.method = method
-			fxes.add(fx.instance(FxInstance.EndAction.ReverseLoop))
+			fxes.add(fx.instance(sprite, FxInstance.EndAction.ReverseLoop))
 		}
 	}
 

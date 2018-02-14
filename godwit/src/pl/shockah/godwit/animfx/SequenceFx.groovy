@@ -5,14 +5,14 @@ import groovy.transform.CompileStatic
 import javax.annotation.Nonnull
 
 @CompileStatic
-class SequenceFx implements Fx {
-	@Nonnull private final List<Fx> fxes
+class SequenceFx<T> implements Fx<T> {
+	@Nonnull private final List<Fx<? extends T>> fxes
 
-	SequenceFx(Fx... fxes) {
+	SequenceFx(Fx<? extends T>... fxes) {
 		this(Arrays.asList(fxes))
 	}
 
-	SequenceFx(@Nonnull List<Fx> fxes) {
+	SequenceFx(@Nonnull List<Fx<? extends T>> fxes) {
 		this.fxes = new ArrayList<>(fxes)
 	}
 
@@ -31,7 +31,7 @@ class SequenceFx implements Fx {
 	}
 
 	@Override
-	void update(float f, float previous) {
+	void update(T object, float f, float previous) {
 		if (fxes.isEmpty())
 			return
 
@@ -49,12 +49,12 @@ class SequenceFx implements Fx {
 					previousIndex = i
 			} else {
 				Fx fx = fxes[i]
-				fxes[i].update(fx.method.ease(1f), fx.method.ease(Math.min(previous, 0f)))
+				fxes[i].update(object, fx.method.ease(1f), fx.method.ease(Math.min(previous, 0f)))
 			}
 
 			if (f < fxDuration) {
 				Fx fx = fxes[i]
-				fxes[i].update(fx.method.ease(f), fx.method.ease(Math.max(previous, 0f)))
+				fxes[i].update(object, fx.method.ease(f), fx.method.ease(Math.max(previous, 0f)))
 				break
 			}
 

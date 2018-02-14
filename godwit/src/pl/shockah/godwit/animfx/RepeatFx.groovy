@@ -5,11 +5,11 @@ import groovy.transform.CompileStatic
 import javax.annotation.Nonnull
 
 @CompileStatic
-class RepeatFx implements Fx {
-	@Nonnull private final Fx fx
+class RepeatFx<T> implements Fx<T> {
+	@Nonnull private final Fx<? extends T> fx
 	private final int count
 
-	RepeatFx(@Nonnull Fx fx, int count) {
+	RepeatFx(@Nonnull Fx<? extends T> fx, int count) {
 		this.fx = fx
 		this.count = count
 	}
@@ -30,7 +30,7 @@ class RepeatFx implements Fx {
 	}
 
 	@Override
-	void update(float f, float previous) {
-		fx.update((f * count) % 1f, (previous * count) % 1f)
+	void update(T object, float f, float previous) {
+		fx.update(object, (f * count) % 1f, (previous * count) % 1f)
 	}
 }

@@ -12,7 +12,7 @@ import javax.annotation.Nullable
 @CompileStatic
 class Entity implements Renderable {
 	@Nullable protected EntityGroup<? extends Entity> group
-	@Nonnull protected final List<FxInstance> fxes = new ArrayList<>()
+	@Nonnull protected final List<FxInstance<? extends Entity>> fxes = new ArrayList<>()
 	@PackageScope boolean created = false
 	@PackageScope boolean destroyed = false
 
@@ -64,7 +64,7 @@ class Entity implements Renderable {
 		onUpdate()
 
 		for (int i = 0; i < fxes.size(); i++) {
-			FxInstance fx = fxes[i]
+			FxInstance<? extends Entity> fx = fxes[i]
 			fx.updateDelta()
 			if (fx.stopped)
 				fxes.remove(i--)
