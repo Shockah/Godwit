@@ -7,6 +7,7 @@ import groovy.transform.CompileStatic
 import pl.shockah.godwit.Godwit
 import pl.shockah.godwit.State
 import pl.shockah.godwit.animfx.*
+import pl.shockah.godwit.animfx.raw.RawClosureFx
 import pl.shockah.godwit.gl.Gfx
 import pl.shockah.godwit.gl.GfxSprite
 
@@ -41,11 +42,9 @@ class EasingState extends State {
 			sprite.y = 2f
 			sprites.add(sprite)
 
-			Fx fx = new RawClosureFx(5f, { float f, float previous ->
+			fxes.add(new RawClosureFx(5f, { float f, float previous ->
 				sprite.y = Easing.linear.ease(2 + Gdx.graphics.height * 0.2f as float, Gdx.graphics.height * 0.8f - 16 as float, f)
-			})
-			fx.method = method
-			fxes.add(fx.instance(FxInstance.EndAction.ReverseLoop))
+			}).withMethod(method).instance(FxInstance.EndAction.ReverseLoop))
 		}
 	}
 

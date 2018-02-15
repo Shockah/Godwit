@@ -1,15 +1,16 @@
-package pl.shockah.godwit.animfx
+package pl.shockah.godwit.animfx.object
 
 import groovy.transform.CompileStatic
+import pl.shockah.godwit.animfx.Easing
 
 import javax.annotation.Nonnull
 
 @CompileStatic
-abstract class FxImpl<T> implements Fx<T> {
+abstract class ObjectFxImpl<T> implements ObjectFx<T> {
 	private final float duration
 	@Nonnull Easing method = Easing.linear
 
-	FxImpl(float duration) {
+	ObjectFxImpl(float duration) {
 		this.duration = duration
 	}
 

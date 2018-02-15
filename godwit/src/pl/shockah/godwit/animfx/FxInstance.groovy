@@ -2,6 +2,8 @@ package pl.shockah.godwit.animfx
 
 import com.badlogic.gdx.Gdx
 import groovy.transform.CompileStatic
+import pl.shockah.godwit.animfx.object.ObjectFx
+import pl.shockah.godwit.animfx.raw.RawFx
 
 import javax.annotation.Nonnull
 import javax.annotation.Nullable
@@ -15,14 +17,14 @@ class FxInstance<T> {
 		ReverseLoop
 	}
 
-	@Nonnull final Fx<T> fx
+	@Nonnull final Fx fx
 	@Nonnull final EndAction endAction
 	boolean stopped = false
 	protected float elapsed = 0f
 	protected float previous = 0f
 	protected boolean reversed = false
 
-	FxInstance(@Nonnull Fx<T> fx, @Nonnull EndAction endAction) {
+	FxInstance(@Nonnull Fx fx, @Nonnull EndAction endAction) {
 		this.fx = fx
 		this.endAction = endAction
 	}
@@ -39,18 +41,39 @@ class FxInstance<T> {
 		update(object)
 	}
 
+	protected void updateFx(@Nullable T object, float f, float previous) {
+		f = fx.method.ease(f)
+		previous = fx.method.ease(previous)
+
+		if (fx instanceof RawFx)
+			((RawFx)fx).update(f, previous)
+		else if (fx instanceof ObjectFx<T> && object)
+			((ObjectFx<T>)fx).update(object, f, previous)
+		else
+			throw new IllegalArgumentException()
+	}
+
+	protected void finishFx(@Nullable T object, float f, float previous) {
+		if (fx instanceof RawFx)
+			((RawFx)fx).finish(f, previous)
+		else if (fx instanceof ObjectFx<T> && object)
+			((ObjectFx<T>)fx).finish(object, f, previous)
+		else
+			throw new IllegalArgumentException()
+	}
+
 	void update(@Nullable T object) {
 		if (stopped)
 			return
 
 		float current = elapsed / fx.duration as float
 		float currentBound = Math.min(Math.max(current, 0f), 1f)
-		fx.update(object, fx.method.ease(currentBound), fx.method.ease(previous))
+		updateFx(object, currentBound, previous)
 		previous = current
 
 		if (reversed) {
 			if (current < 0f) {
-				fx.finish(object, fx.method.ease(currentBound))
+				finishFx(object, currentBound, previous)
 				switch (endAction) {
 					case EndAction.End:
 					case EndAction.Reverse:
@@ -72,7 +95,7 @@ class FxInstance<T> {
 			}
 		} else {
 			if (current >= 1f) {
-				fx.finish(object, fx.method.ease(currentBound))
+				finishFx(object, currentBound, previous)
 				switch (endAction) {
 					case EndAction.End:
 						stopped = true

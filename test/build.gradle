@@ -20,7 +20,7 @@ sourceSets.main {
 project.ext.mainClassName = "pl.shockah.godwit.test.TestStarter"
 
 def testNames = [
-		"AttachedViewport", "Shapes", "Sprite", "Easing",
+		"AttachedViewport", "Shapes", "Sprite", "Easing", "SequenceFx",
 		["ui", "LinearView"]
 ]
 

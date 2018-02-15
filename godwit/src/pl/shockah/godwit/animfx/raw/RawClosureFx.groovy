@@ -1,14 +1,15 @@
-package pl.shockah.godwit.animfx
+package pl.shockah.godwit.animfx.raw
 
 import groovy.transform.CompileStatic
 import groovy.transform.stc.ClosureParams
 import groovy.transform.stc.SimpleType
+import pl.shockah.godwit.animfx.ClosureFx
 
 import javax.annotation.Nonnull
 
 @CompileStatic
-class RawClosureFx extends RawFx {
-	protected final Closure closure
+class RawClosureFx extends RawFxImpl implements ClosureFx {
+	final Closure closure
 
 	RawClosureFx(
 			float duration,
@@ -23,7 +24,7 @@ class RawClosureFx extends RawFx {
 	}
 
 	@Override
-	final void finish(float f) {
-
+	void finish(float f, float previous) {
+		update(f, previous)
 	}
 }

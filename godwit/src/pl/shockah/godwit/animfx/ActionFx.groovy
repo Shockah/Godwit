@@ -1,27 +1,25 @@
 package pl.shockah.godwit.animfx
 
 import groovy.transform.CompileStatic
-import groovy.transform.stc.ClosureParams
-import groovy.transform.stc.SimpleType
+import pl.shockah.godwit.animfx.raw.RawFxImpl
 
 import javax.annotation.Nonnull
-import javax.annotation.Nullable
 
 @CompileStatic
-class ActionFx<T> extends FxImpl<T> {
+class ActionFx extends RawFxImpl {
 	protected final Closure closure
 
-	ActionFx(@ClosureParams(value = SimpleType, options = ["T"]) @Nonnull Closure closure) {
+	ActionFx(@Nonnull Closure closure) {
 		super(0f)
 		this.closure = closure
 	}
 
 	@Override
-	final void update(@Nullable T object, float f, float previous) {
+	final void update(float f, float previous) {
 	}
 
 	@Override
-	void finish(@Nullable T object, float v) {
-		closure(object)
+	void finish(float f, float previous) {
+		closure()
 	}
 }
