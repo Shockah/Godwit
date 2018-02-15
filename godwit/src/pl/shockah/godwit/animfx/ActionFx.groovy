@@ -11,10 +11,8 @@ import javax.annotation.Nullable
 class ActionFx<T> extends FxImpl<T> {
 	protected final Closure closure
 
-	ActionFx(
-			float duration,
-			@ClosureParams(value = SimpleType, options = ["T"]) @Nonnull Closure closure) {
-		super(duration)
+	ActionFx(@ClosureParams(value = SimpleType, options = ["T"]) @Nonnull Closure closure) {
+		super(0f)
 		this.closure = closure
 	}
 

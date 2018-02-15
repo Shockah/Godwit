@@ -8,8 +8,8 @@ import javax.annotation.Nonnull
 class RawActionFx extends RawFx {
 	protected final Closure closure
 
-	RawActionFx(float duration, @Nonnull Closure closure) {
-		super(duration)
+	RawActionFx(@Nonnull Closure closure) {
+		super(0f)
 		this.closure = closure
 	}
 
