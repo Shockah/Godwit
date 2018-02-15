@@ -1,6 +1,8 @@
 package pl.shockah.godwit.geom
 
 import groovy.transform.CompileStatic
+import pl.shockah.godwit.animfx.ease.Easable
+import pl.shockah.godwit.animfx.ease.Easing
 import pl.shockah.godwit.geom.polygon.Polygon
 import pl.shockah.godwit.geom.polygon.Polygonable
 import pl.shockah.godwit.gl.Gfx
@@ -9,7 +11,7 @@ import javax.annotation.Nonnull
 import javax.annotation.Nullable
 
 @CompileStatic
-class Circle extends Shape implements Polygonable, Shape.Filled, Shape.Outline {
+class Circle extends Shape implements Polygonable, Shape.Filled, Shape.Outline, Easable<Circle> {
 	@Nonnull Vec2 position
 	float radius
 
@@ -113,5 +115,10 @@ class Circle extends Shape implements Polygonable, Shape.Filled, Shape.Outline {
 	@Override
 	void drawOutline(@Nonnull Gfx gfx, float x, float y) {
 		asPolygon().drawOutline(gfx, x, y)
+	}
+
+	@Override
+	Circle ease(Circle other, float f) {
+		return new Circle(position.ease(other.position, f), Easing.linear.ease(radius, other.radius, f))
 	}
 }

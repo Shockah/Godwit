@@ -3,6 +3,7 @@ package pl.shockah.godwit.geom
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import groovy.transform.CompileStatic
 import groovy.transform.EqualsAndHashCode
+import pl.shockah.godwit.animfx.ease.Easable
 import pl.shockah.godwit.gl.Gfx
 
 import javax.annotation.Nonnull
@@ -10,7 +11,7 @@ import javax.annotation.Nullable
 
 @CompileStatic
 @EqualsAndHashCode
-class Line extends Shape implements Shape.Outline {
+class Line extends Shape implements Shape.Outline, Easable<Line> {
 	@Nonnull Vec2 point1
 	@Nonnull Vec2 point2
 
@@ -104,5 +105,10 @@ class Line extends Shape implements Shape.Outline {
 		gfx.prepareShapes(ShapeRenderer.ShapeType.Line) {
 			line(x + point1.x as float ,y + point1.y as float, x + point2.x as float, y + point2.y as float)
 		}
+	}
+
+	@Override
+	Line ease(Line other, float f) {
+		return new Line(point1.ease(other.point1, f), point2.ease(other.point2, f))
 	}
 }

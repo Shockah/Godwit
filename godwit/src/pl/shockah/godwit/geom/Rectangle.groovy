@@ -3,6 +3,7 @@ package pl.shockah.godwit.geom
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import groovy.transform.CompileStatic
 import groovy.transform.EqualsAndHashCode
+import pl.shockah.godwit.animfx.ease.Easable
 import pl.shockah.godwit.geom.polygon.Polygon
 import pl.shockah.godwit.geom.polygon.Polygonable
 import pl.shockah.godwit.gl.Gfx
@@ -11,7 +12,7 @@ import javax.annotation.Nonnull
 
 @CompileStatic
 @EqualsAndHashCode
-class Rectangle extends Shape implements Polygonable, Shape.Filled, Shape.Outline {
+class Rectangle extends Shape implements Polygonable, Shape.Filled, Shape.Outline, Easable<Rectangle> {
 	@Nonnull Vec2 position
 	@Nonnull Vec2 size
 
@@ -160,5 +161,10 @@ class Rectangle extends Shape implements Polygonable, Shape.Filled, Shape.Outlin
 		gfx.prepareShapes(ShapeRenderer.ShapeType.Line) {
 			rect(x + position.x as float, y + position.y as float, size.x, size.y)
 		}
+	}
+
+	@Override
+	Rectangle ease(Rectangle other, float f) {
+		return new Rectangle(position.ease(other.position, f), size.ease(other.size, f))
 	}
 }

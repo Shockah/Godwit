@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import groovy.transform.CompileStatic
 import groovy.transform.EqualsAndHashCode
 import pl.shockah.godwit.Math2
+import pl.shockah.godwit.animfx.ease.Easable
 import pl.shockah.godwit.geom.polygon.Polygon
 import pl.shockah.godwit.geom.polygon.Polygonable
 import pl.shockah.godwit.gl.Gfx
@@ -12,7 +13,7 @@ import javax.annotation.Nonnull
 
 @CompileStatic
 @EqualsAndHashCode
-class Triangle extends Shape implements Polygonable, Shape.Filled, Shape.Outline {
+class Triangle extends Shape implements Polygonable, Shape.Filled, Shape.Outline, Easable<Triangle> {
 	@Nonnull Vec2 point1
 	@Nonnull Vec2 point2
 	@Nonnull Vec2 point3
@@ -117,5 +118,14 @@ class Triangle extends Shape implements Polygonable, Shape.Filled, Shape.Outline
 		gfx.prepareShapes(ShapeRenderer.ShapeType.Line) {
 			triangle(x + point1.x as float, y + point1.y as float, x + point2.x as float, y + point2.y as float, x + point3.x as float, y + point3.y as float)
 		}
+	}
+
+	@Override
+	Triangle ease(Triangle other, float f) {
+		return new Triangle(
+				point1.ease(other.point1, f),
+				point2.ease(other.point2, f),
+				point3.ease(other.point3, f)
+		)
 	}
 }
