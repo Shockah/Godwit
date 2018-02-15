@@ -4,8 +4,8 @@ import com.badlogic.gdx.math.Vector2
 import groovy.transform.CompileStatic
 import groovy.transform.EqualsAndHashCode
 import pl.shockah.godwit.Math2
-import pl.shockah.godwit.animfx.Easable
-import pl.shockah.godwit.animfx.Easing
+import pl.shockah.godwit.animfx.ease.Easable
+import pl.shockah.godwit.animfx.ease.Easing
 
 import javax.annotation.Nonnull
 

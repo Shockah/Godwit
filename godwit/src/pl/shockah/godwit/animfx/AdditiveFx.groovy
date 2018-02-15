@@ -1,21 +1,17 @@
 package pl.shockah.godwit.animfx
 
+import groovy.transform.CompileStatic
+
 import javax.annotation.Nonnull
 
-abstract class AdditiveFx<F extends Fx> implements Fx {
-	@Nonnull final F fx
-
+@CompileStatic
+abstract class AdditiveFx<F extends Fx> extends ModifierFx<F> {
 	AdditiveFx(@Nonnull F fx) {
-		this.fx = fx
+		super(fx)
 	}
 
 	@Override
-	float getDuration() {
-		return fx.duration
-	}
-
-	@Override
-	Easing getMethod() {
-		return fx.method
+	protected float getModifiedValue(float f, float previous) {
+		return f - previous
 	}
 }

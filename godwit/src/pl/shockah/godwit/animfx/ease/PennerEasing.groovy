@@ -1,4 +1,4 @@
-package pl.shockah.godwit.animfx
+package pl.shockah.godwit.animfx.ease
 
 import com.badlogic.gdx.math.MathUtils
 import groovy.transform.CompileStatic
@@ -36,7 +36,7 @@ abstract class PennerEasing extends Easing {
 	static final PennerEasing cubicOut = new PennerEasing() {
 		@Override
 		float ease(float f) {
-			return cubicIn.ease(f - 1) + 1
+			return cubicIn.ease(f - 1 as float) + 1
 		}
 	}
 	static final PennerEasing cubicInOut = new PennerEasing() {
@@ -85,7 +85,7 @@ abstract class PennerEasing extends Easing {
 	static final PennerEasing quinticOut = new PennerEasing() {
 		@Override
 		float ease(float f) {
-			return quinticIn.ease(f - 1) + 1
+			return quinticIn.ease(f - 1 as float) + 1
 		}
 	}
 	static final PennerEasing quinticInOut = new PennerEasing() {
@@ -103,19 +103,19 @@ abstract class PennerEasing extends Easing {
 	static final PennerEasing sineIn = new PennerEasing() {
 		@Override
 		float ease(float f) {
-			return MathUtils.sin((f - 1) * MathUtils.PI * 0.5f) + 1
+			return MathUtils.sin((f - 1) * MathUtils.PI * 0.5f as float) + 1
 		}
 	}
 	static final PennerEasing sineOut = new PennerEasing() {
 		@Override
 		float ease(float f) {
-			return MathUtils.sin(f * MathUtils.PI * 0.5f)
+			return MathUtils.sin(f * MathUtils.PI * 0.5f as float)
 		}
 	}
 	static final PennerEasing sineInOut = new PennerEasing() {
 		@Override
 		float ease(float f) {
-			return 0.5f * (1 - MathUtils.cos(f * MathUtils.PI))
+			return 0.5f * (1 - MathUtils.cos(f * MathUtils.PI as float))
 		}
 	}
 
@@ -169,35 +169,35 @@ abstract class PennerEasing extends Easing {
 	static final PennerEasing elasticIn = new PennerEasing() {
 		@Override
 		float ease(float f) {
-			return MathUtils.sin(13 * MathUtils.PI * 0.5f * f) * Math.pow(2, 10 * (f - 1))
+			return MathUtils.sin(13 * MathUtils.PI * 0.5f * f as float) * Math.pow(2, 10 * (f - 1))
 		}
 	}
 	static final PennerEasing elasticOut = new PennerEasing() {
 		@Override
 		float ease(float f) {
-			return MathUtils.sin(-13 * MathUtils.PI * 0.5f * (f + 1)) * Math.pow(2, -10 * f) + 1
+			return MathUtils.sin(-13 * MathUtils.PI * 0.5f * (f + 1) as float) * Math.pow(2, -10 * f) + 1
 		}
 	}
 	static final PennerEasing elasticInOut = new PennerEasing() {
 		@Override
 		float ease(float f) {
 			if (f < 0.5f)
-				return 0.5f * MathUtils.sin(13 * MathUtils.PI * 0.5f * (2 * f)) * Math.pow(2, 10 * ((2 * f) - 1))
+				return 0.5f * MathUtils.sin(13 * MathUtils.PI * 0.5f * (2 * f) as float) * Math.pow(2, 10 * ((2 * f) - 1))
 			else
-				return 0.5f * (MathUtils.sin(-13 * MathUtils.PI * 0.5f * ((2 * f - 1) + 1)) * Math.pow(2, -10 * (2 * f - 1)) + 2)
+				return 0.5f * (MathUtils.sin(-13 * MathUtils.PI * 0.5f * ((2 * f - 1) + 1) as float) * Math.pow(2, -10 * (2 * f - 1)) + 2)
 		}
 	}
 
 	static final PennerEasing backIn = new PennerEasing() {
 		@Override
 		float ease(float f) {
-			return f * f * f - f * MathUtils.sin(f * MathUtils.PI)
+			return f * f * f - f * MathUtils.sin(f * MathUtils.PI as float)
 		}
 	}
 	static final PennerEasing backOut = new PennerEasing() {
 		@Override
 		float ease(float f) {
-			return 1f - backIn.ease(1f - f)
+			return 1f - backIn.ease(1 - f as float)
 		}
 	}
 	static final PennerEasing backInOut = new PennerEasing() {
@@ -205,10 +205,10 @@ abstract class PennerEasing extends Easing {
 		float ease(float f) {
 			if (f < 0.5f) {
 				f = 2 * f
-				return 0.5f * (f * f * f - f * MathUtils.sin(f * MathUtils.PI))
+				return 0.5f * (f * f * f - f * MathUtils.sin(f * MathUtils.PI as float))
 			} else {
 				f = (1 - (2 * f - 1))
-				return 0.5f * (1 - (f * f * f - f * MathUtils.sin(f * MathUtils.PI))) + 0.5f
+				return 0.5f * (1 - (f * f * f - f * MathUtils.sin(f * MathUtils.PI as float))) + 0.5f
 			}
 		}
 	}
@@ -216,7 +216,7 @@ abstract class PennerEasing extends Easing {
 	static final PennerEasing bounceIn = new PennerEasing() {
 		@Override
 		float ease(float f) {
-			return 1f - bounceOut.ease(1f - f)
+			return 1f - bounceOut.ease(1 - f as float)
 		}
 	}
 	static final PennerEasing bounceOut = new PennerEasing() {
@@ -236,9 +236,9 @@ abstract class PennerEasing extends Easing {
 		@Override
 		float ease(float f) {
 			if (f < 0.5f)
-				return 0.5f * bounceIn.ease(f * 2)
+				return 0.5f * bounceIn.ease(f * 2 as float)
 			else
-				return 0.5f * bounceOut.ease(f * 2 - 1) + 0.5f
+				return 0.5f * bounceOut.ease(f * 2 - 1 as float) + 0.5f
 		}
 	}
 }

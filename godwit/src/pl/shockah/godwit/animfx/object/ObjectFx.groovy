@@ -1,7 +1,7 @@
 package pl.shockah.godwit.animfx.object
 
 import groovy.transform.CompileStatic
-import pl.shockah.godwit.animfx.Easing
+import pl.shockah.godwit.animfx.ease.Easing
 import pl.shockah.godwit.animfx.Fx
 
 import javax.annotation.Nonnull
@@ -16,7 +16,6 @@ trait ObjectFx<T> extends Fx {
 
 	ObjectFx<T> repeat(int count) {
 		return new SequenceObjectFx<T>((1..count).collect { this } as List<ObjectFx<T>>)
-		//return new RepeatObjectFx<T>(this, count)
 	}
 
 	ObjectFx<T> withMethod(@Nonnull Easing method) {

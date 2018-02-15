@@ -1,9 +1,9 @@
 package pl.shockah.godwit.animfx.raw
 
 import groovy.transform.CompileStatic
-import pl.shockah.godwit.animfx.Easing
 import pl.shockah.godwit.animfx.Fx
 import pl.shockah.godwit.animfx.RawToObjectBridgeFx
+import pl.shockah.godwit.animfx.ease.Easing
 import pl.shockah.godwit.animfx.object.ObjectFx
 
 import javax.annotation.Nonnull
@@ -18,7 +18,6 @@ trait RawFx extends Fx {
 
 	RawFx repeat(int count) {
 		return new SequenceRawFx((1..count).collect { this } as List<RawFx>)
-		//return new RepeatRawFx(this, count)
 	}
 
 	public <T> ObjectFx<T> asObject(Class<T> clazz) {

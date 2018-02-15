@@ -1,6 +1,7 @@
 package pl.shockah.godwit.animfx
 
 import groovy.transform.CompileStatic
+import pl.shockah.godwit.animfx.ease.Easing
 import pl.shockah.godwit.animfx.object.ObjectFx
 import pl.shockah.godwit.animfx.object.SequenceObjectFx
 import pl.shockah.godwit.animfx.raw.RawFx

@@ -1,20 +1,11 @@
 package pl.shockah.godwit.animfx.raw
 
 import groovy.transform.CompileStatic
-import pl.shockah.godwit.animfx.Easing
-
-import javax.annotation.Nonnull
+import pl.shockah.godwit.animfx.FxImpl
 
 @CompileStatic
-abstract class RawFxImpl implements RawFx {
-	private final float duration
-	@Nonnull Easing method = Easing.linear
-
+abstract class RawFxImpl extends FxImpl implements RawFx {
 	RawFxImpl(float duration) {
-		this.duration = duration
-	}
-
-	float getDuration() {
-		return duration
+		super(duration)
 	}
 }

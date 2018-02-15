@@ -6,6 +6,7 @@ import groovy.transform.CompileStatic
 import pl.shockah.godwit.Godwit
 import pl.shockah.godwit.State
 import pl.shockah.godwit.animfx.*
+import pl.shockah.godwit.animfx.ease.PennerEasing
 import pl.shockah.godwit.animfx.raw.RawClosureFx
 import pl.shockah.godwit.gl.Gfx
 import pl.shockah.godwit.gl.GfxSprite
@@ -24,29 +25,32 @@ class SequenceFxState extends State {
 		Godwit.instance.assetManager.finishLoading()
 
 		sprite = new GfxSprite(new Sprite(Godwit.instance.assetManager.get("question-mark.png", Texture.class)))
-		sprite.x = 16f
-		sprite.y = 16f
+		sprite.setOriginCenter()
 
 		fxes.add(SequenceFx.of([
 				new RawClosureFx(2f, { float f, float previous ->
 					sprite.rotation += f * 90f as float
 				}).withMethod(PennerEasing.elasticInOut).additive().repeat(3),
 				new WaitFx(1f),
-				new RawClosureFx(1f, { float f, float previous ->
+				new RawClosureFx(0.5f, { float f, float previous ->
 					sprite.alpha = 1f - f as float
 				}).withMethod(PennerEasing.sineInOut),
 				new RawClosureFx(1f, { float f, float previous ->
 					sprite.alpha = f
 				}).withMethod(PennerEasing.bounceOut),
 				new ActionFx({
-					println "Done"
-				})
+					float scale = sprite.scale
+					fxes.add(new RawClosureFx(1f, { float f, float previous ->
+						sprite.scale = scale * (1f + f * 0.1f)
+					}).withMethod(PennerEasing.elasticInOut).instance())
+				}),
+				new WaitFx(1f)
 		]).instance(FxInstance.EndAction.Loop))
 	}
 
 	@Override
 	void onRender(@Nonnull Gfx gfx, float x, float y) {
 		super.onRender(gfx, x, y)
-		gfx.draw(sprite, x, y)
+		gfx.draw(sprite, gfx.size / 2)
 	}
 }

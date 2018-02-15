@@ -7,6 +7,9 @@ import groovy.transform.CompileStatic
 import pl.shockah.godwit.Godwit
 import pl.shockah.godwit.State
 import pl.shockah.godwit.animfx.*
+import pl.shockah.godwit.animfx.ease.Easing
+import pl.shockah.godwit.animfx.ease.PennerEasing
+import pl.shockah.godwit.animfx.ease.SmoothstepEasing
 import pl.shockah.godwit.animfx.raw.RawClosureFx
 import pl.shockah.godwit.gl.Gfx
 import pl.shockah.godwit.gl.GfxSprite

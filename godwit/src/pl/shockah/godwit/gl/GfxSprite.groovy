@@ -75,4 +75,17 @@ class GfxSprite implements Renderable {
 	boolean isFlipY() {
 		return !sprite.flipY
 	}
+
+	void setScaleX(float scaleX) {
+		sprite.setScale(scaleX, sprite.scaleX)
+	}
+
+	void setScaleY(float scaleY) {
+		sprite.setScale(sprite.scaleX, scaleY)
+	}
+
+	float getScale() {
+		assert sprite.scaleX == sprite.scaleY
+		return sprite.scaleX
+	}
 }

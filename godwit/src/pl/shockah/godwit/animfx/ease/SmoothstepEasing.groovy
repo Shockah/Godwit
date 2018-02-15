@@ -1,4 +1,4 @@
-package pl.shockah.godwit.animfx
+package pl.shockah.godwit.animfx.ease
 
 import groovy.transform.CompileStatic
 

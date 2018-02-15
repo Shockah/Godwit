@@ -1,6 +1,7 @@
 package pl.shockah.godwit.animfx
 
 import groovy.transform.CompileStatic
+import pl.shockah.godwit.animfx.ease.Easing
 
 import javax.annotation.Nonnull
 

@@ -1,22 +1,21 @@
 package pl.shockah.godwit.animfx
 
 import groovy.transform.CompileStatic
+import pl.shockah.godwit.animfx.ease.Easing
 
 import javax.annotation.Nonnull
 
 @CompileStatic
-abstract class RepeatFx<F extends Fx> implements Fx {
+abstract class ModifierFx<F extends Fx> implements Fx {
 	@Nonnull final F fx
-	final int count
 
-	RepeatFx(@Nonnull F fx, int count) {
+	ModifierFx(@Nonnull F fx) {
 		this.fx = fx
-		this.count = count
 	}
 
 	@Override
 	float getDuration() {
-		return fx.duration * count
+		return fx.duration
 	}
 
 	@Override
@@ -28,4 +27,6 @@ abstract class RepeatFx<F extends Fx> implements Fx {
 	void setMethod(@Nonnull Easing method) {
 		fx.method = method
 	}
+
+	abstract protected float getModifiedValue(float f, float previous)
 }
