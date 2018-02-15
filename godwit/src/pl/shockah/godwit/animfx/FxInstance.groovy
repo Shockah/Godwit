@@ -8,7 +8,7 @@ import javax.annotation.Nullable
 
 @CompileStatic
 class FxInstance<T> {
-	enum EndAction {
+	static enum EndAction {
 		End,
 		Loop,
 		Reverse,
@@ -52,6 +52,7 @@ class FxInstance<T> {
 
 		if (reversed) {
 			if (current < 0f) {
+				fx.finish(object, fx.method.ease(currentBound))
 				switch (endAction) {
 					case EndAction.End:
 					case EndAction.Reverse:
@@ -63,7 +64,7 @@ class FxInstance<T> {
 						update()
 						break
 					case EndAction.ReverseLoop:
-						elapsed = -current * fx.duration
+						elapsed = -current * fx.duration as float
 						reversed = false
 						update()
 						break
@@ -73,6 +74,7 @@ class FxInstance<T> {
 			}
 		} else {
 			if (current >= 1f) {
+				fx.finish(object, fx.method.ease(currentBound))
 				switch (endAction) {
 					case EndAction.End:
 						stopped = true
@@ -84,7 +86,7 @@ class FxInstance<T> {
 						break
 					case EndAction.Reverse:
 					case EndAction.ReverseLoop:
-						elapsed = fx.duration * (1f - (current - 1f))
+						elapsed = fx.duration * (1f - (current - 1f)) as float
 						reversed = true
 						update()
 						break

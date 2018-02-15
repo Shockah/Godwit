@@ -14,7 +14,7 @@ import javax.annotation.Nonnull
 import javax.annotation.Nullable
 
 @CompileStatic
-class AnimationState extends State {
+class EasingState extends State {
 	private List<Easing> methods = [
 			Easing.linear,
 			SmoothstepEasing.smoothstep, SmoothstepEasing.smoothstep2, SmoothstepEasing.smoothstep3,
@@ -38,7 +38,7 @@ class AnimationState extends State {
 			GfxSprite sprite = new GfxSprite(new Sprite(Godwit.instance.assetManager.get("question-mark.png", Texture.class)))
 			//sprite.setOriginCenter()
 			sprite.setSize(16f, 16f)
-			sprite.x = sprites.size() * 18f + 2f
+			sprite.x = sprites.size() * 18f + 2f as float
 			sprite.y = 2f
 			sprites.add(sprite)
 

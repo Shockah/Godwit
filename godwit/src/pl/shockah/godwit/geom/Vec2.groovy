@@ -4,12 +4,14 @@ import com.badlogic.gdx.math.Vector2
 import groovy.transform.CompileStatic
 import groovy.transform.EqualsAndHashCode
 import pl.shockah.godwit.Math2
+import pl.shockah.godwit.animfx.Easable
+import pl.shockah.godwit.animfx.Easing
 
 import javax.annotation.Nonnull
 
 @CompileStatic
 @EqualsAndHashCode
-final class Vec2 {
+final class Vec2 implements Easable<Vec2> {
 	float x
 	float y
 
@@ -147,5 +149,10 @@ final class Vec2 {
 
 	@Nonnull Vec2 getAbs() {
 		return new Vec2(Math.abs(x), Math.abs(y))
+	}
+
+	@Override
+	Vec2 ease(Vec2 other, float f) {
+		return new Vec2(Easing.linear.ease(x, other.x, f), Easing.linear.ease(y, other.y, f))
 	}
 }

@@ -144,19 +144,19 @@ abstract class PennerEasing extends Easing {
 	static final PennerEasing exponentialIn = new PennerEasing() {
 		@Override
 		float ease(float f) {
-			return (f == 0.0f) ? f : Math.pow(2, 10 * (f - 1))
+			return (f == 0f) ? f : Math.pow(2, 10 * (f - 1))
 		}
 	}
 	static final PennerEasing exponentialOut = new PennerEasing() {
 		@Override
 		float ease(float f) {
-			return (f == 1.0f) ? f : 1 - Math.pow(2, -10 * f)
+			return (f == 1f) ? f : 1 - Math.pow(2, -10 * f)
 		}
 	}
 	static final PennerEasing exponentialInOut = new PennerEasing() {
 		@Override
 		float ease(float f) {
-			if (f == 0.0 || f == 1.0)
+			if (f == 0f || f == 1f)
 				return f
 
 			if (f < 0.5f)
@@ -182,9 +182,9 @@ abstract class PennerEasing extends Easing {
 		@Override
 		float ease(float f) {
 			if (f < 0.5f)
-				return 0.5f * MathUtils.sin(13 * MathUtils.PI * 0.5 * (2 * f)) * Math.pow(2, 10 * ((2 * f) - 1))
+				return 0.5f * MathUtils.sin(13 * MathUtils.PI * 0.5f * (2 * f)) * Math.pow(2, 10 * ((2 * f) - 1))
 			else
-				return 0.5f * (MathUtils.sin(-13 * MathUtils.PI * 0.5 * ((2 * f - 1) + 1)) * Math.pow(2, -10 * (2 * f - 1)) + 2)
+				return 0.5f * (MathUtils.sin(-13 * MathUtils.PI * 0.5f * ((2 * f - 1) + 1)) * Math.pow(2, -10 * (2 * f - 1)) + 2)
 		}
 	}
 
