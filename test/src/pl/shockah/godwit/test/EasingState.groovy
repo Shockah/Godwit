@@ -11,7 +11,6 @@ import pl.shockah.godwit.gl.Gfx
 import pl.shockah.godwit.gl.GfxSprite
 
 import javax.annotation.Nonnull
-import javax.annotation.Nullable
 
 @CompileStatic
 class EasingState extends State {
@@ -42,14 +41,11 @@ class EasingState extends State {
 			sprite.y = 2f
 			sprites.add(sprite)
 
-			Fx<GfxSprite> fx = new FxImpl<GfxSprite>(5f) {
-				@Override
-				void update(@Nullable GfxSprite object, float f, float previous) {
-					object.y = Easing.linear.ease(2 + Gdx.graphics.height * 0.2f as float, Gdx.graphics.height * 0.8f - 16 as float, f)
-				}
-			}
+			Fx fx = new RawClosureFx(5f, { float f, float previous ->
+				sprite.y = Easing.linear.ease(2 + Gdx.graphics.height * 0.2f as float, Gdx.graphics.height * 0.8f - 16 as float, f)
+			})
 			fx.method = method
-			fxes.add(fx.instance(sprite, FxInstance.EndAction.ReverseLoop))
+			fxes.add(fx.instance(FxInstance.EndAction.ReverseLoop))
 		}
 	}
 

@@ -5,18 +5,18 @@ import groovy.transform.CompileStatic
 import javax.annotation.Nullable
 
 @CompileStatic
-abstract class RawFx extends FxImpl<Void> {
+abstract class RawFx extends FxImpl<Object> {
 	RawFx(float duration) {
 		super(duration)
 	}
 
 	@Override
-	final void update(@Nullable Void object, float f, float previous) {
+	final void update(@Nullable Object object, float f, float previous) {
 		update(f, previous)
 	}
 
 	@Override
-	final void finish(@Nullable Void object, float f) {
+	final void finish(@Nullable Object object, float f) {
 		finish(f)
 	}
 

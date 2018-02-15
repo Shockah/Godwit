@@ -21,11 +21,11 @@ trait Fx<T> {
 		return new RepeatFx(this, count)
 	}
 
-	FxInstance instance(T object) {
-		return new FxInstance(object, this, FxInstance.EndAction.End)
+	FxInstance instance() {
+		return new FxInstance(this, FxInstance.EndAction.End)
 	}
 
-	FxInstance instance(T object, @Nonnull FxInstance.EndAction endAction) {
-		return new FxInstance(object, this, endAction)
+	FxInstance instance(@Nonnull FxInstance.EndAction endAction) {
+		return new FxInstance(this, endAction)
 	}
 }

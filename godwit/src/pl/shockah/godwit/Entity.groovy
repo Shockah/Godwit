@@ -65,7 +65,7 @@ class Entity implements Renderable {
 
 		for (int i = 0; i < fxes.size(); i++) {
 			FxInstance<? extends Entity> fx = fxes[i]
-			fx.updateDelta()
+			fx.updateDelta(this)
 			if (fx.stopped)
 				fxes.remove(i--)
 		}

@@ -15,7 +15,6 @@ class FxInstance<T> {
 		ReverseLoop
 	}
 
-	@Nullable final T object
 	@Nonnull final Fx<T> fx
 	@Nonnull final EndAction endAction
 	boolean stopped = false
@@ -23,25 +22,24 @@ class FxInstance<T> {
 	protected float previous = 0f
 	protected boolean reversed = false
 
-	FxInstance(@Nullable T object, @Nonnull Fx<T> fx, @Nonnull EndAction endAction) {
-		this.object = object
+	FxInstance(@Nonnull Fx<T> fx, @Nonnull EndAction endAction) {
 		this.fx = fx
 		this.endAction = endAction
 	}
 
-	final void updateDelta() {
-		updateBy(Gdx.graphics.deltaTime)
+	final void updateDelta(@Nullable T object) {
+		updateBy(object, Gdx.graphics.deltaTime)
 	}
 
-	void updateBy(float delta) {
+	void updateBy(@Nullable T object, float delta) {
 		if (stopped)
 			return
 
 		elapsed += delta * (reversed ? -1f : 1f)
-		update()
+		update(object)
 	}
 
-	void update() {
+	void update(@Nullable T object) {
 		if (stopped)
 			return
 
@@ -61,12 +59,12 @@ class FxInstance<T> {
 					case EndAction.Loop:
 						elapsed = fx.duration
 						previous = 1f
-						update()
+						update(object)
 						break
 					case EndAction.ReverseLoop:
 						elapsed = -current * fx.duration as float
 						reversed = false
-						update()
+						update(object)
 						break
 					default:
 						break
@@ -82,13 +80,13 @@ class FxInstance<T> {
 					case EndAction.Loop:
 						elapsed = 0f
 						previous = 0f
-						update()
+						update(object)
 						break
 					case EndAction.Reverse:
 					case EndAction.ReverseLoop:
 						elapsed = fx.duration * (1f - (current - 1f)) as float
 						reversed = true
-						update()
+						update(object)
 						break
 					default:
 						break
