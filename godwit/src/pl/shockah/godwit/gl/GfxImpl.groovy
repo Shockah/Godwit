@@ -20,6 +20,7 @@ import javax.annotation.Nullable
 
 @CompileStatic
 class GfxImpl implements Gfx {
+	protected boolean centeredCamera = true
 	@Nonnull OrthographicCamera camera = new OrthographicCamera()
 	@Nullable Viewport viewport
 
@@ -41,8 +42,21 @@ class GfxImpl implements Gfx {
 
 	@Override
 	void setCameraPosition(@Nonnull IVec2 position) {
+		centeredCamera = false
 		camera.position.x = position.x
 		camera.position.y = position.y
+		updateCamera()
+	}
+
+	private void recenterCameraPosition() {
+		camera.position.x = width * 0.5f as float
+		camera.position.y = height * 0.5f as float
+	}
+
+	@Override
+	void resetCamera() {
+		centeredCamera = true
+		recenterCameraPosition()
 		updateCamera()
 	}
 
@@ -209,6 +223,8 @@ class GfxImpl implements Gfx {
 
 	void updateCamera() {
 		internalEndTick()
+		if (centeredCamera)
+			recenterCameraPosition()
 		Gfx.super.updateCamera()
 	}
 

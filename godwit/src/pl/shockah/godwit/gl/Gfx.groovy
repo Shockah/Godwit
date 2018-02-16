@@ -36,6 +36,8 @@ trait Gfx {
 
 	abstract void setCameraPosition(@Nonnull IVec2 position)
 
+	abstract void resetCamera()
+
 	abstract int getWidth()
 
 	abstract int getHeight()

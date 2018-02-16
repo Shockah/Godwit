@@ -3,7 +3,6 @@ package pl.shockah.godwit
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.Color
 import groovy.transform.CompileStatic
-import pl.shockah.godwit.geom.Vec2
 import pl.shockah.godwit.gl.BlendMode
 import pl.shockah.godwit.gl.GfxContextManager
 import pl.shockah.godwit.gl.GfxImpl
@@ -39,7 +38,7 @@ final class Godwit {
 			state?.destroy()
 			state = newState
 			newState = null
-			gfx.cameraPosition = new Vec2()
+			gfx.resetCamera()
 			state.create()
 		}
 

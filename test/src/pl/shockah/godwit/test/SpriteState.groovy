@@ -42,7 +42,8 @@ class SpriteState extends State {
 
 		int offsetX = (r ? 1 : 0) - (l ? 1 : 0)
 		int offsetY = (d ? 1 : 0) - (u ? 1 : 0)
-		sprite.setOrigin(sprite.origin + new Vec2(offsetX, offsetY) * 4)
+		sprite.origin += new Vec2(offsetX, offsetY) * 4
+		sprite.offset = sprite.origin.mutableCopy
 
 		if (l || r || u || d) {
 			sprite.rotation = 0f
