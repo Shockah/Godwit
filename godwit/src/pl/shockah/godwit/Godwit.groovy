@@ -1,5 +1,6 @@
 package pl.shockah.godwit
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.Color
 import groovy.transform.CompileStatic
@@ -18,6 +19,10 @@ final class Godwit {
 	@Nullable protected State newState
 	@Nonnull final GfxImpl gfx = new GfxImpl()
 	@Nonnull final AssetManager assetManager = new AssetManager()
+	protected boolean isFirstTick = true
+	boolean waitForDeltaToStabilize = true
+	boolean renderFirstTickWhenWaitingForDeltaToStabilize = false
+	@Nonnull protected final List<Float> deltas = []
 
 	@Nonnull static Godwit getInstance() {
 		if (!instance)
@@ -34,6 +39,41 @@ final class Godwit {
 	}
 
 	void tick() {
+		if (waitForDeltaToStabilize) {
+			deltas.add(Gdx.graphics.deltaTime)
+			if (isFirstTick) {
+				isFirstTick = false
+				if (renderFirstTickWhenWaitingForDeltaToStabilize) {
+					runStateCreation()
+					runRender()
+				}
+				return
+			} else {
+				if (deltas.size() >= 5) {
+					float min = deltas.min() as float
+					float max = deltas.max() as float
+					if (min == 0f)
+						return
+
+					float difference = max - min as float
+					float average = (deltas.sum() as float) / deltas.size() as float
+					deltas.remove(0)
+
+					float min2 = Math.min(difference, average)
+					float max2 = Math.max(difference, average)
+					if (min2 / max2 < 0.8f)
+						return
+					waitForDeltaToStabilize = false
+				}
+			}
+		}
+
+		runStateCreation()
+		runUpdate()
+		runRender()
+	}
+
+	private void runStateCreation() {
 		if (newState) {
 			state?.destroy()
 			state = newState
@@ -41,9 +81,13 @@ final class Godwit {
 			gfx.resetCamera()
 			state.create()
 		}
+	}
 
+	private void runUpdate() {
 		state?.update()
+	}
 
+	private void runRender() {
 		GfxContextManager.bindSurface(null)
 		gfx.updateCamera()
 		gfx.clear(Color.BLACK)
