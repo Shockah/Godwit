@@ -41,6 +41,24 @@ abstract class Shape {
 		}
 
 		abstract boolean contains(float x, float y)
+
+		@Nonnull Entity asFilledEntity() {
+			return new Entity(this)
+		}
+
+		static class Entity extends pl.shockah.godwit.Entity {
+			@Nonnull @Delegate(interfaces = false, excludes = "asFilledEntity") final Filled shape
+
+			Entity(Filled shape) {
+				this.shape = shape
+			}
+
+			@Override
+			void onRender(@Nonnull Gfx gfx, float x, float y) {
+				super.onRender(gfx, x, y)
+				gfx.drawFilled(shape, x, y)
+			}
+		}
 	}
 
 	@SelfType(Shape)
@@ -50,5 +68,23 @@ abstract class Shape {
 		}
 
 		abstract void drawOutline(@Nonnull Gfx gfx, float x, float y)
+
+		@Nonnull Entity asOutlineEntity() {
+			return new Entity(this)
+		}
+
+		static class Entity extends pl.shockah.godwit.Entity {
+			@Nonnull @Delegate(interfaces = false, excludes = "asOutlineEntity") final Outline shape
+
+			Entity(Outline shape) {
+				this.shape = shape
+			}
+
+			@Override
+			void onRender(@Nonnull Gfx gfx, float x, float y) {
+				super.onRender(gfx, x, y)
+				gfx.drawOutline(shape, x, y)
+			}
+		}
 	}
 }

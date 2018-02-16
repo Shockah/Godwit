@@ -165,6 +165,6 @@ class Rectangle extends Shape implements Polygonable, Shape.Filled, Shape.Outlin
 
 	@Override
 	Rectangle ease(Rectangle other, float f) {
-		return new Rectangle(position.ease(other.position, f), size.ease(other.size, f))
+		return centered(center.ease(other.center, f), size.ease(other.size, f))
 	}
 }

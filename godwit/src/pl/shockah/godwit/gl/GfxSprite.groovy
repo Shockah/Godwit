@@ -88,4 +88,26 @@ class GfxSprite implements Renderable {
 		assert sprite.scaleX == sprite.scaleY
 		return sprite.scaleX
 	}
+
+	Entity asEntity() {
+		return new Entity(this)
+	}
+
+	static class Entity extends pl.shockah.godwit.Entity {
+		@Nonnull @Delegate(excludes = "asEntity") final GfxSprite sprite
+
+		Entity(@Nonnull Sprite sprite) {
+			this(new GfxSprite(sprite))
+		}
+
+		Entity(@Nonnull GfxSprite sprite) {
+			this.sprite = sprite
+		}
+
+		@Override
+		void onRender(@Nonnull Gfx gfx, float x, float y) {
+			super.onRender(gfx, x, y)
+			gfx.draw(sprite, x, y)
+		}
+	}
 }

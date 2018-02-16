@@ -41,7 +41,7 @@ class SequenceFxState extends State {
 				new ActionFx({
 					float scale = sprite.scale
 					fxes.add(new RawClosureFx(1f, { float f, float previous ->
-						sprite.scale = scale * (1f + f * 0.1f)
+						sprite.scale = scale * (1f + f * 0.1f) as float
 					}).withMethod(PennerEasing.elasticInOut).instance())
 				}),
 				new WaitFx(1f)
