@@ -35,6 +35,11 @@ final class Vec2 extends IVec2<Vec2> {
 		return new Vec2(Math2.ldirX(dist, angle), Math2.ldirY(dist, angle))
 	}
 
+	void set(IVec2 v) {
+		x = v.x
+		y = v.y
+	}
+
 	@Override
 	String toString() {
 		return String.format("[%.2f, %.2f]", x, y)

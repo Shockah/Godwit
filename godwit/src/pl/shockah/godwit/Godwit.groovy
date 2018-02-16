@@ -39,13 +39,13 @@ final class Godwit {
 			state?.destroy()
 			state = newState
 			newState = null
+			gfx.cameraPosition = new Vec2()
 			state.create()
 		}
 
 		state?.update()
 
 		GfxContextManager.bindSurface(null)
-		gfx.offset = new Vec2()
 		gfx.updateCamera()
 		gfx.clear(Color.BLACK)
 		gfx.blendMode = BlendMode.Normal

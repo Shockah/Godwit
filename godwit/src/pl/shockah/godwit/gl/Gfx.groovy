@@ -32,9 +32,9 @@ trait Gfx {
 
 	abstract void setCamera(@Nonnull OrthographicCamera camera)
 
-	@Nonnull abstract Vec2 getOffset()
+	@Nonnull abstract IVec2 getCameraPosition()
 
-	abstract void setOffset(@Nonnull Vec2 offset)
+	abstract void setCameraPosition(@Nonnull IVec2 position)
 
 	abstract int getWidth()
 
@@ -133,7 +133,6 @@ trait Gfx {
 	abstract void clear(@Nonnull Color c)
 
 	void updateCamera() {
-		viewport.setScreenPosition(offset.x as int, -offset.y as int)
 		viewport.apply()
 		camera.update()
 		updateCombinedCamera(camera.combined)
