@@ -32,9 +32,9 @@ trait Gfx {
 
 	abstract void setCamera(@Nonnull OrthographicCamera camera)
 
-	@Nonnull abstract IVec2 getOffset()
+	@Nonnull abstract Vec2 getOffset()
 
-	abstract void setOffset(@Nonnull IVec2 offset)
+	abstract void setOffset(@Nonnull Vec2 offset)
 
 	abstract int getWidth()
 

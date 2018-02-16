@@ -10,7 +10,6 @@ import com.badlogic.gdx.math.Matrix4
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 import com.badlogic.gdx.utils.viewport.Viewport
 import groovy.transform.CompileStatic
-import pl.shockah.godwit.geom.IVec2
 import pl.shockah.godwit.geom.Shape
 import pl.shockah.godwit.geom.Vec2
 
@@ -21,7 +20,7 @@ import javax.annotation.Nullable
 class GfxImpl implements Gfx {
 	@Nonnull OrthographicCamera camera = new OrthographicCamera()
 	@Nullable Viewport viewport
-	@Nonnull IVec2 offset = new Vec2()
+	@Nonnull Vec2 offset = new Vec2()
 
 	private boolean spritesMode = false
 	@Nonnull private final SpriteBatch sprites = new SpriteBatch()

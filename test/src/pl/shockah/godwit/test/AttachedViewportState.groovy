@@ -32,7 +32,7 @@ class AttachedViewportState extends State implements Configurable {
 		gfx.clear(Color.GRAY)
 
 		(entities.find { it instanceof AttachmentEntity } as AttachmentEntity)?.with {
-			gfx.offset = gfx.size / 2 - it.pos
+			gfx.offset = (gfx.size / 2 - it.pos).mutableCopy
 			gfx.updateCamera()
 		}
 
