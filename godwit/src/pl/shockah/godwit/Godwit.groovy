@@ -52,18 +52,19 @@ final class Godwit {
 				if (deltas.size() >= 5) {
 					float min = deltas.min() as float
 					float max = deltas.max() as float
+					float average = (deltas.sum() as float) / deltas.size() as float
+					deltas.remove(0)
 					if (min == 0f)
 						return
 
 					float difference = max - min as float
-					float average = (deltas.sum() as float) / deltas.size() as float
-					deltas.remove(0)
-
 					float min2 = Math.min(difference, average)
 					float max2 = Math.max(difference, average)
-					if (min2 / max2 < 0.8f)
+					if (min2 / max2 > 0.2f)
 						return
 					waitForDeltaToStabilize = false
+				} else {
+					return
 				}
 			}
 		}
