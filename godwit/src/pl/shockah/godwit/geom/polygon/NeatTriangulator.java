@@ -1,8 +1,9 @@
 package pl.shockah.godwit.geom.polygon;
 
-import pl.shockah.godwit.geom.Vec2;
-
 import javax.annotation.Nonnull;
+
+import pl.shockah.godwit.geom.IVec2;
+import pl.shockah.godwit.geom.Vec2;
 
 /*
  * code taken from Slick2D - http://slick.ninjacave.com/
@@ -212,7 +213,7 @@ public class NeatTriangulator implements Triangulator {
 	}
 
 	@Override
-	public void addPolyPoint(@Nonnull Vec2 point) {
+	public void addPolyPoint(@Nonnull IVec2 point) {
 		for (int i = 0; i < numPoints; i++) {
 			if (pointsX[i] == point.getX() && pointsY[i] == point.getY()) {
 				point = new Vec2(point.getX(), point.getY() + offset);
@@ -268,7 +269,7 @@ public class NeatTriangulator implements Triangulator {
 	}
 
 	@Override
-	@Nonnull public Vec2 trianglePoint(int tri, int i) {
+	@Nonnull public IVec2 trianglePoint(int tri, int i) {
 		float xp = pointsX[triangles[tri].v[i]];
 		float yp = pointsY[triangles[tri].v[i]];
 		return new Vec2(xp, yp);

@@ -21,19 +21,19 @@ abstract class SequenceFx<F extends Fx> implements Fx {
 		this.fxes = new ArrayList<>(fxes)
 	}
 
-	static SequenceRawFx of(RawFx... fxes) {
+	static SequenceRawFx ofRaw(RawFx... fxes) {
 		return new SequenceRawFx(fxes)
 	}
 
-	static SequenceRawFx of(List<? extends RawFx> fxes) {
+	static SequenceRawFx ofRaw(List<? extends RawFx> fxes) {
 		return new SequenceRawFx(fxes)
 	}
 
-	static <T2> SequenceObjectFx<T2> of(ObjectFx<? extends T2>... fxes) {
+	static <T2> SequenceObjectFx<T2> ofObject(ObjectFx<? extends T2>... fxes) {
 		return new SequenceObjectFx<>(fxes)
 	}
 
-	static <T2> SequenceObjectFx<T2> of(List<? extends ObjectFx<? extends T2>> fxes) {
+	static <T2> SequenceObjectFx<T2> ofObject(List<? extends ObjectFx<? extends T2>> fxes) {
 		return new SequenceObjectFx<>(fxes)
 	}
 

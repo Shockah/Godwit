@@ -18,7 +18,7 @@ trait RawFx extends Fx {
 	}
 
 	RawFx repeat(int count) {
-		return SequenceFx.of((1..count).collect { this })
+		return SequenceFx.ofRaw((1..count).collect { this })
 	}
 
 	public <T> ObjectFx<T> asObject(Class<T> clazz) {

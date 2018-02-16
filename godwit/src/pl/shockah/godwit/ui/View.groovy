@@ -2,6 +2,7 @@ package pl.shockah.godwit.ui
 
 import com.badlogic.gdx.graphics.Color
 import groovy.transform.CompileStatic
+import pl.shockah.godwit.geom.IVec2
 import pl.shockah.godwit.geom.Rectangle
 import pl.shockah.godwit.geom.Vec2
 import pl.shockah.godwit.gl.Gfx
@@ -31,7 +32,7 @@ class View implements Renderable {
 		}
 	}
 
-	@Nonnull Vec2 getIntrinsicSize(@Nonnull Vec2 availableSize) {
+	@Nonnull IVec2 getIntrinsicSize(@Nonnull IVec2 availableSize) {
 		return new Vec2()
 	}
 

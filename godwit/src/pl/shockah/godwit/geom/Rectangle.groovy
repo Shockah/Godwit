@@ -20,15 +20,15 @@ class Rectangle extends Shape implements Polygonable, Shape.Filled, Shape.Outlin
 		return centered(new Vec2(x, y), new Vec2(w, h))
 	}
 
-	static Rectangle centered(float x, float y, @Nonnull Vec2 size) {
+	static Rectangle centered(float x, float y, @Nonnull IVec2 size) {
 		return centered(new Vec2(x, y), size)
 	}
 
-	static Rectangle centered(@Nonnull Vec2 position, float w, float h) {
+	static Rectangle centered(@Nonnull IVec2 position, float w, float h) {
 		return centered(position, new Vec2(w, h))
 	}
 
-	static Rectangle centered(@Nonnull Vec2 position, @Nonnull Vec2 size) {
+	static Rectangle centered(@Nonnull IVec2 position, @Nonnull IVec2 size) {
 		return new Rectangle(position - size * 0.5f, size)
 	}
 
@@ -36,7 +36,7 @@ class Rectangle extends Shape implements Polygonable, Shape.Filled, Shape.Outlin
 		return centered(new Vec2(x, y), new Vec2(l, l))
 	}
 
-	static Rectangle centered(@Nonnull Vec2 position, float l) {
+	static Rectangle centered(@Nonnull IVec2 position, float l) {
 		return centered(position, new Vec2(l, l))
 	}
 
@@ -44,7 +44,7 @@ class Rectangle extends Shape implements Polygonable, Shape.Filled, Shape.Outlin
 		return centered(new Vec2(), new Vec2(w, h))
 	}
 
-	static Rectangle centered(@Nonnull Vec2 size) {
+	static Rectangle centered(@Nonnull IVec2 size) {
 		return centered(new Vec2(), size)
 	}
 
@@ -52,24 +52,24 @@ class Rectangle extends Shape implements Polygonable, Shape.Filled, Shape.Outlin
 		this(new Vec2(x, y), new Vec2(w, h))
 	}
 
-	Rectangle(float x, float y, @Nonnull Vec2 size) {
+	Rectangle(float x, float y, @Nonnull IVec2 size) {
 		this(new Vec2(x, y), size)
 	}
 
-	Rectangle(@Nonnull Vec2 position, float w, float h) {
+	Rectangle(@Nonnull IVec2 position, float w, float h) {
 		this(position, new Vec2(w, h))
 	}
 
-	Rectangle(@Nonnull Vec2 position, @Nonnull Vec2 size) {
-		this.position = position
-		this.size = size
+	Rectangle(@Nonnull IVec2 position, @Nonnull IVec2 size) {
+		this.position = position.mutableCopy
+		this.size = size.mutableCopy
 	}
 
 	Rectangle(float x, float y, float l) {
 		this(new Vec2(x, y), new Vec2(l, l))
 	}
 
-	Rectangle(@Nonnull Vec2 pos, float l) {
+	Rectangle(@Nonnull IVec2 pos, float l) {
 		this(pos, new Vec2(l, l))
 	}
 
@@ -77,7 +77,7 @@ class Rectangle extends Shape implements Polygonable, Shape.Filled, Shape.Outlin
 		this(new Vec2(), new Vec2(w, h))
 	}
 
-	Rectangle(@Nonnull Vec2 size) {
+	Rectangle(@Nonnull IVec2 size) {
 		this(new Vec2(), size)
 	}
 
@@ -100,7 +100,7 @@ class Rectangle extends Shape implements Polygonable, Shape.Filled, Shape.Outlin
 		return copyRectangle()
 	}
 
-	@Nonnull Vec2 getCenter() {
+	@Nonnull IVec2 getCenter() {
 		return position + size * 0.5f
 	}
 
@@ -164,7 +164,7 @@ class Rectangle extends Shape implements Polygonable, Shape.Filled, Shape.Outlin
 	}
 
 	@Override
-	Rectangle ease(Rectangle other, float f) {
+	@Nonnull Rectangle ease(@Nonnull Rectangle other, float f) {
 		return centered(center.ease(other.center, f), size.ease(other.size, f))
 	}
 }

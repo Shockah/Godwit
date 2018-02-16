@@ -1,6 +1,7 @@
 package pl.shockah.godwit.ui
 
 import groovy.transform.CompileStatic
+import pl.shockah.godwit.geom.IVec2
 import pl.shockah.godwit.geom.Shape
 import pl.shockah.godwit.geom.Vec2
 import pl.shockah.godwit.gl.Gfx
@@ -17,7 +18,7 @@ abstract class ShapeView<T extends Shape> extends View {
 	}
 
 	@Override
-	Vec2 getIntrinsicSize(@Nonnull Vec2 availableSize) {
+	IVec2 getIntrinsicSize(@Nonnull IVec2 availableSize) {
 		return shape?.boundingBox?.size ?: new Vec2()
 	}
 
@@ -30,7 +31,7 @@ abstract class ShapeView<T extends Shape> extends View {
 		void onRender(@Nonnull Gfx gfx, float x, float y) {
 			super.onRender(gfx, x, y)
 			shape?.with {
-				gfx.drawFilled(this as Shape.Filled, -boundingBox.position + new Vec2(x, y))
+				((Shape.Filled)it).drawFilled(gfx, -boundingBox.position + new Vec2(x, y))
 			}
 		}
 	}
@@ -44,7 +45,7 @@ abstract class ShapeView<T extends Shape> extends View {
 		void onRender(@Nonnull Gfx gfx, float x, float y) {
 			super.onRender(gfx, x, y)
 			shape?.with {
-				gfx.drawOutline(this as Shape.Outline, -boundingBox.position + new Vec2(x, y))
+				((Shape.Outline)it).drawOutline(gfx, -boundingBox.position + new Vec2(x, y))
 			}
 		}
 	}

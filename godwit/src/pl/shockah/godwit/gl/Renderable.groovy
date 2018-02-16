@@ -1,7 +1,7 @@
 package pl.shockah.godwit.gl
 
 import groovy.transform.CompileStatic
-import pl.shockah.godwit.geom.Vec2
+import pl.shockah.godwit.geom.IVec2
 
 import javax.annotation.Nonnull
 
@@ -21,7 +21,7 @@ abstract trait Renderable {
 		onRender(gfx, 0f, 0f)
 	}
 
-	void onRender(@Nonnull Gfx gfx, @Nonnull Vec2 offset) {
+	void onRender(@Nonnull Gfx gfx, @Nonnull IVec2 offset) {
 		onRender(gfx, offset.x, offset.y)
 	}
 

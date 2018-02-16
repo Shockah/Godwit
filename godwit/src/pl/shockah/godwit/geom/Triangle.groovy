@@ -22,34 +22,34 @@ class Triangle extends Shape implements Polygonable, Shape.Filled, Shape.Outline
 		this(new Vec2(x1, y1), new Vec2(x2, y2), new Vec2(x3, y3))
 	}
 
-	Triangle(float x1, float y1, @Nonnull Vec2 point2, float x3, float y3) {
+	Triangle(float x1, float y1, @Nonnull IVec2 point2, float x3, float y3) {
 		this(new Vec2(x1, y1), point2, new Vec2(x3, y3))
 	}
 
-	Triangle(@Nonnull Vec2 point1, float x2, float y2, float x3, float y3) {
+	Triangle(@Nonnull IVec2 point1, float x2, float y2, float x3, float y3) {
 		this(point1, new Vec2(x2, y2), new Vec2(x3, y3))
 	}
 
-	Triangle(float x1, float y1, float x2, float y2, @Nonnull Vec2 point3) {
+	Triangle(float x1, float y1, float x2, float y2, @Nonnull IVec2 point3) {
 		this(new Vec2(x1, y1), new Vec2(x2, y2), point3)
 	}
 
-	Triangle(float x1, float y1, @Nonnull Vec2 point2, @Nonnull Vec2 point3) {
+	Triangle(float x1, float y1, @Nonnull IVec2 point2, @Nonnull IVec2 point3) {
 		this(new Vec2(x1, y1), point2, point3)
 	}
 
-	Triangle(@Nonnull Vec2 point1, float x2, float y2, @Nonnull Vec2 point3) {
+	Triangle(@Nonnull IVec2 point1, float x2, float y2, @Nonnull IVec2 point3) {
 		this(point1, new Vec2(x2, y2), point3)
 	}
 
-	Triangle(@Nonnull Vec2 point1, @Nonnull Vec2 point2, float x3, float y3) {
+	Triangle(@Nonnull IVec2 point1, @Nonnull IVec2 point2, float x3, float y3) {
 		this(point1, point2, new Vec2(x3, y3))
 	}
 
-	Triangle(@Nonnull Vec2 point1, @Nonnull Vec2 point2, @Nonnull Vec2 point3) {
-		this.point1 = point1
-		this.point2 = point2
-		this.point3 = point3
+	Triangle(@Nonnull IVec2 point1, @Nonnull IVec2 point2, @Nonnull IVec2 point3) {
+		this.point1 = point1.mutableCopy
+		this.point2 = point2.mutableCopy
+		this.point3 = point3.mutableCopy
 	}
 
 	@Override
@@ -121,7 +121,7 @@ class Triangle extends Shape implements Polygonable, Shape.Filled, Shape.Outline
 	}
 
 	@Override
-	Triangle ease(Triangle other, float f) {
+	@Nonnull Triangle ease(@Nonnull Triangle other, float f) {
 		return new Triangle(
 				point1.ease(other.point1, f),
 				point2.ease(other.point2, f),

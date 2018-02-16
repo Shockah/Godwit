@@ -1,31 +1,32 @@
 package pl.shockah.godwit.ui
 
 import groovy.transform.CompileStatic
-import pl.shockah.godwit.geom.Vec2
+import pl.shockah.godwit.geom.IVec2
+import pl.shockah.godwit.geom.ImmutableVec2
 
 import javax.annotation.Nonnull
 
 @CompileStatic
 enum WritingDirection {
-	LeftToRightAndTopToBottom(new Vec2(1, 0), new Vec2(0, 1)),
-	RightToLeftAndTopToBottom(new Vec2(-1, 0), new Vec2(0, 1)),
-	LeftToRightAndBottomToTop(new Vec2(1, 0), new Vec2(0, -1)),
-	RightToLeftAndBottomToTop(new Vec2(-1, 0), new Vec2(0, -1)),
-	TopToBottomAndLeftToRight(new Vec2(0, 1), new Vec2(1, 0)),
-	BottomToTopAndLeftToRight(new Vec2(0, -1), new Vec2(1, 0)),
-	TopToBottomAndRightToLeft(new Vec2(0, 1), new Vec2(-1, 0)),
-	BottomToTopAndRightToLeft(new Vec2(0, -1), new Vec2(-1, 0))
+	LeftToRightAndTopToBottom(new ImmutableVec2(1, 0), new ImmutableVec2(0, 1)),
+	RightToLeftAndTopToBottom(new ImmutableVec2(-1, 0), new ImmutableVec2(0, 1)),
+	LeftToRightAndBottomToTop(new ImmutableVec2(1, 0), new ImmutableVec2(0, -1)),
+	RightToLeftAndBottomToTop(new ImmutableVec2(-1, 0), new ImmutableVec2(0, -1)),
+	TopToBottomAndLeftToRight(new ImmutableVec2(0, 1), new ImmutableVec2(1, 0)),
+	BottomToTopAndLeftToRight(new ImmutableVec2(0, -1), new ImmutableVec2(1, 0)),
+	TopToBottomAndRightToLeft(new ImmutableVec2(0, 1), new ImmutableVec2(-1, 0)),
+	BottomToTopAndRightToLeft(new ImmutableVec2(0, -1), new ImmutableVec2(-1, 0))
 
-	@Nonnull final Vec2 rowVector
-	@Nonnull final Vec2 columnVector
+	@Nonnull final IVec2 rowVector
+	@Nonnull final IVec2 columnVector
 
-	private WritingDirection(@Nonnull Vec2 rowVector, @Nonnull Vec2 columnVector) {
+	private WritingDirection(@Nonnull IVec2 rowVector, @Nonnull IVec2 columnVector) {
 		this.rowVector = rowVector
 		this.columnVector = columnVector
 	}
 
-	@Nonnull Vec2 getCorner() {
-		return new Vec2(isLeftToRight() ? 0 : 1, isTopToBottom() ? 0 : 1)
+	@Nonnull IVec2 getCorner() {
+		return new ImmutableVec2(isLeftToRight() ? 0 : 1, isTopToBottom() ? 0 : 1)
 	}
 
 	boolean isLeftToRight() {

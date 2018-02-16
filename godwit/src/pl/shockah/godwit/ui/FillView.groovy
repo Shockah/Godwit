@@ -1,6 +1,7 @@
 package pl.shockah.godwit.ui
 
 import groovy.transform.CompileStatic
+import pl.shockah.godwit.geom.IVec2
 import pl.shockah.godwit.geom.Vec2
 import pl.shockah.godwit.gl.Gfx
 import pl.shockah.godwit.gl.GfxSlice
@@ -48,10 +49,10 @@ class FillView extends ViewHolder<Void> {
 		innerView?.onLayout()
 	}
 
-	private void adjustBounds(@Nonnull Vec2 size) {
+	private void adjustBounds(@Nonnull IVec2 size) {
 		cachedSize = new Vec2(size.x, size.y)
 		bounds.size = cachedSize
-		innerView?.bounds?.position = padding.topLeftVector
+		innerView?.bounds?.position = padding.topLeftVector.mutableCopy
 		innerView?.bounds?.size = cachedSize - padding.vector
 		onLayout()
 	}
@@ -68,7 +69,7 @@ class FillView extends ViewHolder<Void> {
 	}
 
 	@Override
-	@Nonnull Vec2 getIntrinsicSize(@Nonnull Vec2 availableSize) {
+	@Nonnull IVec2 getIntrinsicSize(@Nonnull IVec2 availableSize) {
 		return (innerView?.getIntrinsicSize(availableSize - padding.vector) ?: new Vec2()) + padding.vector
 	}
 }

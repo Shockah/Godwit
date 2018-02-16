@@ -27,8 +27,8 @@ class Circle extends Shape implements Polygonable, Shape.Filled, Shape.Outline, 
 		this(new Vec2(), radius)
 	}
 
-	Circle(@Nonnull Vec2 position, float radius) {
-		this.position = position
+	Circle(@Nonnull IVec2 position, float radius) {
+		this.position = position.mutableCopy
 		this.radius = radius
 	}
 
@@ -118,7 +118,7 @@ class Circle extends Shape implements Polygonable, Shape.Filled, Shape.Outline, 
 	}
 
 	@Override
-	Circle ease(Circle other, float f) {
+	@Nonnull Circle ease(@Nonnull Circle other, float f) {
 		return new Circle(position.ease(other.position, f), Easing.linear.ease(radius, other.radius, f))
 	}
 }

@@ -28,7 +28,7 @@ class SpriteState extends State {
 		Godwit.instance.assetManager.finishLoading()
 
 		sprite = new GfxSprite(new Sprite(Godwit.instance.assetManager.get("abstract-480-320.jpg", Texture.class)))
-		sprite.setOriginCenter()
+		sprite.center()
 	}
 
 	@Override

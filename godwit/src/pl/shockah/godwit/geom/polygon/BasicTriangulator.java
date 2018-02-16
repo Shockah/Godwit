@@ -1,21 +1,22 @@
 package pl.shockah.godwit.geom.polygon;
 
-import pl.shockah.godwit.geom.Vec2;
-
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.annotation.Nonnull;
+
+import pl.shockah.godwit.geom.IVec2;
 
 /*
  * code taken from Slick2D - http://slick.ninjacave.com/
  */
 public class BasicTriangulator implements Triangulator {
 	private static final float EPSILON = 0.0000000001f;
-	private List<Vec2> poly = new ArrayList<>(), tris = new ArrayList<>();
+	private List<IVec2> poly = new ArrayList<>(), tris = new ArrayList<>();
 	private boolean tried;
 
 	@Override
-	public void addPolyPoint(@Nonnull Vec2 point) {
+	public void addPolyPoint(@Nonnull IVec2 point) {
 		if (!poly.contains(point))
 			poly.add(point);
 	}
@@ -24,7 +25,7 @@ public class BasicTriangulator implements Triangulator {
 		return poly.size();
 	}
 
-	public Vec2 polyPoint(int index) {
+	public IVec2 polyPoint(int index) {
 		return poly.get(index);
 	}
 
@@ -42,19 +43,19 @@ public class BasicTriangulator implements Triangulator {
 	}
 
 	@Override
-	@Nonnull public Vec2 trianglePoint(int tri, int i) {
+	@Nonnull public IVec2 trianglePoint(int tri, int i) {
 		if (!tried)
 			triangulate();
 		return tris.get(tri * 3 + i);
 	}
 
-	private float area(List<Vec2> contour) {
+	private float area(List<IVec2> contour) {
 		int n = contour.size();
 
 		float A = 0f;
 		for (int p = n - 1, q = 0; q < n; p = q++) {
-			Vec2 contourP = contour.get(p);
-			Vec2 contourQ = contour.get(q);
+			IVec2 contourP = contour.get(p);
+			IVec2 contourQ = contour.get(q);
 			A += contourP.getX() * contourQ.getY() - contourQ.getX() * contourP.getY();
 		}
 		return A * .5f;
@@ -83,7 +84,7 @@ public class BasicTriangulator implements Triangulator {
 		return aCROSSbp >= 0f && bCROSScp >= 0f && cCROSSap >= 0f;
 	}
 
-	private boolean snip(List<Vec2> contour, int u, int v, int w, int n, int[] V) {
+	private boolean snip(List<IVec2> contour, int u, int v, int w, int n, int[] V) {
 		int p;
 		double Ax, Ay, Bx, By, Cx, Cy, Px, Py;
 
@@ -109,7 +110,7 @@ public class BasicTriangulator implements Triangulator {
 		return true;
 	}
 
-	private boolean process(List<Vec2> contour, List<Vec2> result) {
+	private boolean process(List<IVec2> contour, List<IVec2> result) {
 		result.clear();
 
 		int n = contour.size();

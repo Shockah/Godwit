@@ -10,7 +10,7 @@ import javax.annotation.Nonnull
 
 @CompileStatic
 class Polygon extends Shape implements Shape.Filled, Shape.Outline {
-	@Nonnull protected List<Vec2> points = []
+	@Nonnull protected List<IVec2> points = []
 	@Nonnull protected List<Triangle> triangulated = []
 	protected boolean dirty = true
 	boolean closed = true
@@ -50,7 +50,7 @@ class Polygon extends Shape implements Shape.Filled, Shape.Outline {
 	@Override
 	int hashCode() {
 		BigInteger hash = 0
-		for (Vec2 point : points) {
+		for (IVec2 point : points) {
 			hash *= 31 * 31
 			hash += point.hashCode()
 		}
@@ -62,7 +62,7 @@ class Polygon extends Shape implements Shape.Filled, Shape.Outline {
 		float[] x = new float[points.size()]
 		float[] y = new float[points.size()]
 		for (int i in 0..<points.size()) {
-			Vec2 v = points[i]
+			IVec2 v = points[i]
 			x[i] = v.x
 			y[i] = v.y
 		}
@@ -93,7 +93,7 @@ class Polygon extends Shape implements Shape.Filled, Shape.Outline {
 		if (!dirty)
 			return
 		def triangulator = triangulator()
-		for (Vec2 point : points) {
+		for (IVec2 point : points) {
 			triangulator.addPolyPoint(point)
 		}
 
@@ -109,7 +109,7 @@ class Polygon extends Shape implements Shape.Filled, Shape.Outline {
 		addPoint(new Vec2(x, y))
 	}
 
-	void addPoint(Vec2 v) {
+	void addPoint(IVec2 v) {
 		points.add(v)
 		dirty = true
 	}
@@ -130,11 +130,11 @@ class Polygon extends Shape implements Shape.Filled, Shape.Outline {
 		return false
 	}
 
-	@Nonnull Vec2 getAt(int index) {
+	@Nonnull IVec2 getAt(int index) {
 		return points[index]
 	}
 
-	void putAt(int index, Vec2 value) {
+	void putAt(int index, IVec2 value) {
 		points[index] = value
 		dirty = true
 	}
@@ -164,8 +164,8 @@ class Polygon extends Shape implements Shape.Filled, Shape.Outline {
 		def size = points.size()
 		def loopSize = closed ? size : (size - 1)
 		for (int i in 0..<loopSize) {
-			Vec2 v1 = points[i]
-			Vec2 v2 = points[(i + 1) % size]
+			IVec2 v1 = points[i]
+			IVec2 v2 = points[(i + 1) % size]
 			gfx.shapeRenderer.line(x + v1.x as float, y + v1.y as float, x + v2.x as float, y + v2.y as float)
 		}
 	}

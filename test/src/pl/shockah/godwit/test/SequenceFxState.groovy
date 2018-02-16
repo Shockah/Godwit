@@ -25,9 +25,9 @@ class SequenceFxState extends State {
 		Godwit.instance.assetManager.finishLoading()
 
 		sprite = new GfxSprite(new Sprite(Godwit.instance.assetManager.get("question-mark.png", Texture.class)))
-		sprite.setOriginCenter()
+		sprite.center()
 
-		fxes.add(SequenceFx.of([
+		fxes.add(SequenceFx.ofRaw([
 				new RawClosureFx(2f, { float f, float previous ->
 					sprite.rotation += f * 90f as float
 				}).withMethod(PennerEasing.elasticInOut).additive().repeat(3),

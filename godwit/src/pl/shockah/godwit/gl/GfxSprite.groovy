@@ -2,6 +2,8 @@ package pl.shockah.godwit.gl
 
 import com.badlogic.gdx.graphics.g2d.Sprite
 import groovy.transform.CompileStatic
+import pl.shockah.godwit.geom.IVec2
+import pl.shockah.godwit.geom.ImmutableVec2
 import pl.shockah.godwit.geom.Vec2
 
 import javax.annotation.Nonnull
@@ -9,6 +11,7 @@ import javax.annotation.Nonnull
 @CompileStatic
 class GfxSprite implements Renderable {
 	@Nonnull @Delegate final Sprite sprite
+	@Nonnull Vec2 offset = new Vec2()
 
 	GfxSprite(@Nonnull Sprite sprite) {
 		this.sprite = sprite
@@ -20,8 +23,7 @@ class GfxSprite implements Renderable {
 		float oldX = sprite.x
 		float oldY = sprite.y
 
-		sprite.translate(x, y)
-
+		sprite.translate(x - offset.x as float, y - offset.y as float)
 		gfx.prepareSprites()
 		sprite.draw(gfx.spriteBatch)
 
@@ -29,22 +31,17 @@ class GfxSprite implements Renderable {
 		sprite.y = oldY
 	}
 
-	final void setOriginCenter() {
-		setOrigin(sprite.width / 2f as float, sprite.height / 2f as float)
+	final void center() {
+		setOriginCenter()
+		offset = (size * 0.5f).mutableCopy
 	}
 
-	final void setOrigin(@Nonnull Vec2 origin) {
+	@Nonnull IVec2 getOrigin() {
+		return new ImmutableVec2(sprite.originX, sprite.originY)
+	}
+
+	final void setOrigin(@Nonnull IVec2 origin) {
 		setOrigin(origin.x, origin.y)
-	}
-
-	void setOrigin(float x, float y) {
-		sprite.setOrigin(x, y)
-		sprite.x = -x
-		sprite.y = -y
-	}
-
-	@Nonnull Vec2 getOrigin() {
-		return new Vec2(sprite.originX, sprite.originY)
 	}
 
 	float getRotation() {
@@ -89,19 +86,19 @@ class GfxSprite implements Renderable {
 		return sprite.scaleX
 	}
 
-	@Nonnull Vec2 getSize() {
-		return new Vec2(width, height)
+	@Nonnull IVec2 getSize() {
+		return new ImmutableVec2(width, height)
 	}
 
-	void setSize(@Nonnull Vec2 size) {
+	void setSize(@Nonnull IVec2 size) {
 		setSize(size.x, size.y)
 	}
 
-	@Nonnull Vec2 getScaleVector() {
-		return new Vec2(scaleX, scaleY)
+	@Nonnull IVec2 getScaleVector() {
+		return new ImmutableVec2(scaleX, scaleY)
 	}
 
-	void setScaleVector(@Nonnull Vec2 scale) {
+	void setScaleVector(@Nonnull IVec2 scale) {
 		setScale(scale.x, scale.y)
 	}
 

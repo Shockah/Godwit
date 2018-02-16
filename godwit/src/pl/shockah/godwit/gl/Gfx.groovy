@@ -10,6 +10,8 @@ import com.badlogic.gdx.utils.viewport.Viewport
 import groovy.transform.CompileStatic
 import groovy.transform.stc.ClosureParams
 import groovy.transform.stc.SimpleType
+import pl.shockah.godwit.geom.IVec2
+import pl.shockah.godwit.geom.ImmutableVec2
 import pl.shockah.godwit.geom.Shape
 import pl.shockah.godwit.geom.Vec2
 
@@ -30,16 +32,16 @@ trait Gfx {
 
 	abstract void setCamera(@Nonnull OrthographicCamera camera)
 
-	@Nonnull abstract Vec2 getOffset()
+	@Nonnull abstract IVec2 getOffset()
 
-	abstract void setOffset(@Nonnull Vec2 offset)
+	abstract void setOffset(@Nonnull IVec2 offset)
 
 	abstract int getWidth()
 
 	abstract int getHeight()
 
-	@Nonnull Vec2 getSize() {
-		return new Vec2(width, height)
+	@Nonnull IVec2 getSize() {
+		return new ImmutableVec2(width, height)
 	}
 
 	@Nonnull abstract BlendMode getBlendMode()
@@ -94,7 +96,7 @@ trait Gfx {
 
 	abstract void draw(@Nonnull Renderable renderable, float x, float y)
 
-	void draw(@Nonnull Renderable renderable, @Nonnull Vec2 pos) {
+	void draw(@Nonnull Renderable renderable, @Nonnull IVec2 pos) {
 		draw(renderable, pos.x, pos.y)
 	}
 
@@ -104,7 +106,7 @@ trait Gfx {
 		drawFilled(shape, 0f, 0f)
 	}
 
-	void drawFilled(@Nonnull Shape.Filled shape, @Nonnull Vec2 pos) {
+	void drawFilled(@Nonnull Shape.Filled shape, @Nonnull IVec2 pos) {
 		drawFilled(shape, pos.x, pos.y)
 	}
 
@@ -114,7 +116,7 @@ trait Gfx {
 		drawOutline(shape, 0f, 0f)
 	}
 
-	void drawOutline(@Nonnull Shape.Outline shape, @Nonnull Vec2 pos) {
+	void drawOutline(@Nonnull Shape.Outline shape, @Nonnull IVec2 pos) {
 		drawOutline(shape, pos.x, pos.y)
 	}
 

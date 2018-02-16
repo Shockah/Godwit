@@ -12,7 +12,7 @@ abstract class Shape {
 
 	@Nonnull abstract Rectangle getBoundingBox()
 
-	final void translate(@Nonnull Vec2 v) {
+	final void translate(@Nonnull IVec2 v) {
 		translate(v.x, v.y)
 	}
 
@@ -30,13 +30,13 @@ abstract class Shape {
 
 	@SelfType(Shape)
 	trait Filled {
-		void drawFilled(@Nonnull Gfx gfx, @Nonnull Vec2 v) {
+		void drawFilled(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
 			drawFilled(gfx, v.x, v.y)
 		}
 
 		abstract void drawFilled(@Nonnull Gfx gfx, float x, float y)
 
-		boolean contains(@Nonnull Vec2 v) {
+		boolean contains(@Nonnull IVec2 v) {
 			return contains(v.x, v.y)
 		}
 
@@ -49,7 +49,7 @@ abstract class Shape {
 		static class Entity extends pl.shockah.godwit.Entity {
 			@Nonnull @Delegate(interfaces = false, excludes = "asFilledEntity") final Filled shape
 
-			Entity(Filled shape) {
+			Entity(@Nonnull Filled shape) {
 				this.shape = shape
 			}
 
@@ -63,7 +63,7 @@ abstract class Shape {
 
 	@SelfType(Shape)
 	trait Outline {
-		void drawOutline(@Nonnull Gfx gfx, @Nonnull Vec2 v) {
+		void drawOutline(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
 			drawOutline(gfx, v.x, v.y)
 		}
 
@@ -76,7 +76,7 @@ abstract class Shape {
 		static class Entity extends pl.shockah.godwit.Entity {
 			@Nonnull @Delegate(interfaces = false, excludes = "asOutlineEntity") final Outline shape
 
-			Entity(Outline shape) {
+			Entity(@Nonnull Outline shape) {
 				this.shape = shape
 			}
 

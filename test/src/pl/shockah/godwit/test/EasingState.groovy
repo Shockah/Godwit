@@ -39,7 +39,6 @@ class EasingState extends State {
 
 		for (Easing method : methods) {
 			GfxSprite sprite = new GfxSprite(new Sprite(Godwit.instance.assetManager.get("question-mark.png", Texture.class)))
-			//sprite.setOriginCenter()
 			sprite.setSize(16f, 16f)
 			sprite.x = sprites.size() * 18f + 2f as float
 			sprite.y = 2f

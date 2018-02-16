@@ -23,13 +23,13 @@ class Line extends Shape implements Shape.Outline, Easable<Line> {
 		this(point1, new Vec2(x2, y2));
 	}
 
-	Line(float x1, float y1, @Nonnull Vec2 point2) {
+	Line(float x1, float y1, @Nonnull IVec2 point2) {
 		this(new Vec2(x1, y1), point2);
 	}
 
-	Line(@Nonnull Vec2 point1, @Nonnull Vec2 point2) {
-		this.point1 = point1
-		this.point2 = point2
+	Line(@Nonnull IVec2 point1, @Nonnull IVec2 point2) {
+		this.point1 = point1.mutableCopy
+		this.point2 = point2.mutableCopy
 	}
 
 	@Override
@@ -74,19 +74,19 @@ class Line extends Shape implements Shape.Outline, Easable<Line> {
 		return intersect(line) != null
 	}
 
-	@Nullable Vec2 intersect(@Nonnull Line line) {
-		float dx1 = point2.x - point1.x
-		float dx2 = line.point2.x - line.point1.x
-		float dy1 = point2.y - point1.y
-		float dy2 = line.point2.y - line.point1.y
-		float denom = (dy2 * dx1) - (dx2 * dy1)
+	@Nullable IVec2 intersect(@Nonnull Line line) {
+		float dx1 = point2.x - point1.x as float
+		float dx2 = line.point2.x - line.point1.x as float
+		float dy1 = point2.y - point1.y as float
+		float dy2 = line.point2.y - line.point1.y as float
+		float denom = (dy2 * dx1) - (dx2 * dy1) as float
 
 		if (denom == 0)
 			return null
 
-		float ua = (dx2 * (point1.y - line.point1.y)) - (dy2 * (point1.x - line.point1.x))
+		float ua = (dx2 * (point1.y - line.point1.y)) - (dy2 * (point1.x - line.point1.x)) as float
 		ua = ua / denom as float
-		float ub = (dx1 * (point1.y - line.point1.y)) - (dy1 * (point1.x - line.point1.x))
+		float ub = (dx1 * (point1.y - line.point1.y)) - (dy1 * (point1.x - line.point1.x)) as float
 		ub = ub / denom as float
 
 		/*if ((limit) && ((ua < 0) || (ua > 1) || (ub < 0) || (ub > 1)))
@@ -94,8 +94,8 @@ class Line extends Shape implements Shape.Outline, Easable<Line> {
 
 		float u = ua
 
-		float ix = point1.x + (u * (point2.x - point1.x))
-		float iy = point1.y + (u * (point2.y - point1.y))
+		float ix = point1.x + (u * (point2.x - point1.x)) as float
+		float iy = point1.y + (u * (point2.y - point1.y)) as float
 
 		return new Vec2(ix, iy)
 	}
@@ -108,7 +108,7 @@ class Line extends Shape implements Shape.Outline, Easable<Line> {
 	}
 
 	@Override
-	Line ease(Line other, float f) {
+	@Nonnull Line ease(@Nonnull Line other, float f) {
 		return new Line(point1.ease(other.point1, f), point2.ease(other.point2, f))
 	}
 }

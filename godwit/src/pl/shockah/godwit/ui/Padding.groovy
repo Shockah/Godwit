@@ -2,7 +2,8 @@ package pl.shockah.godwit.ui
 
 import groovy.transform.CompileStatic
 import groovy.transform.EqualsAndHashCode
-import pl.shockah.godwit.geom.Vec2
+import pl.shockah.godwit.geom.IVec2
+import pl.shockah.godwit.geom.ImmutableVec2
 
 import javax.annotation.Nonnull
 
@@ -33,15 +34,15 @@ final class Padding {
 		this.bottom = bottom
 	}
 
-	@Nonnull Vec2 getTopLeftVector() {
-		return new Vec2(left, top)
+	@Nonnull IVec2 getTopLeftVector() {
+		return new ImmutableVec2(left, top)
 	}
 
-	@Nonnull Vec2 getBottomRightVector() {
-		return new Vec2(right, bottom)
+	@Nonnull IVec2 getBottomRightVector() {
+		return new ImmutableVec2(right, bottom)
 	}
 
-	@Nonnull Vec2 getVector() {
+	@Nonnull IVec2 getVector() {
 		return topLeftVector + bottomRightVector
 	}
 }

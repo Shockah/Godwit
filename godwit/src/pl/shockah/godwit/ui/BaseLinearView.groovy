@@ -1,7 +1,7 @@
 package pl.shockah.godwit.ui
 
 import groovy.transform.CompileStatic
-import pl.shockah.godwit.geom.Vec2
+import pl.shockah.godwit.geom.IVec2
 
 import javax.annotation.Nonnull
 
@@ -20,13 +20,13 @@ class BaseLinearView<T extends Attributes> extends ViewGroup<T> {
 
 		float offset = 0f
 		for (View view : views) {
-			Vec2 size = bounds.size - orientation.vector * offset
+			IVec2 size = bounds.size - orientation.vector * offset
 			size = view.getIntrinsicSize(size)
-			view.bounds.size = size
+			view.bounds.size = size.mutableCopy
 
-			Vec2 basePosition = orientation.vector * offset
-			Vec2 alignmentPosition = (bounds.size - view.bounds.size) * orientation.perpendicular.vector * getAttributesForView(view).alignment.getNonNanVector()
-			view.bounds.position = basePosition + alignmentPosition
+			IVec2 basePosition = orientation.vector * offset
+			IVec2 alignmentPosition = (bounds.size - view.bounds.size) * orientation.perpendicular.vector * getAttributesForView(view).alignment.getNonNanVector()
+			view.bounds.position = (basePosition + alignmentPosition).mutableCopy
 
 			offset += (size * orientation.vector).length + spacing
 		}
