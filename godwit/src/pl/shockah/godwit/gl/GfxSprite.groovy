@@ -89,7 +89,23 @@ class GfxSprite implements Renderable {
 		return sprite.scaleX
 	}
 
-	Entity asEntity() {
+	@Nonnull Vec2 getSize() {
+		return new Vec2(width, height)
+	}
+
+	void setSize(@Nonnull Vec2 size) {
+		setSize(size.x, size.y)
+	}
+
+	@Nonnull Vec2 getScaleVector() {
+		return new Vec2(scaleX, scaleY)
+	}
+
+	void setScaleVector(@Nonnull Vec2 scale) {
+		setScale(scale.x, scale.y)
+	}
+
+	@Nonnull Entity asEntity() {
 		return new Entity(this)
 	}
 
