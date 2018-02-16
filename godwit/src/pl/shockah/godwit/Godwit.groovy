@@ -49,6 +49,7 @@ final class Godwit {
 				}
 				return
 			} else {
+				runRender()
 				if (deltas.size() >= 5) {
 					float min = deltas.min() as float
 					float max = deltas.max() as float
