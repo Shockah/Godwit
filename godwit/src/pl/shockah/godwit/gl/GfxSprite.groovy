@@ -2,6 +2,7 @@ package pl.shockah.godwit.gl
 
 import com.badlogic.gdx.graphics.g2d.Sprite
 import groovy.transform.CompileStatic
+import pl.shockah.godwit.animfx.Animatable
 import pl.shockah.godwit.geom.IVec2
 import pl.shockah.godwit.geom.ImmutableVec2
 import pl.shockah.godwit.geom.Vec2
@@ -9,8 +10,8 @@ import pl.shockah.godwit.geom.Vec2
 import javax.annotation.Nonnull
 
 @CompileStatic
-class GfxSprite implements Renderable {
-	@Nonnull @Delegate final Sprite sprite
+class GfxSprite implements Renderable, Animatable<GfxSprite> {
+	@Nonnull @Delegate(interfaces = false) final Sprite sprite
 	@Nonnull Vec2 offset = new Vec2()
 
 	GfxSprite(@Nonnull Sprite sprite) {
@@ -102,12 +103,22 @@ class GfxSprite implements Renderable {
 		setScale(scale.x, scale.y)
 	}
 
+	@Nonnull IVec2 getPosition() {
+		return new ImmutableVec2(x, y)
+	}
+
+	void setPosition(@Nonnull IVec2 position) {
+		setPosition(position.x, position.y)
+	}
+
 	@Nonnull Entity asEntity() {
 		return new Entity(this)
 	}
 
 	static class Entity extends pl.shockah.godwit.Entity {
-		@Nonnull @Delegate(excludes = "asEntity") final GfxSprite sprite
+		// can't make it a @Delegate, as it produces a weird compile error
+		// looks a bit like this issue: https://issues.apache.org/jira/browse/GROOVY-7118
+		@Nonnull final GfxSprite sprite
 
 		Entity(@Nonnull Sprite sprite) {
 			this(new GfxSprite(sprite))
@@ -121,6 +132,12 @@ class GfxSprite implements Renderable {
 		void onRender(@Nonnull Gfx gfx, float x, float y) {
 			super.onRender(gfx, x, y)
 			gfx.draw(sprite, x, y)
+		}
+
+		@Override
+		void updateFx() {
+			super.updateFx()
+			sprite.updateFx()
 		}
 	}
 }
