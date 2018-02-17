@@ -1,4 +1,4 @@
-package pl.shockah.godwit.test
+package pl.shockah.godwit.test.test
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input

@@ -2,7 +2,7 @@ apply plugin: "groovy"
 
 dependencies {
 	compile project(":godwit")
-	compile "org.codehaus.groovy:groovy:2.4.12"
+	compile "org.codehaus.groovy:groovy:$groovyVersion"
 	compile "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
 	compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
 }
@@ -17,34 +17,36 @@ sourceSets.main {
 	resources.srcDirs = ["resources/dist"]
 }
 
-project.ext.mainClassName = "pl.shockah.godwit.test.TestStarter"
+project.ext.package = "pl.shockah.godwit.test"
+project.ext.mainClassName = "${project.package}.TestStarter"
 
-def testNames = [
-		"AttachedViewport", "Shapes", "Sprite", "Easing", "SequenceFx", "SpriteSheet",
-		["ui", "LinearView"]
-]
-
-testNames.each { testEntry ->
-	def testName
-	def className
-
-	if (testEntry instanceof String) {
-		def entryString = testEntry as String
-		testName = entryString
-		className = entryString
-	} else if (testEntry instanceof List) {
-		def entryList = testEntry as List
-		testName = entryList[1]
-		className = "${entryList[0]}.${entryList[1]}"
-	} else {
-		throw new IllegalArgumentException()
+void handleFiles(File baseDir, File file) {
+	if (file.isDirectory()) {
+		file.eachFile {
+			handleFiles(baseDir, it)
+		}
+	} else if (file.name.endsWith(".groovy") || file.name.endsWith(".java")) {
+		addTask(baseDir, file)
 	}
+}
 
-	tasks.create("test${testName}", JavaExec) {
-		dependsOn 'classes'
+void addTask(File baseDir, File file) {
+	String extraPath = file.absolutePath.substring(baseDir.absolutePath.length())
+	String className = extraPath.replace("\\", "/").split("\\.").dropRight(1).join(".")
+	if (className.startsWith("/"))
+		className = className.substring(1)
+	className = className.replace("/", ".")
+	String fullClassName = "${project.package}.test.$className"
+	String justClassName = fullClassName.split("\\.").last()
+
+	if (fullClassName.contains("\$"))
+		return
+
+	tasks.create("test$justClassName", JavaExec) {
+		dependsOn "classes"
 
 		main = project.mainClassName
-		args className
+		args fullClassName
 		classpath = sourceSets.main.runtimeClasspath
 		standardInput = System.in
 		ignoreExitValue = true
@@ -58,3 +60,6 @@ testNames.each { testEntry ->
 		}
 	}
 }
+
+File baseDir = new File(project.file("."), "src/${mainClassName.split("\\.").dropRight(1).join("/")}/test/")
+handleFiles(baseDir, baseDir)

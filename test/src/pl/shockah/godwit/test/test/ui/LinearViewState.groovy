@@ -1,4 +1,4 @@
-package pl.shockah.godwit.test.ui
+package pl.shockah.godwit.test.test.ui
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration
 import com.badlogic.gdx.graphics.Color

@@ -1,4 +1,4 @@
-package pl.shockah.godwit.test
+package pl.shockah.godwit.test.test
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
@@ -11,6 +11,7 @@ import pl.shockah.godwit.geom.Circle
 import pl.shockah.godwit.geom.Rectangle
 import pl.shockah.godwit.geom.Vec2
 import pl.shockah.godwit.gl.Gfx
+import pl.shockah.godwit.test.Configurable
 
 import javax.annotation.Nonnull
 

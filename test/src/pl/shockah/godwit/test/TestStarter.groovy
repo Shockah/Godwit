@@ -9,7 +9,7 @@ import pl.shockah.godwit.State
 @CompileStatic
 final class TestStarter {
 	static void main(String[] args) {
-		Class<? extends State> clazz = (Class<? extends State>)Class.forName("${TestStarter.package.name}.${args[0]}State")
+		Class<? extends State> clazz = (Class<? extends State>)Class.forName(args[0])
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		State state = clazz.newInstance()
 		if (state instanceof Configurable)

@@ -12,7 +12,8 @@ buildscript {
 allprojects {
 	ext {
 		appName = "Godwit"
-		gdxVersion = '1.9.6'
+		gdxVersion = "1.9.6"
+		groovyVersion = "2.4.+"
 	}
 
 	repositories {
@@ -25,7 +26,7 @@ allprojects {
 			url "https://oss.sonatype.org/content/repositories/releases/"
 		}
 		maven {
-			url 'https://jitpack.io'
+			url "https://jitpack.io"
 		}
 	}
 }
