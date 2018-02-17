@@ -18,6 +18,10 @@ final class ImmutableVec2 extends IVec2<ImmutableVec2> {
 		this(0, 0)
 	}
 
+	ImmutableVec2(float v) {
+		this(v, v)
+	}
+
 	ImmutableVec2(float x, float y) {
 		this.x = x
 		this.y = y

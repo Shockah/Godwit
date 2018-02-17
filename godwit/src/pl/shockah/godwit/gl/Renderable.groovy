@@ -7,15 +7,7 @@ import javax.annotation.Nonnull
 
 @CompileStatic
 abstract trait Renderable {
-	private float depth = 0f
-
-	float getDepth() {
-		return this.depth
-	}
-
-	void setDepth(float depth) {
-		this.depth = depth
-	}
+	float depth = 0f
 
 	void onRender(@Nonnull Gfx gfx) {
 		onRender(gfx, 0f, 0f)

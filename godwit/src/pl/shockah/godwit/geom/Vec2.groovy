@@ -18,6 +18,10 @@ final class Vec2 extends IVec2<Vec2> {
 		this(0, 0)
 	}
 
+	Vec2(float v) {
+		this(v, v)
+	}
+
 	Vec2(float x, float y) {
 		this.x = x
 		this.y = y
