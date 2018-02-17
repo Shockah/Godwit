@@ -10,6 +10,7 @@ import pl.shockah.godwit.animfx.*
 import pl.shockah.godwit.animfx.ease.Easing
 import pl.shockah.godwit.animfx.ease.PennerEasing
 import pl.shockah.godwit.animfx.ease.SmoothstepEasing
+import pl.shockah.godwit.animfx.object.ObjectClosureFx
 import pl.shockah.godwit.animfx.raw.RawClosureFx
 import pl.shockah.godwit.gl.Gfx
 import pl.shockah.godwit.gl.GfxSprite
@@ -44,8 +45,8 @@ class EasingState extends State {
 			sprite.y = 2f
 			sprites.add(sprite)
 
-			fxes.add(new RawClosureFx(5f, { float f, float previous ->
-				sprite.y = Easing.linear.ease(2 + Gdx.graphics.height * 0.2f as float, Gdx.graphics.height * 0.8f - 16 as float, f)
+			sprite.fxes.add(new ObjectClosureFx<GfxSprite>(5f, { GfxSprite obj, float f, float previous ->
+				obj.y = Easing.linear.ease(2 + Gdx.graphics.height * 0.2f as float, Gdx.graphics.height * 0.8f - 16 as float, f)
 			}).withMethod(method).instance(FxInstance.EndAction.ReverseLoop))
 		}
 	}

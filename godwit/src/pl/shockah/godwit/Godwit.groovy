@@ -2,11 +2,15 @@ package pl.shockah.godwit
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.assets.AssetManager
+import com.badlogic.gdx.assets.loaders.FileHandleResolver
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver
 import com.badlogic.gdx.graphics.Color
 import groovy.transform.CompileStatic
+import pl.shockah.godwit.asset.SpriteSheetLoader
 import pl.shockah.godwit.gl.BlendMode
 import pl.shockah.godwit.gl.GfxContextManager
 import pl.shockah.godwit.gl.GfxImpl
+import pl.shockah.godwit.gl.SpriteSheet
 
 import javax.annotation.Nonnull
 import javax.annotation.Nullable
@@ -28,6 +32,11 @@ final class Godwit {
 		if (!instance)
 			instance = new Godwit()
 		return instance
+	}
+
+	Godwit() {
+		FileHandleResolver resolver = new InternalFileHandleResolver()
+		assetManager.setLoader(SpriteSheet.class, new SpriteSheetLoader(resolver))
 	}
 
 	@Nullable State getState() {
