@@ -11,7 +11,7 @@ dependencies {
 	compile "net.sourceforge.streamsupport:streamsupport:1.6.1"
 	compile "com.badlogicgames.gdx:gdx:$gdxVersion"
 	compile "com.google.code.findbugs:jsr305:3.0.2"
-	compileOnly "org.projectlombok:lombok:$lombokVersion"
+	compile "org.projectlombok:lombok:$lombokVersion"
 }
 
 targetCompatibility = "1.8"
