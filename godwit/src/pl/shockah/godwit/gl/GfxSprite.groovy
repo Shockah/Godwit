@@ -10,7 +10,7 @@ import pl.shockah.godwit.geom.Vec2
 import javax.annotation.Nonnull
 
 @CompileStatic
-class GfxSprite implements Renderable, Animatable<GfxSprite> {
+class GfxSprite implements Renderable, Animatable {
 	@Nonnull @Delegate(interfaces = false) final Sprite sprite
 	@Nonnull Vec2 offset = new Vec2()
 

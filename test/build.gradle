@@ -2,7 +2,7 @@ apply plugin: "groovy"
 
 dependencies {
 	compile project(":godwit")
-	compile "org.codehaus.groovy:groovy:$groovyVersion"
+	compileOnly "org.codehaus.groovy:groovy:2.6.0-alpha-2"
 	compile "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
 	compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
 }

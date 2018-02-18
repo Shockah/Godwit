@@ -13,7 +13,7 @@ allprojects {
 	ext {
 		appName = "Godwit"
 		gdxVersion = "1.9.6"
-		groovyVersion = "2.4.+"
+		groovyVersion = "2.6.0-alpha-2"
 	}
 
 	repositories {

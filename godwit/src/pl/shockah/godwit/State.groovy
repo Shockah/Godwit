@@ -18,7 +18,7 @@ class State extends EntityGroup<Entity> {
 	}
 
 	@Override
-	protected void onDestroy() {
+	void onDestroy() {
 		super.onDestroy()
 		for (Asset<?> asset : retainedAssets) {
 			asset.unload()

@@ -116,7 +116,7 @@ class Rectangle extends Shape implements Polygonable, Shape.Filled, Shape.Outlin
 	}
 
 	@Override
-	protected boolean collides(@Nonnull Shape shape, boolean tryAgain) {
+	boolean collides(@Nonnull Shape shape, boolean tryAgain) {
 		if (shape instanceof Rectangle)
 			return collides(shape as Rectangle)
 		if (shape instanceof Line)

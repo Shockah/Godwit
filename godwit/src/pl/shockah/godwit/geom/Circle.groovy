@@ -76,7 +76,7 @@ class Circle extends Shape implements Polygonable, Shape.Filled, Shape.Outline, 
 	}
 
 	@Override
-	protected boolean collides(@Nonnull Shape shape, boolean tryAgain) {
+	boolean collides(@Nonnull Shape shape, boolean tryAgain) {
 		//TODO: Circle --><-- Line
 		//TODO: Circle --><-- Rectangle
 		if (shape instanceof Circle)

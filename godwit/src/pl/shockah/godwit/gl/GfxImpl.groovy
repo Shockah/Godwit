@@ -10,16 +10,13 @@ import com.badlogic.gdx.math.Matrix4
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 import com.badlogic.gdx.utils.viewport.Viewport
 import groovy.transform.CompileStatic
-import pl.shockah.godwit.geom.IVec2
-import pl.shockah.godwit.geom.ImmutableVec2
-import pl.shockah.godwit.geom.Shape
-import pl.shockah.godwit.geom.Vec2
+import pl.shockah.godwit.geom.*
 
 import javax.annotation.Nonnull
 import javax.annotation.Nullable
 
 @CompileStatic
-class GfxImpl implements Gfx {
+class GfxImpl extends Gfx {
 	protected boolean centeredCamera = true
 	@Nonnull OrthographicCamera camera = new OrthographicCamera()
 	@Nullable Viewport viewport
@@ -225,7 +222,7 @@ class GfxImpl implements Gfx {
 		internalEndTick()
 		if (centeredCamera)
 			recenterCameraPosition()
-		Gfx.super.updateCamera()
+		super.updateCamera()
 	}
 
 	void updateCombinedCamera(@Nonnull Matrix4 matrix) {

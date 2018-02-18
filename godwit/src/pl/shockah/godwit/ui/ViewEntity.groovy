@@ -15,7 +15,7 @@ class ViewEntity extends Entity {
 	}
 
 	@Override
-	protected void onUpdate() {
+	void onUpdate() {
 		super.onUpdate()
 		view.onUpdate()
 	}

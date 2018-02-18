@@ -18,7 +18,7 @@ class SequenceFxState extends State {
 	GfxSprite sprite
 
 	@Override
-	protected void onCreate() {
+	void onCreate() {
 		super.onCreate()
 
 		Godwit.instance.assetManager.load("question-mark.png", Texture.class)

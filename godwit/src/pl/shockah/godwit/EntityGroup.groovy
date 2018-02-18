@@ -32,7 +32,7 @@ class EntityGroup<T extends Entity> extends Entity {
 	}
 
 	@Override
-	protected void onDestroy() {
+	void onDestroy() {
 		for (Entity entity : entities) {
 			entity.destroy()
 		}
@@ -40,7 +40,7 @@ class EntityGroup<T extends Entity> extends Entity {
 	}
 
 	@Override
-	protected void onUpdate() {
+	void onUpdate() {
 		super.onUpdate()
 
 		for (T entity : toCreate) {

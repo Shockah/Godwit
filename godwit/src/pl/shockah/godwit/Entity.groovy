@@ -3,7 +3,6 @@ package pl.shockah.godwit
 import groovy.transform.CompileStatic
 import groovy.transform.PackageScope
 import pl.shockah.godwit.animfx.Animatable
-import pl.shockah.godwit.animfx.FxInstance
 import pl.shockah.godwit.gl.Gfx
 import pl.shockah.godwit.gl.Renderable
 
@@ -11,7 +10,7 @@ import javax.annotation.Nonnull
 import javax.annotation.Nullable
 
 @CompileStatic
-class Entity implements Renderable, Animatable<Entity> {
+class Entity implements Renderable, Animatable {
 	@Nullable protected EntityGroup<? extends Entity> group
 	@PackageScope boolean created = false
 	@PackageScope boolean destroyed = false
@@ -75,16 +74,16 @@ class Entity implements Renderable, Animatable<Entity> {
 		onRender(gfx, x, y)
 	}
 
-	protected void onCreate() {
+	void onCreate() {
 	}
 
-	protected void beforeDestroy() {
+	void beforeDestroy() {
 	}
 
-	protected void onDestroy() {
+	void onDestroy() {
 	}
 
-	protected void onUpdate() {
+	void onUpdate() {
 	}
 
 	void onRender(@Nonnull Gfx gfx, float x, float y) {

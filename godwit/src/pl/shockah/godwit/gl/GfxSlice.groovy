@@ -7,7 +7,7 @@ import pl.shockah.godwit.geom.Shape
 import javax.annotation.Nonnull
 
 @CompileStatic
-class GfxSlice implements Gfx {
+class GfxSlice extends Gfx {
 	@Nonnull @Delegate final Gfx wrapped
 	@Nonnull final Rectangle bounds
 

@@ -16,7 +16,7 @@ class SpriteSheetState extends State {
 	private static final Asset<SpriteSheet> sheet = new Asset<>("ninja-run.json", SpriteSheet.class)
 
 	@Override
-	protected void onCreate() {
+	void onCreate() {
 		super.onCreate()
 		loadAsset(sheet)
 		SpriteSheet sheet = sheet.get()

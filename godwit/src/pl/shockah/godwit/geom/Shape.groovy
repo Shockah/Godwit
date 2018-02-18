@@ -22,7 +22,7 @@ abstract class Shape {
 		return collides(shape, true)
 	}
 
-	protected boolean collides(@Nonnull Shape shape, boolean tryAgain) {
+	boolean collides(@Nonnull Shape shape, boolean tryAgain) {
 		if (tryAgain)
 			return shape.collides(this, false)
 		throw new IllegalArgumentException()

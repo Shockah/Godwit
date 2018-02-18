@@ -6,16 +6,13 @@ import com.badlogic.gdx.graphics.g2d.Sprite
 import groovy.transform.CompileStatic
 import pl.shockah.godwit.Godwit
 import pl.shockah.godwit.State
-import pl.shockah.godwit.animfx.*
+import pl.shockah.godwit.animfx.FxInstance
 import pl.shockah.godwit.animfx.ease.Easing
 import pl.shockah.godwit.animfx.ease.PennerEasing
 import pl.shockah.godwit.animfx.ease.SmoothstepEasing
 import pl.shockah.godwit.animfx.object.ObjectClosureFx
-import pl.shockah.godwit.animfx.raw.RawClosureFx
-import pl.shockah.godwit.gl.Gfx
+import pl.shockah.godwit.geom.Vec2
 import pl.shockah.godwit.gl.GfxSprite
-
-import javax.annotation.Nonnull
 
 @CompileStatic
 class EasingState extends State {
@@ -29,34 +26,25 @@ class EasingState extends State {
 			PennerEasing.sineInOut, PennerEasing.cubicInOut, PennerEasing.quadInOut, PennerEasing.quarticInOut, PennerEasing.quinticInOut,
 			PennerEasing.exponentialInOut, PennerEasing.circularInOut, PennerEasing.backInOut, PennerEasing.elasticInOut, PennerEasing.bounceInOut
 	]
-	private List<GfxSprite> sprites = []
 
 	@Override
-	protected void onCreate() {
+	void onCreate() {
 		super.onCreate()
 
 		Godwit.instance.assetManager.load("question-mark.png", Texture.class)
 		Godwit.instance.assetManager.finishLoading()
 
-		for (Easing method : methods) {
-			GfxSprite sprite = new GfxSprite(new Sprite(Godwit.instance.assetManager.get("question-mark.png", Texture.class)))
-			sprite.setSize(16f, 16f)
-			sprite.x = sprites.size() * 18f + 2f as float
-			sprite.y = 2f
-			sprites.add(sprite)
+		for (int i in 0..<methods.size()) {
+			Easing method = methods[i]
+			new GfxSprite(new Sprite(Godwit.instance.assetManager.get("question-mark.png", Texture.class))).asEntity().tap {
+				sprite.size = new Vec2(16f, 16f)
+				sprite.x = i * 18f + 2f as float
+				sprite.y = 2f
 
-			sprite.fxes.add(new ObjectClosureFx<GfxSprite>(5f, { GfxSprite obj, float f, float previous ->
-				obj.y = Easing.linear.ease(2 + Gdx.graphics.height * 0.2f as float, Gdx.graphics.height * 0.8f - 16 as float, f)
-			}).withMethod(method).instance(FxInstance.EndAction.ReverseLoop))
-		}
-	}
-
-	@Override
-	void onRender(@Nonnull Gfx gfx, float x, float y) {
-		super.onRender(gfx, x, y)
-
-		for (GfxSprite sprite in sprites) {
-			gfx.draw(sprite, x, y)
+				sprite.fxes.add(new ObjectClosureFx<GfxSprite>(5f, { GfxSprite obj, float f, float previous ->
+					obj.y = Easing.linear.ease(2 + Gdx.graphics.height * 0.2f as float, Gdx.graphics.height * 0.8f - 16 as float, f)
+				}).withMethod(method).instance(FxInstance.EndAction.ReverseLoop))
+			}.create(this)
 		}
 	}
 }

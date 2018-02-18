@@ -8,18 +8,13 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType
 import com.badlogic.gdx.math.Matrix4
 import com.badlogic.gdx.utils.viewport.Viewport
 import groovy.transform.CompileStatic
-import groovy.transform.stc.ClosureParams
-import groovy.transform.stc.SimpleType
-import pl.shockah.godwit.geom.IVec2
-import pl.shockah.godwit.geom.ImmutableVec2
-import pl.shockah.godwit.geom.Shape
-import pl.shockah.godwit.geom.Vec2
+import pl.shockah.godwit.geom.*
 
 import javax.annotation.Nonnull
 import javax.annotation.Nullable
 
 @CompileStatic
-trait Gfx {
+abstract class Gfx {
 	@Nonnull abstract SpriteBatch getSpriteBatch()
 
 	@Nonnull abstract ShapeRenderer getShapeRenderer()
@@ -62,10 +57,7 @@ trait Gfx {
 		setColor(new Color(r, g, b, 1.0f))
 	}
 
-	void withColor(@Nonnull Color c,
-	               @DelegatesTo(value = Gfx.class, strategy = Closure.DELEGATE_FIRST)
-	               @ClosureParams(value = SimpleType.class, options = "pl.shockah.godwit.gl.Gfx")
-	               @Nonnull Closure closure) {
+	void withColor(@Nonnull Color c, @DelegatesTo(Gfx) @Nonnull Closure closure) {
 		Color oldColor = color
 		color = c
 		with(closure)
@@ -78,20 +70,14 @@ trait Gfx {
 
 	abstract void prepareSprites()
 
-	void prepareSprites(
-			@DelegatesTo(value = SpriteBatch.class, strategy = Closure.DELEGATE_FIRST)
-			@ClosureParams(value = SimpleType.class, options = "com.badlogic.gdx.graphics.g2d.SpriteBatch")
-			@Nonnull Closure closure) {
+	void prepareSprites(@DelegatesTo(SpriteBatch) @Nonnull Closure closure) {
 		prepareSprites()
 		spriteBatch.with(closure)
 	}
 
 	abstract void prepareShapes(@Nonnull ShapeType type)
 
-	void prepareShapes(@Nonnull ShapeType type,
-	                   @DelegatesTo(value = ShapeRenderer.class, strategy = Closure.DELEGATE_FIRST)
-	                   @ClosureParams(value = SimpleType.class, options = "com.badlogic.gdx.graphics.glutils.ShapeRenderer")
-	                   @Nonnull Closure closure) {
+	void prepareShapes(@Nonnull ShapeType type, @DelegatesTo(ShapeRenderer) @Nonnull Closure closure) {
 		prepareShapes(type)
 		shapeRenderer.with(closure)
 	}

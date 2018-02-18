@@ -23,7 +23,7 @@ class AttachedViewportState extends State implements Configurable {
 	}
 
 	@Override
-	protected void onCreate() {
+	void onCreate() {
 		super.onCreate()
 		new AttachmentEntity().create(this)
 	}
@@ -36,7 +36,8 @@ class AttachedViewportState extends State implements Configurable {
 			gfx.cameraPosition = it.pos
 		}
 
-		gfx.withColor(Color.RED) {
+		gfx.with {
+			color = Color.RED
 			drawFilled(Rectangle.centered(gfx.size / 2f, gfx.size * 0.2f))
 		}
 
@@ -48,7 +49,7 @@ class AttachedViewportState extends State implements Configurable {
 		@Nonnull Circle circle = new Circle(24f)
 
 		@Override
-		protected void onUpdate() {
+		void onUpdate() {
 			super.onUpdate()
 			if (Gdx.input.isKeyPressed(Input.Keys.LEFT))
 				pos.x -= 2f
@@ -63,9 +64,9 @@ class AttachedViewportState extends State implements Configurable {
 		@Override
 		void onRender(@Nonnull Gfx gfx, float x, float y) {
 			super.onRender(gfx, x, y)
-			gfx.withColor(Color.WHITE) {
-				drawFilled(circle, pos)
-			}
+
+			gfx.color = Color.WHITE
+			gfx.drawFilled(circle, pos)
 		}
 	}
 }

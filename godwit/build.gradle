@@ -1,7 +1,10 @@
 apply plugin: "groovy"
 
 dependencies {
-	compileOnly "org.codehaus.groovy:groovy:$groovyVersion"
+	compileOnly "org.codehaus.groovy:groovy:${groovyVersion}"
+	runtime "org.codehaus.groovy:groovy:${groovyVersion}"
+	compile files("lib/grooid-${groovyVersion}-custom.jar")
+
 	compile "com.badlogicgames.gdx:gdx:$gdxVersion"
 
 	compile 'com.google.code.findbugs:jsr305:3.0.2'

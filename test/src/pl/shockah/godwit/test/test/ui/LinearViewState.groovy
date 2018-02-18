@@ -17,7 +17,7 @@ class LinearViewState extends State implements Configurable {
 	}
 
 	@Override
-	protected void onCreate() {
+	void onCreate() {
 		super.onCreate()
 
 		LinearView linearView = new LinearView(Orientation.Horizontal)

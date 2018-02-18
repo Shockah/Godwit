@@ -21,7 +21,7 @@ class SpriteState extends State {
 	private int movingCountdown = 0
 
 	@Override
-	protected void onCreate() {
+	void onCreate() {
 		super.onCreate()
 
 		Godwit.instance.assetManager.load("abstract-480-320.jpg", Texture.class)
@@ -32,7 +32,7 @@ class SpriteState extends State {
 	}
 
 	@Override
-	protected void onUpdate() {
+	void onUpdate() {
 		super.onUpdate()
 
 		boolean l = Gdx.input.isKeyPressed(Input.Keys.LEFT)
@@ -60,12 +60,14 @@ class SpriteState extends State {
 	void onRender(@Nonnull Gfx gfx, float x, float y) {
 		super.onRender(gfx, x, y)
 
-		gfx.withColor(Color.WHITE) {
+		gfx.with {
+			color = Color.WHITE
 			draw(sprite, size / 2)
 		}
 
 		if (movingCountdown > 0) {
-			gfx.withColor(Color.RED) {
+			gfx.with {
+				color = Color.RED
 				drawOutline(new Line(new Vec2(width / 2 as float, 0f), new Vec2(width / 2 as float, height)))
 				drawOutline(new Line(new Vec2(0f, height / 2 as float), new Vec2(width, height / 2 as float)))
 			}

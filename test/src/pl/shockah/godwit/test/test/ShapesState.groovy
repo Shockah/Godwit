@@ -23,17 +23,17 @@ class ShapesState extends State {
 		def circle = new Circle(rect.position, Math.min(rect.size.x, rect.size.y) * 0.2f as float)
 		def circle2 = new Circle(circle.position, circle.radius + 4f as float)
 
-		gfx.withColor(Color.BLACK) {
+		gfx.with {
+			color = Color.BLACK
 			drawFilled(rect2)
-		}
-		gfx.withColor(Color.WHITE) {
-			drawFilled(rect)
-		}
 
-		gfx.withColor(Color.BLACK) {
+			color = Color.WHITE
+			drawFilled(rect)
+
+			color = Color.BLACK
 			drawFilled(circle2)
-		}
-		gfx.withColor(Color.WHITE) {
+
+			color = Color.WHITE
 			drawFilled(circle)
 		}
 	}

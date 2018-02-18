@@ -26,9 +26,8 @@ class View implements Renderable {
 	@Override
 	void onRender(@Nonnull Gfx gfx, float x, float y) {
 		backgroundColor?.with {
-			gfx.withColor(it) {
-				drawFilled(new Rectangle(bounds.size), x, y)
-			}
+			gfx.color = it
+			gfx.drawFilled(new Rectangle(bounds.size), x, y)
 		}
 	}
 
