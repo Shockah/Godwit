@@ -213,7 +213,7 @@ public class NeatTriangulator implements Triangulator {
 	}
 
 	@Override
-	public void addPolyPoint(@Nonnull IVec2 point) {
+	public void addPoint(@Nonnull IVec2 point) {
 		for (int i = 0; i < numPoints; i++) {
 			if (pointsX[i] == point.getX() && pointsY[i] == point.getY()) {
 				point = new Vec2(point.getX(), point.getY() + offset);
@@ -264,12 +264,12 @@ public class NeatTriangulator implements Triangulator {
 	}
 
 	@Override
-	public int triangleCount() {
+	public int getTriangleCount() {
 		return numTriangles;
 	}
 
 	@Override
-	@Nonnull public IVec2 trianglePoint(int tri, int i) {
+	@Nonnull public IVec2 getTrianglePoint(int tri, int i) {
 		float xp = pointsX[triangles[tri].v[i]];
 		float yp = pointsY[triangles[tri].v[i]];
 		return new Vec2(xp, yp);

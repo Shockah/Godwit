@@ -16,7 +16,7 @@ public class BasicTriangulator implements Triangulator {
 	private boolean tried;
 
 	@Override
-	public void addPolyPoint(@Nonnull IVec2 point) {
+	public void addPoint(@Nonnull IVec2 point) {
 		if (!poly.contains(point))
 			poly.add(point);
 	}
@@ -36,14 +36,14 @@ public class BasicTriangulator implements Triangulator {
 	}
 
 	@Override
-	public int triangleCount() {
+	public int getTriangleCount() {
 		if (!tried)
 			triangulate();
 		return tris.size() / 3;
 	}
 
 	@Override
-	@Nonnull public IVec2 trianglePoint(int tri, int i) {
+	@Nonnull public IVec2 getTrianglePoint(int tri, int i) {
 		if (!tried)
 			triangulate();
 		return tris.get(tri * 3 + i);
@@ -56,7 +56,7 @@ public class BasicTriangulator implements Triangulator {
 		for (int p = n - 1, q = 0; q < n; p = q++) {
 			IVec2 contourP = contour.get(p);
 			IVec2 contourQ = contour.get(q);
-			A += contourP.getX() * contourQ.getY() - contourQ.getX() * contourP.getY();
+			A += contourP.x() * contourQ.y() - contourQ.x() * contourP.y();
 		}
 		return A * .5f;
 	}
@@ -88,22 +88,22 @@ public class BasicTriangulator implements Triangulator {
 		int p;
 		double Ax, Ay, Bx, By, Cx, Cy, Px, Py;
 
-		Ax = contour.get(V[u]).getX();
-		Ay = contour.get(V[u]).getY();
+		Ax = contour.get(V[u]).x();
+		Ay = contour.get(V[u]).y();
 
-		Bx = contour.get(V[v]).getX();
-		By = contour.get(V[v]).getY();
+		Bx = contour.get(V[v]).x();
+		By = contour.get(V[v]).y();
 
-		Cx = contour.get(V[w]).getX();
-		Cy = contour.get(V[w]).getY();
+		Cx = contour.get(V[w]).x();
+		Cy = contour.get(V[w]).y();
 
 		if (EPSILON > ((Bx - Ax) * (Cy - Ay)) - ((By - Ay) * (Cx - Ax)))
 			return false;
 		for (p = 0; p < n; p++) {
 			if (p == u || p == v || p == w)
 				continue;
-			Px = contour.get(V[p]).getX();
-			Py = contour.get(V[p]).getY();
+			Px = contour.get(V[p]).x();
+			Py = contour.get(V[p]).y();
 			if (insideTriangle(Ax, Ay, Bx, By, Cx, Cy, Px, Py))
 				return false;
 		}

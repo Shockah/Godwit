@@ -1,0 +1,114 @@
+package pl.shockah.godwit.geom;
+
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import lombok.EqualsAndHashCode;
+import pl.shockah.godwit.fx.ease.Easable;
+import pl.shockah.godwit.gl.Gfx;
+
+@EqualsAndHashCode(callSuper = false)
+public class Line extends Shape implements Shape.Outline, Easable<Line> {
+	@Nonnull public Vec2 point1;
+	@Nonnull public Vec2 point2;
+
+	public Line(float x1, float y1, float x2, float y2) {
+		this(new Vec2(x1, y1), new Vec2(x2, y2));
+	}
+
+	public Line(@Nonnull Vec2 point1, float x2, float y2) {
+		this(point1, new Vec2(x2, y2));
+	}
+
+	public Line(float x1, float y1, @Nonnull IVec2 point2) {
+		this(new Vec2(x1, y1), point2);
+	}
+
+	public Line(@Nonnull IVec2 point1, @Nonnull IVec2 point2) {
+		this.point1 = point1.getMutableCopy();
+		this.point2 = point2.getMutableCopy();
+	}
+
+	@Override
+	@Nonnull public Shape copy() {
+		return copyLine();
+	}
+
+	@Nonnull public Line copyLine() {
+		return new Line(point1, point2);
+	}
+
+	@Override
+	public String toString() {
+		return String.format("[Line: %s->%s]", point1, point2);
+	}
+
+	@Override
+	@Nonnull public Rectangle getBoundingBox() {
+		float minX = Math.min(point1.x, point2.x);
+		float minY = Math.min(point1.y, point2.y);
+		float maxX = Math.max(point1.x, point2.x);
+		float maxY = Math.max(point1.y, point2.y);
+		return new Rectangle(minX, minY, maxX - minX, maxY - minY);
+	}
+
+	@Override
+	public void translate(@Nonnull IVec2 v) {
+		point1.x += v.x();
+		point1.y += v.y();
+		point2.x += v.x();
+		point2.y += v.y();
+	}
+
+	@Override
+	public boolean collides(@Nonnull Shape shape, boolean secondTry) {
+		if (shape instanceof Line)
+			return collides((Line)shape);
+		return super.collides(shape, secondTry);
+	}
+
+	public boolean collides(@Nonnull Line line) {
+		return intersect(line) != null;
+	}
+
+	@Nullable
+	public IVec2 intersect(@Nonnull Line line) {
+		float dx1 = point2.x - point1.x;
+		float dx2 = line.point2.x - line.point1.x;
+		float dy1 = point2.y - point1.y;
+		float dy2 = line.point2.y - line.point1.y;
+		float denom = (dy2 * dx1) - (dx2 * dy1);
+
+		if (denom == 0)
+			return null;
+
+		float ua = (dx2 * (point1.y - line.point1.y)) - (dy2 * (point1.x - line.point1.x));
+		ua = ua / denom;
+		float ub = (dx1 * (point1.y - line.point1.y)) - (dy1 * (point1.x - line.point1.x));
+		ub = ub / denom;
+
+		/*if ((limit) && ((ua < 0) || (ua > 1) || (ub < 0) || (ub > 1)))
+			return null*/
+
+		float u = ua;
+
+		float ix = point1.x + (u * (point2.x - point1.x));
+		float iy = point1.y + (u * (point2.y - point1.y));
+
+		return new ImmutableVec2(ix, iy);
+	}
+
+	@Override
+	public void drawOutline(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
+		gfx.prepareShapes(ShapeRenderer.ShapeType.Line, () -> {
+			gfx.getShapeRenderer().line(v.x() + point1.x, v.y() + point1.y, v.x() + point2.x, v.y() + point2.y);
+		});
+	}
+
+	@Override
+	@Nonnull public Line ease(@Nonnull Line other, float f) {
+		return new Line(point1.ease(other.point1, f), point2.ease(other.point2, f));
+	}
+}

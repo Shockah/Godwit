@@ -1,4 +1,4 @@
 moduleName=Godwit extensions
 moduleVersion=1.0
-extensionClasses=pl.shockah.godwit.Extensions
+extensionClasses=pl.shockah.oldgodwit.Extensions
 #staticExtensionClasses=support.StaticStringExtension

@@ -1,19 +1,17 @@
-apply plugin: "groovy"
+apply plugin: "java"
 
 dependencies {
 	compile project(":godwit")
-	compileOnly "org.codehaus.groovy:groovy:2.6.0-alpha-2"
 	compile "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
 	compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
 }
 
-targetCompatibility = 1.7
-sourceCompatibility = 1.7
-[compileJava, compileTestJava, compileGroovy, compileTestGroovy]*.options*.encoding = "UTF-8"
+targetCompatibility = "1.8"
+sourceCompatibility = "1.8"
+[compileJava, compileTestJava]*.options*.encoding = "UTF-8"
 
 sourceSets.main {
-	java.srcDirs = []
-	groovy.srcDirs = ["src"]
+	java.srcDirs = ["src"]
 	resources.srcDirs = ["resources/dist"]
 }
 
@@ -25,7 +23,7 @@ void handleFiles(File baseDir, File file) {
 		file.eachFile {
 			handleFiles(baseDir, it)
 		}
-	} else if (file.name.endsWith(".groovy") || file.name.endsWith(".java")) {
+	} else if (file.name.endsWith(".java")) {
 		addTask(baseDir, file)
 	}
 }
@@ -41,6 +39,8 @@ void addTask(File baseDir, File file) {
 
 	if (fullClassName.contains("\$"))
 		return
+
+	println fullClassName
 
 	tasks.create("test$justClassName", JavaExec) {
 		dependsOn "classes"
