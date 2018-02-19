@@ -16,10 +16,9 @@ public class FxInstance<T> {
 		ReverseLoop
 	}
 
-	@Nonnull
-	final Fx fx;
-	@Nonnull final EndAction endAction;
-	boolean stopped = false;
+	@Nonnull public final Fx fx;
+	@Nonnull public final EndAction endAction;
+	public boolean stopped = false;
 	protected float elapsed = 0f;
 	protected float previous = 0f;
 	protected boolean reversed = false;
@@ -29,11 +28,11 @@ public class FxInstance<T> {
 		this.endAction = endAction;
 	}
 
-	final void updateDelta(@Nullable T object) {
+	public final void updateDelta(@Nullable T object) {
 		updateBy(object, Gdx.graphics.getDeltaTime());
 	}
 
-	void updateBy(@Nullable T object, float delta) {
+	public void updateBy(@Nullable T object, float delta) {
 		if (stopped)
 			return;
 
@@ -64,7 +63,7 @@ public class FxInstance<T> {
 			throw new IllegalArgumentException();
 	}
 
-	void update(@Nullable T object) {
+	public void update(@Nullable T object) {
 		if (stopped)
 			return;
 
