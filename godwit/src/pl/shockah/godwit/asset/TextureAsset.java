@@ -14,12 +14,12 @@ public class TextureAsset extends Asset<Texture> {
 		@Nonnull public static Texture.TextureFilter filter = Texture.TextureFilter.Nearest;
 	}
 
-	public TextureAsset(@Nonnull String fileName, @Nonnull Class<Texture> clazz) {
-		this(fileName, clazz, Defaults.filter);
+	public TextureAsset(@Nonnull String fileName) {
+		this(fileName, Defaults.filter);
 	}
 
-	public TextureAsset(@Nonnull String fileName, @Nonnull Class<Texture> clazz, @Nonnull Texture.TextureFilter filter) {
-		super(fileName, clazz, new TextureLoader.TextureParameter() {{
+	public TextureAsset(@Nonnull String fileName, @Nonnull Texture.TextureFilter filter) {
+		super(fileName, Texture.class, new TextureLoader.TextureParameter() {{
 			magFilter = filter;
 			minFilter = filter;
 		}});

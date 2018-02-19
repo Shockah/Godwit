@@ -6,8 +6,8 @@ import lombok.experimental.Delegate;
 import pl.shockah.godwit.gl.SpriteSheet;
 
 public class SpriteSheetAsset extends Asset<SpriteSheet> {
-	public SpriteSheetAsset(@Nonnull String fileName, @Nonnull Class<SpriteSheet> clazz) {
-		super(fileName, clazz);
+	public SpriteSheetAsset(@Nonnull String fileName) {
+		super(fileName, SpriteSheet.class);
 	}
 
 	@Delegate
