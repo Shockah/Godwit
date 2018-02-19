@@ -18,7 +18,7 @@ public class SpriteSheet {
 	public final int frameCount;
 
 	@Getter(lazy = true)
-	private final IVec2 frameSize = calculateFrameSize();
+	private final IVec2 frameSize = calculateFrameSize(texture);
 
 	@Nonnull private final TextureRegion[][] cache;
 
@@ -40,7 +40,7 @@ public class SpriteSheet {
 		cache = new TextureRegion[columns][rows];
 	}
 
-	@Nonnull private IVec2 calculateFrameSize() {
+	@Nonnull private IVec2 calculateFrameSize(@Nonnull Texture texture) {
 		IVec2 textureSize = new ImmutableVec2(texture.getWidth(), texture.getHeight());
 		IVec2 blankSpace = new ImmutableVec2(margin) * 2 + new ImmutableVec2(spacing) * new ImmutableVec2(columns - 1, rows - 1);
 		return (textureSize - blankSpace) / new ImmutableVec2(columns, rows);
@@ -60,7 +60,8 @@ public class SpriteSheet {
 		if (region == null) {
 			IVec2 size = getFrameSize();
 			IVec2 position = new ImmutableVec2(margin) + new ImmutableVec2(column, row) * (size + new ImmutableVec2(spacing)) - new ImmutableVec2(spacing);
-			region = new TextureRegion(texture, (int)position.x(), (int)(position.y() + size.y()), (int)size.x(), (int)-size.y());
+			region = new TextureRegion(texture, (int)position.x(), (int)position.y(), (int)size.x(), (int)size.y());
+			//region = new TextureRegion(texture, (int)position.x(), (int)(position.y() + size.y()), (int)size.x(), (int)-size.y());
 			cache[column][row] = region;
 		}
 		return region;

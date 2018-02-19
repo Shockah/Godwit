@@ -34,6 +34,7 @@ public class Godwit {
 	protected boolean isFirstTick = true;
 	public boolean waitForDeltaToStabilize = true;
 	public boolean renderFirstTickWhenWaitingForDeltaToStabilize = false;
+	public boolean yPointingDown = true;
 	@Nonnull private final List<Float> deltas = new ArrayList<>();
 
 	private Godwit() {

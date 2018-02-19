@@ -19,7 +19,8 @@ public class GodwitAdapter extends ApplicationAdapter {
 
 	@Override
 	public void resize(int width, int height) {
-		Godwit.getInstance().gfx.getCamera().setToOrtho(true, width, height);
+		Godwit godwit = Godwit.getInstance();
+		godwit.gfx.getCamera().setToOrtho(godwit.yPointingDown, width, height);
 		Viewport viewport = Godwit.getInstance().gfx.getViewport();
 		if (viewport != null)
 			viewport.update(width, height, false);

@@ -1,10 +1,13 @@
 package pl.shockah.godwit.gl;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import javax.annotation.Nonnull;
 
 import lombok.experimental.Delegate;
+import pl.shockah.godwit.Godwit;
 import pl.shockah.godwit.fx.Animatable;
 import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.geom.ImmutableVec2;
@@ -17,6 +20,11 @@ public class GfxSprite implements Renderable, Animatable<GfxSprite> {
 		void rotate(float degrees);
 		void setFlip(boolean x, boolean y);
 		boolean isFlipY();
+		void setRegion(Texture texture);
+		void setRegion(TextureRegion region);
+		void setRegion(int x, int y, int width, int height);
+		void setRegion(float u, float v, float u2, float v2);
+		void setRegion(TextureRegion region, int x, int y, int width, int height);
 	}
 
 	@Delegate(excludes = DelegateExclusions.class)
@@ -26,7 +34,12 @@ public class GfxSprite implements Renderable, Animatable<GfxSprite> {
 
 	public GfxSprite(@Nonnull Sprite sprite) {
 		this.sprite = sprite;
-		sprite.setFlip(sprite.isFlipX(), !sprite.isFlipY());
+		fixFlip();
+	}
+
+	private void fixFlip() {
+		if (Godwit.getInstance().yPointingDown)
+			sprite.setFlip(sprite.isFlipX(), !sprite.isFlipY());
 	}
 
 	@Override
@@ -75,12 +88,36 @@ public class GfxSprite implements Renderable, Animatable<GfxSprite> {
 	}
 
 	public void setFlip(boolean x, boolean y) {
-		sprite.setFlip(x, !y);
+		sprite.setFlip(x, Godwit.getInstance().yPointingDown != y);
 	}
 
-	// by default it's the wrong way around
 	public boolean isFlipY() {
-		return !sprite.isFlipY();
+		return Godwit.getInstance().yPointingDown != sprite.isFlipY();
+	}
+
+	public void setRegion(int x, int y, int width, int height) {
+		sprite.setRegion(x, y, width, height);
+		fixFlip();
+	}
+
+	public void setRegion(float u, float v, float u2, float v2) {
+		sprite.setRegion(u, v, u2, v2);
+		fixFlip();
+	}
+
+	public void setRegion(TextureRegion region) {
+		sprite.setRegion(region);
+		fixFlip();
+	}
+
+	public void setRegion(Texture region) {
+		sprite.setRegion(region);
+		fixFlip();
+	}
+
+	public void setRegion(TextureRegion region, int x, int y, int width, int height) {
+		sprite.setRegion(region, x, y, width, height);
+		fixFlip();
 	}
 
 	public void setScaleX(float scaleX) {

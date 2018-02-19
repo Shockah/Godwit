@@ -6,14 +6,14 @@ import javax.annotation.Nonnull;
 
 import pl.shockah.godwit.Godwit;
 import pl.shockah.godwit.State;
-import pl.shockah.godwit.asset.Asset;
+import pl.shockah.godwit.asset.SpriteSheetAsset;
 import pl.shockah.godwit.fx.FxInstance;
 import pl.shockah.godwit.fx.object.ObjectAction2Fx;
 import pl.shockah.godwit.gl.GfxSprite;
 import pl.shockah.godwit.gl.SpriteSheet;
 
 public class SpriteSheetState extends State {
-	@Nonnull private static final Asset<SpriteSheet> sheet = new Asset<>("ninja-run.json", SpriteSheet.class);
+	@Nonnull private static final SpriteSheetAsset sheet = new SpriteSheetAsset("ninja-run.json", SpriteSheet.class);
 
 	@Override
 	public void onCreate() {
