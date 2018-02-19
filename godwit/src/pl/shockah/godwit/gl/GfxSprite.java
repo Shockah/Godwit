@@ -163,8 +163,6 @@ public class GfxSprite implements Renderable, Animatable<GfxSprite> {
 	}
 
 	public static class Entity extends pl.shockah.godwit.Entity {
-		// can't make it a @Delegate, as it produces a weird compile error
-		// looks a bit like this issue: https://issues.apache.org/jira/browse/GROOVY-7118
 		@Nonnull public final GfxSprite sprite;
 
 		public Entity(@Nonnull Sprite sprite) {
