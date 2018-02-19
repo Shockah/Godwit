@@ -14,7 +14,6 @@ import javax.annotation.Nullable;
 
 import java8.util.stream.StreamSupport;
 import lombok.Getter;
-import lombok.experimental.ExtensionMethod;
 import pl.shockah.godwit.asset.SpriteSheetLoader;
 import pl.shockah.godwit.gl.BlendMode;
 import pl.shockah.godwit.gl.GfxContextManager;
@@ -31,6 +30,7 @@ public class Godwit {
 	@Nullable protected State movingToState;
 	@Nonnull public final GfxImpl gfx = new GfxImpl();
 	@Nonnull public final AssetManager assetManager = new AssetManager();
+	@Nonnull public final InputManager inputManager = new InputManager();
 	protected boolean isFirstTick = true;
 	public boolean waitForDeltaToStabilize = true;
 	public boolean renderFirstTickWhenWaitingForDeltaToStabilize = false;
@@ -71,15 +71,25 @@ public class Godwit {
 					if (min2 / max2 > 0.2f)
 						return;
 					waitForDeltaToStabilize = false;
+					initialSetup();
 				} else {
 					return;
 				}
+			}
+		} else {
+			if (isFirstTick) {
+				isFirstTick = false;
+				initialSetup();
 			}
 		}
 
 		runStateCreation();
 		runUpdate();
 		runRender();
+	}
+
+	private void initialSetup() {
+		Gdx.input.setInputProcessor(inputManager.multiplexer);
 	}
 
 	private void runStateCreation() {
