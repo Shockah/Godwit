@@ -12,7 +12,7 @@ import lombok.experimental.Delegate;
 import pl.shockah.util.SortedLinkedList;
 
 public class InputManager {
-	@Nonnull protected static final Comparator<Processor> orderComparator = (o1, o2) -> Float.compare(o1.order, o2.order);
+	@Nonnull protected static final Comparator<Processor> orderComparator = (o1, o2) -> -Float.compare(o1.order, o2.order);
 
 	@Nonnull final InputMultiplexer multiplexer = new InputMultiplexer();
 	@Nonnull private final List<Processor> processors = new SortedLinkedList<>(orderComparator);
