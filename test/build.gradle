@@ -40,8 +40,6 @@ void addTask(File baseDir, File file) {
 	if (fullClassName.contains("\$"))
 		return
 
-	println fullClassName
-
 	tasks.create("test$justClassName", JavaExec) {
 		dependsOn "classes"
 

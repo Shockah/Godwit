@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
+import lombok.experimental.Delegate;
 import pl.shockah.util.SortedLinkedList;
 
 public class InputManager {
@@ -41,6 +42,62 @@ public class InputManager {
 
 		public Processor(float order) {
 			this.order = order;
+		}
+	}
+
+	public static abstract class Adapter extends Processor {
+		public Adapter(float order) {
+			super(order);
+		}
+
+		@Override
+		public boolean keyDown(int keycode) {
+			return false;
+		}
+
+		@Override
+		public boolean keyUp(int keycode) {
+			return false;
+		}
+
+		@Override
+		public boolean keyTyped(char character) {
+			return false;
+		}
+
+		@Override
+		public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+			return false;
+		}
+
+		@Override
+		public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+			return false;
+		}
+
+		@Override
+		public boolean touchDragged(int screenX, int screenY, int pointer) {
+			return false;
+		}
+
+		@Override
+		public boolean mouseMoved(int screenX, int screenY) {
+			return false;
+		}
+
+		@Override
+		public boolean scrolled(int amount) {
+			return false;
+		}
+	}
+
+	public static class Delegated extends Processor {
+		@Delegate
+		@Nonnull public final InputProcessor delegate;
+
+		public Delegated(float order, @Nonnull InputProcessor delegate) {
+			super(order);
+			this.delegate = delegate;
 		}
 	}
 }
