@@ -104,7 +104,7 @@ public abstract class Gfx {
 	}
 
 	public void draw(@Nonnull Renderable renderable) {
-		draw(renderable, new ImmutableVec2());
+		draw(renderable, ImmutableVec2.zero);
 	}
 
 	public <S extends Shape & Shape.Filled> void drawFilled(@Nonnull S shape, @Nonnull IVec2 v) {
@@ -116,7 +116,7 @@ public abstract class Gfx {
 	}
 
 	public <S extends Shape & Shape.Filled> void drawFilled(@Nonnull S shape) {
-		drawFilled(shape, new ImmutableVec2());
+		drawFilled(shape, ImmutableVec2.zero);
 	}
 
 	public <S extends Shape & Shape.Outline> void drawOutline(@Nonnull S shape, @Nonnull IVec2 v) {
@@ -128,7 +128,7 @@ public abstract class Gfx {
 	}
 
 	public <S extends Shape & Shape.Outline> void drawOutline(@Nonnull S shape) {
-		drawOutline(shape, new ImmutableVec2());
+		drawOutline(shape, ImmutableVec2.zero);
 	}
 
 	public abstract void drawPoint(@Nonnull IVec2 v);

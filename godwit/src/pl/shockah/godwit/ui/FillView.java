@@ -74,6 +74,6 @@ public class FillView extends ViewHolder<Void> {
 
 	@Override
 	@Nonnull public IVec2 getIntrinsicSize(@Nonnull IVec2 availableSize) {
-		return (innerView != null ? innerView.getIntrinsicSize(availableSize - padding.getVector()) : new ImmutableVec2()) + padding.getVector();
+		return (innerView != null ? innerView.getIntrinsicSize(availableSize - padding.getVector()) : ImmutableVec2.zero) + padding.getVector();
 	}
 }

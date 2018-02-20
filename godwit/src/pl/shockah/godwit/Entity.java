@@ -89,7 +89,7 @@ public class Entity implements Renderable, Animatable<Entity> {
 
 	@Override
 	public final void render(@Nonnull Gfx gfx) {
-		render(gfx, new ImmutableVec2());
+		render(gfx, ImmutableVec2.zero);
 	}
 
 	public void onCreate() {

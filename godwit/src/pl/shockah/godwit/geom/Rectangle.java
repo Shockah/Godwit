@@ -39,11 +39,11 @@ public class Rectangle extends Shape implements Shape.Filled, Shape.Outline, Pol
 	}
 
 	public static Rectangle centered(float w, float h) {
-		return centered(new Vec2(), new Vec2(w, h));
+		return centered(ImmutableVec2.zero, new Vec2(w, h));
 	}
 
 	public static Rectangle centered(@Nonnull IVec2 size) {
-		return centered(new Vec2(), size);
+		return centered(ImmutableVec2.zero, size);
 	}
 
 	public Rectangle(float x, float y, float w, float h) {
@@ -72,11 +72,11 @@ public class Rectangle extends Shape implements Shape.Filled, Shape.Outline, Pol
 	}
 
 	public Rectangle(float w, float h) {
-		this(new Vec2(), new Vec2(w, h));
+		this(ImmutableVec2.zero, new Vec2(w, h));
 	}
 
 	public Rectangle(@Nonnull IVec2 size) {
-		this(new Vec2(), size);
+		this(ImmutableVec2.zero, size);
 	}
 
 	@Override

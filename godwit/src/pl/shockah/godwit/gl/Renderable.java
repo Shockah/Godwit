@@ -13,6 +13,6 @@ public interface Renderable {
 	}
 
 	default void render(@Nonnull Gfx gfx) {
-		render(gfx, new ImmutableVec2());
+		render(gfx, ImmutableVec2.zero);
 	}
 }

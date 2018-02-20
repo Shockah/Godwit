@@ -181,7 +181,7 @@ public abstract class IVec2<V extends IVec2<V>> implements Easable<V> {
 	}
 
 	public float getAngle() {
-		return new ImmutableVec2().getAngle(this);
+		return ImmutableVec2.zero.getAngle(this);
 	}
 
 	public float getAngle(@Nonnull IVec2 v) {

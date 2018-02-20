@@ -4,12 +4,13 @@ import com.badlogic.gdx.math.Vector2;
 
 import javax.annotation.Nonnull;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import pl.shockah.godwit.Math2;
 import pl.shockah.godwit.fx.ease.Easing;
 
 public final class ImmutableVec2 extends IVec2<ImmutableVec2> {
+	public static final ImmutableVec2 zero = new ImmutableVec2();
+
 	@Getter
 	public final float x;
 

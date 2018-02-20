@@ -33,7 +33,7 @@ public class View implements Renderable {
 
 	@Nonnull
 	public IVec2 getIntrinsicSize(@Nonnull IVec2 availableSize) {
-		return new ImmutableVec2();
+		return ImmutableVec2.zero;
 	}
 
 	public void removeFromParent() {

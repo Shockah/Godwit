@@ -34,7 +34,7 @@ public abstract class Shape {
 		}
 
 		default void drawFilled(@Nonnull Gfx gfx) {
-			drawFilled(gfx, new ImmutableVec2());
+			drawFilled(gfx, ImmutableVec2.zero);
 		}
 
 		boolean contains(@Nonnull IVec2 v);
@@ -71,7 +71,7 @@ public abstract class Shape {
 		}
 
 		default void drawOutline(@Nonnull Gfx gfx) {
-			drawOutline(gfx, new ImmutableVec2());
+			drawOutline(gfx, ImmutableVec2.zero);
 		}
 
 		// TODO: reimplement

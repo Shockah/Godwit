@@ -22,7 +22,7 @@ public class Circle extends Shape implements Polygonable, Shape.Filled, Shape.Ou
 	}
 
 	public Circle(float radius) {
-		this(new Vec2(), radius);
+		this(ImmutableVec2.zero, radius);
 	}
 
 	public Circle(@Nonnull IVec2 position, float radius) {
