@@ -15,7 +15,7 @@ public final class Animatables {
 	@Nonnull private static final Map<Animatable, List<FxInstance<? extends Animatable>>> fxes = new WeakHashMap<>();
 
 	@SuppressWarnings("unchecked")
-	public static <T extends Animatable<T>> List<FxInstance<T>> getFxInstances(T animatable) {
-		return (List<FxInstance<T>>)(List)Maps.computeIfAbsent(fxes, animatable, key -> new ArrayList<>());
+	public static <T extends Animatable<T>> List<FxInstance<? super T>> getFxInstances(T animatable) {
+		return (List<FxInstance<? super T>>)(List)Maps.computeIfAbsent(fxes, animatable, key -> new ArrayList<>());
 	}
 }
