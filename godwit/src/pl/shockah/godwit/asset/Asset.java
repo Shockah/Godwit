@@ -36,7 +36,10 @@ public class Asset<T> {
 	}
 
 	public void finishLoading() {
-		getAssetManager().finishLoadingAsset(fileName);
+		AssetManager manager = getAssetManager();
+		if (manager.isLoaded(fileName, clazz))
+			return;
+		manager.finishLoadingAsset(fileName);
 	}
 
 	public T get() {
