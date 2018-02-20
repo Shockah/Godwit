@@ -8,15 +8,14 @@ import java.util.WeakHashMap;
 import javax.annotation.Nonnull;
 
 import java8.util.Maps;
+import lombok.experimental.UtilityClass;
 
+@UtilityClass
 public final class Animatables {
-	@Nonnull static final Map<Animatable, List<FxInstance<? extends Animatable>>> fxes = new WeakHashMap<>();
+	@Nonnull private static final Map<Animatable, List<FxInstance<? extends Animatable>>> fxes = new WeakHashMap<>();
 
-	static List<FxInstance<? extends Animatable>> getFxInstances(Animatable animatable) {
-		return Maps.computeIfAbsent(fxes, animatable, key -> new ArrayList<>());
-	}
-
-	private Animatables() {
-		throw new UnsupportedOperationException();
+	@SuppressWarnings("unchecked")
+	public static <T extends Animatable<T>> List<FxInstance<T>> getFxInstances(T animatable) {
+		return (List<FxInstance<T>>)(List)Maps.computeIfAbsent(fxes, animatable, key -> new ArrayList<>());
 	}
 }
