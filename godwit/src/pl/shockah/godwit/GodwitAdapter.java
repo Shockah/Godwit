@@ -14,14 +14,16 @@ public class GodwitAdapter extends ApplicationAdapter {
 
 	@Override
 	public void create() {
-		Godwit.getInstance().moveToState(initialState);
+		Godwit godwit = Godwit.getInstance();
+		godwit.create();
+		godwit.moveToState(initialState);
 	}
 
 	@Override
 	public void resize(int width, int height) {
 		Godwit godwit = Godwit.getInstance();
 		godwit.gfx.getCamera().setToOrtho(godwit.yPointingDown, width, height);
-		Viewport viewport = Godwit.getInstance().gfx.getViewport();
+		Viewport viewport = godwit.gfx.getViewport();
 		if (viewport != null)
 			viewport.update(width, height, false);
 	}

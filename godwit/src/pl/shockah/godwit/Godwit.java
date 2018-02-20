@@ -20,7 +20,7 @@ import pl.shockah.godwit.gl.GfxContextManager;
 import pl.shockah.godwit.gl.GfxImpl;
 import pl.shockah.godwit.gl.SpriteSheet;
 
-public class Godwit {
+public final class Godwit {
 	@Getter(lazy = true)
 	@Nonnull private static final Godwit instance = new Godwit();
 
@@ -36,14 +36,23 @@ public class Godwit {
 	public boolean renderFirstTickWhenWaitingForDeltaToStabilize = false;
 	public boolean yPointingDown = true;
 	@Nonnull private final List<Float> deltas = new ArrayList<>();
+	private boolean created = false;
 
 	private Godwit() {
-		FileHandleResolver resolver = new InternalFileHandleResolver();
-		assetManager.setLoader(SpriteSheet.class, new SpriteSheetLoader(resolver));
 	}
 
 	public void moveToState(@Nullable State state) {
 		movingToState = state;
+	}
+
+	public void create() {
+		if (created)
+			throw new IllegalStateException();
+
+		FileHandleResolver resolver = new InternalFileHandleResolver();
+		assetManager.setLoader(SpriteSheet.class, new SpriteSheetLoader(resolver));
+
+		Gdx.input.setInputProcessor(inputManager.multiplexer);
 	}
 
 	public void tick() {
@@ -72,25 +81,15 @@ public class Godwit {
 					if (min2 / max2 > 0.2f)
 						return;
 					waitForDeltaToStabilize = false;
-					initialSetup();
 				} else {
 					return;
 				}
-			}
-		} else {
-			if (isFirstTick) {
-				isFirstTick = false;
-				initialSetup();
 			}
 		}
 
 		runStateCreation();
 		runUpdate();
 		runRender();
-	}
-
-	private void initialSetup() {
-		Gdx.input.setInputProcessor(inputManager.multiplexer);
 	}
 
 	private void runStateCreation() {
