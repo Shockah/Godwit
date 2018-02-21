@@ -23,7 +23,7 @@ public class LocalOrInternalFileHandleResolver implements FileHandleResolver {
 
 	@Override
 	public FileHandle resolve(String fileName) {
-		if (Gdx.files.isLocalStorageAvailable() && new FileHandle(String.format("%s/%s", Gdx.files.getLocalStoragePath(), fileName)).exists()) {
+		if (Gdx.files.isLocalStorageAvailable() && new FileHandle(String.format("%s/%s", Gdx.files.getLocalStoragePath(), getLocalFileName(fileName))).exists()) {
 			return Gdx.files.local(getLocalFileName(fileName));
 		} else {
 			return Gdx.files.internal(fileName);
