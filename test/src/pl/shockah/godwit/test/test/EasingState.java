@@ -36,7 +36,7 @@ public class EasingState extends State {
 	public void onCreate() {
 		super.onCreate();
 
-		AssetManager assetManager = Godwit.getInstance().assetManager;
+		AssetManager assetManager = Godwit.getInstance().getAssetManager();
 		assetManager.load("question-mark.png", Texture.class);
 		assetManager.finishLoading();
 		Texture texture = assetManager.get("question-mark.png", Texture.class);

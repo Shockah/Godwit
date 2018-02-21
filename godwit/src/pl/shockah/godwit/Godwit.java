@@ -2,8 +2,6 @@ package pl.shockah.godwit;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.assets.loaders.FileHandleResolver;
-import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.Color;
 
 import java.util.ArrayList;
@@ -29,7 +27,6 @@ public final class Godwit {
 
 	@Nullable protected State movingToState;
 	@Nonnull public final GfxImpl gfx = new GfxImpl();
-	@Nonnull public AssetManager assetManager = new AssetManager();
 	@Nonnull public final InputManager inputManager = new InputManager();
 	protected boolean isFirstTick = true;
 	public boolean waitForDeltaToStabilize = true;
@@ -38,7 +35,11 @@ public final class Godwit {
 	@Nonnull private final List<Float> deltas = new ArrayList<>();
 	private boolean created = false;
 
+	@Getter
+	@Nonnull private AssetManager assetManager = new AssetManager();
+
 	private Godwit() {
+		setupAssetManager();
 	}
 
 	public void moveToState(@Nullable State state) {
@@ -49,10 +50,16 @@ public final class Godwit {
 		if (created)
 			throw new IllegalStateException();
 
-		FileHandleResolver resolver = new InternalFileHandleResolver();
-		assetManager.setLoader(SpriteSheet.class, new SpriteSheetLoader(resolver));
-
 		Gdx.input.setInputProcessor(inputManager.multiplexer);
+	}
+
+	public void setAssetManager(@Nonnull AssetManager assetManager) {
+		this.assetManager = assetManager;
+		setupAssetManager();
+	}
+
+	private void setupAssetManager() {
+		assetManager.setLoader(SpriteSheet.class, new SpriteSheetLoader(assetManager.getFileHandleResolver()));
 	}
 
 	public void tick() {

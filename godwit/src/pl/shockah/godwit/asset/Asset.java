@@ -24,7 +24,7 @@ public class Asset<T> {
 	}
 
 	protected static AssetManager getAssetManager() {
-		return Godwit.getInstance().assetManager;
+		return Godwit.getInstance().getAssetManager();
 	}
 
 	public void load() {

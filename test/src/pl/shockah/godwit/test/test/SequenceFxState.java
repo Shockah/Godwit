@@ -25,7 +25,7 @@ public class SequenceFxState extends State {
 	public void onCreate() {
 		super.onCreate();
 
-		AssetManager assetManager = Godwit.getInstance().assetManager;
+		AssetManager assetManager = Godwit.getInstance().getAssetManager();
 		assetManager.load("question-mark.png", Texture.class);
 		assetManager.finishLoading();
 

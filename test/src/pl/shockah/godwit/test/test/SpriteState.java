@@ -26,7 +26,7 @@ public class SpriteState extends State {
 	public void onCreate() {
 		super.onCreate();
 
-		AssetManager assetManager = Godwit.getInstance().assetManager;
+		AssetManager assetManager = Godwit.getInstance().getAssetManager();
 		assetManager.load("abstract-480-320.jpg", Texture.class);
 		assetManager.finishLoading();
 
