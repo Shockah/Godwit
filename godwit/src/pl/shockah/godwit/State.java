@@ -18,8 +18,8 @@ public class State extends EntityGroup<Entity> {
 	}
 
 	@Override
-	protected void onDestroy(@Nonnull Entity entity) {
-		super.onDestroy(entity);
+	public void onDestroy() {
+		super.onDestroy();
 		for (Asset<?> asset : retainedAssets) {
 			asset.unload();
 		}
