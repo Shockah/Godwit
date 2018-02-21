@@ -29,7 +29,7 @@ public final class Godwit {
 
 	@Nullable protected State movingToState;
 	@Nonnull public final GfxImpl gfx = new GfxImpl();
-	@Nonnull public final AssetManager assetManager = new AssetManager();
+	@Nonnull public AssetManager assetManager = new AssetManager();
 	@Nonnull public final InputManager inputManager = new InputManager();
 	protected boolean isFirstTick = true;
 	public boolean waitForDeltaToStabilize = true;
