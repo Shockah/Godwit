@@ -17,6 +17,7 @@ import pl.shockah.godwit.gl.BlendMode;
 import pl.shockah.godwit.gl.GfxContextManager;
 import pl.shockah.godwit.gl.GfxImpl;
 import pl.shockah.godwit.gl.SpriteSheet;
+import pl.shockah.godwit.rand.Randomizer;
 
 public final class Godwit {
 	@Getter(lazy = true)
@@ -28,6 +29,7 @@ public final class Godwit {
 	@Nullable protected State movingToState;
 	@Nonnull public final GfxImpl gfx = new GfxImpl();
 	@Nonnull public final InputManager inputManager = new InputManager();
+	@Nonnull public final Randomizer random = new Randomizer();
 	protected boolean isFirstTick = true;
 	public boolean waitForDeltaToStabilize = true;
 	public boolean renderFirstTickWhenWaitingForDeltaToStabilize = false;
