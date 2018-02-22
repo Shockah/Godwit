@@ -63,7 +63,7 @@ public class Randomizer {
 
 	@SafeVarargs
 	@Nonnull public final <T> Generator<T> getGenerator(@Nonnull T... array) {
-		return this::getRandom;
+		return () -> getRandom(array);
 	}
 
 	@Nonnull public final <T> T getRandom(List<T> list) {
