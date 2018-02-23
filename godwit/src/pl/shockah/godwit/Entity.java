@@ -9,6 +9,7 @@ import lombok.Getter;
 import pl.shockah.godwit.fx.Animatable;
 import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.geom.ImmutableVec2;
+import pl.shockah.godwit.geom.Vec2;
 import pl.shockah.godwit.gl.Gfx;
 import pl.shockah.godwit.gl.Renderable;
 import pl.shockah.util.SafeList;
@@ -16,7 +17,9 @@ import pl.shockah.util.SortedLinkedList;
 
 public class Entity implements Renderable, Animatable<Entity> {
 	@Nonnull private static final Comparator<? super Entity> depthComparator = (o1, o2) -> -Float.compare(o1.getDepth(), o2.getDepth());
+
 	@Nonnull public final SafeList<Entity> children = new SafeList<>(new SortedLinkedList<>(depthComparator));
+	@Nonnull public Vec2 position = new Vec2();
 
 	@Getter
 	@Nullable private Entity parent;
@@ -76,8 +79,8 @@ public class Entity implements Renderable, Animatable<Entity> {
 
 	@Override
 	public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
-		renderSelf(gfx, v);
-		renderChildren(gfx, v);
+		renderSelf(gfx, v + position);
+		renderChildren(gfx, v + position);
 	}
 
 	@Override
