@@ -29,7 +29,7 @@ public class SequenceObjectFx<T> extends SequenceFx<ObjectFx<T>> implements Obje
 			fx.finish(object, value, value);
 		}
 
-		FxResult<ObjectFx<T>> result = getFx(f);
+		FxResult<ObjectFx<T>> result = getFx(f, false);
 		if (finish)
 			result.fx.finish(object, result.getFxF(f), result.getFxF(previous));
 		else

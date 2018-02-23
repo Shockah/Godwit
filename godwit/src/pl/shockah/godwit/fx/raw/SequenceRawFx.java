@@ -28,7 +28,7 @@ public class SequenceRawFx extends SequenceFx<RawFx> implements RawFx {
 			fx.finish(value, value);
 		}
 
-		FxResult<RawFx> result = getFx(f);
+		FxResult<RawFx> result = getFx(f, false);
 		if (finish)
 			result.fx.finish(result.getFxF(f), result.getFxF(previous));
 		else

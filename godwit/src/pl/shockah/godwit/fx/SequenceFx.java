@@ -59,13 +59,18 @@ public abstract class SequenceFx<F extends Fx> implements Fx {
 		throw new UnsupportedOperationException();
 	}
 
-	@Nonnull protected FxResult<F> getFx(float f) {
+	@Nonnull protected FxResult<F> getFx(float f, boolean includingEqual) {
 		float fStart = 0f;
 		for (int i = 0; i < fxes.size(); i++) {
 			F fx = fxes[i];
 			float duration = fx.getDuration();
-			if (f - fStart < duration)
-				return new FxResult<>(fx, i, fStart, fStart + fx.getDuration());
+			if (includingEqual) {
+				if (f - fStart <= duration)
+					return new FxResult<>(fx, i, fStart, fStart + fx.getDuration());
+			} else {
+				if (f - fStart < duration)
+					return new FxResult<>(fx, i, fStart, fStart + fx.getDuration());
+			}
 			fStart += duration;
 		}
 		int lastIndex = fxes.size() - 1;
@@ -74,8 +79,8 @@ public abstract class SequenceFx<F extends Fx> implements Fx {
 	}
 
 	@Nonnull protected List<F> getFxesToFinish(float f, float previous) {
-		FxResult<F> resultPrevious = getFx(previous);
-		FxResult<F> result = getFx(f);
+		FxResult<F> resultPrevious = getFx(previous, true);
+		FxResult<F> result = getFx(f, false);
 
 		List<F> results = new ArrayList<>();
 		if (resultPrevious.index != result.index) {
