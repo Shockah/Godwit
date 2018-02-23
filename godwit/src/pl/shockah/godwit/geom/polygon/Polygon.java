@@ -150,6 +150,7 @@ public class Polygon extends Shape implements Polygonable, Shape.Filled, Shape.O
 	public void addPoint(@Nonnull IVec2 v) {
 		points.add(v);
 		dirty = true;
+		triangulated.clear();
 	}
 
 	public int getPointCount() {
@@ -209,6 +210,7 @@ public class Polygon extends Shape implements Polygonable, Shape.Filled, Shape.O
 	public void set(int index, @Nonnull IVec2 value) {
 		points[index] = value;
 		dirty = true;
+		triangulated.clear();
 	}
 
 	@Nonnull public List<Line> getLines() {
@@ -219,6 +221,11 @@ public class Polygon extends Shape implements Polygonable, Shape.Filled, Shape.O
 		if (closed)
 			lines.add(new Line(points[points.size() - 1], points[0]));
 		return lines;
+	}
+
+	@Nonnull public List<Triangle> getTriangles() {
+		triangulate();
+		return new ArrayList<>(triangulated);
 	}
 
 	@Override
