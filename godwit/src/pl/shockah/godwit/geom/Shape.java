@@ -16,6 +16,8 @@ public abstract class Shape {
 
 	public abstract void translate(@Nonnull IVec2 v);
 
+	public abstract void mirror(boolean horizontally, boolean vertically);
+
 	public final boolean collides(@Nonnull Shape shape) {
 		return collides(shape, false);
 	}

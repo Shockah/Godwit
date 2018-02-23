@@ -109,6 +109,14 @@ public class Rectangle extends Shape implements Shape.Filled, Shape.Outline, Pol
 	}
 
 	@Override
+	public void mirror(boolean horizontally, boolean vertically) {
+		if (horizontally)
+			position.x = -position.x - size.x;
+		if (vertically)
+			position.y = -position.y - size.y;
+	}
+
+	@Override
 	public boolean contains(@Nonnull IVec2 v) {
 		return v.x() >= position.x && v.y() >= position.y && v.x() < position.x + size.x && v.y() < position.y + size.y;
 	}

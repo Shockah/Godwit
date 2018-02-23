@@ -84,6 +84,20 @@ public class Triangle extends Shape implements Polygonable, Shape.Filled, Shape.
 		point3.y += v.y();
 	}
 
+	@Override
+	public void mirror(boolean horizontally, boolean vertically) {
+		if (horizontally) {
+			point1.x *= -1;
+			point2.x *= -1;
+			point3.x *= -1;
+		}
+		if (vertically) {
+			point1.y *= -1;
+			point2.y *= -1;
+			point3.y *= -1;
+		}
+	}
+
 	private static float sign(float x1, float y1, float x2, float y2, float x3, float y3) {
 		return (x1 - x3) * (y2 - y3) - (x2 - x3) * (y1 - y3);
 	}

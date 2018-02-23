@@ -69,6 +69,14 @@ public class Circle extends Shape implements Polygonable, Shape.Filled, Shape.Ou
 	}
 
 	@Override
+	public void mirror(boolean horizontally, boolean vertically) {
+		if (horizontally)
+			position.x *= -1;
+		if (vertically)
+			position.x *= -1;
+	}
+
+	@Override
 	public boolean contains(@Nonnull IVec2 v) {
 		return (position - v).getLength() <= radius;
 	}

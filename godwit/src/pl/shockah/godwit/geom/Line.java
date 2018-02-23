@@ -63,6 +63,18 @@ public class Line extends Shape implements Shape.Outline, Easable<Line> {
 	}
 
 	@Override
+	public void mirror(boolean horizontally, boolean vertically) {
+		if (horizontally) {
+			point1.x *= -1;
+			point2.x *= -1;
+		}
+		if (vertically) {
+			point1.y *= -1;
+			point2.y *= -1;
+		}
+	}
+
+	@Override
 	protected boolean collides(@Nonnull Shape shape, boolean secondTry) {
 		if (shape instanceof Line)
 			return collides((Line)shape);

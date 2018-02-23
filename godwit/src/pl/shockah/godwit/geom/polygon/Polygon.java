@@ -93,6 +93,19 @@ public class Polygon extends Shape implements Polygonable, Shape.Filled, Shape.O
 		}
 	}
 
+	@Override
+	public void mirror(boolean horizontally, boolean vertically) {
+		IVec2 modifier = new ImmutableVec2(horizontally ? -1 : 1, vertically ? -1 : 1);
+		for (int i = 0; i < points.size(); i++) {
+			points[i] = points[i] * modifier;
+		}
+		if (!dirty) {
+			for (Triangle triangle : triangulated) {
+				triangle.mirror(horizontally, vertically);
+			}
+		}
+	}
+
 	@Nonnull protected Triangulator triangulator() {
 		return new NeatTriangulator();
 	}

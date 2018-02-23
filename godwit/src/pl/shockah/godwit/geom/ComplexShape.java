@@ -54,6 +54,13 @@ public class ComplexShape<T extends Shape> extends Shape {
 		}
 	}
 
+	@Override
+	public void mirror(boolean horizontally, boolean vertically) {
+		for (T shape : shapes) {
+			shape.mirror(horizontally, vertically);
+		}
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	protected boolean collides(@Nonnull Shape shape, boolean secondTry) {
