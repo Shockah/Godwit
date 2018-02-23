@@ -106,8 +106,8 @@ public class Line extends Shape implements Shape.Outline, Easable<Line> {
 		float ub = (dx1 * (point1.y - line.point1.y)) - (dy1 * (point1.x - line.point1.x));
 		ub = ub / denom;
 
-		/*if ((limit) && ((ua < 0) || (ua > 1) || (ub < 0) || (ub > 1)))
-			return null*/
+		if (((ua < 0) || (ua > 1) || (ub < 0) || (ub > 1)))
+			return null;
 
 		float u = ua;
 
