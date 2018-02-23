@@ -41,8 +41,8 @@ public class Entity implements Renderable, Animatable<Entity> {
 			throw new IllegalStateException(String.format("Entity %s already has a parent %s.", entity, entity.parent));
 		entity.parent = this;
 		children.add(entity);
-		entity.onAddedToParent();
 		callAddedToHierarchy(entity);
+		entity.onAddedToParent();
 	}
 
 	private static void callAddedToHierarchy(@Nonnull Entity entity) {
@@ -58,8 +58,8 @@ public class Entity implements Renderable, Animatable<Entity> {
 	public void removeFromParent() {
 		if (parent == null)
 			throw new IllegalStateException(String.format("Entity %s doesn't have a parent.", this));
-		callRemovedFromHierarchy(this);
 		onRemovedFromParent();
+		callRemovedFromHierarchy(this);
 		parent.children.remove(this);
 		parent = null;
 	}
