@@ -23,24 +23,27 @@ public class AttachedViewportState extends State implements Configurable {
 		config.setWindowedMode(256, 256);
 	}
 
-	@Override
-	public void onCreate() {
-		super.onCreate();
-		new AttachmentEntity().create(this);
+	public AttachedViewportState() {
+		addChild(new AttachmentEntity());
 	}
 
 	@Override
-	public void onRender(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
+	public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
 		gfx.clear(Color.GRAY);
 
-		StreamSupport.stream(entities).filter(e -> e instanceof AttachmentEntity).map(e -> (AttachmentEntity)e).findFirst().ifPresent(e -> {
+		StreamSupport.stream(children.getSafeCopy()).filter(e -> e instanceof AttachmentEntity).map(e -> (AttachmentEntity)e).findFirst().ifPresent(e -> {
 			gfx.setCameraPosition(e.pos);
 		});
 
+		super.render(gfx, v);
+	}
+
+	@Override
+	public void renderSelf(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
+		super.renderSelf(gfx, v);
+
 		gfx.setColor(Color.RED);
 		gfx.drawFilled(Rectangle.centered(gfx.getSize() / 2f + v, gfx.getSize() * 0.2f));
-
-		super.onRender(gfx, v);
 	}
 
 	public class AttachmentEntity extends Entity {
@@ -48,8 +51,8 @@ public class AttachedViewportState extends State implements Configurable {
 		@Nonnull Circle circle = new Circle(24f);
 
 		@Override
-		public void onUpdate() {
-			super.onUpdate();
+		public void updateSelf() {
+			super.updateSelf();
 			if (Gdx.input.isKeyPressed(Input.Keys.LEFT))
 				pos.x -= 2f;
 			if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))
@@ -61,8 +64,8 @@ public class AttachedViewportState extends State implements Configurable {
 		}
 
 		@Override
-		public void onRender(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
-			super.onRender(gfx, v);
+		public void renderSelf(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
+			super.renderSelf(gfx, v);
 			gfx.setColor(Color.WHITE);
 			gfx.drawFilled(circle, pos + v);
 		}

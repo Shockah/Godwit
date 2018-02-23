@@ -14,14 +14,14 @@ public class ViewEntity extends Entity {
 	}
 
 	@Override
-	public void onUpdate() {
-		super.onUpdate();
+	public void updateSelf() {
+		super.updateSelf();
 		view.onUpdate();
 	}
 
 	@Override
-	public void onRender(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
-		super.onRender(gfx, v);
+	public void renderSelf(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
+		super.renderSelf(gfx, v);
 		view.render(gfx, v);
 	}
 }

@@ -24,35 +24,32 @@ public final class Godwit {
 	@Nonnull private static final Godwit instance = new Godwit();
 
 	@Getter
-	@Nullable protected State state;
+	@Nullable private State state;
 
-	@Nullable protected State movingToState;
-	@Nonnull public final GfxImpl gfx = new GfxImpl();
-	@Nonnull public final InputManager inputManager = new InputManager();
-	@Nonnull public final Randomizer random = new Randomizer();
-	protected boolean isFirstTick = true;
-	public boolean waitForDeltaToStabilize = true;
-	public boolean renderFirstTickWhenWaitingForDeltaToStabilize = false;
-	public boolean yPointingDown = true;
-	@Nonnull private final List<Float> deltas = new ArrayList<>();
-	private boolean created = false;
+	@Getter
+	@Nullable private State movingToState;
 
 	@Getter
 	@Nonnull private AssetManager assetManager = new AssetManager();
 
+	@Nonnull public final GfxImpl gfx = new GfxImpl();
+	@Nonnull public final InputManager inputManager = new InputManager();
+	@Nonnull public final Randomizer random = new Randomizer();
+	public boolean waitForDeltaToStabilize = true;
+	public boolean renderFirstTickWhenWaitingForDeltaToStabilize = false;
+	public boolean yPointingDown = true;
+
+	@Nonnull private final List<Float> deltas = new ArrayList<>();
+	@Nonnull private final Entity rootEntity = new Entity();
+	private boolean isFirstTick = true;
+
 	private Godwit() {
 		setupAssetManager();
+		Gdx.input.setInputProcessor(inputManager.multiplexer);
 	}
 
 	public void moveToState(@Nullable State state) {
 		movingToState = state;
-	}
-
-	public void create() {
-		if (created)
-			throw new IllegalStateException();
-
-		Gdx.input.setInputProcessor(inputManager.multiplexer);
 	}
 
 	public void setAssetManager(@Nonnull AssetManager assetManager) {
@@ -104,18 +101,17 @@ public final class Godwit {
 	private void runStateCreation() {
 		if (movingToState != null) {
 			if (state != null)
-				state.destroy();
+				state.removeFromParent();
 			state = movingToState;
 			movingToState = null;
 			gfx.resetCamera();
 			if (state != null)
-				state.create();
+				rootEntity.addChild(state);
 		}
 	}
 
 	private void runUpdate() {
-		if (state != null)
-			state.update();
+		rootEntity.update();
 	}
 
 	private void runRender() {
@@ -123,10 +119,7 @@ public final class Godwit {
 		gfx.updateCamera();
 		gfx.clear(Color.BLACK);
 		gfx.setBlendMode(BlendMode.normal);
-
-		if (state != null)
-			state.render(gfx);
-
+		rootEntity.render(gfx);
 		gfx.endTick();
 		GfxContextManager.bindSurface(null);
 	}

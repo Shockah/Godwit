@@ -22,8 +22,8 @@ public class SequenceFxState extends State {
 	private GfxSprite sprite;
 
 	@Override
-	public void onCreate() {
-		super.onCreate();
+	public void onAddedToParent() {
+		super.onAddedToParent();
 
 		AssetManager assetManager = Godwit.getInstance().getAssetManager();
 		assetManager.load("question-mark.png", Texture.class);
@@ -54,8 +54,8 @@ public class SequenceFxState extends State {
 	}
 
 	@Override
-	public void onRender(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
-		super.onRender(gfx, v);
+	public void renderSelf(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
+		super.renderSelf(gfx, v);
 		gfx.draw(sprite, gfx.getSize() / 2 + v);
 	}
 }

@@ -22,8 +22,8 @@ public class LinearViewState extends State implements Configurable {
 	}
 
 	@Override
-	public void onCreate() {
-		super.onCreate();
+	public void onAddedToParent() {
+		super.onAddedToParent();
 
 		LinearView linearView = new LinearView(Orientation.Horizontal);
 		linearView.backgroundColor = Color.DARK_GRAY;
@@ -49,6 +49,6 @@ public class LinearViewState extends State implements Configurable {
 		view4.backgroundColor = Color.CORAL;
 		linearView.add(view4, new BaseLinearView.Attributes(Alignment.Vertical.Bottom));
 
-		new ViewEntity(new FillView(linearView)).create(this);
+		addChild(new ViewEntity(new FillView(linearView)));
 	}
 }

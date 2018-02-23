@@ -23,8 +23,8 @@ public class SpriteState extends State {
 	private int movingCountdown = 0;
 
 	@Override
-	public void onCreate() {
-		super.onCreate();
+	public void onAddedToParent() {
+		super.onAddedToParent();
 
 		AssetManager assetManager = Godwit.getInstance().getAssetManager();
 		assetManager.load("abstract-480-320.jpg", Texture.class);
@@ -35,8 +35,8 @@ public class SpriteState extends State {
 	}
 
 	@Override
-	public void onUpdate() {
-		super.onUpdate();
+	public void updateSelf() {
+		super.updateSelf();
 
 		boolean l = Gdx.input.isKeyPressed(Input.Keys.LEFT);
 		boolean r = Gdx.input.isKeyPressed(Input.Keys.RIGHT);
@@ -60,8 +60,8 @@ public class SpriteState extends State {
 	}
 
 	@Override
-	public void onRender(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
-		super.onRender(gfx, v);
+	public void renderSelf(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
+		super.renderSelf(gfx, v);
 
 		gfx.setColor(Color.WHITE);
 		gfx.draw(sprite, gfx.getSize() / 2 + v);

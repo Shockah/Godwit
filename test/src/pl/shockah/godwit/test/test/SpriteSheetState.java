@@ -16,8 +16,9 @@ public class SpriteSheetState extends State {
 	@Nonnull private static final SpriteSheetAsset sheet = new SpriteSheetAsset("ninja-run.json");
 
 	@Override
-	public void onCreate() {
-		super.onCreate();
+	public void onAddedToParent() {
+		super.onAddedToParent();
+
 		loadAsset(sheet);
 		SpriteSheet sheet = SpriteSheetState.sheet.get();
 
@@ -27,6 +28,6 @@ public class SpriteSheetState extends State {
 		sprite.getFxInstances().add(new ObjectAction2Fx<GfxSprite>(0.5f, (obj, f) -> {
 			sprite.setRegion(sheet.get((int)(f * sheet.frameCount) % sheet.frameCount));
 		}).instance(FxInstance.EndAction.Loop));
-		sprite.asEntity().create(this);
+		addChild(sprite.asEntity());
 	}
 }

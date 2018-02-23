@@ -1,5 +1,7 @@
 package pl.shockah.godwit;
 
+import java.util.Comparator;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -9,77 +11,73 @@ import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.geom.ImmutableVec2;
 import pl.shockah.godwit.gl.Gfx;
 import pl.shockah.godwit.gl.Renderable;
+import pl.shockah.util.SafeList;
+import pl.shockah.util.SortedLinkedList;
 
 public class Entity implements Renderable, Animatable<Entity> {
-	@Nullable protected EntityGroup<? extends Entity> parent;
+	@Nonnull private static final Comparator<? super Entity> depthComparator = (o1, o2) -> -Float.compare(o1.getDepth(), o2.getDepth());
+	@Nonnull public final SafeList<Entity> children = new SafeList<>(new SortedLinkedList<>(depthComparator));
 
 	@Getter
-	private boolean created = false;
-
-	@Getter
-	private boolean destroyed = false;
+	@Nullable private Entity parent;
 
 	@Getter
 	private float depth = 0f;
 
-	void setCreated() {
-		this.created = true;
-	}
-
-	void setDestroyed() {
-		this.destroyed = true;
-	}
-
-	@SuppressWarnings("unchecked")
 	public final void setDepth(float depth) {
+		Entity parent = this.parent;
 		if (parent != null)
-			parent.entities.remove(this);
+			parent.children.remove(this);
 		this.depth = depth;
 		if (parent != null)
-			((EntityGroup<Entity>)parent).entities.add(this);
+			parent.children.add(this);
 	}
 
-	public final void create(@Nonnull Godwit godwit) {
-		if (created || destroyed)
-			return;
-		State state = godwit.getState();
-		if (state == null)
-			throw new NullPointerException();
-		create(state);
+	public void addChild(@Nonnull Entity entity) {
+		if (entity.parent != null)
+			throw new IllegalStateException(String.format("Entity %s already has a parent %s.", entity, entity.parent));
+		entity.parent = this;
+		children.add(entity);
+		entity.onAddedToParent();
+		callAddedToHierarchy(entity);
 	}
 
-	@SuppressWarnings("unchecked")
-	public final void create(@Nonnull EntityGroup<? extends Entity> parent) {
-		if (created || destroyed)
-			return;
-		((EntityGroup<Entity>)parent).markCreate(this);
+	private static void callAddedToHierarchy(@Nonnull Entity entity) {
+		entity.onAddedToHierarchy();
+		entity.children.iterate(Entity::callAddedToHierarchy);
 	}
 
-	@SuppressWarnings("unchecked")
-	public final void destroy() {
-		if (!created || destroyed)
-			return;
-		beforeDestroy();
-		if (parent == null || parent.isDestroyed()) {
-			destroyed = false;
-			onDestroy();
-		} else {
-			((EntityGroup<Entity>)parent).markDestroy(this);
-		}
+	private static void callRemovedFromHierarchy(@Nonnull Entity entity) {
+		entity.children.iterate(Entity::callRemovedFromHierarchy);
+		entity.onRemovedFromHierarchy();
 	}
 
-	public final void update() {
-		if (!created || destroyed)
-			return;
-		onUpdate();
+	public void removeFromParent() {
+		if (parent == null)
+			throw new IllegalStateException(String.format("Entity %s doesn't have a parent.", this));
+		callRemovedFromHierarchy(this);
+		onRemovedFromParent();
+		parent.children.remove(this);
+		parent = null;
+	}
+
+	public void update() {
+		updateSelf();
 		updateFx();
+		updateChildren();
+	}
+
+	public void updateSelf() {
+	}
+
+	public void updateChildren() {
+		children.iterate(Entity::update);
 	}
 
 	@Override
-	public final void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
-		if (!created || destroyed)
-			return;
-		onRender(gfx, v);
+	public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
+		renderSelf(gfx, v);
+		renderChildren(gfx, v);
 	}
 
 	@Override
@@ -92,18 +90,38 @@ public class Entity implements Renderable, Animatable<Entity> {
 		render(gfx, ImmutableVec2.zero);
 	}
 
-	public void onCreate() {
+	public void renderSelf(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
 	}
 
-	public void beforeDestroy() {
+	public final void renderSelf(@Nonnull Gfx gfx, float x, float y) {
+		renderSelf(gfx, new ImmutableVec2(x, y));
 	}
 
-	public void onDestroy() {
+	public final void renderSelf(@Nonnull Gfx gfx) {
+		renderSelf(gfx, ImmutableVec2.zero);
 	}
 
-	public void onUpdate() {
+	public void renderChildren(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
+		children.iterate(entity -> entity.render(gfx, v));
 	}
 
-	public void onRender(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
+	public final void renderChildren(@Nonnull Gfx gfx, float x, float y) {
+		renderChildren(gfx, new ImmutableVec2(x, y));
+	}
+
+	public final void renderChildren(@Nonnull Gfx gfx) {
+		renderChildren(gfx, ImmutableVec2.zero);
+	}
+
+	public void onAddedToParent() {
+	}
+
+	public void onRemovedFromParent() {
+	}
+
+	public void onAddedToHierarchy() {
+	}
+
+	public void onRemovedFromHierarchy() {
 	}
 }

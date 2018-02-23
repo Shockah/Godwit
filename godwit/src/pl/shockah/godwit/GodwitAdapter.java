@@ -14,9 +14,7 @@ public class GodwitAdapter extends ApplicationAdapter {
 
 	@Override
 	public void create() {
-		Godwit godwit = Godwit.getInstance();
-		godwit.create();
-		godwit.moveToState(initialState);
+		Godwit.getInstance().moveToState(initialState);
 	}
 
 	@Override

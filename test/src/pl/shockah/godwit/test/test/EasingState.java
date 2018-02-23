@@ -33,8 +33,8 @@ public class EasingState extends State {
 	);
 
 	@Override
-	public void onCreate() {
-		super.onCreate();
+	public void onAddedToParent() {
+		super.onAddedToParent();
 
 		AssetManager assetManager = Godwit.getInstance().getAssetManager();
 		assetManager.load("question-mark.png", Texture.class);
@@ -49,7 +49,7 @@ public class EasingState extends State {
 			sprite.getFxInstances().add(new ObjectAction2Fx<GfxSprite>(5f, (obj, f) -> {
 				obj.setY(Easing.linear.ease(2 + Gdx.graphics.getHeight() * 0.2f, Gdx.graphics.getHeight() * 0.8f - 16, f));
 			}).withMethod(method).instance(FxInstance.EndAction.ReverseLoop));
-			sprite.asEntity().create(this);
+			addChild(sprite.asEntity());
 		}
 	}
 }

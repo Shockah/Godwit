@@ -7,19 +7,12 @@ import javax.annotation.Nonnull;
 
 import pl.shockah.godwit.asset.Asset;
 
-public class State extends EntityGroup<Entity> {
-	@Nonnull protected final List<Asset<?>> retainedAssets = new ArrayList<>();
-
-	final void create() {
-		if (isCreated() || isDestroyed())
-			return;
-		setCreated();
-		onCreate();
-	}
+public class State extends Entity {
+	@Nonnull private final List<Asset<?>> retainedAssets = new ArrayList<>();
 
 	@Override
-	public void onDestroy() {
-		super.onDestroy();
+	public void onRemovedFromHierarchy() {
+		super.onRemovedFromHierarchy();
 		for (Asset<?> asset : retainedAssets) {
 			asset.unload();
 		}

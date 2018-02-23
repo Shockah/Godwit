@@ -174,8 +174,8 @@ public class GfxSprite implements Renderable, Animatable<GfxSprite> {
 		}
 
 		@Override
-		public void onRender(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
-			super.onRender(gfx, v);
+		public void renderSelf(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
+			super.renderSelf(gfx, v);
 			gfx.draw(sprite, v);
 		}
 
