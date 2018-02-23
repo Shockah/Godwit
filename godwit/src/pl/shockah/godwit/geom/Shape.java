@@ -2,6 +2,7 @@ package pl.shockah.godwit.geom;
 
 import javax.annotation.Nonnull;
 
+import pl.shockah.godwit.geom.polygon.Polygonable;
 import pl.shockah.godwit.gl.Gfx;
 
 public abstract class Shape {
@@ -20,10 +21,14 @@ public abstract class Shape {
 	}
 
 	protected boolean collides(@Nonnull Shape shape, boolean secondTry) {
-		if (secondTry)
-			throw new UnsupportedOperationException();
-		else
+		if (secondTry) {
+			if (this instanceof Polygonable && shape instanceof Polygonable)
+				return ((Polygonable)this).asPolygon().collides(((Polygonable)shape).asPolygon());
+			else
+				throw new UnsupportedOperationException(String.format("%s --><-- %s collision isn't implemented.", getClass().getSimpleName(), shape.getClass().getSimpleName()));
+		} else {
 			return shape.collides(this, true);
+		}
 	}
 
 	public interface Filled {

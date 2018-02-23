@@ -2,6 +2,8 @@ package pl.shockah.godwit.geom;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+import java.util.List;
+
 import javax.annotation.Nonnull;
 
 import lombok.EqualsAndHashCode;
@@ -97,8 +99,34 @@ public class Triangle extends Shape implements Polygonable, Shape.Filled, Shape.
 	}
 
 	@Override
+	protected boolean collides(@Nonnull Shape shape, boolean secondTry) {
+		if (shape instanceof Triangle)
+			return collides((Triangle)shape);
+		else
+			return super.collides(shape, secondTry);
+	}
+
+	public boolean collides(@Nonnull Triangle triangle) {
+		if (contains(triangle.point1) || contains(triangle.point2) || contains(triangle.point3))
+			return true;
+		if (triangle.contains(point1) || triangle.contains(point2) || triangle.contains(point3))
+			return true;
+
+		List<Line> lines1 = asPolygon().getLines();
+		List<Line> lines2 = triangle.asPolygon().getLines();
+
+		for (Line line1 : lines1) {
+			for (Line line2 : lines2) {
+				if (line1.collides(line2))
+					return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
 	@Nonnull public Polygon asPolygon() {
-		Polygon p = new Polygon();
+		Polygon p = new Polygon.NoHoles();
 		p.addPoint(point1);
 		p.addPoint(point2);
 		p.addPoint(point3);

@@ -54,6 +54,30 @@ public class ComplexShape<T extends Shape> extends Shape {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	protected boolean collides(@Nonnull Shape shape, boolean secondTry) {
+		if (shape instanceof ComplexShape<?>) {
+			return collides((ComplexShape<Shape>)shape);
+		} else {
+			for (Shape innerShape : shapes) {
+				if (innerShape.collides(shape))
+					return true;
+			}
+			return false;
+		}
+	}
+
+	public boolean collides(@Nonnull ComplexShape<Shape> shape) {
+		for (Shape innerShape1 : shapes) {
+			for (Shape innerShape2 : shape.shapes) {
+				if (innerShape1.collides(innerShape2))
+					return true;
+			}
+		}
+		return false;
+	}
+
 	public static class Filled<T extends Shape & Shape.Filled> extends ComplexShape<T> implements Shape.Filled {
 		@Override
 		@Nonnull public ComplexShape<T> copyComplexShape() {

@@ -63,7 +63,7 @@ public class Line extends Shape implements Shape.Outline, Easable<Line> {
 	}
 
 	@Override
-	public boolean collides(@Nonnull Shape shape, boolean secondTry) {
+	protected boolean collides(@Nonnull Shape shape, boolean secondTry) {
 		if (shape instanceof Line)
 			return collides((Line)shape);
 		return super.collides(shape, secondTry);

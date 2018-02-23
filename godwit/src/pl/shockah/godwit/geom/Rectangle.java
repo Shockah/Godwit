@@ -114,7 +114,7 @@ public class Rectangle extends Shape implements Shape.Filled, Shape.Outline, Pol
 	}
 
 	@Override
-	public boolean collides(@Nonnull Shape shape, boolean secondTry) {
+	protected boolean collides(@Nonnull Shape shape, boolean secondTry) {
 		if (shape instanceof Rectangle)
 			return collides((Rectangle)shape);
 		if (shape instanceof Line)
@@ -139,7 +139,7 @@ public class Rectangle extends Shape implements Shape.Filled, Shape.Outline, Pol
 
 	@Override
 	@Nonnull public Polygon asPolygon() {
-		Polygon p = new Polygon();
+		Polygon p = new Polygon.NoHoles();
 		p.addPoint(position);
 		p.addPoint(position + size.getOnlyX());
 		p.addPoint(position + size);

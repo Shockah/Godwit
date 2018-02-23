@@ -143,6 +143,32 @@ public class Polygon extends Shape implements Shape.Filled, Shape.Outline {
 		return false;
 	}
 
+	@Override
+	protected boolean collides(@Nonnull Shape shape, boolean secondTry) {
+		if (shape instanceof Triangle)
+			return collides((Triangle)shape);
+		else
+			return super.collides(shape, secondTry);
+	}
+
+	public boolean collides(@Nonnull Polygon polygon) {
+		polygon.triangulate();
+		for (Triangle triangle : polygon.triangulated) {
+			if (collides(triangle))
+				return true;
+		}
+		return false;
+	}
+
+	public boolean collides(@Nonnull Triangle triangle) {
+		triangulate();
+		for (Triangle myTriangle : triangulated) {
+			if (triangle.collides(myTriangle))
+				return true;
+		}
+		return false;
+	}
+
 	@Nonnull public IVec2 get(int index) {
 		return points[index];
 	}
