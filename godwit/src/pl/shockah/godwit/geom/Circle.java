@@ -77,6 +77,12 @@ public class Circle extends Shape implements Polygonable, Shape.Filled, Shape.Ou
 	}
 
 	@Override
+	public void scale(float scale) {
+		position.set(position * scale);
+		radius *= scale;
+	}
+
+	@Override
 	public boolean contains(@Nonnull IVec2 v) {
 		return (position - v).getLength() <= radius;
 	}

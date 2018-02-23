@@ -106,6 +106,18 @@ public class Polygon extends Shape implements Polygonable, Shape.Filled, Shape.O
 		}
 	}
 
+	@Override
+	public void scale(float scale) {
+		for (int i = 0; i < points.size(); i++) {
+			points[i] = points[i] * scale;
+		}
+		if (!dirty) {
+			for (Triangle triangle : triangulated) {
+				triangle.scale(scale);
+			}
+		}
+	}
+
 	@Nonnull protected Triangulator triangulator() {
 		return new NeatTriangulator();
 	}

@@ -61,6 +61,13 @@ public class ComplexShape<T extends Shape> extends Shape {
 		}
 	}
 
+	@Override
+	public void scale(float scale) {
+		for (T shape : shapes) {
+			shape.scale(scale);
+		}
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	protected boolean collides(@Nonnull Shape shape, boolean secondTry) {

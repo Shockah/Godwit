@@ -117,6 +117,12 @@ public class Rectangle extends Shape implements Shape.Filled, Shape.Outline, Pol
 	}
 
 	@Override
+	public void scale(float scale) {
+		position.set(position * scale);
+		size.set(size * scale);
+	}
+
+	@Override
 	public boolean contains(@Nonnull IVec2 v) {
 		return v.x() >= position.x && v.y() >= position.y && v.x() < position.x + size.x && v.y() < position.y + size.y;
 	}

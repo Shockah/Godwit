@@ -18,6 +18,8 @@ public abstract class Shape {
 
 	public abstract void mirror(boolean horizontally, boolean vertically);
 
+	public abstract void scale(float scale);
+
 	public final boolean collides(@Nonnull Shape shape) {
 		return collides(shape, false);
 	}

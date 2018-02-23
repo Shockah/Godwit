@@ -75,6 +75,12 @@ public class Line extends Shape implements Shape.Outline, Easable<Line> {
 	}
 
 	@Override
+	public void scale(float scale) {
+		point1.set(point1 * scale);
+		point2.set(point2 * scale);
+	}
+
+	@Override
 	protected boolean collides(@Nonnull Shape shape, boolean secondTry) {
 		if (shape instanceof Line)
 			return collides((Line)shape);
