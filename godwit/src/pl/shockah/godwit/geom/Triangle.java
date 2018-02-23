@@ -2,8 +2,6 @@ package pl.shockah.godwit.geom;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-import java.util.List;
-
 import javax.annotation.Nonnull;
 
 import lombok.EqualsAndHashCode;
@@ -102,8 +100,20 @@ public class Triangle extends Shape implements Polygonable, Shape.Filled, Shape.
 	protected boolean collides(@Nonnull Shape shape, boolean secondTry) {
 		if (shape instanceof Triangle)
 			return collides((Triangle)shape);
+		if (shape instanceof Line)
+			return collides((Line)shape);
 		else
 			return super.collides(shape, secondTry);
+	}
+
+	public boolean collides(@Nonnull Line line) {
+		if (contains(line.point1) || contains(line.point2))
+			return true;
+		for (Line myLine : asPolygon().getLines()) {
+			if (line.collides(myLine))
+				return true;
+		}
+		return false;
 	}
 
 	public boolean collides(@Nonnull Triangle triangle) {
@@ -111,15 +121,9 @@ public class Triangle extends Shape implements Polygonable, Shape.Filled, Shape.
 			return true;
 		if (triangle.contains(point1) || triangle.contains(point2) || triangle.contains(point3))
 			return true;
-
-		List<Line> lines1 = asPolygon().getLines();
-		List<Line> lines2 = triangle.asPolygon().getLines();
-
-		for (Line line1 : lines1) {
-			for (Line line2 : lines2) {
-				if (line1.collides(line2))
-					return true;
-			}
+		for (Line line : triangle.asPolygon().getLines()) {
+			if (collides(line))
+				return true;
 		}
 		return false;
 	}

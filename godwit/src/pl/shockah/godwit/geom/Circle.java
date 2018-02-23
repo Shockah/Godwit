@@ -75,15 +75,63 @@ public class Circle extends Shape implements Polygonable, Shape.Filled, Shape.Ou
 
 	@Override
 	protected boolean collides(@Nonnull Shape shape, boolean secondTry) {
-		//TODO: Circle --><-- Line
-		//TODO: Circle --><-- Rectangle
 		if (shape instanceof Circle)
 			return collides((Circle)shape);
+		else if (shape instanceof Line)
+			return collides((Line)shape);
+		else if (shape instanceof Polygonable)
+			return collides((Polygonable)shape);
 		return super.collides(shape, secondTry);
 	}
 
 	public boolean collides(@Nonnull Circle circle) {
 		return (circle.position - position).getLength() < radius + circle.radius;
+	}
+
+	public boolean collides(@Nonnull Line line) {
+		return intersect(line).length == 0;
+	}
+
+	public boolean collides(@Nonnull Polygonable polygonable) {
+		Polygon polygon = polygonable.asPolygon();
+		for (int i = 0; i < polygon.getPointCount(); i++) {
+			if (contains(polygon.get(i)))
+				return true;
+		}
+		for (Line line : polygon.getLines()) {
+			if (collides(line))
+				return true;
+		}
+		return false;
+	}
+
+	@Nonnull public IVec2[] intersect(@Nonnull Line line) {
+		float baX = line.point2.x - line.point1.x;
+		float baY = line.point2.y - line.point1.y;
+		float caX = position.x - line.point1.x;
+		float caY = position.y - line.point1.y;
+
+		float a = baX * baX + baY * baY;
+		float bBy2 = baX * caX + baY * caY;
+		float c = caX * caX + caY * caY - radius * radius;
+
+		float pBy2 = bBy2 / a;
+		float q = c / a;
+
+		float disc = pBy2 * pBy2 - q;
+		if (disc < 0)
+			return new IVec2[0];
+
+		float tmpSqrt = (float)Math.sqrt(disc);
+		float abScalingFactor1 = -pBy2 + tmpSqrt;
+		float abScalingFactor2 = -pBy2 - tmpSqrt;
+
+		IVec2 p1 = new ImmutableVec2(line.point1.x - baX * abScalingFactor1, line.point1.y - baY * abScalingFactor1);
+		if (disc == 0)
+			return new IVec2[] { p1 };
+
+		IVec2 p2 = new ImmutableVec2(line.point1.x - baX * abScalingFactor2, line.point1.y - baY * abScalingFactor2);
+		return new IVec2[] { p1, p2 };
 	}
 
 	@Override

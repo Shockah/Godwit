@@ -17,7 +17,7 @@ import pl.shockah.godwit.geom.Shape;
 import pl.shockah.godwit.geom.Triangle;
 import pl.shockah.godwit.gl.Gfx;
 
-public class Polygon extends Shape implements Shape.Filled, Shape.Outline {
+public class Polygon extends Shape implements Polygonable, Shape.Filled, Shape.Outline {
 	@Nonnull protected final List<IVec2> points = new ArrayList<>();
 	@Nonnull protected final List<Triangle> triangulated = new ArrayList<>();
 	protected boolean dirty = true;
@@ -147,11 +147,14 @@ public class Polygon extends Shape implements Shape.Filled, Shape.Outline {
 	protected boolean collides(@Nonnull Shape shape, boolean secondTry) {
 		if (shape instanceof Triangle)
 			return collides((Triangle)shape);
+		else if (shape instanceof Polygonable)
+			return collides((Polygonable)shape);
 		else
 			return super.collides(shape, secondTry);
 	}
 
-	public boolean collides(@Nonnull Polygon polygon) {
+	public boolean collides(@Nonnull Polygonable polygonable) {
+		Polygon polygon = polygonable.asPolygon();
 		polygon.triangulate();
 		for (Triangle triangle : polygon.triangulated) {
 			if (collides(triangle))
@@ -167,6 +170,11 @@ public class Polygon extends Shape implements Shape.Filled, Shape.Outline {
 				return true;
 		}
 		return false;
+	}
+
+	@Override
+	@Nonnull public Polygon asPolygon() {
+		return this;
 	}
 
 	@Nonnull public IVec2 get(int index) {

@@ -23,7 +23,7 @@ public abstract class Shape {
 	protected boolean collides(@Nonnull Shape shape, boolean secondTry) {
 		if (secondTry) {
 			if (this instanceof Polygonable && shape instanceof Polygonable)
-				return ((Polygonable)this).asPolygon().collides(((Polygonable)shape).asPolygon());
+				return ((Polygonable)this).asPolygon().collides((Polygonable)shape);
 			else
 				throw new UnsupportedOperationException(String.format("%s --><-- %s collision isn't implemented.", getClass().getSimpleName(), shape.getClass().getSimpleName()));
 		} else {

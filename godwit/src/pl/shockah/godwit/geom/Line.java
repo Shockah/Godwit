@@ -73,8 +73,7 @@ public class Line extends Shape implements Shape.Outline, Easable<Line> {
 		return intersect(line) != null;
 	}
 
-	@Nullable
-	public IVec2 intersect(@Nonnull Line line) {
+	@Nullable public IVec2 intersect(@Nonnull Line line) {
 		float dx1 = point2.x - point1.x;
 		float dx2 = line.point2.x - line.point1.x;
 		float dy1 = point2.y - point1.y;
@@ -98,6 +97,10 @@ public class Line extends Shape implements Shape.Outline, Easable<Line> {
 		float iy = point1.y + (u * (point2.y - point1.y));
 
 		return new ImmutableVec2(ix, iy);
+	}
+
+	@Nonnull public IVec2[] intersect(@Nonnull Circle circle) {
+		return circle.intersect(this);
 	}
 
 	@Override
