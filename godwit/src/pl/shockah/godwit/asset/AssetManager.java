@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.async.ThreadUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -107,6 +108,7 @@ public class AssetManager {
 					if (!isQueued(parameters)) {
 						queuedAsync.add(0, parameters);
 						loadAsync(parameters);
+						ThreadUtils.yield();
 					}
 				}
 			}
