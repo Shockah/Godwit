@@ -5,10 +5,10 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public abstract class GodwitAssetLoader<T, Params extends GodwitAssetParameters<T>, Async extends GodwitAssetLoader.AsyncResult<T, Params>> {
-	@Nonnull public final GodwitAssetManager assetManager;
+public abstract class AssetLoader<T, Params extends GodwitAssetParameters<T>, Async extends AssetLoader.AsyncResult<T, Params>> {
+	@Nonnull public final AssetManager assetManager;
 
-	public GodwitAssetLoader(@Nonnull GodwitAssetManager assetManager) {
+	public AssetLoader(@Nonnull AssetManager assetManager) {
 		this.assetManager = assetManager;
 	}
 
@@ -21,11 +21,9 @@ public abstract class GodwitAssetLoader<T, Params extends GodwitAssetParameters<
 	@Nonnull public abstract T loadSynchronous(@Nonnull Async asyncResult);
 
 	public static class AsyncResult<T, Params extends GodwitAssetParameters<T>> {
-		@Nonnull public final GodwitAsset<T> asset;
 		@Nonnull public final Params parameters;
 
-		public AsyncResult(@Nonnull GodwitAsset<T> asset, @Nonnull Params parameters) {
-			this.asset = asset;
+		public AsyncResult(@Nonnull Params parameters) {
 			this.parameters = parameters;
 		}
 	}

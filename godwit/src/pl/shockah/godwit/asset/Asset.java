@@ -1,84 +1,36 @@
 package pl.shockah.godwit.asset;
 
-import com.badlogic.gdx.assets.AssetDescriptor;
-import com.badlogic.gdx.assets.AssetLoaderParameters;
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.utils.Array;
-
-import java.lang.reflect.Field;
+import java.util.Collections;
+import java.util.List;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import lombok.Getter;
-import pl.shockah.godwit.Godwit;
-
 public class Asset<T> {
-	@Getter(lazy = true)
-	private static final Field loadQueueField = getLoadQueueFieldLazy();
+	@Nonnull public final AssetManager manager;
+	@Nonnull public final GodwitAssetParameters<T> parameters;
+	@Nonnull public final List<GodwitAssetParameters<T>> dependencies;
+	@Nullable T asset;
 
-	@Nonnull public final String fileName;
-	@Nonnull public final Class<T> clazz;
-	@Nullable public final AssetLoaderParameters<T> parameters;
-	@Nonnull public final AssetDescriptor<T> descriptor;
-
-	public Asset(@Nonnull String fileName, @Nonnull Class<T> clazz) {
-		this(fileName, clazz, null);
-	}
-
-	public Asset(@Nonnull String fileName, @Nonnull Class<T> clazz, @Nullable AssetLoaderParameters<T> parameters) {
-		this.fileName = fileName;
-		this.clazz = clazz;
+	public Asset(@Nonnull AssetManager manager, @Nonnull GodwitAssetParameters<T> parameters, @Nonnull List<GodwitAssetParameters<T>> dependencies) {
+		this.manager = manager;
 		this.parameters = parameters;
-		descriptor = new AssetDescriptor<T>(fileName, clazz, parameters);
+		this.dependencies = Collections.unmodifiableList(dependencies);
 	}
 
-	private static Field getLoadQueueFieldLazy() {
-		try {
-			Field field = AssetManager.class.getDeclaredField("loadQueue");
-			field.setAccessible(true);
-			return field;
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+	public boolean isLoaded() {
+		return manager.isLoaded(parameters);
 	}
 
-	protected static AssetManager getAssetManager() {
-		return Godwit.getInstance().getAssetManager();
+	public boolean isQueued() {
+		return manager.isQueued(parameters);
 	}
 
-	@SuppressWarnings("unchecked")
-	private static Array<AssetDescriptor> getLoadQueue() {
-		try {
-			return (Array<AssetDescriptor>)getLoadQueueField().get(getAssetManager());
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	public void load() {
-		getAssetManager().load(descriptor);
-	}
-
-	public void unload() {
-		getAssetManager().unload(fileName);
-	}
-
-	public void finishLoading() {
-		AssetManager manager = getAssetManager();
-		if (manager.isLoaded(fileName, clazz))
-			return;
-		for (AssetDescriptor<?> descriptor : getLoadQueue()) {
-			if (descriptor.type == this.descriptor.type && descriptor.fileName.equals(this.descriptor.fileName)) {
-				manager.finishLoadingAsset(fileName);
-				return;
-			}
-		}
-		throw new IllegalStateException(String.format("Asset %s is not queued for loading.", descriptor));
-	}
-
-	public T get() {
-		finishLoading();
-		return getAssetManager().get(descriptor);
+	@Nonnull public T get() {
+		if (asset == null)
+			asset = manager.get(parameters);
+		if (asset == null)
+			throw new NullPointerException();
+		return asset;
 	}
 }

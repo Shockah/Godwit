@@ -1,7 +1,6 @@
 package pl.shockah.godwit;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 
 import java.util.ArrayList;
@@ -12,11 +11,10 @@ import javax.annotation.Nullable;
 
 import java8.util.stream.StreamSupport;
 import lombok.Getter;
-import pl.shockah.godwit.asset.SpriteSheetLoader;
+import pl.shockah.godwit.asset.AssetManager;
 import pl.shockah.godwit.gl.BlendMode;
 import pl.shockah.godwit.gl.GfxContextManager;
 import pl.shockah.godwit.gl.GfxImpl;
-import pl.shockah.godwit.gl.SpriteSheet;
 import pl.shockah.godwit.rand.Randomizer;
 
 public final class Godwit {
@@ -29,8 +27,7 @@ public final class Godwit {
 	@Getter
 	@Nullable private State movingToState;
 
-	@Getter
-	@Nonnull private AssetManager assetManager = new AssetManager();
+	@Nonnull public AssetManager assetManager = new AssetManager();
 
 	@Nonnull public final GfxImpl gfx = new GfxImpl();
 	@Nonnull public final InputManager inputManager = new InputManager();
@@ -44,21 +41,11 @@ public final class Godwit {
 	private boolean isFirstTick = true;
 
 	private Godwit() {
-		setupAssetManager();
 		Gdx.input.setInputProcessor(inputManager.multiplexer);
 	}
 
 	public void moveToState(@Nullable State state) {
 		movingToState = state;
-	}
-
-	public void setAssetManager(@Nonnull AssetManager assetManager) {
-		this.assetManager = assetManager;
-		setupAssetManager();
-	}
-
-	private void setupAssetManager() {
-		assetManager.setLoader(SpriteSheet.class, new SpriteSheetLoader(assetManager.getFileHandleResolver()));
 	}
 
 	public void tick() {
