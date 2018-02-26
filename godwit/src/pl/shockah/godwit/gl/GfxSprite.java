@@ -142,6 +142,14 @@ public class GfxSprite implements Renderable, Animatable<GfxSprite> {
 		setSize(size.x(), size.y());
 	}
 
+	@Nonnull public IVec2 getRegionSize() {
+		return new ImmutableVec2(sprite.getRegionWidth(), sprite.getRegionHeight());
+	}
+
+	@Nonnull public IVec2 getScaledSize() {
+		return getSize() * getScaleVector();
+	}
+
 	@Nonnull public IVec2 getScaleVector() {
 		return new ImmutableVec2(sprite.getScaleX(), sprite.getScaleY());
 	}
