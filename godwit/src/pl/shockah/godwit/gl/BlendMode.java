@@ -10,7 +10,7 @@ public abstract class BlendMode {
 		@Override
 		void begin() {
 			Gdx.gl.glEnable(GL20.GL_BLEND);
-			Gdx.gl.glBlendFuncSeparate(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA, GL20.GL_ONE, GL20.GL_ONE_MINUS_SRC_ALPHA);
+			Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 		}
 
 		@Override
