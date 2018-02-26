@@ -13,11 +13,11 @@ import pl.shockah.godwit.geom.Triangle;
 import pl.shockah.godwit.geom.polygon.Polygon;
 import pl.shockah.godwit.gl.Gfx;
 
-public class PolygonCollisionState extends State {
+public class PolygonCollisionTest extends State {
 	@Nonnull private final Polygon polygon1 = new Polygon();
 	@Nonnull private final Polygon polygon2 = new Polygon();
 
-	public PolygonCollisionState() {
+	public PolygonCollisionTest() {
 		polygon1.closed = true;
 		polygon2.closed = true;
 	}

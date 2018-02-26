@@ -11,7 +11,7 @@ import pl.shockah.godwit.geom.Rectangle;
 import pl.shockah.godwit.geom.Vec2;
 import pl.shockah.godwit.gl.Gfx;
 
-public class ShapeAlphaState extends State {
+public class ShapeAlphaTest extends State {
 	@Override
 	public void renderSelf(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
 		super.renderSelf(gfx, v);

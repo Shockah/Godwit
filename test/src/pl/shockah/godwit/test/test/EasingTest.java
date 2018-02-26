@@ -21,7 +21,7 @@ import pl.shockah.godwit.geom.ImmutableVec2;
 import pl.shockah.godwit.geom.Vec2;
 import pl.shockah.godwit.gl.GfxSprite;
 
-public class EasingState extends State {
+public class EasingTest extends State {
 	@Nonnull private final List<Easing> methods = Lists.of(
 			Easing.linear,
 			SmoothstepEasing.smoothstep, SmoothstepEasing.smoothstep2, SmoothstepEasing.smoothstep3,

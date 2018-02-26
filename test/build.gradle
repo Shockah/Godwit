@@ -36,11 +36,12 @@ void addTask(File baseDir, File file) {
 	className = className.replace("/", ".")
 	String fullClassName = "${project.package}.test.$className"
 	String justClassName = fullClassName.split("\\.").last()
+	String baseTestName = justClassName.endsWith("Test") ? justClassName.substring(0, justClassName.length() - 4) : justClassName
 
 	if (fullClassName.contains("\$"))
 		return
 
-	tasks.create("test$justClassName", JavaExec) {
+	tasks.create("test$baseTestName", JavaExec) {
 		dependsOn "classes"
 
 		main = project.mainClassName

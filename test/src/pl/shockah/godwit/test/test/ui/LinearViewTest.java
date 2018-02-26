@@ -15,7 +15,7 @@ import pl.shockah.godwit.ui.Orientation;
 import pl.shockah.godwit.ui.Padding;
 import pl.shockah.godwit.ui.ViewEntity;
 
-public class LinearViewState extends State implements Configurable {
+public class LinearViewTest extends State implements Configurable {
 	@Override
 	public void configure(@Nonnull Lwjgl3ApplicationConfiguration config) {
 		config.setWindowedMode(256, 256);

@@ -18,7 +18,7 @@ import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.gl.Gfx;
 import pl.shockah.godwit.gl.GfxSprite;
 
-public class SequenceFxState extends State {
+public class SequenceFxTest extends State {
 	private GfxSprite sprite;
 
 	@Override

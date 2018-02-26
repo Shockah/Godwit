@@ -16,13 +16,13 @@ import pl.shockah.godwit.geom.Rectangle;
 import pl.shockah.godwit.gl.Gfx;
 import pl.shockah.godwit.test.Configurable;
 
-public class AttachedViewportState extends State implements Configurable {
+public class AttachedViewportTest extends State implements Configurable {
 	@Override
 	public void configure(@Nonnull Lwjgl3ApplicationConfiguration config) {
 		config.setWindowedMode(256, 256);
 	}
 
-	public AttachedViewportState() {
+	public AttachedViewportTest() {
 		addChild(new AttachmentEntity());
 	}
 

@@ -18,7 +18,7 @@ import pl.shockah.godwit.geom.Vec2;
 import pl.shockah.godwit.gl.Gfx;
 import pl.shockah.godwit.gl.GfxSprite;
 
-public class SpriteState extends State {
+public class SpriteTest extends State {
 	private GfxSprite sprite;
 	private int movingCountdown = 0;
 

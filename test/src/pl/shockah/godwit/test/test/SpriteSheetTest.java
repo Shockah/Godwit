@@ -12,7 +12,7 @@ import pl.shockah.godwit.fx.object.ObjectAction2Fx;
 import pl.shockah.godwit.gl.GfxSprite;
 import pl.shockah.godwit.gl.SpriteSheet;
 
-public class SpriteSheetState extends State {
+public class SpriteSheetTest extends State {
 	@Nonnull private static final SpriteSheetAsset sheet = new SpriteSheetAsset("ninja-run.json");
 
 	@Override
@@ -20,7 +20,7 @@ public class SpriteSheetState extends State {
 		super.onAddedToParent();
 
 		loadAsset(sheet);
-		SpriteSheet sheet = SpriteSheetState.sheet.get();
+		SpriteSheet sheet = SpriteSheetTest.sheet.get();
 
 		GfxSprite sprite = new GfxSprite(new Sprite(sheet[0]));
 		sprite.center();

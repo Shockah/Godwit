@@ -10,7 +10,7 @@ import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.geom.Rectangle;
 import pl.shockah.godwit.gl.Gfx;
 
-public class ShapesState extends State {
+public class ShapesTest extends State {
 	@Override
 	public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
 		gfx.clear(Color.GRAY);

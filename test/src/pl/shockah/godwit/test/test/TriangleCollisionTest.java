@@ -12,7 +12,7 @@ import pl.shockah.godwit.geom.Triangle;
 import pl.shockah.godwit.geom.Vec2;
 import pl.shockah.godwit.gl.Gfx;
 
-public class TriangleCollisionState extends State {
+public class TriangleCollisionTest extends State {
 	private static final float length = 32f;
 	@Nonnull private static final Vec2 staticTrianglePosition = new Vec2(128, 128);
 

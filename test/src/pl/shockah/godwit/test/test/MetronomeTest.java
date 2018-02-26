@@ -12,7 +12,7 @@ import pl.shockah.godwit.fx.WaitFx;
 import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.gl.Gfx;
 
-public class MetronomeState extends State {
+public class MetronomeTest extends State {
 	private boolean state = false;
 
 	@Override
