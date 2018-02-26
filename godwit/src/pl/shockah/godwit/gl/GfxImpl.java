@@ -30,7 +30,26 @@ public class GfxImpl extends Gfx {
 	@Nullable protected Viewport viewport;
 
 	@Getter
-	@Nonnull private final SpriteBatch spriteBatch = new SpriteBatch();
+	@Nonnull private final SpriteBatch spriteBatch = new SpriteBatch() {
+		{
+			setBlendFunction(-1, -1);
+		}
+
+		@Override
+		public boolean isBlendingEnabled() {
+			return false;
+		}
+
+		@Override
+		public void enableBlending() {
+			throw new UnsupportedOperationException("Use Gfx.setBlendMode instead.");
+		}
+
+		@Override
+		public void disableBlending() {
+			throw new UnsupportedOperationException("Use Gfx.setBlendMode instead.");
+		}
+	};
 
 	@Getter
 	@Nonnull private final ShapeRenderer shapeRenderer = new ShapeRenderer();

@@ -163,15 +163,13 @@ public class Rectangle extends Shape implements Shape.Filled, Shape.Outline, Pol
 
 	@Override
 	public void drawFilled(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
-		gfx.prepareShapes(ShapeRenderer.ShapeType.Filled, () -> {
-			gfx.getShapeRenderer().rect(v.x() + position.x, v.y() + position.y, size.x, size.y);
-		});
+		gfx.prepareShapes(ShapeRenderer.ShapeType.Filled);
+		gfx.getShapeRenderer().rect(v.x() + position.x, v.y() + position.y, size.x, size.y);
 	}
 
 	@Override
 	public void drawOutline(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
-		gfx.prepareShapes(ShapeRenderer.ShapeType.Line, () -> {
-			gfx.getShapeRenderer().rect(v.x() + position.x, v.y() + position.y, size.x, size.y);
-		});
+		gfx.prepareShapes(ShapeRenderer.ShapeType.Line);
+		gfx.getShapeRenderer().rect(v.x() + position.x, v.y() + position.y, size.x, size.y);
 	}
 }

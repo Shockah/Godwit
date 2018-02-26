@@ -123,9 +123,8 @@ public class Line extends Shape implements Shape.Outline, Easable<Line> {
 
 	@Override
 	public void drawOutline(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
-		gfx.prepareShapes(ShapeRenderer.ShapeType.Line, () -> {
-			gfx.getShapeRenderer().line(v.x() + point1.x, v.y() + point1.y, v.x() + point2.x, v.y() + point2.y);
-		});
+		gfx.prepareShapes(ShapeRenderer.ShapeType.Line);
+		gfx.getShapeRenderer().line(v.x() + point1.x, v.y() + point1.y, v.x() + point2.x, v.y() + point2.y);
 	}
 
 	@Override

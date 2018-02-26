@@ -160,16 +160,14 @@ public class Triangle extends Shape implements Polygonable, Shape.Filled, Shape.
 
 	@Override
 	public void drawFilled(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
-		gfx.prepareShapes(ShapeRenderer.ShapeType.Filled, () -> {
-			gfx.getShapeRenderer().triangle(v.x() + point1.x, v.y() + point1.y, v.x() + point2.x, v.y() + point2.y, v.x() + point3.x, v.y() + point3.y);
-		});
+		gfx.prepareShapes(ShapeRenderer.ShapeType.Filled);
+		gfx.getShapeRenderer().triangle(v.x() + point1.x, v.y() + point1.y, v.x() + point2.x, v.y() + point2.y, v.x() + point3.x, v.y() + point3.y);
 	}
 
 	@Override
 	public void drawOutline(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
-		gfx.prepareShapes(ShapeRenderer.ShapeType.Line, () -> {
-			gfx.getShapeRenderer().triangle(v.x() + point1.x, v.y() + point1.y, v.x() + point2.x, v.y() + point2.y, v.x() + point3.x, v.y() + point3.y);
-		});
+		gfx.prepareShapes(ShapeRenderer.ShapeType.Line);
+		gfx.getShapeRenderer().triangle(v.x() + point1.x, v.y() + point1.y, v.x() + point2.x, v.y() + point2.y, v.x() + point3.x, v.y() + point3.y);
 	}
 
 	@Override

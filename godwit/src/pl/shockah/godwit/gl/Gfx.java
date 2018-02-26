@@ -73,27 +73,7 @@ public abstract class Gfx {
 
 	public abstract void prepareSprites();
 
-	public final void prepareSprites(@Nonnull Action0 f) {
-		prepareSprites();
-		f.call();
-	}
-
-	public final void prepareSprites(@Nonnull Action1<Gfx> f) {
-		prepareSprites();
-		f.call(this);
-	}
-
 	public abstract void prepareShapes(@Nonnull ShapeRenderer.ShapeType type);
-
-	public final void prepareShapes(@Nonnull ShapeRenderer.ShapeType type, @Nonnull Action0 f) {
-		prepareShapes(type);
-		f.call();
-	}
-
-	public final void prepareShapes(@Nonnull ShapeRenderer.ShapeType type, @Nonnull Action1<Gfx> f) {
-		prepareShapes(type);
-		f.call(this);
-	}
 
 	public void draw(@Nonnull Renderable renderable, @Nonnull IVec2 v) {
 		renderable.render(this, v);
