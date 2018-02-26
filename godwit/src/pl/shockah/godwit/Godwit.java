@@ -117,7 +117,7 @@ public final class Godwit {
 	private void runRender() {
 		GfxContextManager.bindSurface(null);
 		gfx.updateCamera();
-		gfx.clear(Color.BLACK);
+		gfx.clear(Color.CLEAR);
 		gfx.setBlendMode(BlendMode.normal);
 		rootEntity.render(gfx);
 		gfx.endTick();
