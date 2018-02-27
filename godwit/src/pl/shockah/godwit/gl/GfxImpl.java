@@ -100,6 +100,7 @@ public class GfxImpl extends Gfx {
 		prepareContext();
 		if (this.blendMode == blendMode)
 			return;
+		internalEndTick();
 		if (this.blendMode != null)
 			this.blendMode.end();
 		this.blendMode = blendMode;
