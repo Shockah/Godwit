@@ -19,6 +19,19 @@ public abstract class BlendMode {
 		}
 	};
 
+	@Nonnull public static final BlendMode add = new BlendMode() {
+		@Override
+		void begin() {
+			Gdx.gl.glEnable(GL20.GL_BLEND);
+			Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE);
+		}
+
+		@Override
+		void end() {
+			Gdx.gl.glDisable(GL20.GL_BLEND);
+		}
+	};
+
 	abstract void begin();
 	abstract void end();
 }
