@@ -18,14 +18,24 @@ public class FxInstance<T> {
 
 	@Nonnull public final Fx fx;
 	@Nonnull public final EndAction endAction;
-	public boolean stopped = false;
-	protected float elapsed = 0f;
-	protected float previous = 0f;
-	protected boolean reversed = false;
+	public float speed = 1f;
+
+	private boolean stopped = false;
+	private float elapsed = 0f;
+	private float previous = 0f;
+	private boolean reversed = false;
 
 	public FxInstance(@Nonnull Fx fx, @Nonnull EndAction endAction) {
 		this.fx = fx;
 		this.endAction = endAction;
+	}
+
+	public final boolean isStopped() {
+		return stopped;
+	}
+
+	public final void stop() {
+		stopped = true;
 	}
 
 	public final void updateDelta(@Nullable T object) {
@@ -36,7 +46,7 @@ public class FxInstance<T> {
 		if (stopped)
 			return;
 
-		elapsed += delta * (reversed ? -1f : 1f);
+		elapsed += delta * speed * (reversed ? -1f : 1f);
 		update(object);
 	}
 
