@@ -2,10 +2,7 @@ package pl.shockah.godwit.asset;
 
 import com.badlogic.gdx.graphics.Texture;
 
-import java.lang.ref.WeakReference;
-
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import java8.util.stream.Collectors;
 import java8.util.stream.RefStreams;
@@ -17,7 +14,6 @@ import pl.shockah.jay.JSONObject;
 public class SpriteSheetAsset extends ComplexAsset<SpriteSheet> {
 	@Nonnull protected final Asset<Texture> textureAsset;
 	@Nonnull protected final Asset<JSONObject> jsonAsset;
-	@Nullable private WeakReference<SpriteSheet> assetReference;
 
 	public SpriteSheetAsset(@Nonnull String textureFileName) {
 		this(
@@ -71,6 +67,6 @@ public class SpriteSheetAsset extends ComplexAsset<SpriteSheet> {
 		int spacing = json.getInt("spacing", 0);
 		int margin = json.getInt("margin", 0);
 
-		return new SpriteSheet(texture, columns, rows, spacing, margin);
+		return new SpriteSheet(texture, json, columns, rows, spacing, margin);
 	}
 }
