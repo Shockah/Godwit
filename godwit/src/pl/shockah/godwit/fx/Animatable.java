@@ -8,7 +8,9 @@ import javax.annotation.Nonnull;
 
 import pl.shockah.func.Action0;
 import pl.shockah.godwit.fx.object.ObjectFx;
+import pl.shockah.godwit.fx.object.SequenceObjectFx;
 import pl.shockah.godwit.fx.raw.RawFx;
+import pl.shockah.godwit.fx.raw.SequenceRawFx;
 
 public interface Animatable<T extends Animatable<T>> {
 	@SuppressWarnings("unchecked")
@@ -29,16 +31,16 @@ public interface Animatable<T extends Animatable<T>> {
 	}
 
 	default void runDelayed(float delay, @Nonnull RawFx fx) {
-		run(SequenceFx.ofRaw(new WaitFx(delay), fx));
+		run(new SequenceRawFx(new WaitFx(delay), fx));
 	}
 
 	@SuppressWarnings("unchecked")
 	default void runDelayed(float delay, @Nonnull ObjectFx<? super T> fx) {
-		run(SequenceFx.ofObject(new WaitFx(delay).asObject(Object.class), fx));
+		run(new SequenceObjectFx<>(new WaitFx(delay).asObject(Object.class), fx));
 	}
 
 	default void runDelayed(float delay, @Nonnull Action0 func) {
-		run(SequenceFx.ofRaw(new WaitFx(delay), new RunnableFx(func::call)));
+		run(new SequenceRawFx(new WaitFx(delay), new RunnableFx(func::call)));
 	}
 
 	@SuppressWarnings("unchecked")
