@@ -9,7 +9,7 @@ retrolambda {
 dependencies {
 	compile "java-oo:javac8-oo-plugin:0.5"
 	compile "net.sourceforge.streamsupport:streamsupport:1.6.1"
-	compile "com.github.Shockah:Jay:c918964ad9debcc0970fb472bf864fb86ff1b388"
+	compile "com.github.Shockah:Jay:5e3800f13fad93346dc1e598efca67d7c64a3292"
 	compile "com.badlogicgames.gdx:gdx:$gdxVersion"
 	compile "com.google.code.findbugs:jsr305:3.0.2"
 	compile "org.projectlombok:lombok:$lombokVersion"
