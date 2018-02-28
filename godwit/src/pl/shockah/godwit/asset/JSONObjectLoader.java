@@ -7,8 +7,10 @@ import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.assets.loaders.SynchronousAssetLoader;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import pl.shockah.jay.JSONObject;
+import pl.shockah.jay.JSONParseException;
 import pl.shockah.jay.JSONParser;
 
 public class JSONObjectLoader extends SynchronousAssetLoader<JSONObject, JSONObjectLoader.JSONObjectParameter> {
@@ -23,7 +25,11 @@ public class JSONObjectLoader extends SynchronousAssetLoader<JSONObject, JSONObj
 
 	@Override
 	public JSONObject load(AssetManager assetManager, String fileName, FileHandle file, JSONObjectParameter parameter) {
-		return new JSONParser().parseObject(file.readString("UTF-8"));
+		try {
+			return new JSONParser().parseObject(file.readString("UTF-8"));
+		} catch (JSONParseException parseException) {
+			throw new GdxRuntimeException(String.format("Parse exception in file %s", file), parseException);
+		}
 	}
 
 	public static class JSONObjectParameter extends AssetLoaderParameters<JSONObject> {
