@@ -13,7 +13,7 @@ import pl.shockah.godwit.gl.GfxSprite;
 import pl.shockah.godwit.gl.SpriteSheet;
 
 public class SpriteSheetTest extends State {
-	@Nonnull private static final SpriteSheetAsset sheet = new SpriteSheetAsset("ninja-run.json");
+	@Nonnull private static final SpriteSheetAsset sheet = new SpriteSheetAsset("ninja-run.png");
 
 	@Override
 	public void onAddedToParent() {

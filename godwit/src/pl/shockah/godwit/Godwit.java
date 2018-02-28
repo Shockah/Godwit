@@ -12,12 +12,12 @@ import javax.annotation.Nullable;
 
 import java8.util.stream.StreamSupport;
 import lombok.Getter;
-import pl.shockah.godwit.asset.SpriteSheetLoader;
+import pl.shockah.godwit.asset.JSONObjectLoader;
 import pl.shockah.godwit.gl.BlendMode;
 import pl.shockah.godwit.gl.GfxContextManager;
 import pl.shockah.godwit.gl.GfxImpl;
-import pl.shockah.godwit.gl.SpriteSheet;
 import pl.shockah.godwit.rand.Randomizer;
+import pl.shockah.jay.JSONObject;
 
 public final class Godwit {
 	@Getter(lazy = true)
@@ -58,7 +58,7 @@ public final class Godwit {
 	}
 
 	private void setupAssetManager() {
-		assetManager.setLoader(SpriteSheet.class, new SpriteSheetLoader(assetManager.getFileHandleResolver()));
+		assetManager.setLoader(JSONObject.class, new JSONObjectLoader(assetManager.getFileHandleResolver()));
 	}
 
 	public void tick() {

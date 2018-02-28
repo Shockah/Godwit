@@ -8,7 +8,7 @@ import javax.annotation.Nonnull;
 import lombok.experimental.Delegate;
 import lombok.experimental.UtilityClass;
 
-public class TextureAsset extends Asset<Texture> {
+public class TextureAsset extends SingleAsset<Texture> {
 	@UtilityClass
 	public static final class Defaults {
 		@Nonnull public static Texture.TextureFilter filter = Texture.TextureFilter.Nearest;
