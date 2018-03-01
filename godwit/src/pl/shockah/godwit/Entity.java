@@ -1,6 +1,8 @@
 package pl.shockah.godwit;
 
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -126,5 +128,48 @@ public class Entity implements Renderable, Animatable<Entity> {
 	}
 
 	public void onRemovedFromHierarchy() {
+	}
+
+	@Nonnull public final IVec2 getAbsolutePoint() {
+		return getAbsolutePoint(ImmutableVec2.zero);
+	}
+
+	@Nonnull public IVec2 getAbsolutePoint(@Nonnull IVec2 point) {
+		Entity entity = this;
+		while (entity != null) {
+			point = entity.getTranslatedPoint(point);
+			entity = entity.getParent();
+		}
+		return point;
+	}
+
+	@Nonnull public Entity[] getParentTree() {
+		List<Entity> tree = new ArrayList<>();
+		Entity entity = this;
+		while (entity != null) {
+			if (tree.isEmpty())
+				tree.add(entity);
+			else
+				tree.add(0, entity);
+			entity = entity.getParent();
+		}
+		return tree.toArray(new Entity[tree.size()]);
+	}
+
+	@Nonnull public Entity getCommonParent(@Nonnull Entity entity) {
+		Entity[] parents1 = getParentTree();
+		Entity[] parents2 = entity.getParentTree();
+
+		if (parents1[0] != parents2[0])
+			throw new IllegalStateException(String.format("Entities %s and %s don't have a common parent.", this, entity));
+		for (int i = 1; i < Math.min(parents1.length, parents2.length); i++) {
+			if (parents1[i] != parents2[i])
+				return parents1[i - 1];
+		}
+		return parents1[Math.min(parents1.length, parents2.length) - 1];
+	}
+
+	@Nonnull protected IVec2 getTranslatedPoint(@Nonnull IVec2 point) {
+		return point + position;
 	}
 }
