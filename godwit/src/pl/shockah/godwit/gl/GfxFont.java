@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 
+import java.util.Objects;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -43,21 +45,29 @@ public class GfxFont implements Renderable {
 	}
 
 	public void setText(@Nullable String text) {
+		if (Objects.equals(text, this.text))
+			return;
 		this.text = text;
 		cachedLayout = null;
 	}
 
 	public void setMaxWidth(@Nullable Float maxWidth) {
+		if (Objects.equals(maxWidth, this.maxWidth))
+			return;
 		this.maxWidth = maxWidth;
 		cachedLayout = null;
 	}
 
 	public void setAlignment(@Nonnull Alignment.Plane alignment) {
+		if (alignment == this.alignment)
+			return;
 		this.alignment = alignment;
 		cachedLayout = null;
 	}
 
 	public void setLineBreakMode(@Nonnull LineBreakMode lineBreakMode) {
+		if (lineBreakMode == this.lineBreakMode)
+			return;
 		this.lineBreakMode = lineBreakMode;
 		cachedLayout = null;
 	}
@@ -73,6 +83,28 @@ public class GfxFont implements Renderable {
 
 		gfx.prepareSprites();
 		font.draw(gfx.getSpriteBatch(), layout, v.x(), v.y());
+	}
+
+	@Nonnull public Entity asEntity() {
+		return new Entity(this);
+	}
+
+	public static class Entity extends pl.shockah.godwit.Entity {
+		@Nonnull public final GfxFont font;
+
+		public Entity(@Nonnull BitmapFont font) {
+			this(new GfxFont(font));
+		}
+
+		public Entity(@Nonnull GfxFont font) {
+			this.font = font;
+		}
+
+		@Override
+		public void renderSelf(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
+			super.renderSelf(gfx, v);
+			gfx.draw(font, v);
+		}
 	}
 
 	public enum LineBreakMode {
