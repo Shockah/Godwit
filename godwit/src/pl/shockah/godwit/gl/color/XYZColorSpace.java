@@ -3,6 +3,24 @@ package pl.shockah.godwit.gl.color;
 import javax.annotation.Nonnull;
 
 public class XYZColorSpace extends AbstractColorSpace {
+	public static final class Reference {
+		public static final Reference D50_2 = new Reference(96.422f, 100f, 82.521f);
+		public static final Reference D50_10 = new Reference(96.720f, 100f, 81.427f);
+
+		public static final Reference D65_2 = new Reference(95.047f, 100f, 108.883f);
+		public static final Reference D65_10 = new Reference(94.811f, 100f, 107.304f);
+
+		public final float x;
+		public final float y;
+		public final float z;
+
+		public Reference(float x, float y, float z) {
+			this.x = x;
+			this.y = y;
+			this.z = z;
+		}
+	}
+
 	public float x;
 	public float y;
 	public float z;
@@ -51,5 +69,16 @@ public class XYZColorSpace extends AbstractColorSpace {
 		b = b > 0.0031308f ? 1.055f * (float)Math.pow(b, 1f / 2.4f) - 0.055f : b * 12.92f;
 
 		return new RGBColorSpace(r, g, b, alpha);
+	}
+
+	@Nonnull public RGBColorSpace toExactRGB() {
+		RGBColorSpace rgb = toRGB();
+		if (rgb.r < 0 || rgb.r > 1)
+			throw new IllegalArgumentException();
+		if (rgb.g < 0 || rgb.g > 1)
+			throw new IllegalArgumentException();
+		if (rgb.b < 0 || rgb.b > 1)
+			throw new IllegalArgumentException();
+		return rgb;
 	}
 }
