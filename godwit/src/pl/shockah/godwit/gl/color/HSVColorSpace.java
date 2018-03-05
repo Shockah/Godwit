@@ -38,11 +38,12 @@ public class HSVColorSpace extends AbstractColorSpace {
 
 		v = max;
 
-		return new HSVColorSpace(h, s, v, rgb.alpha);
+		return new HSVColorSpace(h / 360f, s, v, rgb.alpha);
 	}
 
 	@Override
 	@Nonnull public RGBColorSpace toRGB() {
+		float h = this.h * 360f;
 		float x = (h / 60f + 6) % 6;
 		int i = (int)x;
 		float f = x - i;

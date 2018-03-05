@@ -21,7 +21,7 @@ public class ColorSpaceTest extends State {
 
 	enum ColorSpaceType {
 		RGB((f1, f2, mouse) -> new RGBColorSpace(f1, f2, mouse, 1f)),
-		HSV((f1, f2, mouse) -> new HSVColorSpace(mouse * 360f, f1, f2, 1f)),
+		HSV((f1, f2, mouse) -> new HSVColorSpace(mouse, f1, f2, 1f)),
 		XYZ((f1, f2, mouse) -> new XYZColorSpace(f1 * 100f, mouse * 100f, f2 * 108f, 1f));
 
 		public final Func3<Float, Float, Float, ColorSpace> func;
