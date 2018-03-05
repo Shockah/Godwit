@@ -2,7 +2,10 @@ package pl.shockah.godwit.gl.color;
 
 import javax.annotation.Nonnull;
 
-public class LabColorSpace extends AbstractColorSpace {
+import pl.shockah.godwit.fx.ease.Easable;
+import pl.shockah.godwit.fx.ease.Easing;
+
+public class LabColorSpace extends AbstractColorSpace implements Easable<LabColorSpace> {
 	public float l;
 	public float a;
 	public float b;
@@ -71,5 +74,15 @@ public class LabColorSpace extends AbstractColorSpace {
 
 	@Nonnull public RGBColorSpace toExactRGB(@Nonnull XYZColorSpace.Reference reference) {
 		return toXYZ(reference).toExactRGB();
+	}
+
+	@Override
+	@Nonnull public LabColorSpace ease(@Nonnull LabColorSpace other, float f) {
+		return new LabColorSpace(
+				Easing.linear.ease(l, other.l, f),
+				Easing.linear.ease(a, other.a, f),
+				Easing.linear.ease(b, other.b, f),
+				Easing.linear.ease(alpha, other.alpha, f)
+		);
 	}
 }

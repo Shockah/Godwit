@@ -3,8 +3,10 @@ package pl.shockah.godwit.gl.color;
 import javax.annotation.Nonnull;
 
 import pl.shockah.godwit.Math2;
+import pl.shockah.godwit.fx.ease.Easable;
+import pl.shockah.godwit.fx.ease.Easing;
 
-public class HSLColorSpace extends AbstractColorSpace {
+public class HSLColorSpace extends AbstractColorSpace implements Easable<HSLColorSpace> {
 	public float h;
 	public float s;
 	public float l;
@@ -77,5 +79,22 @@ public class HSLColorSpace extends AbstractColorSpace {
 			return v1 + (v2 - v1) * (2f / 3f - vh) * 6;
 		else
 			return v1;
+	}
+
+	@Override
+	@Nonnull public HSLColorSpace ease(@Nonnull HSLColorSpace other, float f) {
+		float h2 = Math2.deltaAngle(this.h, other.h) > 0 ? other.h : other.h - 1f;
+		float h = Easing.linear.ease(this.h, h2, f);
+		if (h < 0)
+			h += 1f;
+		if (h > 0)
+			h -= 1f;
+
+		return new HSLColorSpace(
+				h,
+				Easing.linear.ease(s, other.s, f),
+				Easing.linear.ease(l, other.l, f),
+				Easing.linear.ease(alpha, other.alpha, f)
+		);
 	}
 }

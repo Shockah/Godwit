@@ -5,7 +5,10 @@ import com.badlogic.gdx.math.MathUtils;
 
 import javax.annotation.Nonnull;
 
-public class RGBColorSpace extends AbstractColorSpace {
+import pl.shockah.godwit.fx.ease.Easable;
+import pl.shockah.godwit.fx.ease.Easing;
+
+public class RGBColorSpace extends AbstractColorSpace implements Easable<RGBColorSpace> {
 	public float r;
 	public float g;
 	public float b;
@@ -33,6 +36,16 @@ public class RGBColorSpace extends AbstractColorSpace {
 				MathUtils.clamp(g, 0f, 1f),
 				MathUtils.clamp(b, 0f, 1f),
 				MathUtils.clamp(alpha, 0f, 1f)
+		);
+	}
+
+	@Override
+	@Nonnull public RGBColorSpace ease(@Nonnull RGBColorSpace other, float f) {
+		return new RGBColorSpace(
+				Easing.linear.ease(r, other.r, f),
+				Easing.linear.ease(g, other.g, f),
+				Easing.linear.ease(b, other.b, f),
+				Easing.linear.ease(alpha, other.alpha, f)
 		);
 	}
 }

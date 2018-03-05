@@ -2,7 +2,11 @@ package pl.shockah.godwit.gl.color;
 
 import javax.annotation.Nonnull;
 
-public class LCHColorSpace extends AbstractColorSpace {
+import pl.shockah.godwit.Math2;
+import pl.shockah.godwit.fx.ease.Easable;
+import pl.shockah.godwit.fx.ease.Easing;
+
+public class LCHColorSpace extends AbstractColorSpace implements Easable<LCHColorSpace> {
 	public float l;
 	public float c;
 	public float h;
@@ -51,5 +55,22 @@ public class LCHColorSpace extends AbstractColorSpace {
 
 	@Nonnull public RGBColorSpace toExactRGB(@Nonnull XYZColorSpace.Reference reference) {
 		return toLab().toExactRGB(reference);
+	}
+
+	@Override
+	@Nonnull public LCHColorSpace ease(@Nonnull LCHColorSpace other, float f) {
+		float h2 = Math2.deltaAngle(this.h, other.h) > 0 ? other.h : other.h - 1f;
+		float h = Easing.linear.ease(this.h, h2, f);
+		if (h < 0)
+			h += 1f;
+		if (h > 0)
+			h -= 1f;
+
+		return new LCHColorSpace(
+				Easing.linear.ease(l, other.l, f),
+				Easing.linear.ease(c, other.c, f),
+				h,
+				Easing.linear.ease(alpha, other.alpha, f)
+		);
 	}
 }
