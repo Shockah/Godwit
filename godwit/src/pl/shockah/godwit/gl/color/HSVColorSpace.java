@@ -70,7 +70,7 @@ public class HSVColorSpace extends AbstractColorSpace implements Easable<HSVColo
 
 	@Override
 	@Nonnull public HSVColorSpace ease(@Nonnull HSVColorSpace other, float f) {
-		float h2 = Math2.deltaAngle(this.h, other.h) > 0 ? other.h : other.h - 1f;
+		float h2 = Math2.deltaAngle(this.h, other.h) >= 0 ? other.h : other.h - 1f;
 		float h = Easing.linear.ease(this.h, h2, f);
 		if (h < 0)
 			h += 1f;

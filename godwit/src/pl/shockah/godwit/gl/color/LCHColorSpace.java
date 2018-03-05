@@ -59,7 +59,7 @@ public class LCHColorSpace extends AbstractColorSpace implements Easable<LCHColo
 
 	@Override
 	@Nonnull public LCHColorSpace ease(@Nonnull LCHColorSpace other, float f) {
-		float h2 = Math2.deltaAngle(this.h, other.h) > 0 ? other.h : other.h - 1f;
+		float h2 = Math2.deltaAngle(this.h, other.h) >= 0 ? other.h : other.h - 1f;
 		float h = Easing.linear.ease(this.h, h2, f);
 		if (h < 0)
 			h += 1f;
