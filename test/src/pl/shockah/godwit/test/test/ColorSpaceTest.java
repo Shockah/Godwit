@@ -10,6 +10,7 @@ import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.geom.Rectangle;
 import pl.shockah.godwit.gl.Gfx;
 import pl.shockah.godwit.gl.color.ColorSpace;
+import pl.shockah.godwit.gl.color.HSLColorSpace;
 import pl.shockah.godwit.gl.color.HSVColorSpace;
 import pl.shockah.godwit.gl.color.RGBColorSpace;
 import pl.shockah.godwit.gl.color.XYZColorSpace;
@@ -22,6 +23,7 @@ public class ColorSpaceTest extends State {
 	enum ColorSpaceType {
 		RGB((f1, f2, mouse) -> new RGBColorSpace(f1, f2, mouse, 1f)),
 		HSV((f1, f2, mouse) -> new HSVColorSpace(mouse, f1, f2, 1f)),
+		HSL((f1, f2, mouse) -> new HSLColorSpace(mouse, f1, f2, 1f)),
 		XYZ((f1, f2, mouse) -> new XYZColorSpace(f1 * 100f, mouse * 100f, f2 * 108f, 1f));
 
 		public final Func3<Float, Float, Float, ColorSpace> func;
