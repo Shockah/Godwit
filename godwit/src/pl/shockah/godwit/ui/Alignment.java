@@ -1,5 +1,7 @@
 package pl.shockah.godwit.ui;
 
+import com.badlogic.gdx.utils.Align;
+
 import javax.annotation.Nonnull;
 
 import pl.shockah.godwit.geom.IVec2;
@@ -7,6 +9,8 @@ import pl.shockah.godwit.geom.ImmutableVec2;
 
 public interface Alignment {
 	@Nonnull IVec2 getVector();
+
+	int getGdxAlignment();
 
 	@Nonnull default IVec2 getNonNanVector() {
 		return getNonNanVector(1f);
@@ -36,6 +40,16 @@ public interface Alignment {
 		@Nonnull public Plane and(@Nonnull Vertical vertical) {
 			return new Plane(this, vertical);
 		}
+
+		@Override
+		public int getGdxAlignment() {
+			switch (this) {
+				case Left: return Align.left;
+				case Center: return Align.center;
+				case Right: return Align.right;
+			}
+			throw new IllegalStateException();
+		}
 	}
 
 	enum Vertical implements Alignment {
@@ -57,6 +71,16 @@ public interface Alignment {
 		@Nonnull public Plane and(@Nonnull Horizontal horizontal) {
 			return new Plane(horizontal, this);
 		}
+
+		@Override
+		public int getGdxAlignment() {
+			switch (this) {
+				case Top: return Align.top;
+				case Middle: return Align.center;
+				case Bottom: return Align.bottom;
+			}
+			throw new IllegalStateException();
+		}
 	}
 
 	class Plane implements Alignment {
@@ -71,6 +95,28 @@ public interface Alignment {
 		@Override
 		@Nonnull public IVec2 getVector() {
 			return horizontal.vector.getOnlyX() + vertical.vector.getOnlyY();
+		}
+
+		@Override
+		public int getGdxAlignment() {
+			switch (horizontal) {
+				case Left: switch (vertical) {
+					case Top: return Align.topLeft;
+					case Middle: return Align.left;
+					case Bottom: return Align.bottomLeft;
+				}
+				case Center: switch (vertical) {
+					case Top: return Align.top;
+					case Middle: return Align.center;
+					case Bottom: return Align.bottom;
+				}
+				case Right: switch (vertical) {
+					case Top: return Align.topRight;
+					case Middle: return Align.right;
+					case Bottom: return Align.bottomRight;
+				}
+			}
+			throw new IllegalStateException();
 		}
 	}
 }
