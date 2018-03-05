@@ -12,7 +12,7 @@ sourceCompatibility = "1.8"
 
 sourceSets.main {
 	java.srcDirs = ["src"]
-	resources.srcDirs = ["resources/dist"]
+	resources.srcDirs = ["resources"]
 }
 
 project.ext.package = "pl.shockah.godwit.test"

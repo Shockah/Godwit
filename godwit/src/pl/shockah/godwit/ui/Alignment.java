@@ -4,6 +4,7 @@ import com.badlogic.gdx.utils.Align;
 
 import javax.annotation.Nonnull;
 
+import lombok.Getter;
 import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.geom.ImmutableVec2;
 
@@ -21,20 +22,24 @@ public interface Alignment {
 		return new ImmutableVec2(Float.isNaN(v.x()) ? nanValue : v.x(), Float.isNaN(v.y()) ? nanValue : v.y());
 	}
 
+	default int getHorizontalGdxAlignment() {
+		return getGdxAlignment() & (Align.center | Align.left | Align.right);
+	}
+
+	default int getVerticalGdxAlignment() {
+		return getGdxAlignment() & (Align.center | Align.top | Align.bottom);
+	}
+
 	enum Horizontal implements Alignment {
 		Left(new ImmutableVec2(0f, Float.NaN)),
 		Center(new ImmutableVec2(0.5f, Float.NaN)),
 		Right(new ImmutableVec2(1f, Float.NaN));
 
+		@Getter
 		@Nonnull private final IVec2 vector;
 
 		Horizontal(@Nonnull IVec2 vector) {
 			this.vector = vector;
-		}
-
-		@Override
-		@Nonnull public IVec2 getVector() {
-			return vector;
 		}
 
 		@Nonnull public Plane and(@Nonnull Vertical vertical) {
@@ -57,15 +62,11 @@ public interface Alignment {
 		Middle(new ImmutableVec2(Float.NaN, 0.5f)),
 		Bottom(new ImmutableVec2(Float.NaN, 1f));
 
+		@Getter
 		@Nonnull private final IVec2 vector;
 
 		Vertical(@Nonnull IVec2 vector) {
 			this.vector = vector;
-		}
-
-		@Override
-		@Nonnull public IVec2 getVector() {
-			return vector;
 		}
 
 		@Nonnull public Plane and(@Nonnull Horizontal horizontal) {
@@ -94,7 +95,7 @@ public interface Alignment {
 
 		@Override
 		@Nonnull public IVec2 getVector() {
-			return horizontal.vector.getOnlyX() + vertical.vector.getOnlyY();
+			return new ImmutableVec2(horizontal.vector.x(), vertical.vector.y());
 		}
 
 		@Override

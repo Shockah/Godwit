@@ -1,5 +1,6 @@
 package pl.shockah.godwit.gl;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 
@@ -24,7 +25,7 @@ public class GfxFont implements Renderable {
 	@Nullable private Float maxWidth = null;
 
 	@Getter
-	@Nonnull private Alignment alignment = Alignment.Horizontal.Left.and(Alignment.Vertical.Top);
+	@Nonnull private Alignment.Plane alignment = Alignment.Horizontal.Left.and(Alignment.Vertical.Top);
 
 	@Getter
 	@Nonnull private LineBreakMode lineBreakMode = LineBreakMode.Wrap;
@@ -33,9 +34,11 @@ public class GfxFont implements Renderable {
 		this.font = font;
 	}
 
-	@Nonnull protected GlyphLayout getGlyphLayout() {
+	@Nonnull public GlyphLayout getGlyphLayout() {
+		if (text == null || text.isEmpty())
+			throw new IllegalStateException();
 		if (cachedLayout == null)
-			cachedLayout = new GlyphLayout(font, text, font.getColor(), maxWidth != null ? maxWidth : 0f, alignment.getGdxAlignment(), lineBreakMode == LineBreakMode.Wrap);
+			cachedLayout = new GlyphLayout(font, text, Color.WHITE, maxWidth != null ? maxWidth : 0f, alignment.getHorizontalGdxAlignment(), lineBreakMode == LineBreakMode.Wrap);
 		return cachedLayout;
 	}
 
@@ -49,7 +52,7 @@ public class GfxFont implements Renderable {
 		cachedLayout = null;
 	}
 
-	public void setAlignment(@Nonnull Alignment alignment) {
+	public void setAlignment(@Nonnull Alignment.Plane alignment) {
 		this.alignment = alignment;
 		cachedLayout = null;
 	}
@@ -61,11 +64,12 @@ public class GfxFont implements Renderable {
 
 	@Override
 	public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
-		if (text == null)
+		if (text == null || text.isEmpty())
 			return;
 
 		GlyphLayout layout = getGlyphLayout();
-		v = v.subtract(0f, layout.height * alignment.getVector().y());
+		if (alignment.vertical != Alignment.Vertical.Top)
+			v = v.subtract(0f, layout.height * alignment.vertical.getVector().y());
 
 		gfx.prepareSprites();
 		font.draw(gfx.getSpriteBatch(), layout, v.x(), v.y());
