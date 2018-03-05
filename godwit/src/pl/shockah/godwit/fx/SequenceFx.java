@@ -8,10 +8,6 @@ import javax.annotation.Nonnull;
 
 import java8.util.stream.StreamSupport;
 import pl.shockah.godwit.fx.ease.Easing;
-import pl.shockah.godwit.fx.object.ObjectFx;
-import pl.shockah.godwit.fx.object.SequenceObjectFx;
-import pl.shockah.godwit.fx.raw.RawFx;
-import pl.shockah.godwit.fx.raw.SequenceRawFx;
 
 public abstract class SequenceFx<F extends Fx> implements Fx {
 	@Nonnull protected final List<F> fxes;
@@ -23,25 +19,6 @@ public abstract class SequenceFx<F extends Fx> implements Fx {
 
 	public SequenceFx(@Nonnull List<? extends F> fxes) {
 		this.fxes = new ArrayList<>(fxes);
-	}
-
-	public static SequenceRawFx ofRaw(RawFx... fxes) {
-		return new SequenceRawFx(fxes);
-	}
-
-	public static SequenceRawFx ofRaw(List<? extends RawFx> fxes) {
-		return new SequenceRawFx(fxes);
-	}
-
-	@SafeVarargs
-	@SuppressWarnings("unchecked")
-	public static <T2> SequenceObjectFx<T2> ofObject(ObjectFx<? extends T2>... fxes) {
-		return new SequenceObjectFx<>((ObjectFx<T2>[]) fxes);
-	}
-
-	@SuppressWarnings("unchecked")
-	public static <T2> SequenceObjectFx<T2> ofObject(List<? extends ObjectFx<? extends T2>> fxes) {
-		return new SequenceObjectFx<>((List<? extends ObjectFx<T2>>) fxes);
 	}
 
 	@Override

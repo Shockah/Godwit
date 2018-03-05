@@ -8,12 +8,14 @@ import pl.shockah.godwit.fx.SequenceFx;
 
 public class SequenceObjectFx<T> extends SequenceFx<ObjectFx<T>> implements ObjectFx<T> {
 	@SafeVarargs
-	public SequenceObjectFx(ObjectFx<T>... fxes) {
-		super(fxes);
+	@SuppressWarnings("unchecked")
+	public SequenceObjectFx(ObjectFx<? super T>... fxes) {
+		super((ObjectFx<T>[])fxes);
 	}
 
-	public SequenceObjectFx(@Nonnull List<? extends ObjectFx<T>> fxes) {
-		super(fxes);
+	@SuppressWarnings("unchecked")
+	public SequenceObjectFx(@Nonnull List<? extends ObjectFx<? super T>> fxes) {
+		super((List<? extends ObjectFx<T>>)fxes);
 	}
 
 	protected void update(@Nonnull T object, float f, float previous, boolean finish) {

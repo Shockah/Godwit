@@ -16,7 +16,7 @@ import pl.shockah.godwit.fx.FxInstance;
 import pl.shockah.godwit.fx.ease.Easing;
 import pl.shockah.godwit.fx.ease.PennerEasing;
 import pl.shockah.godwit.fx.ease.SmoothstepEasing;
-import pl.shockah.godwit.fx.raw.RawAction1Fx;
+import pl.shockah.godwit.fx.raw.RawFuncFx;
 import pl.shockah.godwit.geom.ImmutableVec2;
 import pl.shockah.godwit.geom.Vec2;
 import pl.shockah.godwit.gl.GfxSprite;
@@ -49,7 +49,7 @@ public class EasingTest extends State {
 
 			GfxSprite.Entity entity = sprite.asEntity();
 			entity.position = new Vec2(i * 18f + 2f, 2f);
-			sprite.getFxInstances().add(new RawAction1Fx(5f, f -> {
+			sprite.run(new RawFuncFx(5f, f -> {
 				entity.position.y = Easing.linear.ease(2 + Gdx.graphics.getHeight() * 0.2f, Gdx.graphics.getHeight() * 0.8f - 16, f);
 			}).withMethod(method).instance(FxInstance.EndAction.ReverseLoop));
 
