@@ -4,13 +4,16 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import lombok.Getter;
 import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.geom.ImmutableVec2;
+import pl.shockah.jay.JSONObject;
 
 public class SpriteSheet {
 	@Nonnull public final Texture texture;
+	@Nullable public final JSONObject json;
 	public final int columns;
 	public final int rows;
 	public final int spacing;
@@ -31,7 +34,12 @@ public class SpriteSheet {
 	}
 
 	public SpriteSheet(@Nonnull Texture texture, int columns, int rows, int spacing, int margin) {
+		this(texture, null, columns, rows, spacing, margin);
+	}
+
+	public SpriteSheet(@Nonnull Texture texture, @Nullable JSONObject json, int columns, int rows, int spacing, int margin) {
 		this.texture = texture;
+		this.json = json;
 		this.columns = columns;
 		this.rows = rows;
 		this.spacing = spacing;
@@ -42,7 +50,7 @@ public class SpriteSheet {
 
 	@Nonnull private IVec2 calculateFrameSize(@Nonnull Texture texture) {
 		IVec2 textureSize = new ImmutableVec2(texture.getWidth(), texture.getHeight());
-		IVec2 blankSpace = new ImmutableVec2(margin) * 2 + new ImmutableVec2(spacing) * new ImmutableVec2(columns - 1, rows - 1);
+		IVec2 blankSpace = new ImmutableVec2(margin, margin) * 2 + new ImmutableVec2(spacing, spacing) * new ImmutableVec2(columns - 1, rows - 1);
 		return (textureSize - blankSpace) / new ImmutableVec2(columns, rows);
 	}
 

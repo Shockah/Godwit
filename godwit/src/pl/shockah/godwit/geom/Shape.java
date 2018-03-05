@@ -1,5 +1,7 @@
 package pl.shockah.godwit.geom;
 
+import com.badlogic.gdx.graphics.Color;
+
 import javax.annotation.Nonnull;
 
 import pl.shockah.godwit.geom.polygon.Polygonable;
@@ -35,6 +37,27 @@ public abstract class Shape {
 		}
 	}
 
+	private static abstract class Entity<S extends Shape> extends pl.shockah.godwit.Entity {
+		@Nonnull public final S shape;
+		@Nonnull public Color color = Color.WHITE;
+
+		public Entity(@Nonnull S shape) {
+			this.shape = shape;
+		}
+
+		@Override
+		public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
+			gfx.setColor(color);
+			super.render(gfx, v);
+			gfx.setColor(Color.WHITE);
+		}
+
+		@Nonnull public Entity<S> withColor(@Nonnull Color color) {
+			this.color = color;
+			return this;
+		}
+	}
+
 	public interface Filled {
 		void drawFilled(@Nonnull Gfx gfx, @Nonnull IVec2 v);
 
@@ -52,24 +75,22 @@ public abstract class Shape {
 			return contains(new ImmutableVec2(x, y));
 		}
 
-		// TODO: reimplement
-		/*@Nonnull Entity asFilledEntity() {
-			return new Entity(this)
+		@SuppressWarnings("unchecked")
+		@Nonnull default Entity asFilledEntity() {
+			return new Entity((Shape & Filled)this);
 		}
 
-		static class Entity extends pl.shockah.oldgodwit.Entity {
-			@Nonnull @Delegate(interfaces = false, excludes = "asFilledEntity") final Filled shape
-
-			Entity(@Nonnull Filled shape) {
-				this.shape = shape
+		class Entity<S extends Shape & Filled> extends Shape.Entity<S> {
+			public Entity(@Nonnull S shape) {
+				super(shape);
 			}
 
 			@Override
-			void onRender(@Nonnull Gfx gfx, float x, float y) {
-				super.onRender(gfx, x, y)
-				gfx.drawFilled(shape, x, y)
+			public void renderSelf(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
+				super.renderSelf(gfx, v);
+				gfx.drawFilled(shape, v);
 			}
-		}*/
+		}
 	}
 
 	public interface Outline {
@@ -83,23 +104,21 @@ public abstract class Shape {
 			drawOutline(gfx, ImmutableVec2.zero);
 		}
 
-		// TODO: reimplement
-		/*@Nonnull Entity asOutlineEntity() {
-			return new Entity(this)
+		@SuppressWarnings("unchecked")
+		@Nonnull default Entity asOutlineEntity() {
+			return new Entity((Shape & Outline)this);
 		}
 
-		static class Entity extends pl.shockah.oldgodwit.Entity {
-			@Nonnull @Delegate(interfaces = false, excludes = "asOutlineEntity") final Outline shape
-
-			Entity(@Nonnull Outline shape) {
-				this.shape = shape
+		class Entity<S extends Shape & Outline> extends Shape.Entity<S> {
+			public Entity(@Nonnull S shape) {
+				super(shape);
 			}
 
 			@Override
-			void onRender(@Nonnull Gfx gfx, float x, float y) {
-				super.onRender(gfx, x, y)
-				gfx.drawOutline(shape, x, y)
+			public void renderSelf(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
+				super.renderSelf(gfx, v);
+				gfx.drawOutline(shape, v);
 			}
-		}*/
+		}
 	}
 }

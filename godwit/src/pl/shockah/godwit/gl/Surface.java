@@ -13,12 +13,16 @@ public class Surface extends GfxImpl implements Renderable {
 	@Nonnull public final TextureRegion region;
 
 	@Nonnull public static Surface create(int width, int height) {
-		GfxContextManager.bindSurface(null);
-		return new Surface(width, height);
+		return create(width, height, false);
 	}
 
-	protected Surface(int width, int height) {
-		fbo = new FrameBuffer(Pixmap.Format.RGBA8888, width, height, false, false);
+	@Nonnull public static Surface create(int width, int height, boolean depth) {
+		GfxContextManager.bindSurface(null);
+		return new Surface(width, height, depth);
+	}
+
+	protected Surface(int width, int height, boolean depth) {
+		fbo = new FrameBuffer(Pixmap.Format.RGBA8888, width, height, depth, false);
 		region = new TextureRegion(fbo.getColorBufferTexture(), 0, 0, width, height);
 		region.flip(false, true);
 	}
