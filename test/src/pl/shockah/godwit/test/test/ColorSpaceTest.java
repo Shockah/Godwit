@@ -1,7 +1,6 @@
 package pl.shockah.godwit.test.test;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 
 import javax.annotation.Nonnull;
 
@@ -9,19 +8,17 @@ import pl.shockah.godwit.State;
 import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.geom.Rectangle;
 import pl.shockah.godwit.gl.Gfx;
-import pl.shockah.godwit.gl.color.HSVColorSpace;
-import pl.shockah.godwit.gl.color.RGBColorSpace;
+import pl.shockah.godwit.gl.color.XYZColorSpace;
 
 public class ColorSpaceTest extends State {
-	private static final int X = 32;
-	private static final int Y = 32;
-	private static final float SPACER = 4;
+	private static final int X = 256;
+	private static final int Y = 256;
 
 	@Override
 	public void renderSelf(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
 		super.renderSelf(gfx, v);
 
-		Rectangle rect = new Rectangle(1f * (gfx.getWidth() - SPACER) / X / 2f, 1f * gfx.getHeight() / Y);
+		Rectangle rect = new Rectangle(1f * gfx.getWidth() / X, 1f * gfx.getHeight() / Y);
 
 		for (int y = 0; y < Y; y++) {
 			for (int x = 0; x < X; x++) {
@@ -31,11 +28,8 @@ public class ColorSpaceTest extends State {
 				float alpha = 1f;
 
 				try {
-					Color baseColor = new Color(f1, mouse, f2, alpha);
-					gfx.setColor(baseColor);
+					gfx.setColor(new XYZColorSpace(f1 * 100f, mouse * 100f, f2 * 108f, alpha).toColor());
 					gfx.drawFilled(rect, v + rect.size.multiply(x, y));
-					gfx.setColor(HSVColorSpace.from(RGBColorSpace.from(baseColor)).toColor());
-					gfx.drawFilled(rect, v.add(rect.size.x * X + SPACER, 0f) + rect.size.multiply(x, y));
 				} catch (Exception ignored) {
 				}
 			}

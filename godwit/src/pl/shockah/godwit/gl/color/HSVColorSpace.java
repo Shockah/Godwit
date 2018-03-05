@@ -22,21 +22,19 @@ public class HSVColorSpace extends AbstractColorSpace {
 		float range = max - min;
 
 		float h, s, v;
-		if (range == 0) {
+		if (range == 0)
 			h = 0;
-		} else if (max == rgb.r) {
+		else if (max == rgb.r)
 			h = (60 * (rgb.g - rgb.b) / range + 360) % 360;
-		} else if (max == rgb.g) {
+		else if (max == rgb.g)
 			h = 60 * (rgb.b - rgb.r) / range + 120;
-		} else {
+		else
 			h = 60 * (rgb.r - rgb.g) / range + 240;
-		}
 
-		if (max > 0) {
+		if (max > 0)
 			s = 1 - min / max;
-		} else {
+		else
 			s = 0;
-		}
 
 		v = max;
 
