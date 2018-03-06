@@ -46,7 +46,6 @@ public class NearestNeighborClustering<T> extends Clustering<T> {
 			}
 			closestCluster.add(vector);
 			Maps.computeIfAbsent(distinct, closestCluster, key -> new HashSet<>()).add(vector);
-			distinct.get(closestCluster).add(vector);
 		}
 
 		return clusters.toArray((List<T>[])Array.newInstance(List.class, clusters.size()));
