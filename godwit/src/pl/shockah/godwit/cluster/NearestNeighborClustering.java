@@ -10,6 +10,7 @@ import java.util.Set;
 
 import javax.annotation.Nonnull;
 
+import java8.util.Maps;
 import pl.shockah.func.Func1;
 
 public class NearestNeighborClustering<T> extends Clustering<T> {
@@ -42,9 +43,9 @@ public class NearestNeighborClustering<T> extends Clustering<T> {
 			if (closestCluster == null || smallestDistance >= threshold) {
 				closestCluster = new ArrayList<>();
 				clusters.add(closestCluster);
-				distinct.put(closestCluster, new HashSet<>());
 			}
 			closestCluster.add(vector);
+			Maps.computeIfAbsent(distinct, closestCluster, key -> new HashSet<>()).add(vector);
 			distinct.get(closestCluster).add(vector);
 		}
 
