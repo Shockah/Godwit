@@ -3,10 +3,9 @@ package pl.shockah.godwit.gl.color;
 import javax.annotation.Nonnull;
 
 import pl.shockah.godwit.Math2;
-import pl.shockah.godwit.fx.ease.Easable;
 import pl.shockah.godwit.fx.ease.Easing;
 
-public class HSLColorSpace extends AbstractColorSpace implements Easable<HSLColorSpace> {
+public class HSLColorSpace extends AbstractColorSpace<HSLColorSpace> {
 	public float h;
 	public float s;
 	public float l;
@@ -63,6 +62,15 @@ public class HSLColorSpace extends AbstractColorSpace implements Easable<HSLColo
 		float g = hue2rgb(v1, v2, h);
 		float b = hue2rgb(v1, v2, h - 1f / 3f);
 		return new RGBColorSpace(r, g, b, alpha);
+	}
+
+	public float getDistance(@Nonnull HSLColorSpace other) {
+		return (float)Math.sqrt(
+				Math.pow(Math.abs(Math2.deltaAngle(h * 360f, other.h * 360f) / 360f), 2)
+						+ Math.pow(s - other.s, 2)
+						+ Math.pow(l - other.l, 2)
+						+ Math.pow(alpha - other.alpha, 2)
+		);
 	}
 
 	private float hue2rgb(float v1, float v2, float vh) {

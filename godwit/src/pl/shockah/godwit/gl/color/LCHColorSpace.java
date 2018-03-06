@@ -3,10 +3,9 @@ package pl.shockah.godwit.gl.color;
 import javax.annotation.Nonnull;
 
 import pl.shockah.godwit.Math2;
-import pl.shockah.godwit.fx.ease.Easable;
 import pl.shockah.godwit.fx.ease.Easing;
 
-public class LCHColorSpace extends AbstractColorSpace implements Easable<LCHColorSpace> {
+public class LCHColorSpace extends AbstractColorSpace<LCHColorSpace> {
 	public float l;
 	public float c;
 	public float h;
@@ -43,6 +42,16 @@ public class LCHColorSpace extends AbstractColorSpace implements Easable<LCHColo
 	@Override
 	@Nonnull public RGBColorSpace toRGB() {
 		return toLab().toRGB();
+	}
+
+	@Override
+	public float getDistance(@Nonnull LCHColorSpace other) {
+		return (float)Math.sqrt(
+				Math.pow(Math.abs(Math2.deltaAngle(h * 360f, other.h * 360f) / 360f), 2)
+						+ Math.pow(c - other.c, 2) * 0.01f
+						+ Math.pow(l - other.l, 2) * 0.01f
+						+ Math.pow(alpha - other.alpha, 2)
+		);
 	}
 
 	@Nonnull public RGBColorSpace toRGB(@Nonnull XYZColorSpace.Reference reference) {

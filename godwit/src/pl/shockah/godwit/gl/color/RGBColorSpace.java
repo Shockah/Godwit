@@ -5,10 +5,9 @@ import com.badlogic.gdx.math.MathUtils;
 
 import javax.annotation.Nonnull;
 
-import pl.shockah.godwit.fx.ease.Easable;
 import pl.shockah.godwit.fx.ease.Easing;
 
-public class RGBColorSpace extends AbstractColorSpace implements Easable<RGBColorSpace> {
+public class RGBColorSpace extends AbstractColorSpace<RGBColorSpace> {
 	public float r;
 	public float g;
 	public float b;
@@ -27,6 +26,16 @@ public class RGBColorSpace extends AbstractColorSpace implements Easable<RGBColo
 	@Override
 	@Nonnull public RGBColorSpace toRGB() {
 		return this;
+	}
+
+	@Override
+	public float getDistance(@Nonnull RGBColorSpace other) {
+		return (float)Math.sqrt(
+				Math.pow(r - other.r, 2)
+						+ Math.pow(g - other.g, 2)
+						+ Math.pow(b - other.b, 2)
+						+ Math.pow(alpha - other.alpha, 2)
+		);
 	}
 
 	@Override

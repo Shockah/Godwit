@@ -1,6 +1,6 @@
 package pl.shockah.godwit.gl.color;
 
-public abstract class AbstractColorSpace implements ColorSpace {
+public abstract class AbstractColorSpace<CS extends AbstractColorSpace<CS>> implements ColorSpace<CS> {
 	public float alpha;
 
 	public AbstractColorSpace(float alpha) {
