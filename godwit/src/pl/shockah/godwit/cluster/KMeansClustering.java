@@ -3,31 +3,32 @@ package pl.shockah.godwit.cluster;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Nonnull;
 
 import java8.util.stream.RefStreams;
 
-public class KMeansClustering implements Clustering {
+public abstract class KMeansClustering extends Clustering {
+	public final int clusterCount;
+
+	public KMeansClustering(int clusterCount) {
+		this.clusterCount = clusterCount;
+	}
+
+	@Nonnull protected abstract float[][] getInitialSeeds(@Nonnull List<float[]> vectors, @Nonnull DistanceAlgorithm algorithm);
+
 	@SuppressWarnings("unchecked")
 	@Override
-	@Nonnull public List<float[]>[] getClusters(@Nonnull List<float[]> vectors, int clusterCount, @Nonnull DistanceAlgorithm algorithm) {
+	@Nonnull public List<float[]>[] getClusters(@Nonnull List<float[]> vectors, @Nonnull DistanceAlgorithm algorithm) {
 		List<float[]>[] clusters = (List<float[]>[])Array.newInstance(List.class, clusterCount);
 		for (int i = 0; i < clusters.length; i++) {
 			clusters[i] = new ArrayList<>();
 		}
 
-		float[][] seeds = new float[clusterCount][];
-
-		List<float[]> shuffled = new ArrayList<>(vectors);
-		Collections.shuffle(shuffled);
-
+		float[][] seeds = getInitialSeeds(vectors, algorithm);
 		for (int i = 0; i < clusters.length; i++) {
-			float[] vector = shuffled[i];
-			clusters[i].add(vector);
-			seeds[i] = vector;
+			clusters[i].add(seeds[i]);
 		}
 
 		List<float[]>[] previous = null;
