@@ -41,7 +41,7 @@ public final class Vec2 extends IVec2<Vec2> {
 		return new Vec2(Math2.ldirX(dist, angle), Math2.ldirY(dist, angle));
 	}
 
-	public void set(IVec2 v) {
+	public void set(@Nonnull IVec2 v) {
 		x = v.x();
 		y = v.y();
 	}

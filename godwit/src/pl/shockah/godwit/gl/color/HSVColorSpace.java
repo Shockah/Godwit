@@ -2,16 +2,17 @@ package pl.shockah.godwit.gl.color;
 
 import javax.annotation.Nonnull;
 
+import lombok.EqualsAndHashCode;
 import pl.shockah.godwit.Math2;
 import pl.shockah.godwit.fx.ease.Easing;
 
-public class HSVColorSpace extends AbstractColorSpace<HSVColorSpace> {
+@EqualsAndHashCode
+public class HSVColorSpace implements ColorSpace<HSVColorSpace> {
 	public float h;
 	public float s;
 	public float v;
 
-	public HSVColorSpace(float h, float s, float v, float alpha) {
-		super(alpha);
+	public HSVColorSpace(float h, float s, float v) {
 		this.h = h;
 		this.s = s;
 		this.v = v;
@@ -39,7 +40,12 @@ public class HSVColorSpace extends AbstractColorSpace<HSVColorSpace> {
 
 		v = max;
 
-		return new HSVColorSpace(h / 360f, s, v, rgb.alpha);
+		return new HSVColorSpace(h / 360f, s, v);
+	}
+
+	@Override
+	public String toString() {
+		return String.format("[HSVColorSpace: H:%.3f S:%.3f V:%.3f]", h, s, v);
 	}
 
 	@Override
@@ -53,17 +59,17 @@ public class HSVColorSpace extends AbstractColorSpace<HSVColorSpace> {
 		float t = v * (1 - s * (1 - f));
 		switch (i) {
 			case 0:
-				return new RGBColorSpace(v, t, p, alpha);
+				return new RGBColorSpace(v, t, p);
 			case 1:
-				return new RGBColorSpace(q, v, p, alpha);
+				return new RGBColorSpace(q, v, p);
 			case 2:
-				return new RGBColorSpace(p, v, t, alpha);
+				return new RGBColorSpace(p, v, t);
 			case 3:
-				return new RGBColorSpace(p, q, v, alpha);
+				return new RGBColorSpace(p, q, v);
 			case 4:
-				return new RGBColorSpace(t, p, v, alpha);
+				return new RGBColorSpace(t, p, v);
 			default:
-				return new RGBColorSpace(v, p, q, alpha);
+				return new RGBColorSpace(v, p, q);
 		}
 	}
 
@@ -73,7 +79,6 @@ public class HSVColorSpace extends AbstractColorSpace<HSVColorSpace> {
 				Math.pow(Math.abs(Math2.deltaAngle(h * 360f, other.h * 360f) / 360f), 2)
 						+ Math.pow(s - other.s, 2)
 						+ Math.pow(v - other.v, 2)
-						+ Math.pow(alpha - other.alpha, 2)
 		);
 	}
 
@@ -89,8 +94,7 @@ public class HSVColorSpace extends AbstractColorSpace<HSVColorSpace> {
 		return new HSVColorSpace(
 				h,
 				Easing.linear.ease(s, other.s, f),
-				Easing.linear.ease(v, other.v, f),
-				Easing.linear.ease(alpha, other.alpha, f)
+				Easing.linear.ease(v, other.v, f)
 		);
 	}
 }

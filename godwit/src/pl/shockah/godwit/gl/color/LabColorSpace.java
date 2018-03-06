@@ -2,15 +2,16 @@ package pl.shockah.godwit.gl.color;
 
 import javax.annotation.Nonnull;
 
+import lombok.EqualsAndHashCode;
 import pl.shockah.godwit.fx.ease.Easing;
 
-public class LabColorSpace extends AbstractColorSpace<LabColorSpace> {
+@EqualsAndHashCode
+public class LabColorSpace implements ColorSpace<LabColorSpace> {
 	public float l;
 	public float a;
 	public float b;
 
-	public LabColorSpace(float l, float a, float b, float alpha) {
-		super(alpha);
+	public LabColorSpace(float l, float a, float b) {
 		this.l = l;
 		this.a = a;
 		this.b = b;
@@ -32,9 +33,13 @@ public class LabColorSpace extends AbstractColorSpace<LabColorSpace> {
 		return new LabColorSpace(
 				116 * y - 16,
 				500 * (x - y),
-				200 * (y - z),
-				xyz.alpha
+				200 * (y - z)
 		);
+	}
+
+	@Override
+	public String toString() {
+		return String.format("[LabColorSpace: L:%.3f a:%.3f b:%.3f]", l, a, b);
 	}
 
 	@Nonnull public XYZColorSpace toXYZ() {
@@ -53,8 +58,7 @@ public class LabColorSpace extends AbstractColorSpace<LabColorSpace> {
 		return new XYZColorSpace(
 				x * reference.x,
 				y * reference.y,
-				z * reference.z,
-				alpha
+				z * reference.z
 		);
 	}
 
@@ -69,7 +73,6 @@ public class LabColorSpace extends AbstractColorSpace<LabColorSpace> {
 				Math.pow(l - other.l, 2) * 0.01f
 						+ Math.pow(a - other.a, 2) * 0.005f
 						+ Math.pow(b - other.b, 2) * 0.005f
-						+ Math.pow(alpha - other.alpha, 2)
 		);
 	}
 
@@ -90,8 +93,7 @@ public class LabColorSpace extends AbstractColorSpace<LabColorSpace> {
 		return new LabColorSpace(
 				Easing.linear.ease(l, other.l, f),
 				Easing.linear.ease(a, other.a, f),
-				Easing.linear.ease(b, other.b, f),
-				Easing.linear.ease(alpha, other.alpha, f)
+				Easing.linear.ease(b, other.b, f)
 		);
 	}
 }

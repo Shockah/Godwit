@@ -2,16 +2,17 @@ package pl.shockah.godwit.gl.color;
 
 import javax.annotation.Nonnull;
 
+import lombok.EqualsAndHashCode;
 import pl.shockah.godwit.Math2;
 import pl.shockah.godwit.fx.ease.Easing;
 
-public class LCHColorSpace extends AbstractColorSpace<LCHColorSpace> {
+@EqualsAndHashCode
+public class LCHColorSpace implements ColorSpace<LCHColorSpace> {
 	public float l;
 	public float c;
 	public float h;
 
-	public LCHColorSpace(float l, float c, float h, float alpha) {
-		super(alpha);
+	public LCHColorSpace(float l, float c, float h) {
 		this.l = l;
 		this.c = c;
 		this.h = h;
@@ -24,8 +25,7 @@ public class LCHColorSpace extends AbstractColorSpace<LCHColorSpace> {
 		return new LCHColorSpace(
 				lab.l,
 				(float)Math.sqrt(lab.a * lab.a + lab.b * lab.b),
-				h / 360f,
-				lab.alpha
+				h / 360f
 		);
 	}
 
@@ -34,9 +34,13 @@ public class LCHColorSpace extends AbstractColorSpace<LCHColorSpace> {
 		return new LabColorSpace(
 				l,
 				(float)Math.cos(Math.toRadians(h)) * c,
-				(float)Math.sin(Math.toRadians(h)) * c,
-				alpha
+				(float)Math.sin(Math.toRadians(h)) * c
 		);
+	}
+
+	@Override
+	public String toString() {
+		return String.format("[LCHColorSpace: L:%.3f C:%.3f H:%.3f]", l, c, h);
 	}
 
 	@Override
@@ -50,7 +54,6 @@ public class LCHColorSpace extends AbstractColorSpace<LCHColorSpace> {
 				Math.pow(Math.abs(Math2.deltaAngle(h * 360f, other.h * 360f) / 360f), 2)
 						+ Math.pow(c - other.c, 2) * 0.01f
 						+ Math.pow(l - other.l, 2) * 0.01f
-						+ Math.pow(alpha - other.alpha, 2)
 		);
 	}
 
@@ -78,8 +81,7 @@ public class LCHColorSpace extends AbstractColorSpace<LCHColorSpace> {
 		return new LCHColorSpace(
 				Easing.linear.ease(l, other.l, f),
 				Easing.linear.ease(c, other.c, f),
-				h,
-				Easing.linear.ease(alpha, other.alpha, f)
+				h
 		);
 	}
 }

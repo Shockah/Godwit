@@ -2,16 +2,17 @@ package pl.shockah.godwit.gl.color;
 
 import javax.annotation.Nonnull;
 
+import lombok.EqualsAndHashCode;
 import pl.shockah.godwit.Math2;
 import pl.shockah.godwit.fx.ease.Easing;
 
-public class HSLColorSpace extends AbstractColorSpace<HSLColorSpace> {
+@EqualsAndHashCode
+public class HSLColorSpace implements ColorSpace<HSLColorSpace> {
 	public float h;
 	public float s;
 	public float l;
 
-	public HSLColorSpace(float h, float s, float l, float alpha) {
-		super(alpha);
+	public HSLColorSpace(float h, float s, float l) {
 		this.h = h;
 		this.s = s;
 		this.l = l;
@@ -47,13 +48,18 @@ public class HSLColorSpace extends AbstractColorSpace<HSLColorSpace> {
 				h -= 1f;
 		}
 
-		return new HSLColorSpace(h, s, l, rgb.alpha);
+		return new HSLColorSpace(h, s, l);
+	}
+
+	@Override
+	public String toString() {
+		return String.format("[HSLColorSpace: H:%.3f S:%.3f L:%.3f]", h, s, l);
 	}
 
 	@Override
 	@Nonnull public RGBColorSpace toRGB() {
 		if (s == 0)
-			return new RGBColorSpace(l, l, l, alpha);
+			return new RGBColorSpace(l, l, l);
 
 		float v2 = l < 0.5f ? l * (1 + s) : (l + s) - (s * l);
 		float v1 = 2 * l - v2;
@@ -61,7 +67,7 @@ public class HSLColorSpace extends AbstractColorSpace<HSLColorSpace> {
 		float r = hue2rgb(v1, v2, h + 1f / 3f);
 		float g = hue2rgb(v1, v2, h);
 		float b = hue2rgb(v1, v2, h - 1f / 3f);
-		return new RGBColorSpace(r, g, b, alpha);
+		return new RGBColorSpace(r, g, b);
 	}
 
 	public float getDistance(@Nonnull HSLColorSpace other) {
@@ -69,7 +75,6 @@ public class HSLColorSpace extends AbstractColorSpace<HSLColorSpace> {
 				Math.pow(Math.abs(Math2.deltaAngle(h * 360f, other.h * 360f) / 360f), 2)
 						+ Math.pow(s - other.s, 2)
 						+ Math.pow(l - other.l, 2)
-						+ Math.pow(alpha - other.alpha, 2)
 		);
 	}
 
@@ -101,8 +106,7 @@ public class HSLColorSpace extends AbstractColorSpace<HSLColorSpace> {
 		return new HSLColorSpace(
 				h,
 				Easing.linear.ease(s, other.s, f),
-				Easing.linear.ease(l, other.l, f),
-				Easing.linear.ease(alpha, other.alpha, f)
+				Easing.linear.ease(l, other.l, f)
 		);
 	}
 }

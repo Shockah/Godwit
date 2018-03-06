@@ -25,26 +25,23 @@ public class ColorSpaceTest extends State {
 	private static final int Y = 256;
 
 	enum ColorSpaceType {
-		RGB((f1, f2, f3) -> new RGBColorSpace(f1, f2, f3, 1f)),
-		HSV((f1, f2, f3) -> new HSVColorSpace(f1, f2, f3, 1f).toRGB()),
-		HSL((f1, f2, f3) -> new HSLColorSpace(f1, f2, f3, 1f).toRGB()),
+		RGB(RGBColorSpace::new),
+		HSV((f1, f2, f3) -> new HSVColorSpace(f1, f2, f3).toRGB()),
+		HSL((f1, f2, f3) -> new HSLColorSpace(f1, f2, f3).toRGB()),
 		XYZ((f1, f2, f3) -> new XYZColorSpace(
 				f1 * XYZColorSpace.Reference.D65_2.x,
 				f2 * XYZColorSpace.Reference.D65_2.y,
-				f3 * XYZColorSpace.Reference.D65_2.z,
-				1f
+				f3 * XYZColorSpace.Reference.D65_2.z
 		).toRGB()),
 		Lab((f1, f2, f3) -> new LabColorSpace(
 				f1 * 100f,
 				Easing.linear.ease(-85.9283f, 97.9619f, f2),
-				Easing.linear.ease(-107.5428f, 94.2014f, f3),
-				1f
+				Easing.linear.ease(-107.5428f, 94.2014f, f3)
 		).toRGB()),
 		LCH((f1, f2, f3) -> new LCHColorSpace(
 				f1 * 100f,
 				f2 * 133.4178f,
-				f3,
-				1f
+				f3
 		).toRGB());
 
 		public final Func3<Float, Float, Float, RGBColorSpace> func;

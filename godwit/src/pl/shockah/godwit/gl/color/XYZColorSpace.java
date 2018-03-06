@@ -2,9 +2,12 @@ package pl.shockah.godwit.gl.color;
 
 import javax.annotation.Nonnull;
 
+import lombok.EqualsAndHashCode;
 import pl.shockah.godwit.fx.ease.Easing;
 
-public class XYZColorSpace extends AbstractColorSpace<XYZColorSpace> {
+@EqualsAndHashCode
+public class XYZColorSpace implements ColorSpace<XYZColorSpace> {
+	@EqualsAndHashCode
 	public static final class Reference {
 		public static final Reference D50_2 = new Reference(96.422f, 100f, 82.521f);
 		public static final Reference D50_10 = new Reference(96.720f, 100f, 81.427f);
@@ -27,8 +30,7 @@ public class XYZColorSpace extends AbstractColorSpace<XYZColorSpace> {
 	public float y;
 	public float z;
 
-	public XYZColorSpace(float x, float y, float z, float alpha) {
-		super(alpha);
+	public XYZColorSpace(float x, float y, float z) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
@@ -51,9 +53,13 @@ public class XYZColorSpace extends AbstractColorSpace<XYZColorSpace> {
 		return new XYZColorSpace(
 				r * 0.4124f + g * 0.3576f + b * 0.1805f,
 				r * 0.2126f + g * 0.7152f + b * 0.0722f,
-				r * 0.0193f + g * 0.1192f + b * 0.9505f,
-				rgb.alpha
+				r * 0.0193f + g * 0.1192f + b * 0.9505f
 		);
+	}
+
+	@Override
+	public String toString() {
+		return String.format("[XYZColorSpace: X:%.3f Y:%.3f Z:%.3f]", x, y, z);
 	}
 
 	@Override
@@ -70,7 +76,7 @@ public class XYZColorSpace extends AbstractColorSpace<XYZColorSpace> {
 		g = g > 0.0031308f ? 1.055f * (float)Math.pow(g, 1f / 2.4f) - 0.055f : g * 12.92f;
 		b = b > 0.0031308f ? 1.055f * (float)Math.pow(b, 1f / 2.4f) - 0.055f : b * 12.92f;
 
-		return new RGBColorSpace(r, g, b, alpha);
+		return new RGBColorSpace(r, g, b);
 	}
 
 	@Override
@@ -79,7 +85,6 @@ public class XYZColorSpace extends AbstractColorSpace<XYZColorSpace> {
 				Math.pow(x - other.x, 2) * 0.01f
 						+ Math.pow(y - other.y, 2) * 0.01f
 						+ Math.pow(z - other.z, 2) * 0.01f
-						+ Math.pow(alpha - other.alpha, 2)
 		);
 	}
 
@@ -99,8 +104,7 @@ public class XYZColorSpace extends AbstractColorSpace<XYZColorSpace> {
 		return new XYZColorSpace(
 				Easing.linear.ease(x, other.x, f),
 				Easing.linear.ease(y, other.y, f),
-				Easing.linear.ease(z, other.z, f),
-				Easing.linear.ease(alpha, other.alpha, f)
+				Easing.linear.ease(z, other.z, f)
 		);
 	}
 }

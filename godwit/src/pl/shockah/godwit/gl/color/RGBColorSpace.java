@@ -5,22 +5,28 @@ import com.badlogic.gdx.math.MathUtils;
 
 import javax.annotation.Nonnull;
 
+import lombok.EqualsAndHashCode;
 import pl.shockah.godwit.fx.ease.Easing;
 
-public class RGBColorSpace extends AbstractColorSpace<RGBColorSpace> {
+@EqualsAndHashCode
+public class RGBColorSpace implements ColorSpace<RGBColorSpace> {
 	public float r;
 	public float g;
 	public float b;
 
-	public RGBColorSpace(float r, float g, float b, float alpha) {
-		super(alpha);
+	public RGBColorSpace(float r, float g, float b) {
 		this.r = r;
 		this.g = g;
 		this.b = b;
 	}
 
 	@Nonnull public static RGBColorSpace from(@Nonnull Color color) {
-		return new RGBColorSpace(color.r, color.g, color.b, color.a);
+		return new RGBColorSpace(color.r, color.g, color.b);
+	}
+
+	@Override
+	public String toString() {
+		return String.format("[RGBColorSpace: R:%.3f G:%.3f B:%.3f]", r, g, b);
 	}
 
 	@Override
@@ -34,7 +40,6 @@ public class RGBColorSpace extends AbstractColorSpace<RGBColorSpace> {
 				Math.pow(r - other.r, 2)
 						+ Math.pow(g - other.g, 2)
 						+ Math.pow(b - other.b, 2)
-						+ Math.pow(alpha - other.alpha, 2)
 		);
 	}
 
@@ -44,7 +49,7 @@ public class RGBColorSpace extends AbstractColorSpace<RGBColorSpace> {
 				MathUtils.clamp(r, 0f, 1f),
 				MathUtils.clamp(g, 0f, 1f),
 				MathUtils.clamp(b, 0f, 1f),
-				MathUtils.clamp(alpha, 0f, 1f)
+				1f
 		);
 	}
 
@@ -53,8 +58,7 @@ public class RGBColorSpace extends AbstractColorSpace<RGBColorSpace> {
 		return new RGBColorSpace(
 				Easing.linear.ease(r, other.r, f),
 				Easing.linear.ease(g, other.g, f),
-				Easing.linear.ease(b, other.b, f),
-				Easing.linear.ease(alpha, other.alpha, f)
+				Easing.linear.ease(b, other.b, f)
 		);
 	}
 }
