@@ -1,4 +1,4 @@
-package pl.shockah.godwit.cluster;
+package pl.shockah.godwit.algo.cluster;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -8,26 +8,32 @@ import javax.annotation.Nonnull;
 
 import java8.util.stream.RefStreams;
 import pl.shockah.func.Func1;
+import pl.shockah.godwit.algo.DistanceAlgorithm;
+import pl.shockah.godwit.algo.EuclideanDistanceAlgorithm;
 
 public abstract class KMeansClustering<T> extends Clustering<T> {
 	public final int clusterCount;
 
 	public KMeansClustering(@Nonnull Func1<T, float[]> toVectorFunc, @Nonnull Func1<float[], T> fromVectorFunc, int clusterCount) {
-		super(toVectorFunc, fromVectorFunc);
+		this(toVectorFunc, fromVectorFunc, EuclideanDistanceAlgorithm.instance, clusterCount);
+	}
+
+	public KMeansClustering(@Nonnull Func1<T, float[]> toVectorFunc, @Nonnull Func1<float[], T> fromVectorFunc, @Nonnull DistanceAlgorithm distanceAlgorithm, int clusterCount) {
+		super(toVectorFunc, fromVectorFunc, distanceAlgorithm);
 		this.clusterCount = clusterCount;
 	}
 
-	@Nonnull protected abstract T[] getInitialSeeds(@Nonnull List<T> vectors, @Nonnull DistanceAlgorithm algorithm);
+	@Nonnull protected abstract T[] getInitialSeeds(@Nonnull List<T> vectors);
 
 	@SuppressWarnings("unchecked")
 	@Override
-	@Nonnull public List<T>[] getClusters(@Nonnull List<T> vectors, @Nonnull DistanceAlgorithm algorithm) {
+	@Nonnull public List<T>[] getClusters(@Nonnull List<T> vectors) {
 		List<T>[] clusters = (List<T>[])Array.newInstance(List.class, clusterCount);
 		for (int i = 0; i < clusters.length; i++) {
 			clusters[i] = new ArrayList<>();
 		}
 
-		T[] seeds = getInitialSeeds(vectors, algorithm);
+		T[] seeds = getInitialSeeds(vectors);
 		for (int i = 0; i < clusters.length; i++) {
 			clusters[i].add(seeds[i]);
 		}
@@ -42,7 +48,7 @@ public abstract class KMeansClustering<T> extends Clustering<T> {
 				float smallestDistance = Float.MAX_VALUE;
 				int closestClusterIndex = -1;
 				for (int i = 0; i < clusters.length; i++) {
-					float distance = algorithm.getDistance(toVectorFunc.call(vector), toVectorFunc.call(seeds[i]));
+					float distance = distanceAlgorithm.getDistance(toVectorFunc.call(vector), toVectorFunc.call(seeds[i]));
 					if (closestClusterIndex == -1 || distance < smallestDistance) {
 						smallestDistance = distance;
 						closestClusterIndex = i;

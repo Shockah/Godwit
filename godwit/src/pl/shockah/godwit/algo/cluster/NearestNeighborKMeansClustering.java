@@ -1,4 +1,4 @@
-package pl.shockah.godwit.cluster;
+package pl.shockah.godwit.algo.cluster;
 
 import java.util.List;
 
@@ -6,17 +6,27 @@ import javax.annotation.Nonnull;
 
 import java8.util.stream.RefStreams;
 import pl.shockah.func.Func1;
+import pl.shockah.godwit.algo.DistanceAlgorithm;
+import pl.shockah.godwit.algo.EuclideanDistanceAlgorithm;
 
 public class NearestNeighborKMeansClustering<T> extends KMeansClustering<T> {
 	public final float initialThreshold;
 	public final float thresholdMultiplier;
 
 	public NearestNeighborKMeansClustering(@Nonnull Func1<T, float[]> toVectorFunc, @Nonnull Func1<float[], T> fromVectorFunc, int clusterCount) {
-		this(toVectorFunc, fromVectorFunc, clusterCount, 0.9f, 0.95f);
+		this(toVectorFunc, fromVectorFunc, EuclideanDistanceAlgorithm.instance, clusterCount);
 	}
 
 	public NearestNeighborKMeansClustering(@Nonnull Func1<T, float[]> toVectorFunc, @Nonnull Func1<float[], T> fromVectorFunc, int clusterCount, float initialThreshold, float thresholdMultiplier) {
-		super(toVectorFunc, fromVectorFunc, clusterCount);
+		this(toVectorFunc, fromVectorFunc, EuclideanDistanceAlgorithm.instance, clusterCount, initialThreshold, thresholdMultiplier);
+	}
+
+	public NearestNeighborKMeansClustering(@Nonnull Func1<T, float[]> toVectorFunc, @Nonnull Func1<float[], T> fromVectorFunc, @Nonnull DistanceAlgorithm distanceAlgorithm, int clusterCount) {
+		this(toVectorFunc, fromVectorFunc, distanceAlgorithm, clusterCount, 0.9f, 0.95f);
+	}
+
+	public NearestNeighborKMeansClustering(@Nonnull Func1<T, float[]> toVectorFunc, @Nonnull Func1<float[], T> fromVectorFunc, @Nonnull DistanceAlgorithm distanceAlgorithm, int clusterCount, float initialThreshold, float thresholdMultiplier) {
+		super(toVectorFunc, fromVectorFunc, distanceAlgorithm, clusterCount);
 		this.initialThreshold = initialThreshold;
 		this.thresholdMultiplier = thresholdMultiplier;
 	}
@@ -37,10 +47,10 @@ public class NearestNeighborKMeansClustering<T> extends KMeansClustering<T> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	@Nonnull protected T[] getInitialSeeds(@Nonnull List<T> vectors, @Nonnull DistanceAlgorithm algorithm) {
+	@Nonnull protected T[] getInitialSeeds(@Nonnull List<T> vectors) {
 		float threshold = initialThreshold;
 		while (true) {
-			List<T>[] clusters = new NearestNeighborClustering(toVectorFunc, fromVectorFunc, threshold).getClusters(vectors, algorithm);
+			List<T>[] clusters = new NearestNeighborClustering(toVectorFunc, fromVectorFunc, threshold).getClusters(vectors);
 			if (clusters.length >= clusterCount) {
 				return RefStreams.of(clusters)
 						.limit(clusterCount)

@@ -1,9 +1,9 @@
-package pl.shockah.godwit.cluster;
+package pl.shockah.godwit.algo;
 
 import javax.annotation.Nonnull;
 
-public class ManhattanDistanceAlgorithm implements DistanceAlgorithm {
-	@Nonnull public static final DistanceAlgorithm instance = new ManhattanDistanceAlgorithm();
+public class EuclideanDistanceAlgorithm implements DistanceAlgorithm {
+	@Nonnull public static final DistanceAlgorithm instance = new EuclideanDistanceAlgorithm();
 
 	@Override
 	public float getDistance(@Nonnull float[] v1, @Nonnull float[] v2) {
@@ -12,8 +12,8 @@ public class ManhattanDistanceAlgorithm implements DistanceAlgorithm {
 
 		float f = 0f;
 		for (int i = 0; i < v1.length; i++) {
-			f += Math.abs(v2[i] - v1[i]);
+			f += Math.pow(v2[i] - v1[i], 2);
 		}
-		return f;
+		return (float)Math.sqrt(f);
 	}
 }

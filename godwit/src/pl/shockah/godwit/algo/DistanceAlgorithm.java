@@ -1,4 +1,4 @@
-package pl.shockah.godwit.cluster;
+package pl.shockah.godwit.algo;
 
 import javax.annotation.Nonnull;
 
