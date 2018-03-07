@@ -9,7 +9,6 @@ import javax.annotation.Nonnull;
 
 import java8.util.stream.StreamSupport;
 import pl.shockah.godwit.Entity;
-import pl.shockah.godwit.Godwit;
 import pl.shockah.godwit.State;
 import pl.shockah.godwit.geom.Circle;
 import pl.shockah.godwit.geom.IVec2;
@@ -28,17 +27,12 @@ public class AttachedViewportTest extends State implements Configurable {
 	}
 
 	@Override
-	public void update() {
-		super.update();
-
-		StreamSupport.stream(children.getSafeCopy()).filter(e -> e instanceof AttachmentEntity).map(e -> (AttachmentEntity)e).findFirst().ifPresent(e -> {
-			Godwit.getInstance().gfx.setCameraPosition(e.position);
-		});
-	}
-
-	@Override
 	public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
 		gfx.clear(Color.GRAY);
+
+		StreamSupport.stream(children.getSafeCopy()).filter(e -> e instanceof AttachmentEntity).map(e -> (AttachmentEntity)e).findFirst().ifPresent(e -> {
+			gfx.setCameraPosition(e.position);
+		});
 
 		super.render(gfx, v);
 	}
