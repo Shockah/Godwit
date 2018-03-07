@@ -37,7 +37,7 @@ public class NearestNeighborClustering<T> extends Clustering<T> {
 			float smallestDistance = Float.MAX_VALUE;
 			List<T> closestCluster = null;
 			for (List<T> cluster : clusters) {
-				for (T vector2 : distinct.get(cluster)) {
+				for (T vector2 : Maps.computeIfAbsent(distinct, cluster, key -> new HashSet<>())) {
 					float distance = distanceAlgorithm.getDistance(toVectorFunc.call(vector), toVectorFunc.call(vector2));
 					if (closestCluster == null || distance < smallestDistance) {
 						closestCluster = cluster;
