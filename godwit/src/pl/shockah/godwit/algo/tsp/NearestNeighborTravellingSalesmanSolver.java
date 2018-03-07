@@ -1,7 +1,6 @@
 package pl.shockah.godwit.algo.tsp;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -9,6 +8,7 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import java8.util.Comparators;
 import java8.util.stream.Collectors;
 import java8.util.stream.StreamSupport;
 import lombok.Getter;
@@ -111,7 +111,7 @@ public class NearestNeighborTravellingSalesmanSolver<T> extends TravellingSalesm
 		protected boolean solveInternal(@Nonnull SolveInstance instance) {
 			List<T> filteredNodes = StreamSupport.stream(instance.nodes)
 					.filter(node -> !contains(node))
-					.sorted(Comparator.comparingDouble(node -> instance.getDistance(this.node, node)))
+					.sorted(Comparators.comparingDouble(node -> instance.getDistance(this.node, node)))
 					.collect(Collectors.toList());
 
 			if (filteredNodes.isEmpty())
