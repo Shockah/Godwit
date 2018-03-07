@@ -11,7 +11,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import pl.shockah.godwit.State;
-import pl.shockah.godwit.algo.tsp.CloseTravellingSalesmanSolver;
+import pl.shockah.godwit.algo.tsp.ExactTravellingSalesmanSolver;
 import pl.shockah.godwit.algo.tsp.TravellingSalesmanSolver;
 import pl.shockah.godwit.geom.Circle;
 import pl.shockah.godwit.geom.IVec2;
@@ -25,25 +25,33 @@ public class TravellingSalesmanTest extends State {
 	@Nullable public TravellingSalesmanSolver<IVec2>.Route route;
 	@Nullable public Polygon polygon;
 
+	public void addNode(@Nonnull IVec2 v) {
+		nodes.add(v);
+		if (nodes.size() >= 2) {
+			System.out.println(String.format("Solving for %d nodes", nodes.size()));
+			long ms = TimeUtils.millis();
+			route = ExactTravellingSalesmanSolver.forVec2().solve(nodes);
+			System.out.println(String.format("Solved in %dms", TimeUtils.millis() - ms));
+
+			polygon = new Polygon();
+			polygon.closed = false;
+			for (IVec2 node : route.getNodes()) {
+				polygon.addPoint(node);
+			}
+		}
+	}
+
 	@Override
 	public void updateSelf() {
 		super.updateSelf();
 
-		if (Gdx.input.justTouched()) {
-			nodes.add(new ImmutableVec2(Gdx.input.getX(), Gdx.input.getY()));
-			if (nodes.size() >= 2) {
-				System.out.println(String.format("Solving for %d nodes", nodes.size()));
-				long ms = TimeUtils.millis();
-				route = CloseTravellingSalesmanSolver.forVec2(0.1f).solve(nodes);
-				System.out.println(String.format("Solved in %dms", TimeUtils.millis() - ms));
+//		addNode(new ImmutableVec2(
+//				Godwit.getInstance().random.getFloatRangeGenerator(0f, 1f).generate(),
+//				Godwit.getInstance().random.getFloatRangeGenerator(0f, 1f).generate()
+//		).multiply(Godwit.getInstance().gfx.getSize()));
 
-				polygon = new Polygon();
-				polygon.closed = false;
-				for (IVec2 node : route.getNodes()) {
-					polygon.addPoint(node);
-				}
-			}
-		}
+		if (Gdx.input.justTouched())
+			addNode(new ImmutableVec2(Gdx.input.getX(), Gdx.input.getY()));
 	}
 
 	@Override

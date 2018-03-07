@@ -30,11 +30,11 @@ public abstract class TravellingSalesmanSolver<T> {
 
 	@Nonnull public abstract Route solve(@Nonnull Set<T> nodes);
 
-	protected class SolveInstance<R extends Route> {
+	protected class SolveInstance {
 		@Nonnull public final Set<T> nodes;
 		@Nonnull public final Map<T, float[]> vectorCache = new HashMap<>();
 		@Nonnull public final Map<UnorderedPair<T>, Float> distanceCache = new HashMap<>();
-		@Nullable public R bestRoute;
+		@Nullable public Route bestRoute;
 
 		public SolveInstance(@Nonnull Set<T> nodes) {
 			this.nodes = nodes;
@@ -54,5 +54,7 @@ public abstract class TravellingSalesmanSolver<T> {
 		private final List<T> nodes = calculateNodes();
 
 		@Nonnull protected abstract List<T> calculateNodes();
+
+		public abstract float getLength();
 	}
 }

@@ -1,6 +1,7 @@
 package pl.shockah.godwit.algo.tsp;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -8,27 +9,50 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import java8.util.stream.Collectors;
+import java8.util.stream.StreamSupport;
 import lombok.Getter;
 import pl.shockah.func.Func1;
 import pl.shockah.godwit.algo.DistanceAlgorithm;
 import pl.shockah.godwit.algo.EuclideanDistanceAlgorithm;
 import pl.shockah.godwit.geom.IVec2;
 
-public class ExactTravellingSalesmanSolver<T> extends TravellingSalesmanSolver<T> {
-	public ExactTravellingSalesmanSolver(@Nonnull Func1<T, float[]> toVectorFunc) {
-		super(toVectorFunc);
+public class NearestNeighborTravellingSalesmanSolver<T> extends TravellingSalesmanSolver<T> {
+	public final boolean skipOnFirst;
+	public final float ratio;
+
+	public NearestNeighborTravellingSalesmanSolver(@Nonnull Func1<T, float[]> toVectorFunc) {
+		this(toVectorFunc, 0.3f);
 	}
 
-	public ExactTravellingSalesmanSolver(@Nonnull Func1<T, float[]> toVectorFunc, @Nonnull DistanceAlgorithm distanceAlgorithm) {
+	public NearestNeighborTravellingSalesmanSolver(@Nonnull Func1<T, float[]> toVectorFunc, @Nonnull DistanceAlgorithm distanceAlgorithm) {
+		this(toVectorFunc, distanceAlgorithm, 0.3f);
+	}
+
+	public NearestNeighborTravellingSalesmanSolver(@Nonnull Func1<T, float[]> toVectorFunc, @Nullable Float ratio) {
+		this(toVectorFunc, EuclideanDistanceAlgorithm.instance, ratio);
+	}
+
+	public NearestNeighborTravellingSalesmanSolver(@Nonnull Func1<T, float[]> toVectorFunc, @Nonnull DistanceAlgorithm distanceAlgorithm, @Nullable Float ratio) {
 		super(toVectorFunc, distanceAlgorithm);
+		this.ratio = ratio != null ? ratio : 0f;
+		skipOnFirst = ratio == null;
 	}
 
-	@Nonnull public static ExactTravellingSalesmanSolver<IVec2> forVec2() {
-		return forVec2(EuclideanDistanceAlgorithm.instance);
+	@Nonnull public static NearestNeighborTravellingSalesmanSolver<IVec2> forVec2() {
+		return forVec2(0.3f);
 	}
 
-	@Nonnull public static ExactTravellingSalesmanSolver<IVec2> forVec2(@Nonnull DistanceAlgorithm distanceAlgorithm) {
-		return new ExactTravellingSalesmanSolver<>(v -> new float[] { v.x(), v.y() }, distanceAlgorithm);
+	@Nonnull public static NearestNeighborTravellingSalesmanSolver<IVec2> forVec2(@Nonnull DistanceAlgorithm distanceAlgorithm) {
+		return forVec2(distanceAlgorithm, 0.3f);
+	}
+
+	@Nonnull public static NearestNeighborTravellingSalesmanSolver<IVec2> forVec2(@Nullable Float ratio) {
+		return forVec2(EuclideanDistanceAlgorithm.instance, ratio);
+	}
+
+	@Nonnull public static NearestNeighborTravellingSalesmanSolver<IVec2> forVec2(@Nonnull DistanceAlgorithm distanceAlgorithm, @Nullable Float ratio) {
+		return new NearestNeighborTravellingSalesmanSolver<>(v -> new float[] { v.x(), v.y() }, distanceAlgorithm, ratio);
 	}
 
 	@Nonnull public Route solve(@Nonnull Set<T> nodes) {
@@ -52,6 +76,8 @@ public class ExactTravellingSalesmanSolver<T> extends TravellingSalesmanSolver<T
 		public void solve() {
 			while (!queue.isEmpty()) {
 				queue.removeLast().solve(this);
+				if (skipOnFirst && bestRoute != null)
+					break;
 			}
 		}
 	}
@@ -83,14 +109,21 @@ public class ExactTravellingSalesmanSolver<T> extends TravellingSalesmanSolver<T
 		}
 
 		protected boolean solveInternal(@Nonnull SolveInstance instance) {
-			boolean hadNodesLeft = false;
-			for (T node : instance.nodes) {
-				if (contains(node))
-					continue;
-				instance.queue.add(new Route(this, node, length + instance.getDistance(this.node, node)));
-				hadNodesLeft = true;
-			}
-			return hadNodesLeft;
+			List<T> filteredNodes = StreamSupport.stream(instance.nodes)
+					.filter(node -> !contains(node))
+					.sorted(Comparator.comparingDouble(node -> instance.getDistance(this.node, node)))
+					.collect(Collectors.toList());
+
+			if (filteredNodes.isEmpty())
+				return false;
+
+			instance.queue.addAll(
+					StreamSupport.stream(filteredNodes)
+							.limit(Math.max((int)Math.ceil(filteredNodes.size() * ratio), 1))
+							.map(node -> new NearestNeighborTravellingSalesmanSolver<T>.Route(this, node, length + instance.getDistance(this.node, node)))
+							.collect(Collectors.toList())
+			);
+			return true;
 		}
 
 		protected void solve(@Nonnull SolveInstance instance) {

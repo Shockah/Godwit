@@ -14,7 +14,7 @@ import javax.annotation.Nullable;
 
 import pl.shockah.godwit.State;
 import pl.shockah.godwit.algo.cluster.TravellingSalesmanKMeansClustering;
-import pl.shockah.godwit.algo.tsp.CloseTravellingSalesmanSolver;
+import pl.shockah.godwit.algo.tsp.NearestNeighborTravellingSalesmanSolver;
 import pl.shockah.godwit.geom.Circle;
 import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.geom.ImmutableVec2;
@@ -38,7 +38,7 @@ public class ClusteringTest extends State {
 						v -> new float[] { v.x(), v.y() },
 						v -> new ImmutableVec2(v[0], v[1]),
 						4,
-						new CloseTravellingSalesmanSolver<>(v -> new float[]{v.x(), v.y()}, 0f)
+						new NearestNeighborTravellingSalesmanSolver<>(v -> new float[]{v.x(), v.y()}, 0f)
 				).getClusters(new ArrayList<>(nodes));
 				System.out.println(String.format("Solved in %dms", TimeUtils.millis() - ms));
 			}

@@ -9,7 +9,7 @@ import java8.util.stream.IntStreams;
 import pl.shockah.func.Func1;
 import pl.shockah.godwit.algo.DistanceAlgorithm;
 import pl.shockah.godwit.algo.EuclideanDistanceAlgorithm;
-import pl.shockah.godwit.algo.tsp.CloseTravellingSalesmanSolver;
+import pl.shockah.godwit.algo.tsp.NearestNeighborTravellingSalesmanSolver;
 import pl.shockah.godwit.algo.tsp.TravellingSalesmanSolver;
 
 public class TravellingSalesmanKMeansClustering<T> extends KMeansClustering<T> {
@@ -24,7 +24,7 @@ public class TravellingSalesmanKMeansClustering<T> extends KMeansClustering<T> {
 	}
 
 	public TravellingSalesmanKMeansClustering(@Nonnull Func1<T, float[]> toVectorFunc, @Nonnull Func1<float[], T> fromVectorFunc, @Nonnull DistanceAlgorithm distanceAlgorithm, int clusterCount) {
-		this(toVectorFunc, fromVectorFunc, distanceAlgorithm, clusterCount, new CloseTravellingSalesmanSolver<>(toVectorFunc, distanceAlgorithm));
+		this(toVectorFunc, fromVectorFunc, distanceAlgorithm, clusterCount, new NearestNeighborTravellingSalesmanSolver<>(toVectorFunc, distanceAlgorithm));
 	}
 
 	public TravellingSalesmanKMeansClustering(@Nonnull Func1<T, float[]> toVectorFunc, @Nonnull Func1<float[], T> fromVectorFunc, @Nonnull DistanceAlgorithm distanceAlgorithm, int clusterCount, @Nonnull TravellingSalesmanSolver<T> solver) {
