@@ -81,8 +81,9 @@ public class Entity implements Renderable, Animatable<Entity> {
 
 	@Override
 	public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
+		renderChildren(gfx, v + position, true);
 		renderSelf(gfx, v + position);
-		renderChildren(gfx, v + position);
+		renderChildren(gfx, v + position, false);
 	}
 
 	@Override
@@ -106,16 +107,19 @@ public class Entity implements Renderable, Animatable<Entity> {
 		renderSelf(gfx, ImmutableVec2.zero);
 	}
 
-	public void renderChildren(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
-		children.iterate(entity -> entity.render(gfx, v));
+	public void renderChildren(@Nonnull Gfx gfx, @Nonnull IVec2 v, boolean behind) {
+		children.iterate(entity -> {
+			if ((entity.depth > depth) == behind)
+				entity.render(gfx, v);
+		});
 	}
 
-	public final void renderChildren(@Nonnull Gfx gfx, float x, float y) {
-		renderChildren(gfx, new ImmutableVec2(x, y));
+	public final void renderChildren(@Nonnull Gfx gfx, float x, float y, boolean behind) {
+		renderChildren(gfx, new ImmutableVec2(x, y), behind);
 	}
 
-	public final void renderChildren(@Nonnull Gfx gfx) {
-		renderChildren(gfx, ImmutableVec2.zero);
+	public final void renderChildren(@Nonnull Gfx gfx, boolean behind) {
+		renderChildren(gfx, ImmutableVec2.zero, behind);
 	}
 
 	public void onAddedToParent() {
