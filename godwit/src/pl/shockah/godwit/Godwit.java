@@ -3,6 +3,7 @@ package pl.shockah.godwit;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -117,6 +118,8 @@ public final class Godwit {
 	private void runRender() {
 		GfxContextManager.bindSurface(null);
 		gfx.updateCamera();
+		Gdx.gl20.glScissor(0, 0, gfx.getWidth() * 2, gfx.getHeight() * 2);
+		Gdx.gl20.glEnable(GL20.GL_SCISSOR_TEST);
 		gfx.clear(Color.CLEAR);
 		gfx.setBlendMode(BlendMode.normal);
 		rootEntity.render(gfx);
