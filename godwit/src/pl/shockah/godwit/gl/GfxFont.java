@@ -27,7 +27,7 @@ public class GfxFont implements Renderable {
 	@Nonnull public final BitmapFont font;
 
 	@Nullable private GlyphLayout cachedLayout;
-	@Nullable private BitmapFontCache cache;
+	@Nullable private ScalableBitmapFontCache cache;
 
 	@Getter
 	private float scaleX = 1f;
@@ -59,14 +59,27 @@ public class GfxFont implements Renderable {
 	@Nonnull public GlyphLayout getGlyphLayout() {
 		if (text == null || text.isEmpty())
 			throw new IllegalStateException();
-		if (cachedLayout == null)
+		if (cachedLayout == null) {
+			float oldScaleX = font.getData().scaleX;
+			float oldScaleY = font.getData().scaleY;
+
+			if (scaleX != 0f && scaleY != 0f)
+				font.getData().setScale(scaleX, scaleY);
+
 			cachedLayout = new GlyphLayout(font, text, Color.WHITE, maxWidth != null ? maxWidth : 0f, alignment.getHorizontalGdxAlignment(), lineBreakMode == LineBreakMode.Wrap);
+
+			font.getData().setScale(oldScaleX, oldScaleY);
+		}
 		return cachedLayout;
 	}
 
-	@Nonnull protected BitmapFontCache getCache() {
+	@Nonnull protected ScalableBitmapFontCache getCache() {
 		if (cache == null) {
-			cache = new BitmapFontCache(font);
+			cache = new ScalableBitmapFontCache(font);
+			if (scaleX != 0f && scaleY != 0f) {
+				cache.scale.x = scaleX;
+				cache.scale.y = scaleY;
+			}
 			cache.addText(getGlyphLayout(), 0f, 0f);
 		}
 		return cache;
@@ -122,14 +135,16 @@ public class GfxFont implements Renderable {
 	}
 
 	public void setScale(float x, float y) {
-		BitmapFont.BitmapFontData data = font.getData();
 		if (scaleX == x && scaleY == y)
 			return;
 
-		if (scaleX != 0f && scaleY != 0f) {
-			data.setScale(x, y);
-			markDirty();
-		}
+		scaleX = x;
+		scaleY = y;
+
+		if (scaleX == 0f || scaleY == 0f)
+			return;
+
+		markDirty();
 	}
 
 	@Override
@@ -143,7 +158,7 @@ public class GfxFont implements Renderable {
 		if (alignment.vertical != Alignment.Vertical.Top)
 			v = v.subtract(0f, layout.height * alignment.vertical.getVector().y());
 
-		BitmapFontCache cache = getCache();
+		ScalableBitmapFontCache cache = getCache();
 		float oldX = cache.getX();
 		float oldY = cache.getY();
 
