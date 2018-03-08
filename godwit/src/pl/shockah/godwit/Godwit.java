@@ -3,6 +3,7 @@ package pl.shockah.godwit;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
@@ -108,9 +109,9 @@ public final class Godwit {
 	}
 
 	@Nonnull private Texture getInitialPixelTexture() {
-		assetManager.load("pixel.png", Texture.class);
-		assetManager.finishLoadingAsset("pixel.png");
-		return assetManager.get("pixel.png", Texture.class);
+		Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGB888);
+		pixmap.drawPixel(0, 0, Color.WHITE.toIntBits());
+		return new Texture(pixmap);
 	}
 
 	@Nonnull private GfxSprite getInitialPixelSprite() {
