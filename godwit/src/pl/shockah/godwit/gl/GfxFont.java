@@ -2,6 +2,7 @@ package pl.shockah.godwit.gl;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.BitmapFontCache;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 
 import java.util.Objects;
@@ -16,10 +17,23 @@ import pl.shockah.godwit.geom.ImmutableVec2;
 import pl.shockah.godwit.ui.Alignment;
 
 public class GfxFont implements Renderable {
-	@Delegate
+	private interface DelegateExclusions {
+		BitmapFontCache getCache();
+		float getScaleX();
+		float getScaleY();
+	}
+
+	@Delegate(excludes = DelegateExclusions.class)
 	@Nonnull public final BitmapFont font;
 
 	@Nullable private GlyphLayout cachedLayout;
+	@Nullable private BitmapFontCache cache;
+
+	@Getter
+	private float scaleX = 1f;
+
+	@Getter
+	private float scaleY = 1f;
 
 	@Getter
 	@Nullable private String text;
@@ -37,6 +51,11 @@ public class GfxFont implements Renderable {
 		this.font = font;
 	}
 
+	protected void markDirty() {
+		cachedLayout = null;
+		cache = null;
+	}
+
 	@Nonnull public GlyphLayout getGlyphLayout() {
 		if (text == null || text.isEmpty())
 			throw new IllegalStateException();
@@ -45,32 +64,40 @@ public class GfxFont implements Renderable {
 		return cachedLayout;
 	}
 
+	@Nonnull protected BitmapFontCache getCache() {
+		if (cache == null) {
+			cache = new BitmapFontCache(font);
+			cache.addText(getGlyphLayout(), 0f, 0f);
+		}
+		return cache;
+	}
+
 	public void setText(@Nullable String text) {
 		if (Objects.equals(text, this.text))
 			return;
 		this.text = text;
-		cachedLayout = null;
+		markDirty();
 	}
 
 	public void setMaxWidth(@Nullable Float maxWidth) {
 		if (Objects.equals(maxWidth, this.maxWidth))
 			return;
 		this.maxWidth = maxWidth;
-		cachedLayout = null;
+		markDirty();
 	}
 
 	public void setAlignment(@Nonnull Alignment.Plane alignment) {
 		if (alignment == this.alignment)
 			return;
 		this.alignment = alignment;
-		cachedLayout = null;
+		markDirty();
 	}
 
 	public void setLineBreakMode(@Nonnull LineBreakMode lineBreakMode) {
 		if (lineBreakMode == this.lineBreakMode)
 			return;
 		this.lineBreakMode = lineBreakMode;
-		cachedLayout = null;
+		markDirty();
 	}
 
 	@Nonnull public IVec2 getScaleVector() {
@@ -86,16 +113,29 @@ public class GfxFont implements Renderable {
 		setScale(scale, scale);
 	}
 
+	public void setScaleX(float scaleX) {
+		setScale(scaleX, scaleY);
+	}
+
+	public void setScaleY(float scaleY) {
+		setScale(scaleX, scaleY);
+	}
+
 	public void setScale(float x, float y) {
 		BitmapFont.BitmapFontData data = font.getData();
-		if (data.scaleX == x && data.scaleY == y)
+		if (scaleX == x && scaleY == y)
 			return;
-		data.setScale(x, y);
-		cachedLayout = null;
+
+		if (scaleX != 0f && scaleY != 0f) {
+			data.setScale(x, y);
+			markDirty();
+		}
 	}
 
 	@Override
 	public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
+		if (scaleX == 0f || scaleY == 0f)
+			return;
 		if (text == null || text.isEmpty())
 			return;
 
@@ -103,8 +143,15 @@ public class GfxFont implements Renderable {
 		if (alignment.vertical != Alignment.Vertical.Top)
 			v = v.subtract(0f, layout.height * alignment.vertical.getVector().y());
 
+		BitmapFontCache cache = getCache();
+		float oldX = cache.getX();
+		float oldY = cache.getY();
+
+		cache.translate(v.x(), v.y());
 		gfx.prepareSprites();
-		font.draw(gfx.getSpriteBatch(), layout, v.x(), v.y());
+		cache.draw(gfx.getSpriteBatch());
+
+		cache.setPosition(oldX, oldY);
 	}
 
 	@Nonnull public Entity asEntity() {
