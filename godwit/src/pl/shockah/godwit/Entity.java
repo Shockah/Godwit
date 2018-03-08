@@ -91,9 +91,10 @@ public class Entity implements Renderable, Animatable<Entity> {
 
 	@Override
 	public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
-		renderChildren(gfx, v + position, true);
-		renderSelf(gfx, v + position);
-		renderChildren(gfx, v + position, false);
+		v = v + position;
+		renderChildren(gfx, v, true);
+		renderSelf(gfx, v);
+		renderChildren(gfx, v, false);
 	}
 
 	@Override
