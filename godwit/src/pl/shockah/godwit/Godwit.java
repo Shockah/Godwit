@@ -3,6 +3,8 @@ package pl.shockah.godwit;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +18,7 @@ import pl.shockah.godwit.asset.JSONObjectLoader;
 import pl.shockah.godwit.gl.BlendMode;
 import pl.shockah.godwit.gl.GfxContextManager;
 import pl.shockah.godwit.gl.GfxImpl;
+import pl.shockah.godwit.gl.GfxSprite;
 import pl.shockah.godwit.rand.Randomizer;
 import pl.shockah.jay.JSONObject;
 
@@ -42,6 +45,12 @@ public final class Godwit {
 	@Nonnull private final List<Float> deltas = new ArrayList<>();
 	@Nonnull private final Entity rootEntity = new Entity();
 	private boolean isFirstTick = true;
+
+	@Getter(lazy = true)
+	private final Texture pixelTexture = getInitialPixelTexture();
+
+	@Getter(lazy = true)
+	private final GfxSprite pixelSprite = getInitialPixelSprite();
 
 	private Godwit() {
 		setupAssetManager();
@@ -96,6 +105,16 @@ public final class Godwit {
 		runStateCreation();
 		runUpdate();
 		runRender();
+	}
+
+	@Nonnull private Texture getInitialPixelTexture() {
+		assetManager.load("pixel.png", Texture.class);
+		assetManager.finishLoadingAsset("pixel.png");
+		return assetManager.get("pixel.png", Texture.class);
+	}
+
+	@Nonnull private GfxSprite getInitialPixelSprite() {
+		return new GfxSprite(new Sprite(getPixelTexture()));
 	}
 
 	private void runStateCreation() {

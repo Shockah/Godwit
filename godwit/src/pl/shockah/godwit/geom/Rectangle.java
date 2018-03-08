@@ -5,9 +5,11 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import javax.annotation.Nonnull;
 
 import lombok.EqualsAndHashCode;
+import pl.shockah.godwit.Godwit;
 import pl.shockah.godwit.geom.polygon.Polygon;
 import pl.shockah.godwit.geom.polygon.Polygonable;
 import pl.shockah.godwit.gl.Gfx;
+import pl.shockah.godwit.gl.GfxSprite;
 
 @EqualsAndHashCode(callSuper = false)
 public class Rectangle extends Shape implements Shape.Filled, Shape.Outline, Polygonable {
@@ -163,8 +165,10 @@ public class Rectangle extends Shape implements Shape.Filled, Shape.Outline, Pol
 
 	@Override
 	public void drawFilled(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
-		gfx.prepareShapes(ShapeRenderer.ShapeType.Filled);
-		gfx.getShapeRenderer().rect(v.x() + position.x, v.y() + position.y, size.x, size.y);
+		GfxSprite sprite = Godwit.getInstance().getPixelSprite();
+		sprite.setColor(gfx.getColor());
+		sprite.setSize(size);
+		gfx.draw(sprite, v + position);
 	}
 
 	@Override
