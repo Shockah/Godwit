@@ -31,7 +31,7 @@ public class AttachedViewportTest extends State implements Configurable {
 	public void update() {
 		super.update();
 
-		StreamSupport.stream(children.getSafeCopy()).filter(e -> e instanceof AttachmentEntity).map(e -> (AttachmentEntity)e).findFirst().ifPresent(e -> {
+		StreamSupport.stream(children.get()).filter(e -> e instanceof AttachmentEntity).map(e -> (AttachmentEntity)e).findFirst().ifPresent(e -> {
 			Godwit.getInstance().gfx.setCameraPosition(e.position);
 		});
 	}

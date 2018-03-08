@@ -49,11 +49,15 @@ public class Entity implements Renderable, Animatable<Entity> {
 
 	private static void callAddedToHierarchy(@Nonnull Entity entity) {
 		entity.onAddedToHierarchy();
-		entity.children.iterate(Entity::callAddedToHierarchy);
+		for (Entity child : entity.children.get()) {
+			callAddedToHierarchy(child);
+		}
 	}
 
 	private static void callRemovedFromHierarchy(@Nonnull Entity entity) {
-		entity.children.iterate(Entity::callRemovedFromHierarchy);
+		for (Entity child : entity.children.get()) {
+			callRemovedFromHierarchy(child);
+		}
 		entity.onRemovedFromHierarchy();
 	}
 
@@ -67,6 +71,7 @@ public class Entity implements Renderable, Animatable<Entity> {
 	}
 
 	public void update() {
+		children.update();
 		updateSelf();
 		updateFx();
 		updateChildren();
@@ -76,7 +81,9 @@ public class Entity implements Renderable, Animatable<Entity> {
 	}
 
 	public void updateChildren() {
-		children.iterate(Entity::update);
+		for (Entity entity : children.get()) {
+			entity.update();
+		}
 	}
 
 	@Override
@@ -108,10 +115,10 @@ public class Entity implements Renderable, Animatable<Entity> {
 	}
 
 	public void renderChildren(@Nonnull Gfx gfx, @Nonnull IVec2 v, boolean behind) {
-		children.iterate(entity -> {
+		for (Entity entity : children.get()) {
 			if ((entity.depth > depth) == behind)
 				entity.render(gfx, v);
-		});
+		}
 	}
 
 	public final void renderChildren(@Nonnull Gfx gfx, float x, float y, boolean behind) {
