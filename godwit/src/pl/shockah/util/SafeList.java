@@ -30,10 +30,13 @@ public class SafeList<T> {
 	}
 
 	public void update() {
-		wrapped.addAll(waitingToAdd);
-		wrapped.removeAll(waitingToRemove);
-
-		waitingToAdd.clear();
-		waitingToRemove.clear();
+		if (!waitingToAdd.isEmpty()) {
+			wrapped.addAll(waitingToAdd);
+			waitingToAdd.clear();
+		}
+		if (!waitingToRemove.isEmpty()) {
+			wrapped.removeAll(waitingToRemove);
+			waitingToRemove.clear();
+		}
 	}
 }

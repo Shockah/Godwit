@@ -4,8 +4,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import java.util.List;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -13,7 +11,6 @@ import lombok.experimental.Delegate;
 import pl.shockah.godwit.Godwit;
 import pl.shockah.godwit.fx.Animatable;
 import pl.shockah.godwit.fx.Animatables;
-import pl.shockah.godwit.fx.FxInstance;
 import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.geom.ImmutableVec2;
 import pl.shockah.godwit.geom.Vec2;
@@ -37,8 +34,7 @@ public class GfxSprite implements Renderable, Animatable<GfxSprite> {
 
 	@Nonnull public Vec2 offset = new Vec2();
 
-	@Nullable
-	private List<FxInstance<? super GfxSprite>> cachedFxInstances;
+	@Nullable private Animatables.Properties<GfxSprite> animatableProperties;
 
 	public GfxSprite(@Nonnull Sprite sprite) {
 		this.sprite = sprite;
@@ -182,6 +178,14 @@ public class GfxSprite implements Renderable, Animatable<GfxSprite> {
 		setPosition(position.x(), position.y());
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	@Nonnull public Animatables.Properties<GfxSprite> getAnimatableProperties() {
+		if (animatableProperties == null)
+			animatableProperties = Animatables.getAnimatableProperties(this);
+		return animatableProperties;
+	}
+
 	@Nonnull public Entity asEntity() {
 		return new Entity(this);
 	}
@@ -208,13 +212,5 @@ public class GfxSprite implements Renderable, Animatable<GfxSprite> {
 			super.updateFx();
 			sprite.updateFx();
 		}
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<FxInstance<? super GfxSprite>> getFxInstances() {
-		if (cachedFxInstances == null)
-			cachedFxInstances = Animatables.getAnimatableProperties(this).fxes;
-		return cachedFxInstances;
 	}
 }

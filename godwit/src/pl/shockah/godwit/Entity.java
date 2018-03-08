@@ -10,7 +10,6 @@ import javax.annotation.Nullable;
 import lombok.Getter;
 import pl.shockah.godwit.fx.Animatable;
 import pl.shockah.godwit.fx.Animatables;
-import pl.shockah.godwit.fx.FxInstance;
 import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.geom.ImmutableVec2;
 import pl.shockah.godwit.geom.Vec2;
@@ -31,7 +30,7 @@ public class Entity implements Renderable, Animatable<Entity> {
 	@Getter
 	private float depth = 0f;
 
-	@Nullable private List<FxInstance<? super Entity>> cachedFxInstances;
+	@Nullable private Animatables.Properties<Entity> animatableProperties;
 
 	public final void setDepth(float depth) {
 		Entity parent = this.parent;
@@ -190,9 +189,9 @@ public class Entity implements Renderable, Animatable<Entity> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<FxInstance<? super Entity>> getFxInstances() {
-		if (cachedFxInstances == null)
-			cachedFxInstances = Animatables.getAnimatableProperties(this).fxes;
-		return cachedFxInstances;
+	@Nonnull public Animatables.Properties<Entity> getAnimatableProperties() {
+		if (animatableProperties == null)
+			animatableProperties = Animatables.getAnimatableProperties(this);
+		return animatableProperties;
 	}
 }

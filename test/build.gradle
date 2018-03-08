@@ -57,6 +57,11 @@ void addTask(File baseDir, File file) {
 			jvmArgs '-Xdebug', '-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005'
 			debug true
 		}
+		if (System.getProperty('PROFILE', 'false') == 'true') {
+			def properties = new Properties()
+			properties.load(project.rootProject.file("local.properties").newDataInputStream())
+			jvmArgs properties.getProperty("profiler-arg")
+		}
 	}
 }
 

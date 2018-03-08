@@ -2,15 +2,20 @@ package pl.shockah.godwit.fx;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Nonnull;
 
 import java8.util.stream.StreamSupport;
+import lombok.Getter;
 import pl.shockah.godwit.fx.ease.Easing;
 
 public abstract class SequenceFx<F extends Fx> implements Fx {
 	@Nonnull protected final List<F> fxes;
+
+	@Getter(lazy = true)
+	private final float duration = calculateDuration();
 
 	@SafeVarargs
 	public SequenceFx(F... fxes) {
@@ -18,11 +23,10 @@ public abstract class SequenceFx<F extends Fx> implements Fx {
 	}
 
 	public SequenceFx(@Nonnull List<? extends F> fxes) {
-		this.fxes = new ArrayList<>(fxes);
+		this.fxes = Collections.unmodifiableList(new ArrayList<>(fxes));
 	}
 
-	@Override
-	public float getDuration() {
+	private float calculateDuration() {
 		return (float)StreamSupport.stream(fxes).mapToDouble(Fx::getDuration).sum();
 	}
 
