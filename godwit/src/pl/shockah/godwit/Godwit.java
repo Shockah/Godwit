@@ -111,7 +111,9 @@ public final class Godwit {
 	@Nonnull private Texture getInitialPixelTexture() {
 		Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGB888);
 		pixmap.drawPixel(0, 0, Color.WHITE.toIntBits());
-		return new Texture(pixmap);
+		Texture texture = new Texture(pixmap);
+		pixmap.dispose();
+		return texture;
 	}
 
 	@Nonnull private GfxSprite getInitialPixelSprite() {
