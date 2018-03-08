@@ -6,7 +6,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import pl.shockah.godwit.geom.IVec2;
-import pl.shockah.godwit.geom.ImmutableVec2;
+import pl.shockah.godwit.geom.Vec2;
 import pl.shockah.godwit.geom.Rectangle;
 import pl.shockah.godwit.gl.Gfx;
 import pl.shockah.godwit.gl.Renderable;
@@ -33,7 +33,7 @@ public class View implements Renderable {
 
 	@Nonnull
 	public IVec2 getIntrinsicSize(@Nonnull IVec2 availableSize) {
-		return ImmutableVec2.zero;
+		return Vec2.zero;
 	}
 
 	public void removeFromParent() {

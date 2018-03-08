@@ -13,7 +13,7 @@ public abstract class Shape {
 	@Nonnull public abstract Rectangle getBoundingBox();
 
 	public final void translate(float x, float y) {
-		translate(new ImmutableVec2(x, y));
+		translate(new Vec2(x, y));
 	}
 
 	public abstract void translate(@Nonnull IVec2 v);
@@ -62,17 +62,17 @@ public abstract class Shape {
 		void drawFilled(@Nonnull Gfx gfx, @Nonnull IVec2 v);
 
 		default void drawFilled(@Nonnull Gfx gfx, float x, float y) {
-			drawFilled(gfx, new ImmutableVec2(x, y));
+			drawFilled(gfx, new Vec2(x, y));
 		}
 
 		default void drawFilled(@Nonnull Gfx gfx) {
-			drawFilled(gfx, ImmutableVec2.zero);
+			drawFilled(gfx, Vec2.zero);
 		}
 
 		boolean contains(@Nonnull IVec2 v);
 
 		default boolean contains(float x, float y) {
-			return contains(new ImmutableVec2(x, y));
+			return contains(new Vec2(x, y));
 		}
 
 		@SuppressWarnings("unchecked")
@@ -97,11 +97,11 @@ public abstract class Shape {
 		void drawOutline(@Nonnull Gfx gfx, @Nonnull IVec2 v);
 
 		default void drawOutline(@Nonnull Gfx gfx, float x, float y) {
-			drawOutline(gfx, new ImmutableVec2(x, y));
+			drawOutline(gfx, new Vec2(x, y));
 		}
 
 		default void drawOutline(@Nonnull Gfx gfx) {
-			drawOutline(gfx, ImmutableVec2.zero);
+			drawOutline(gfx, Vec2.zero);
 		}
 
 		@SuppressWarnings("unchecked")

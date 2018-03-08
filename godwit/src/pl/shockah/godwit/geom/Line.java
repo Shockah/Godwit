@@ -11,19 +11,19 @@ import pl.shockah.godwit.gl.Gfx;
 
 @EqualsAndHashCode(callSuper = false)
 public class Line extends Shape implements Shape.Outline, Easable<Line> {
-	@Nonnull public Vec2 point1;
-	@Nonnull public Vec2 point2;
+	@Nonnull public MutableVec2 point1;
+	@Nonnull public MutableVec2 point2;
 
 	public Line(float x1, float y1, float x2, float y2) {
-		this(new Vec2(x1, y1), new Vec2(x2, y2));
+		this(new MutableVec2(x1, y1), new MutableVec2(x2, y2));
 	}
 
-	public Line(@Nonnull Vec2 point1, float x2, float y2) {
-		this(point1, new Vec2(x2, y2));
+	public Line(@Nonnull MutableVec2 point1, float x2, float y2) {
+		this(point1, new MutableVec2(x2, y2));
 	}
 
 	public Line(float x1, float y1, @Nonnull IVec2 point2) {
-		this(new Vec2(x1, y1), point2);
+		this(new MutableVec2(x1, y1), point2);
 	}
 
 	public Line(@Nonnull IVec2 point1, @Nonnull IVec2 point2) {
@@ -114,7 +114,7 @@ public class Line extends Shape implements Shape.Outline, Easable<Line> {
 		float ix = point1.x + (u * (point2.x - point1.x));
 		float iy = point1.y + (u * (point2.y - point1.y));
 
-		return new ImmutableVec2(ix, iy);
+		return new Vec2(ix, iy);
 	}
 
 	@Nonnull public IVec2[] intersect(@Nonnull Circle circle) {

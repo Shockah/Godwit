@@ -12,9 +12,9 @@ import javax.annotation.Nonnull;
 import pl.shockah.godwit.Godwit;
 import pl.shockah.godwit.State;
 import pl.shockah.godwit.geom.IVec2;
-import pl.shockah.godwit.geom.ImmutableVec2;
-import pl.shockah.godwit.geom.Line;
 import pl.shockah.godwit.geom.Vec2;
+import pl.shockah.godwit.geom.Line;
+import pl.shockah.godwit.geom.MutableVec2;
 import pl.shockah.godwit.gl.Gfx;
 import pl.shockah.godwit.gl.GfxSprite;
 
@@ -45,7 +45,7 @@ public class SpriteTest extends State {
 
 		int offsetX = (r ? 1 : 0) - (l ? 1 : 0);
 		int offsetY = (d ? 1 : 0) - (u ? 1 : 0);
-		sprite.setOrigin(sprite.getOrigin() + new ImmutableVec2(offsetX, offsetY) * 4);
+		sprite.setOrigin(sprite.getOrigin() + new Vec2(offsetX, offsetY) * 4);
 		sprite.offset = sprite.getOrigin().getMutableCopy();
 
 		if (l || r || u || d) {
@@ -68,8 +68,8 @@ public class SpriteTest extends State {
 
 		if (movingCountdown > 0) {
 			gfx.setColor(Color.RED);
-			gfx.drawOutline(new Line(new Vec2(gfx.getWidth() / 2, 0f), new Vec2(gfx.getWidth() / 2, gfx.getHeight())));
-			gfx.drawOutline(new Line(new Vec2(0f, gfx.getHeight() / 2), new Vec2(gfx.getWidth(), gfx.getHeight() / 2)));
+			gfx.drawOutline(new Line(new MutableVec2(gfx.getWidth() / 2, 0f), new MutableVec2(gfx.getWidth() / 2, gfx.getHeight())));
+			gfx.drawOutline(new Line(new MutableVec2(0f, gfx.getHeight() / 2), new MutableVec2(gfx.getWidth(), gfx.getHeight() / 2)));
 		}
 	}
 }

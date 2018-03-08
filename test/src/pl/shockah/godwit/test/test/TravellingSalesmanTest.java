@@ -15,7 +15,7 @@ import pl.shockah.godwit.algo.tsp.ExactTravellingSalesmanSolver;
 import pl.shockah.godwit.algo.tsp.TravellingSalesmanSolver;
 import pl.shockah.godwit.geom.Circle;
 import pl.shockah.godwit.geom.IVec2;
-import pl.shockah.godwit.geom.ImmutableVec2;
+import pl.shockah.godwit.geom.Vec2;
 import pl.shockah.godwit.geom.polygon.Polygon;
 import pl.shockah.godwit.gl.Gfx;
 import pl.shockah.godwit.gl.color.HSVColorSpace;
@@ -45,13 +45,13 @@ public class TravellingSalesmanTest extends State {
 	public void updateSelf() {
 		super.updateSelf();
 
-//		addNode(new ImmutableVec2(
+//		addNode(new Vec2(
 //				Godwit.getInstance().random.getFloatRangeGenerator(0f, 1f).generate(),
 //				Godwit.getInstance().random.getFloatRangeGenerator(0f, 1f).generate()
 //		).multiply(Godwit.getInstance().gfx.getSize()));
 
 		if (Gdx.input.justTouched())
-			addNode(new ImmutableVec2(Gdx.input.getX(), Gdx.input.getY()));
+			addNode(new Vec2(Gdx.input.getX(), Gdx.input.getY()));
 	}
 
 	@Override

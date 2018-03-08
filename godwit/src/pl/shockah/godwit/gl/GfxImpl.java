@@ -15,7 +15,7 @@ import javax.annotation.Nullable;
 import lombok.Getter;
 import lombok.Setter;
 import pl.shockah.godwit.geom.IVec2;
-import pl.shockah.godwit.geom.ImmutableVec2;
+import pl.shockah.godwit.geom.Vec2;
 
 public class GfxImpl extends Gfx {
 	protected boolean centeredCamera = true;
@@ -62,7 +62,7 @@ public class GfxImpl extends Gfx {
 
 	@Override
 	@Nonnull public IVec2 getCameraPosition() {
-		return new ImmutableVec2(camera.position.x, camera.position.y);
+		return new Vec2(camera.position.x, camera.position.y);
 	}
 
 	@Override

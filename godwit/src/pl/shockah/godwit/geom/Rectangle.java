@@ -13,19 +13,19 @@ import pl.shockah.godwit.gl.GfxSprite;
 
 @EqualsAndHashCode(callSuper = false)
 public class Rectangle extends Shape implements Shape.Filled, Shape.Outline, Polygonable {
-	@Nonnull public Vec2 position;
-	@Nonnull public Vec2 size;
+	@Nonnull public MutableVec2 position;
+	@Nonnull public MutableVec2 size;
 
 	public static Rectangle centered(float x, float y, float w, float h) {
-		return centered(new Vec2(x, y), new Vec2(w, h));
+		return centered(new MutableVec2(x, y), new MutableVec2(w, h));
 	}
 
 	public static Rectangle centered(float x, float y, @Nonnull IVec2 size) {
-		return centered(new Vec2(x, y), size);
+		return centered(new MutableVec2(x, y), size);
 	}
 
 	public static Rectangle centered(@Nonnull IVec2 position, float w, float h) {
-		return centered(position, new Vec2(w, h));
+		return centered(position, new MutableVec2(w, h));
 	}
 
 	public static Rectangle centered(@Nonnull IVec2 position, @Nonnull IVec2 size) {
@@ -33,31 +33,31 @@ public class Rectangle extends Shape implements Shape.Filled, Shape.Outline, Pol
 	}
 
 	public static Rectangle centered(float x, float y, float l) {
-		return centered(new Vec2(x, y), new Vec2(l, l));
+		return centered(new MutableVec2(x, y), new MutableVec2(l, l));
 	}
 
 	public static Rectangle centered(@Nonnull IVec2 position, float l) {
-		return centered(position, new Vec2(l, l));
+		return centered(position, new MutableVec2(l, l));
 	}
 
 	public static Rectangle centered(float w, float h) {
-		return centered(ImmutableVec2.zero, new Vec2(w, h));
+		return centered(Vec2.zero, new MutableVec2(w, h));
 	}
 
 	public static Rectangle centered(@Nonnull IVec2 size) {
-		return centered(ImmutableVec2.zero, size);
+		return centered(Vec2.zero, size);
 	}
 
 	public Rectangle(float x, float y, float w, float h) {
-		this(new Vec2(x, y), new Vec2(w, h));
+		this(new MutableVec2(x, y), new MutableVec2(w, h));
 	}
 
 	public Rectangle(float x, float y, @Nonnull IVec2 size) {
-		this(new Vec2(x, y), size);
+		this(new MutableVec2(x, y), size);
 	}
 
 	public Rectangle(@Nonnull IVec2 position, float w, float h) {
-		this(position, new Vec2(w, h));
+		this(position, new MutableVec2(w, h));
 	}
 
 	public Rectangle(@Nonnull IVec2 position, @Nonnull IVec2 size) {
@@ -66,19 +66,19 @@ public class Rectangle extends Shape implements Shape.Filled, Shape.Outline, Pol
 	}
 
 	public Rectangle(float x, float y, float l) {
-		this(new Vec2(x, y), new Vec2(l, l));
+		this(new MutableVec2(x, y), new MutableVec2(l, l));
 	}
 
 	public Rectangle(@Nonnull IVec2 pos, float l) {
-		this(pos, new Vec2(l, l));
+		this(pos, new MutableVec2(l, l));
 	}
 
 	public Rectangle(float w, float h) {
-		this(ImmutableVec2.zero, new Vec2(w, h));
+		this(Vec2.zero, new MutableVec2(w, h));
 	}
 
 	public Rectangle(@Nonnull IVec2 size) {
-		this(ImmutableVec2.zero, size);
+		this(Vec2.zero, size);
 	}
 
 	@Override
@@ -157,9 +157,9 @@ public class Rectangle extends Shape implements Shape.Filled, Shape.Outline, Pol
 	@Nonnull public Polygon asPolygon() {
 		Polygon p = new Polygon.NoHoles();
 		p.addPoint(position);
-		p.addPoint(position + size.getOnlyX());
+		p.addPoint(position + size.withY(0f));
 		p.addPoint(position + size);
-		p.addPoint(position + size.getOnlyY());
+		p.addPoint(position + size.withX(0f));
 		return p;
 	}
 

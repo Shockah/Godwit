@@ -13,7 +13,7 @@ import javax.annotation.Nullable;
 import lombok.Getter;
 import lombok.experimental.Delegate;
 import pl.shockah.godwit.geom.IVec2;
-import pl.shockah.godwit.geom.ImmutableVec2;
+import pl.shockah.godwit.geom.Vec2;
 import pl.shockah.godwit.ui.Alignment;
 
 public class GfxFont implements Renderable {
@@ -115,7 +115,7 @@ public class GfxFont implements Renderable {
 
 	@Nonnull public IVec2 getScaleVector() {
 		BitmapFont.BitmapFontData data = font.getData();
-		return new ImmutableVec2(data.scaleX, data.scaleY);
+		return new Vec2(data.scaleX, data.scaleY);
 	}
 
 	public void setScaleVector(@Nonnull IVec2 v) {

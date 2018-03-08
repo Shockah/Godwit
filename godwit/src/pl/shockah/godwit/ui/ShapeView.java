@@ -4,7 +4,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import pl.shockah.godwit.geom.IVec2;
-import pl.shockah.godwit.geom.ImmutableVec2;
+import pl.shockah.godwit.geom.Vec2;
 import pl.shockah.godwit.geom.Shape;
 import pl.shockah.godwit.gl.Gfx;
 
@@ -17,7 +17,7 @@ public abstract class ShapeView<T extends Shape> extends View {
 
 	@Override
 	@Nonnull public IVec2 getIntrinsicSize(@Nonnull IVec2 availableSize) {
-		return shape != null ? shape.getBoundingBox().size : ImmutableVec2.zero;
+		return shape != null ? shape.getBoundingBox().size : Vec2.zero;
 	}
 
 	public static class Filled<T extends Shape & Shape.Filled> extends ShapeView<T> {

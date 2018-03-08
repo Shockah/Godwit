@@ -8,7 +8,7 @@ import javax.annotation.Nullable;
 
 import pl.shockah.godwit.Entity;
 import pl.shockah.godwit.geom.IVec2;
-import pl.shockah.godwit.geom.ImmutableVec2;
+import pl.shockah.godwit.geom.Vec2;
 
 public class MaskEntity extends Entity {
 	@Nullable public Entity mask;
@@ -47,11 +47,11 @@ public class MaskEntity extends Entity {
 	}
 
 	public final void renderMask(@Nonnull Gfx gfx) {
-		renderMask(gfx, ImmutableVec2.zero);
+		renderMask(gfx, Vec2.zero);
 	}
 
 	public final void renderMask(@Nonnull Gfx gfx, float x, float y) {
-		renderMask(gfx, new ImmutableVec2(x, y));
+		renderMask(gfx, new Vec2(x, y));
 	}
 
 	public void renderMask(@Nonnull Gfx gfx, @Nonnull IVec2 v) {

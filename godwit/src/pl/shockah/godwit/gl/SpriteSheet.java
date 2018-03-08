@@ -8,7 +8,7 @@ import javax.annotation.Nullable;
 
 import lombok.Getter;
 import pl.shockah.godwit.geom.IVec2;
-import pl.shockah.godwit.geom.ImmutableVec2;
+import pl.shockah.godwit.geom.Vec2;
 import pl.shockah.jay.JSONObject;
 
 public class SpriteSheet {
@@ -49,9 +49,9 @@ public class SpriteSheet {
 	}
 
 	@Nonnull private IVec2 calculateFrameSize(@Nonnull Texture texture) {
-		IVec2 textureSize = new ImmutableVec2(texture.getWidth(), texture.getHeight());
-		IVec2 blankSpace = new ImmutableVec2(margin, margin) * 2 + new ImmutableVec2(spacing, spacing) * new ImmutableVec2(columns - 1, rows - 1);
-		return (textureSize - blankSpace) / new ImmutableVec2(columns, rows);
+		IVec2 textureSize = new Vec2(texture.getWidth(), texture.getHeight());
+		IVec2 blankSpace = new Vec2(margin, margin) * 2 + new Vec2(spacing, spacing) * new Vec2(columns - 1, rows - 1);
+		return (textureSize - blankSpace) / new Vec2(columns, rows);
 	}
 
 	@Nonnull public TextureRegion get(int frameIndex) {
@@ -67,7 +67,7 @@ public class SpriteSheet {
 		TextureRegion region = cache[column][row];
 		if (region == null) {
 			IVec2 size = getFrameSize();
-			IVec2 position = new ImmutableVec2(margin) + new ImmutableVec2(column, row) * (size + new ImmutableVec2(spacing)) - new ImmutableVec2(spacing);
+			IVec2 position = new Vec2(margin) + new Vec2(column, row) * (size + new Vec2(spacing)) - new Vec2(spacing);
 			region = new TextureRegion(texture, (int)position.x(), (int)position.y(), (int)size.x(), (int)size.y());
 			//region = new TextureRegion(texture, (int)position.x(), (int)(position.y() + size.y()), (int)size.x(), (int)-size.y());
 			cache[column][row] = region;

@@ -5,8 +5,8 @@ import javax.annotation.Nullable;
 
 import lombok.Getter;
 import pl.shockah.godwit.geom.IVec2;
-import pl.shockah.godwit.geom.ImmutableVec2;
 import pl.shockah.godwit.geom.Vec2;
+import pl.shockah.godwit.geom.MutableVec2;
 import pl.shockah.godwit.gl.Gfx;
 import pl.shockah.godwit.gl.GfxSlice;
 
@@ -14,7 +14,7 @@ public class FillView extends ViewHolder<Void> {
 	@Getter
 	@Nullable private View innerView = null;
 
-	@Nullable private Vec2 cachedSize = null;
+	@Nullable private MutableVec2 cachedSize = null;
 	@Nonnull public Padding padding = new Padding();
 
 	public FillView() {
@@ -74,6 +74,6 @@ public class FillView extends ViewHolder<Void> {
 
 	@Override
 	@Nonnull public IVec2 getIntrinsicSize(@Nonnull IVec2 availableSize) {
-		return (innerView != null ? innerView.getIntrinsicSize(availableSize - padding.getVector()) : ImmutableVec2.zero) + padding.getVector();
+		return (innerView != null ? innerView.getIntrinsicSize(availableSize - padding.getVector()) : Vec2.zero) + padding.getVector();
 	}
 }

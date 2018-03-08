@@ -13,7 +13,7 @@ import javax.annotation.Nullable;
 import pl.shockah.func.Action0;
 import pl.shockah.func.Action1;
 import pl.shockah.godwit.geom.IVec2;
-import pl.shockah.godwit.geom.ImmutableVec2;
+import pl.shockah.godwit.geom.Vec2;
 import pl.shockah.godwit.geom.Shape;
 
 public abstract class Gfx {
@@ -36,7 +36,7 @@ public abstract class Gfx {
 	public abstract int getHeight();
 
 	@Nonnull public final IVec2 getSize() {
-		return new ImmutableVec2(getWidth(), getHeight());
+		return new Vec2(getWidth(), getHeight());
 	}
 
 	@Nullable public abstract BlendMode getBlendMode();
@@ -80,11 +80,11 @@ public abstract class Gfx {
 	}
 
 	public void draw(@Nonnull Renderable renderable, float x, float y) {
-		draw(renderable, new ImmutableVec2(x, y));
+		draw(renderable, new Vec2(x, y));
 	}
 
 	public void draw(@Nonnull Renderable renderable) {
-		draw(renderable, ImmutableVec2.zero);
+		draw(renderable, Vec2.zero);
 	}
 
 	public <S extends Shape & Shape.Filled> void drawFilled(@Nonnull S shape, @Nonnull IVec2 v) {
@@ -92,11 +92,11 @@ public abstract class Gfx {
 	}
 
 	public <S extends Shape & Shape.Filled> void drawFilled(@Nonnull S shape, float x, float y) {
-		drawFilled(shape, new ImmutableVec2(x, y));
+		drawFilled(shape, new Vec2(x, y));
 	}
 
 	public <S extends Shape & Shape.Filled> void drawFilled(@Nonnull S shape) {
-		drawFilled(shape, ImmutableVec2.zero);
+		drawFilled(shape, Vec2.zero);
 	}
 
 	public <S extends Shape & Shape.Outline> void drawOutline(@Nonnull S shape, @Nonnull IVec2 v) {
@@ -104,17 +104,17 @@ public abstract class Gfx {
 	}
 
 	public <S extends Shape & Shape.Outline> void drawOutline(@Nonnull S shape, float x, float y) {
-		drawOutline(shape, new ImmutableVec2(x, y));
+		drawOutline(shape, new Vec2(x, y));
 	}
 
 	public <S extends Shape & Shape.Outline> void drawOutline(@Nonnull S shape) {
-		drawOutline(shape, ImmutableVec2.zero);
+		drawOutline(shape, Vec2.zero);
 	}
 
 	public abstract void drawPoint(@Nonnull IVec2 v);
 
 	public final void drawPoint(float x, float y) {
-		drawPoint(new ImmutableVec2(x, y));
+		drawPoint(new Vec2(x, y));
 	}
 
 	public abstract void clear(@Nonnull Color color);

@@ -10,7 +10,7 @@ import javax.annotation.Nonnull;
 
 import pl.shockah.godwit.Math2;
 import pl.shockah.godwit.geom.IVec2;
-import pl.shockah.godwit.geom.ImmutableVec2;
+import pl.shockah.godwit.geom.Vec2;
 import pl.shockah.godwit.geom.Line;
 import pl.shockah.godwit.geom.Rectangle;
 import pl.shockah.godwit.geom.Shape;
@@ -95,7 +95,7 @@ public class Polygon extends Shape implements Polygonable, Shape.Filled, Shape.O
 
 	@Override
 	public void mirror(boolean horizontally, boolean vertically) {
-		IVec2 modifier = new ImmutableVec2(horizontally ? -1 : 1, vertically ? -1 : 1);
+		IVec2 modifier = new Vec2(horizontally ? -1 : 1, vertically ? -1 : 1);
 		for (int i = 0; i < points.size(); i++) {
 			points[i] = points[i] * modifier;
 		}
@@ -144,7 +144,7 @@ public class Polygon extends Shape implements Polygonable, Shape.Filled, Shape.O
 	}
 
 	public void addPoint(float x, float y) {
-		addPoint(new ImmutableVec2(x, y));
+		addPoint(new Vec2(x, y));
 	}
 
 	public void addPoint(@Nonnull IVec2 v) {

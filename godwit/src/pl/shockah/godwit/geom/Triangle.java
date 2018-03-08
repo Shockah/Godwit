@@ -13,36 +13,36 @@ import pl.shockah.godwit.gl.Gfx;
 
 @EqualsAndHashCode(callSuper = false)
 public class Triangle extends Shape implements Polygonable, Shape.Filled, Shape.Outline, Easable<Triangle> {
-	@Nonnull public Vec2 point1;
-	@Nonnull public Vec2 point2;
-	@Nonnull public Vec2 point3;
+	@Nonnull public MutableVec2 point1;
+	@Nonnull public MutableVec2 point2;
+	@Nonnull public MutableVec2 point3;
 
 	public Triangle(float x1, float y1, float x2, float y2, float x3, float y3) {
-		this(new Vec2(x1, y1), new Vec2(x2, y2), new Vec2(x3, y3));
+		this(new MutableVec2(x1, y1), new MutableVec2(x2, y2), new MutableVec2(x3, y3));
 	}
 
 	public Triangle(float x1, float y1, @Nonnull IVec2 point2, float x3, float y3) {
-		this(new Vec2(x1, y1), point2, new Vec2(x3, y3));
+		this(new MutableVec2(x1, y1), point2, new MutableVec2(x3, y3));
 	}
 
 	public Triangle(@Nonnull IVec2 point1, float x2, float y2, float x3, float y3) {
-		this(point1, new Vec2(x2, y2), new Vec2(x3, y3));
+		this(point1, new MutableVec2(x2, y2), new MutableVec2(x3, y3));
 	}
 
 	public Triangle(float x1, float y1, float x2, float y2, @Nonnull IVec2 point3) {
-		this(new Vec2(x1, y1), new Vec2(x2, y2), point3);
+		this(new MutableVec2(x1, y1), new MutableVec2(x2, y2), point3);
 	}
 
 	public Triangle(float x1, float y1, @Nonnull IVec2 point2, @Nonnull IVec2 point3) {
-		this(new Vec2(x1, y1), point2, point3);
+		this(new MutableVec2(x1, y1), point2, point3);
 	}
 
 	public Triangle(@Nonnull IVec2 point1, float x2, float y2, @Nonnull IVec2 point3) {
-		this(point1, new Vec2(x2, y2), point3);
+		this(point1, new MutableVec2(x2, y2), point3);
 	}
 
 	public Triangle(@Nonnull IVec2 point1, @Nonnull IVec2 point2, float x3, float y3) {
-		this(point1, point2, new Vec2(x3, y3));
+		this(point1, point2, new MutableVec2(x3, y3));
 	}
 
 	public Triangle(@Nonnull IVec2 point1, @Nonnull IVec2 point2, @Nonnull IVec2 point3) {

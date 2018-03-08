@@ -3,11 +3,11 @@ package pl.shockah.godwit.ui;
 import javax.annotation.Nonnull;
 
 import pl.shockah.godwit.geom.IVec2;
-import pl.shockah.godwit.geom.ImmutableVec2;
+import pl.shockah.godwit.geom.Vec2;
 
 public enum Orientation {
-	Horizontal(new ImmutableVec2(1, 0)),
-	Vertical(new ImmutableVec2(0, 1));
+	Horizontal(new Vec2(1, 0)),
+	Vertical(new Vec2(0, 1));
 
 	@Nonnull public final IVec2 vector;
 

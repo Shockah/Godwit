@@ -12,8 +12,8 @@ import pl.shockah.godwit.Godwit;
 import pl.shockah.godwit.fx.Animatable;
 import pl.shockah.godwit.fx.Animatables;
 import pl.shockah.godwit.geom.IVec2;
-import pl.shockah.godwit.geom.ImmutableVec2;
 import pl.shockah.godwit.geom.Vec2;
+import pl.shockah.godwit.geom.MutableVec2;
 
 public class GfxSprite implements Renderable, Animatable<GfxSprite> {
 	private interface DelegateExclusions {
@@ -32,7 +32,7 @@ public class GfxSprite implements Renderable, Animatable<GfxSprite> {
 	@Delegate(excludes = DelegateExclusions.class)
 	@Nonnull public final Sprite sprite;
 
-	@Nonnull public Vec2 offset = new Vec2();
+	@Nonnull public MutableVec2 offset = new MutableVec2();
 
 	@Nullable private Animatables.Properties<GfxSprite> animatableProperties;
 
@@ -64,7 +64,7 @@ public class GfxSprite implements Renderable, Animatable<GfxSprite> {
 	}
 
 	public @Nonnull IVec2 getOrigin() {
-		return new ImmutableVec2(sprite.getOriginX(), sprite.getOriginY());
+		return new Vec2(sprite.getOriginX(), sprite.getOriginY());
 	}
 
 	public final void setOrigin(@Nonnull IVec2 origin) {
@@ -139,7 +139,7 @@ public class GfxSprite implements Renderable, Animatable<GfxSprite> {
 	}
 
 	@Nonnull public IVec2 getSize() {
-		return new ImmutableVec2(sprite.getWidth(), sprite.getHeight());
+		return new Vec2(sprite.getWidth(), sprite.getHeight());
 	}
 
 	public void setSize(@Nonnull IVec2 size) {
@@ -147,7 +147,7 @@ public class GfxSprite implements Renderable, Animatable<GfxSprite> {
 	}
 
 	@Nonnull public IVec2 getRegionSize() {
-		return new ImmutableVec2(sprite.getRegionWidth(), sprite.getRegionHeight());
+		return new Vec2(sprite.getRegionWidth(), sprite.getRegionHeight());
 	}
 
 	public float getScaledWidth() {
@@ -163,7 +163,7 @@ public class GfxSprite implements Renderable, Animatable<GfxSprite> {
 	}
 
 	@Nonnull public IVec2 getScaleVector() {
-		return new ImmutableVec2(sprite.getScaleX(), sprite.getScaleY());
+		return new Vec2(sprite.getScaleX(), sprite.getScaleY());
 	}
 
 	public void setScaleVector(@Nonnull IVec2 scale) {
@@ -171,7 +171,7 @@ public class GfxSprite implements Renderable, Animatable<GfxSprite> {
 	}
 
 	@Nonnull public IVec2 getPosition() {
-		return new ImmutableVec2(sprite.getX(), sprite.getY());
+		return new Vec2(sprite.getX(), sprite.getY());
 	}
 
 	public void setPosition(@Nonnull IVec2 position) {

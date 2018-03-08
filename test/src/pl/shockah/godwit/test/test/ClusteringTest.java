@@ -17,7 +17,7 @@ import pl.shockah.godwit.algo.cluster.TravellingSalesmanKMeansClustering;
 import pl.shockah.godwit.algo.tsp.NearestNeighborTravellingSalesmanSolver;
 import pl.shockah.godwit.geom.Circle;
 import pl.shockah.godwit.geom.IVec2;
-import pl.shockah.godwit.geom.ImmutableVec2;
+import pl.shockah.godwit.geom.Vec2;
 import pl.shockah.godwit.gl.Gfx;
 import pl.shockah.godwit.gl.color.HSVColorSpace;
 
@@ -30,13 +30,13 @@ public class ClusteringTest extends State {
 		super.updateSelf();
 
 		if (Gdx.input.justTouched()) {
-			nodes.add(new ImmutableVec2(Gdx.input.getX(), Gdx.input.getY()));
+			nodes.add(new Vec2(Gdx.input.getX(), Gdx.input.getY()));
 			if (nodes.size() >= 4) {
 				System.out.println(String.format("Solving for %d nodes", nodes.size()));
 				long ms = TimeUtils.millis();
 				clusters = new TravellingSalesmanKMeansClustering<IVec2>(
 						v -> new float[] { v.x(), v.y() },
-						v -> new ImmutableVec2(v[0], v[1]),
+						v -> new Vec2(v[0], v[1]),
 						4,
 						new NearestNeighborTravellingSalesmanSolver<>(v -> new float[]{v.x(), v.y()}, 0f)
 				).getClusters(new ArrayList<>(nodes));

@@ -4,17 +4,13 @@ import com.badlogic.gdx.math.Vector2;
 
 import javax.annotation.Nonnull;
 
-import lombok.Getter;
-import lombok.Setter;
 import pl.shockah.godwit.Math2;
-import pl.shockah.godwit.fx.ease.Easing;
 
-public final class Vec2 extends IVec2<Vec2> {
-	@Getter @Setter
-	public float x;
+public final class Vec2 extends IVec2 {
+	public static final Vec2 zero = new Vec2();
 
-	@Getter @Setter
-	public float y;
+	public final float x;
+	public final float y;
 
 	public Vec2() {
 		this(0, 0);
@@ -41,9 +37,14 @@ public final class Vec2 extends IVec2<Vec2> {
 		return new Vec2(Math2.ldirX(dist, angle), Math2.ldirY(dist, angle));
 	}
 
-	public void set(@Nonnull IVec2 v) {
-		x = v.x();
-		y = v.y();
+	@Override
+	public float x() {
+		return x;
+	}
+
+	@Override
+	public float y() {
+		return y;
 	}
 
 	@Override
@@ -52,43 +53,12 @@ public final class Vec2 extends IVec2<Vec2> {
 	}
 
 	@Override
-	@Nonnull
-	public Vec2 getCopy() {
+	@Nonnull public Vec2 getCopy() {
 		return new Vec2(this);
 	}
 
 	@Override
-	@Nonnull public Vec2 add(float x, float y) {
-		return new Vec2(this.x + x, this.y + y);
-	}
-
-	@Override
-	@Nonnull public Vec2 multiply(float x, float y) {
-		return new Vec2(this.x * x, this.y * y);
-	}
-
-	@Override
-	@Nonnull public Vec2 withX(float x) {
-		return new Vec2(x, y);
-	}
-
-	@Override
-	@Nonnull public Vec2 withY(float y) {
-		return new Vec2(x, y);
-	}
-
-	@Override
-	@Nonnull public Vec2 getAbs() {
-		return new Vec2(Math.abs(x), Math.abs(y));
-	}
-
-	@Override
-	@Nonnull public Vec2 ease(@Nonnull Vec2 other, float f) {
-		return new Vec2(Easing.linear.ease(x, other.x, f), Easing.linear.ease(y, other.y, f));
-	}
-
-	@Override
-	@Nonnull public Vec2 getMutable() {
+	@Nonnull public Vec2 getImmutable() {
 		return this;
 	}
 }

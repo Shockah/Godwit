@@ -6,7 +6,7 @@ import javax.annotation.Nonnull;
 
 import lombok.Getter;
 import pl.shockah.godwit.geom.IVec2;
-import pl.shockah.godwit.geom.ImmutableVec2;
+import pl.shockah.godwit.geom.Vec2;
 
 public interface Alignment {
 	@Nonnull IVec2 getVector();
@@ -19,7 +19,7 @@ public interface Alignment {
 
 	@Nonnull default IVec2 getNonNanVector(float nanValue) {
 		IVec2 v = getVector();
-		return new ImmutableVec2(Float.isNaN(v.x()) ? nanValue : v.x(), Float.isNaN(v.y()) ? nanValue : v.y());
+		return new Vec2(Float.isNaN(v.x()) ? nanValue : v.x(), Float.isNaN(v.y()) ? nanValue : v.y());
 	}
 
 	default int getHorizontalGdxAlignment() {
@@ -31,9 +31,9 @@ public interface Alignment {
 	}
 
 	enum Horizontal implements Alignment {
-		Left(new ImmutableVec2(0f, Float.NaN)),
-		Center(new ImmutableVec2(0.5f, Float.NaN)),
-		Right(new ImmutableVec2(1f, Float.NaN));
+		Left(new Vec2(0f, Float.NaN)),
+		Center(new Vec2(0.5f, Float.NaN)),
+		Right(new Vec2(1f, Float.NaN));
 
 		@Getter
 		@Nonnull private final IVec2 vector;
@@ -58,9 +58,9 @@ public interface Alignment {
 	}
 
 	enum Vertical implements Alignment {
-		Top(new ImmutableVec2(Float.NaN, 0f)),
-		Middle(new ImmutableVec2(Float.NaN, 0.5f)),
-		Bottom(new ImmutableVec2(Float.NaN, 1f));
+		Top(new Vec2(Float.NaN, 0f)),
+		Middle(new Vec2(Float.NaN, 0.5f)),
+		Bottom(new Vec2(Float.NaN, 1f));
 
 		@Getter
 		@Nonnull private final IVec2 vector;
@@ -95,7 +95,7 @@ public interface Alignment {
 
 		@Override
 		@Nonnull public IVec2 getVector() {
-			return new ImmutableVec2(horizontal.vector.x(), vertical.vector.y());
+			return new Vec2(horizontal.vector.x(), vertical.vector.y());
 		}
 
 		@Override

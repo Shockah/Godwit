@@ -11,8 +11,8 @@ import lombok.Getter;
 import pl.shockah.godwit.fx.Animatable;
 import pl.shockah.godwit.fx.Animatables;
 import pl.shockah.godwit.geom.IVec2;
-import pl.shockah.godwit.geom.ImmutableVec2;
 import pl.shockah.godwit.geom.Vec2;
+import pl.shockah.godwit.geom.MutableVec2;
 import pl.shockah.godwit.gl.Gfx;
 import pl.shockah.godwit.gl.Renderable;
 import pl.shockah.util.SafeList;
@@ -22,7 +22,7 @@ public class Entity implements Renderable, Animatable<Entity> {
 	@Nonnull private static final Comparator<? super Entity> depthComparator = (o1, o2) -> -Float.compare(o1.getDepth(), o2.getDepth());
 
 	@Nonnull public final SafeList<Entity> children = new SafeList<>(new SortedLinkedList<>(depthComparator));
-	@Nonnull public Vec2 position = new Vec2();
+	@Nonnull public MutableVec2 position = new MutableVec2();
 
 	@Getter
 	@Nullable private Entity parent;
@@ -98,23 +98,23 @@ public class Entity implements Renderable, Animatable<Entity> {
 
 	@Override
 	public final void render(@Nonnull Gfx gfx, float x, float y) {
-		render(gfx, new ImmutableVec2(x, y));
+		render(gfx, new Vec2(x, y));
 	}
 
 	@Override
 	public final void render(@Nonnull Gfx gfx) {
-		render(gfx, ImmutableVec2.zero);
+		render(gfx, Vec2.zero);
 	}
 
 	public void renderSelf(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
 	}
 
 	public final void renderSelf(@Nonnull Gfx gfx, float x, float y) {
-		renderSelf(gfx, new ImmutableVec2(x, y));
+		renderSelf(gfx, new Vec2(x, y));
 	}
 
 	public final void renderSelf(@Nonnull Gfx gfx) {
-		renderSelf(gfx, ImmutableVec2.zero);
+		renderSelf(gfx, Vec2.zero);
 	}
 
 	public void renderChildren(@Nonnull Gfx gfx, @Nonnull IVec2 v, boolean behind) {
@@ -125,11 +125,11 @@ public class Entity implements Renderable, Animatable<Entity> {
 	}
 
 	public final void renderChildren(@Nonnull Gfx gfx, float x, float y, boolean behind) {
-		renderChildren(gfx, new ImmutableVec2(x, y), behind);
+		renderChildren(gfx, new Vec2(x, y), behind);
 	}
 
 	public final void renderChildren(@Nonnull Gfx gfx, boolean behind) {
-		renderChildren(gfx, ImmutableVec2.zero, behind);
+		renderChildren(gfx, Vec2.zero, behind);
 	}
 
 	public void onAddedToParent() {
@@ -145,7 +145,7 @@ public class Entity implements Renderable, Animatable<Entity> {
 	}
 
 	@Nonnull public final IVec2 getAbsolutePoint() {
-		return getAbsolutePoint(ImmutableVec2.zero);
+		return getAbsolutePoint(Vec2.zero);
 	}
 
 	@Nonnull public IVec2 getAbsolutePoint(@Nonnull IVec2 point) {

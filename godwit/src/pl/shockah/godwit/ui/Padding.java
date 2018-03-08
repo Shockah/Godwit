@@ -4,7 +4,7 @@ import javax.annotation.Nonnull;
 
 import lombok.EqualsAndHashCode;
 import pl.shockah.godwit.geom.IVec2;
-import pl.shockah.godwit.geom.ImmutableVec2;
+import pl.shockah.godwit.geom.Vec2;
 
 @EqualsAndHashCode
 public final class Padding {
@@ -33,11 +33,11 @@ public final class Padding {
 	}
 
 	@Nonnull public IVec2 getTopLeftVector() {
-		return new ImmutableVec2(left, top);
+		return new Vec2(left, top);
 	}
 
 	@Nonnull public IVec2 getBottomRightVector() {
-		return new ImmutableVec2(right, bottom);
+		return new Vec2(right, bottom);
 	}
 
 	@Nonnull public IVec2 getVector() {

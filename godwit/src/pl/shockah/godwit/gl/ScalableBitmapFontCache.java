@@ -14,7 +14,7 @@ import com.badlogic.gdx.utils.Pools;
 
 import javax.annotation.Nonnull;
 
-import pl.shockah.godwit.geom.Vec2;
+import pl.shockah.godwit.geom.MutableVec2;
 
 public class ScalableBitmapFontCache {
 	static private final Color tempColor = new Color(1, 1, 1, 1);
@@ -34,7 +34,7 @@ public class ScalableBitmapFontCache {
 	private IntArray[] pageGlyphIndices;
 	private int[] tempGlyphCount;
 
-	@Nonnull public Vec2 scale = new Vec2(1f, 1f);
+	@Nonnull public MutableVec2 scale = new MutableVec2(1f, 1f);
 
 	public ScalableBitmapFontCache (BitmapFont font) {
 		this(font, font.usesIntegerPositions());

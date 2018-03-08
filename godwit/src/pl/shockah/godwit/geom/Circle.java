@@ -10,19 +10,19 @@ import pl.shockah.godwit.geom.polygon.Polygonable;
 import pl.shockah.godwit.gl.Gfx;
 
 public class Circle extends Shape implements Polygonable, Shape.Filled, Shape.Outline, Easable<Circle> {
-	@Nonnull public Vec2 position;
+	@Nonnull public MutableVec2 position;
 	public float radius;
 
-	@Nullable protected Vec2 lastPos = null;
+	@Nullable protected MutableVec2 lastPos = null;
 	protected int lastPrecision = -1;
 	@Nullable protected Polygon lastPoly = null;
 
 	public Circle(float x, float y, float radius) {
-		this(new Vec2(x, y), radius);
+		this(new MutableVec2(x, y), radius);
 	}
 
 	public Circle(float radius) {
-		this(ImmutableVec2.zero, radius);
+		this(Vec2.zero, radius);
 	}
 
 	public Circle(@Nonnull IVec2 position, float radius) {
@@ -140,11 +140,11 @@ public class Circle extends Shape implements Polygonable, Shape.Filled, Shape.Ou
 		float abScalingFactor1 = -pBy2 + tmpSqrt;
 		float abScalingFactor2 = -pBy2 - tmpSqrt;
 
-		IVec2 p1 = new ImmutableVec2(line.point1.x - baX * abScalingFactor1, line.point1.y - baY * abScalingFactor1);
+		IVec2 p1 = new Vec2(line.point1.x - baX * abScalingFactor1, line.point1.y - baY * abScalingFactor1);
 		if (disc == 0)
 			return new IVec2[] { p1 };
 
-		IVec2 p2 = new ImmutableVec2(line.point1.x - baX * abScalingFactor2, line.point1.y - baY * abScalingFactor2);
+		IVec2 p2 = new Vec2(line.point1.x - baX * abScalingFactor2, line.point1.y - baY * abScalingFactor2);
 		return new IVec2[] { p1, p2 };
 	}
 
@@ -159,7 +159,7 @@ public class Circle extends Shape implements Polygonable, Shape.Filled, Shape.Ou
 
 		Polygon p = new Polygon.NoHoles();
 		for (int i = 0; i < precision; i++) {
-			p.addPoint(Vec2.angled(radius, 360f / precision * i) + position);
+			p.addPoint(MutableVec2.angled(radius, 360f / precision * i) + position);
 		}
 
 		lastPos = position;

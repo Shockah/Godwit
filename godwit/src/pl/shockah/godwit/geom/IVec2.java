@@ -3,8 +3,9 @@ package pl.shockah.godwit.geom;
 import javax.annotation.Nonnull;
 
 import pl.shockah.godwit.fx.ease.Easable;
+import pl.shockah.godwit.fx.ease.Easing;
 
-public abstract class IVec2<V extends IVec2<V>> implements Easable<V> {
+public abstract class IVec2 implements Easable<IVec2> {
 	IVec2() {
 	}
 
@@ -21,193 +22,138 @@ public abstract class IVec2<V extends IVec2<V>> implements Easable<V> {
 		return Float.hashCode(x()) * 31 + Float.hashCode(y());
 	}
 
-	public abstract float getX();
-	public abstract float getY();
+	public abstract float x();
+	public abstract float y();
 
-	public final float x() {
-		return getX();
+	@Nonnull public abstract IVec2 getCopy();
+
+	@Nonnull public final IVec2 add(float x, float y) {
+		return new Vec2(x() + x, y() + y);
 	}
 
-	public final float y() {
-		return getY();
-	}
-
-	@Nonnull
-	public abstract V getCopy();
-
-	// java-oo is weird as hell, so there's a lot of overloads involved
-
-	@Nonnull public abstract IVec2 add(float x, float y);
-	@Nonnull public abstract IVec2 multiply(float x, float y);
-	@Nonnull public abstract IVec2 withX(float x);
-	@Nonnull public abstract IVec2 withY(float y);
-	@Nonnull public abstract IVec2 getAbs();
-
-	@Nonnull public IVec2 add(@Nonnull IVec2 v) {
+	@Nonnull public final IVec2 add(@Nonnull IVec2 v) {
 		return add(v.x(), v.y());
 	}
 
-	@Nonnull public IVec2 add(@Nonnull Vec2 v) {
-		return add((IVec2)v);
+	@Nonnull public final IVec2 subtract(float x, float y) {
+		return new Vec2(x() - x, y() - y);
 	}
 
-	@Nonnull public IVec2 add(@Nonnull ImmutableVec2 v) {
-		return add((IVec2)v);
-	}
-
-	@Nonnull public IVec2 add(float f) {
-		float length = getLength();
-		return this * (length + f) / length;
-	}
-
-	@Nonnull public IVec2 add(int f) {
-		return add((float)f);
-	}
-
-	@Nonnull public IVec2 add(double f) {
-		return add((float)f);
-	}
-
-	@Nonnull public IVec2 add(long f) {
-		return add((float)f);
-	}
-
-	@Nonnull public IVec2 subtract(float x, float y) {
-		return add(-x, -y);
-	}
-
-	@Nonnull public IVec2 subtract(@Nonnull IVec2 v) {
+	@Nonnull public final IVec2 subtract(@Nonnull IVec2 v) {
 		return subtract(v.x(), v.y());
 	}
 
-	@Nonnull public IVec2 subtract(@Nonnull Vec2 v) {
-		return subtract((IVec2)v);
+	@Nonnull public final IVec2 multiply(float x, float y) {
+		return new Vec2(x() * x, y() * y);
 	}
 
-	@Nonnull public IVec2 subtract(@Nonnull ImmutableVec2 v) {
-		return subtract((IVec2)v);
-	}
-
-	@Nonnull public IVec2 subtract(float f) {
-		return add(-f);
-	}
-
-	@Nonnull public IVec2 subtract(int f) {
-		return subtract((float)f);
-	}
-
-	@Nonnull public IVec2 subtract(double f) {
-		return subtract((float)f);
-	}
-
-	@Nonnull public IVec2 subtract(long f) {
-		return subtract((float)f);
-	}
-
-	@Nonnull public IVec2 multiply(@Nonnull IVec2 v) {
+	@Nonnull public final IVec2 multiply(@Nonnull IVec2 v) {
 		return multiply(v.x(), v.y());
 	}
 
-	@Nonnull public IVec2 multiply(@Nonnull Vec2 v) {
-		return multiply((IVec2)v);
-	}
-
-	@Nonnull public IVec2 multiply(@Nonnull ImmutableVec2 v) {
-		return multiply((IVec2)v);
-	}
-
-	@Nonnull public IVec2 multiply(float f) {
+	@Nonnull public final IVec2 multiply(float f) {
 		return multiply(f, f);
 	}
 
-	@Nonnull public IVec2 multiply(int f) {
-		return multiply((float)f);
+	@Nonnull public final IVec2 divide(float x, float y) {
+		return new Vec2(x() / x, y() / y);
 	}
 
-	@Nonnull public IVec2 multiply(double f) {
-		return multiply((float)f);
-	}
-
-	@Nonnull public IVec2 multiply(long f) {
-		return multiply((float)f);
-	}
-
-	@Nonnull public IVec2 divide(float x, float y) {
-		return multiply(1 / x, 1 / y);
-	}
-
-	@Nonnull public IVec2 divide(@Nonnull IVec2 v) {
+	@Nonnull public final IVec2 divide(@Nonnull IVec2 v) {
 		return divide(v.x(), v.y());
 	}
 
-	@Nonnull public IVec2 divide(@Nonnull Vec2 v) {
-		return divide((IVec2)v);
-	}
-
-	@Nonnull public IVec2 divide(@Nonnull ImmutableVec2 v) {
-		return divide((IVec2)v);
-	}
-
-	@Nonnull public IVec2 divide(float f) {
+	@Nonnull public final IVec2 divide(float f) {
 		return divide(f, f);
 	}
 
-	@Nonnull public IVec2 divide(int f) {
-		return divide((float)f);
+	@Nonnull public final IVec2 negate() {
+		return new Vec2(-x(), -y());
 	}
 
-	@Nonnull public IVec2 divide(double f) {
-		return divide((float)f);
+	@Nonnull public final IVec2 withX(float x) {
+		return new Vec2(x, y());
 	}
 
-	@Nonnull public IVec2 divide(long f) {
-		return divide((float)f);
+	@Nonnull public final IVec2 withY(float y) {
+		return new Vec2(x(), y);
 	}
 
-	@Nonnull public IVec2 negate() {
-		return multiply(-1f);
+	@Nonnull public final IVec2 getAbs() {
+		return new Vec2(Math.abs(x()), Math.abs(y()));
 	}
 
-	@Nonnull public IVec2 getOnlyX() {
-		return multiply(1, 0);
-	}
-
-	@Nonnull public IVec2 getOnlyY() {
-		return multiply(0, 1);
-	}
-
-	public float getLength() {
+	public final float getLength() {
 		return (float)Math.sqrt(x() * x() + y() * y());
 	}
 
-	public float getAngle() {
-		return ImmutableVec2.zero.getAngle(this);
+	public final float getAngle() {
+		return Vec2.zero.getAngle(this);
 	}
 
-	public float getAngle(@Nonnull IVec2 v) {
+	public final float getAngle(@Nonnull IVec2 v) {
 		return (float)Math.toDegrees(Math.atan2(y() - v.y(), v.x() - x()));
 	}
 
-	@Nonnull public IVec2 getNormalized() {
+	@Nonnull public final IVec2 getNormalized() {
 		float length = getLength();
 		if (length == 1f)
 			return this;
 		return this * (1f / length);
 	}
 
-	@Nonnull public Vec2 getMutable() {
+	@Nonnull public MutableVec2 getMutable() {
 		return getMutableCopy();
 	}
 
-	@Nonnull public ImmutableVec2 getImmutable() {
+	@Nonnull public Vec2 getImmutable() {
 		return getImmutableCopy();
 	}
 
-	@Nonnull public Vec2 getMutableCopy() {
+	@Nonnull public final MutableVec2 getMutableCopy() {
+		return new MutableVec2(x(), y());
+	}
+
+	@Nonnull public final Vec2 getImmutableCopy() {
 		return new Vec2(x(), y());
 	}
 
-	@Nonnull public ImmutableVec2 getImmutableCopy() {
-		return new ImmutableVec2(x(), y());
+	@Override
+	@Nonnull public final IVec2 ease(@Nonnull IVec2 other, float f) {
+		return new Vec2(Easing.linear.ease(x(), other.x(), f), Easing.linear.ease(y(), other.y(), f));
+	}
+
+	// ----- java-oo weirdness fixes for IntelliJ
+
+	@Nonnull public final IVec2 add(@Nonnull MutableVec2 v) {
+		return add(v.x, v.y);
+	}
+
+	@Nonnull public final IVec2 add(@Nonnull Vec2 v) {
+		return add(v.x, v.y);
+	}
+
+	@Nonnull public final IVec2 subtract(@Nonnull MutableVec2 v) {
+		return subtract(v.x, v.y);
+	}
+
+	@Nonnull public final IVec2 subtract(@Nonnull Vec2 v) {
+		return subtract(v.x, v.y);
+	}
+
+	@Nonnull public final IVec2 multiply(@Nonnull MutableVec2 v) {
+		return multiply(v.x, v.y);
+	}
+
+	@Nonnull public final IVec2 multiply(@Nonnull Vec2 v) {
+		return multiply(v.x, v.y);
+	}
+
+	@Nonnull public final IVec2 divide(@Nonnull MutableVec2 v) {
+		return divide(v.x, v.y);
+	}
+
+	@Nonnull public final IVec2 divide(@Nonnull Vec2 v) {
+		return divide(v.x, v.y);
 	}
 }

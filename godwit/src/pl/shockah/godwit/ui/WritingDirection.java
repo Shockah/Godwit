@@ -4,17 +4,17 @@ import javax.annotation.Nonnull;
 
 import java8.util.Lists;
 import pl.shockah.godwit.geom.IVec2;
-import pl.shockah.godwit.geom.ImmutableVec2;
+import pl.shockah.godwit.geom.Vec2;
 
 public enum WritingDirection {
-	LeftToRightAndTopToBottom(new ImmutableVec2(1, 0), new ImmutableVec2(0, 1)),
-	RightToLeftAndTopToBottom(new ImmutableVec2(-1, 0), new ImmutableVec2(0, 1)),
-	LeftToRightAndBottomToTop(new ImmutableVec2(1, 0), new ImmutableVec2(0, -1)),
-	RightToLeftAndBottomToTop(new ImmutableVec2(-1, 0), new ImmutableVec2(0, -1)),
-	TopToBottomAndLeftToRight(new ImmutableVec2(0, 1), new ImmutableVec2(1, 0)),
-	BottomToTopAndLeftToRight(new ImmutableVec2(0, -1), new ImmutableVec2(1, 0)),
-	TopToBottomAndRightToLeft(new ImmutableVec2(0, 1), new ImmutableVec2(-1, 0)),
-	BottomToTopAndRightToLeft(new ImmutableVec2(0, -1), new ImmutableVec2(-1, 0));
+	LeftToRightAndTopToBottom(new Vec2(1, 0), new Vec2(0, 1)),
+	RightToLeftAndTopToBottom(new Vec2(-1, 0), new Vec2(0, 1)),
+	LeftToRightAndBottomToTop(new Vec2(1, 0), new Vec2(0, -1)),
+	RightToLeftAndBottomToTop(new Vec2(-1, 0), new Vec2(0, -1)),
+	TopToBottomAndLeftToRight(new Vec2(0, 1), new Vec2(1, 0)),
+	BottomToTopAndLeftToRight(new Vec2(0, -1), new Vec2(1, 0)),
+	TopToBottomAndRightToLeft(new Vec2(0, 1), new Vec2(-1, 0)),
+	BottomToTopAndRightToLeft(new Vec2(0, -1), new Vec2(-1, 0));
 
 	@Nonnull public final IVec2 rowVector;
 	@Nonnull public final IVec2 columnVector;
@@ -25,7 +25,7 @@ public enum WritingDirection {
 	}
 
 	@Nonnull public IVec2 getCorner() {
-		return new ImmutableVec2(isLeftToRight() ? 0 : 1, isTopToBottom() ? 0 : 1);
+		return new Vec2(isLeftToRight() ? 0 : 1, isTopToBottom() ? 0 : 1);
 	}
 
 	public boolean isLeftToRight() {
