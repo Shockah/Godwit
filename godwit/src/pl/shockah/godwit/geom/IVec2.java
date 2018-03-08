@@ -27,24 +27,24 @@ public abstract class IVec2 implements Easable<IVec2> {
 
 	@Nonnull public abstract IVec2 getCopy();
 
-	@Nonnull public final IVec2 add(float x, float y) {
-		return new Vec2(x() + x, y() + y);
+	@Nonnull public IVec2 add(float x, float y) {
+		return x == 0 && y == 0 ? this : new Vec2(x() + x, y() + y);
 	}
 
 	@Nonnull public final IVec2 add(@Nonnull IVec2 v) {
 		return add(v.x(), v.y());
 	}
 
-	@Nonnull public final IVec2 subtract(float x, float y) {
-		return new Vec2(x() - x, y() - y);
+	@Nonnull public IVec2 subtract(float x, float y) {
+		return x == 0 && y == 0 ? this : new Vec2(x() - x, y() - y);
 	}
 
 	@Nonnull public final IVec2 subtract(@Nonnull IVec2 v) {
 		return subtract(v.x(), v.y());
 	}
 
-	@Nonnull public final IVec2 multiply(float x, float y) {
-		return new Vec2(x() * x, y() * y);
+	@Nonnull public IVec2 multiply(float x, float y) {
+		return x == 1 && y == 1 ? this : new Vec2(x() * x, y() * y);
 	}
 
 	@Nonnull public final IVec2 multiply(@Nonnull IVec2 v) {
@@ -55,8 +55,8 @@ public abstract class IVec2 implements Easable<IVec2> {
 		return multiply(f, f);
 	}
 
-	@Nonnull public final IVec2 divide(float x, float y) {
-		return new Vec2(x() / x, y() / y);
+	@Nonnull public IVec2 divide(float x, float y) {
+		return x == 1 && y == 1 ? this : new Vec2(x() / x, y() / y);
 	}
 
 	@Nonnull public final IVec2 divide(@Nonnull IVec2 v) {
@@ -67,16 +67,16 @@ public abstract class IVec2 implements Easable<IVec2> {
 		return divide(f, f);
 	}
 
-	@Nonnull public final IVec2 negate() {
-		return new Vec2(-x(), -y());
+	@Nonnull public IVec2 negate() {
+		return x() == 0 && y() == 0 ? this : new Vec2(-x(), -y());
 	}
 
-	@Nonnull public final IVec2 withX(float x) {
-		return new Vec2(x, y());
+	@Nonnull public IVec2 withX(float x) {
+		return x == x() ? this : new Vec2(x, y());
 	}
 
-	@Nonnull public final IVec2 withY(float y) {
-		return new Vec2(x(), y);
+	@Nonnull public IVec2 withY(float y) {
+		return y == y() ? this : new Vec2(x(), y);
 	}
 
 	@Nonnull public final IVec2 getAbs() {

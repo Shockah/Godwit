@@ -51,6 +51,41 @@ public final class MutableVec2 extends IVec2 {
 	}
 
 	@Override
+	@Nonnull public IVec2 add(float x, float y) {
+		return new Vec2(x() + x, y() + y);
+	}
+
+	@Override
+	@Nonnull public IVec2 subtract(float x, float y) {
+		return new Vec2(x() - x, y() - y);
+	}
+
+	@Override
+	@Nonnull public IVec2 multiply(float x, float y) {
+		return new Vec2(x() * x, y() * y);
+	}
+
+	@Override
+	@Nonnull public IVec2 divide(float x, float y) {
+		return new Vec2(x() / x, y() / y);
+	}
+
+	@Override
+	@Nonnull public IVec2 negate() {
+		return new Vec2(-x(), -y());
+	}
+
+	@Override
+	@Nonnull public IVec2 withX(float x) {
+		return new Vec2(x, y());
+	}
+
+	@Override
+	@Nonnull public IVec2 withY(float y) {
+		return new Vec2(x(), y);
+	}
+
+	@Override
 	public String toString() {
 		return String.format("[%.2f, %.2f]", x, y);
 	}
