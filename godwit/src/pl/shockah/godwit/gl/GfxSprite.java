@@ -13,7 +13,6 @@ import pl.shockah.godwit.fx.Animatable;
 import pl.shockah.godwit.fx.Animatables;
 import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.geom.MutableVec2;
-import pl.shockah.godwit.geom.Rectangle;
 import pl.shockah.godwit.geom.Vec2;
 
 public class GfxSprite implements Renderable, Animatable<GfxSprite> {
@@ -49,7 +48,7 @@ public class GfxSprite implements Renderable, Animatable<GfxSprite> {
 
 	@Override
 	public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
-		if (!gfx.getBoundingBox().collides(new Rectangle(v - offset, getScaledSize())))
+		if (!gfx.getBoundingBox().collides(v.x() - offset.x, v.y() - offset.y, getWidth() * sprite.getScaleX(), getHeight() * sprite.getScaleY()))
 			return;
 
 		float oldX = sprite.getX();

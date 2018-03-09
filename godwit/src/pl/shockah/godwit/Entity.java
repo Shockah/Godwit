@@ -191,10 +191,11 @@ public class Entity implements Renderable, Animatable<Entity> {
 
 	@Nonnull public final IVec2 getPointInEntity(@Nonnull Entity entity, @Nonnull IVec2 point) {
 		Entity current = this;
+		MutableVec2 mutable = point.getMutableCopy();
 		while (current != null) {
 			if (current == entity)
-				return point;
-			point = current.getTranslatedPoint(point);
+				return mutable;
+			current.calculateTranslatedPoint(mutable);
 			current = current.parent;
 		}
 		throw new IllegalStateException(String.format("Entity %s is not in the tree of %s.", entity, this));
@@ -224,6 +225,11 @@ public class Entity implements Renderable, Animatable<Entity> {
 				return parents1[i - 1];
 		}
 		return parents1[Math.min(parents1.length, parents2.length) - 1];
+	}
+
+	protected void calculateTranslatedPoint(@Nonnull MutableVec2 point) {
+		point.x += position.x;
+		point.y += position.y;
 	}
 
 	@Nonnull protected IVec2 getTranslatedPoint(@Nonnull IVec2 point) {

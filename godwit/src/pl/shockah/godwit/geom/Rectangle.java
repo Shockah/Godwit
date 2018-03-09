@@ -144,10 +144,14 @@ public class Rectangle extends Shape implements Shape.Filled, Shape.Outline, Pol
 	}
 
 	public boolean collides(@Nonnull Rectangle rectangle) {
-		return position.x < rectangle.position.x + rectangle.size.x
-				&& position.x + size.x > rectangle.position.x
-				&& position.y < rectangle.position.y + rectangle.size.y
-				&& position.y + size.y > rectangle.position.y;
+		return collides(rectangle.position.x, rectangle.position.y, rectangle.size.x, rectangle.size.y);
+	}
+
+	public boolean collides(float x, float y, float w, float h) {
+		return position.x < x + w
+				&& position.x + size.x > x
+				&& position.y < y + h
+				&& position.y + size.y > y;
 	}
 
 	public boolean collides(@Nonnull Line line) {
