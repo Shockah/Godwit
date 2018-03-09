@@ -3,6 +3,7 @@ package pl.shockah.godwit.gl;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Matrix4;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -12,8 +13,8 @@ import pl.shockah.godwit.Godwit;
 import pl.shockah.godwit.fx.Animatable;
 import pl.shockah.godwit.fx.Animatables;
 import pl.shockah.godwit.geom.IVec2;
-import pl.shockah.godwit.geom.Vec2;
 import pl.shockah.godwit.geom.MutableVec2;
+import pl.shockah.godwit.geom.Vec2;
 
 public class GfxSprite implements Renderable, Animatable<GfxSprite> {
 	private interface DelegateExclusions {
@@ -48,14 +49,14 @@ public class GfxSprite implements Renderable, Animatable<GfxSprite> {
 
 	@Override
 	public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
-		float oldX = sprite.getX();
-		float oldY = sprite.getY();
+		Matrix4 originalMatrix = gfx.getCamera().combined;
+		Matrix4 matrix = originalMatrix.cpy();
+		matrix.translate(v.x() - offset.x, v.y() - offset.y, 0f);
 
-		sprite.translate(v.x() - offset.x, v.y() - offset.y);
+		gfx.getSpriteBatch().setProjectionMatrix(matrix);
 		gfx.prepareSprites();
 		sprite.draw(gfx.getSpriteBatch());
-
-		sprite.setPosition(oldX, oldY);
+		gfx.getSpriteBatch().setProjectionMatrix(originalMatrix);
 	}
 
 	public final void center() {
