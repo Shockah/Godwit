@@ -19,8 +19,6 @@ import pl.shockah.util.SafeList;
 public class Entity implements Renderable, Animatable<Entity> {
 	@Nonnull public final SafeList<Entity> children = new SafeList<>(new ArrayList<>());
 	@Nonnull public MutableVec2 position = new MutableVec2();
-
-	@Getter
 	@Nullable private Entity parent;
 
 	@Getter
@@ -37,12 +35,22 @@ public class Entity implements Renderable, Animatable<Entity> {
 			parent.children.add(this);
 	}
 
+	public final boolean hasParent() {
+		return parent != null;
+	}
+
+	@Nonnull public final Entity getParent() {
+		if (parent != null)
+			return parent;
+		throw new IllegalStateException(String.format("Entity %s doesn't have a parent.", this));
+	}
+
 	public final boolean hasRenderGroup() {
 		Entity entity = this;
 		while (entity != null) {
 			if (entity instanceof RenderGroup && entity != this)
 				return true;
-			entity = entity.getParent();
+			entity = entity.parent;
 		}
 		return false;
 	}
@@ -52,7 +60,7 @@ public class Entity implements Renderable, Animatable<Entity> {
 		while (entity != null) {
 			if (entity instanceof RenderGroup && entity != this)
 				return (RenderGroup)entity;
-			entity = entity.getParent();
+			entity = entity.parent;
 		}
 		throw new IllegalStateException(String.format("Entity %s doesn't have a RenderGroup.", this));
 	}
@@ -153,7 +161,7 @@ public class Entity implements Renderable, Animatable<Entity> {
 		Entity entity = this;
 		while (entity != null) {
 			point = entity.getTranslatedPoint(point);
-			entity = entity.getParent();
+			entity = entity.parent;
 		}
 		return point;
 	}
@@ -168,7 +176,7 @@ public class Entity implements Renderable, Animatable<Entity> {
 			if (current == entity)
 				return point;
 			point = current.getTranslatedPoint(point);
-			current = current.getParent();
+			current = current.parent;
 		}
 		throw new IllegalStateException(String.format("Entity %s is not in the tree of %s.", entity, this));
 	}
@@ -181,7 +189,7 @@ public class Entity implements Renderable, Animatable<Entity> {
 				tree.add(entity);
 			else
 				tree.add(0, entity);
-			entity = entity.getParent();
+			entity = entity.parent;
 		}
 		return tree.toArray(new Entity[tree.size()]);
 	}
