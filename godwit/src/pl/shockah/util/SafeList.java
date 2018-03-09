@@ -11,6 +11,8 @@ public class SafeList<T> {
 	@Nonnull private final List<T> unmodifiableList;
 	@Nonnull private final List<T> waitingToAdd = new ArrayList<>();
 	@Nonnull private final List<T> waitingToRemove = new ArrayList<>();
+	@Nonnull private final List<T> unmodifiableWaitingToAdd = Collections.unmodifiableList(waitingToAdd);
+	@Nonnull private final List<T> unmodifiableWaitingToRemove = Collections.unmodifiableList(waitingToRemove);
 
 	public SafeList(@Nonnull List<T> wrapped) {
 		this.wrapped = wrapped;
@@ -19,6 +21,14 @@ public class SafeList<T> {
 
 	@Nonnull public List<T> get() {
 		return unmodifiableList;
+	}
+
+	@Nonnull public List<T> getWaitingToAdd() {
+		return unmodifiableWaitingToAdd;
+	}
+
+	@Nonnull public List<T> getWaitingToRemove() {
+		return unmodifiableWaitingToRemove;
 	}
 
 	public void add(T element) {

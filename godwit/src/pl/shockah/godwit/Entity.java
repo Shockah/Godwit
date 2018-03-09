@@ -133,24 +133,40 @@ public class Entity implements Renderable, Animatable<Entity> {
 	public void onRemovedFromParent() {
 	}
 
-	public void onAddedToHierarchy() {
-		if (getClass() == Entity.class)
-			return;
-
+	private void handleAddToRenderGroupHierarchy() {
 		try {
-			getRenderGroup().renderOrder.add(this);
+			if (getClass() != Entity.class)
+				getRenderGroup().renderOrder.add(this);
+			for (Entity entity : children.get()) {
+				entity.handleAddToRenderGroupHierarchy();
+			}
+			for (Entity entity : children.getWaitingToAdd()) {
+				entity.handleAddToRenderGroupHierarchy();
+			}
 		} catch (IllegalStateException ignored) {
 		}
 	}
 
-	public void onRemovedFromHierarchy() {
-		if (getClass() == Entity.class)
-			return;
-
+	private void handleRemoveFromRenderGroupHierarchy() {
 		try {
-			getRenderGroup().renderOrder.remove(this);
+			if (getClass() != Entity.class)
+				getRenderGroup().renderOrder.remove(this);
+			for (Entity entity : children.get()) {
+				entity.handleRemoveFromRenderGroupHierarchy();
+			}
+			for (Entity entity : children.getWaitingToAdd()) {
+				entity.handleRemoveFromRenderGroupHierarchy();
+			}
 		} catch (IllegalStateException ignored) {
 		}
+	}
+
+	public void onAddedToHierarchy() {
+		handleAddToRenderGroupHierarchy();
+	}
+
+	public void onRemovedFromHierarchy() {
+		handleRemoveFromRenderGroupHierarchy();
 	}
 
 	@Nonnull public final IVec2 getAbsolutePoint() {
