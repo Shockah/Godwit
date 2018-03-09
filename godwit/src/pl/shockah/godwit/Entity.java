@@ -135,8 +135,11 @@ public class Entity implements Renderable, Animatable<Entity> {
 
 	private void handleAddToRenderGroupHierarchy() {
 		try {
-			if (getClass() != Entity.class)
-				getRenderGroup().renderOrder.add(this);
+			if (getClass() != Entity.class) {
+				RenderGroup renderGroup = getRenderGroup();
+				if (!renderGroup.renderOrder.contains(this))
+					getRenderGroup().renderOrder.add(this);
+			}
 			for (Entity entity : children.get()) {
 				entity.handleAddToRenderGroupHierarchy();
 			}

@@ -39,6 +39,10 @@ public class SafeList<T> {
 		waitingToRemove.add(element);
 	}
 
+	public boolean contains(T element) {
+		return (wrapped.contains(element) || waitingToAdd.contains(element)) && !waitingToRemove.contains(element);
+	}
+
 	public void update() {
 		if (!waitingToAdd.isEmpty()) {
 			wrapped.addAll(waitingToAdd);
