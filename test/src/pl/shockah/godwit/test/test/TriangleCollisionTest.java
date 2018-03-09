@@ -20,8 +20,8 @@ public class TriangleCollisionTest extends State {
 	private float rotation = 0f;
 
 	@Override
-	public void renderSelf(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
-		super.renderSelf(gfx, v);
+	public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
+		super.render(gfx, v);
 
 		if (Gdx.input.isKeyPressed(Input.Keys.LEFT))
 			trianglePosition.x -= 2f;

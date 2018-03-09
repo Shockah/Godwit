@@ -39,16 +39,10 @@ public class AttachedViewportTest extends State implements Configurable {
 	@Override
 	public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
 		gfx.clear(Color.GRAY);
-
-		super.render(gfx, v);
-	}
-
-	@Override
-	public void renderSelf(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
-		super.renderSelf(gfx, v);
-
 		gfx.setColor(Color.RED);
 		gfx.drawFilled(Rectangle.centered(gfx.getSize() / 2f + v, gfx.getSize() * 0.2f));
+		gfx.setColor(Color.WHITE);
+		super.render(gfx, v);
 	}
 
 	public class AttachmentEntity extends Entity {
@@ -68,8 +62,8 @@ public class AttachedViewportTest extends State implements Configurable {
 		}
 
 		@Override
-		public void renderSelf(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
-			super.renderSelf(gfx, v);
+		public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
+			super.render(gfx, v);
 			gfx.setColor(Color.WHITE);
 			gfx.drawFilled(circle, v);
 		}

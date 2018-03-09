@@ -86,8 +86,8 @@ public abstract class Shape {
 			}
 
 			@Override
-			public void renderSelf(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
-				super.renderSelf(gfx, v);
+			public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
+				super.render(gfx, v);
 				gfx.drawFilled(shape, v);
 			}
 		}
@@ -115,8 +115,8 @@ public abstract class Shape {
 			}
 
 			@Override
-			public void renderSelf(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
-				super.renderSelf(gfx, v);
+			public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
+				super.render(gfx, v);
 				gfx.drawOutline(shape, v);
 			}
 		}

@@ -7,10 +7,12 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import pl.shockah.godwit.Entity;
+import pl.shockah.godwit.RenderGroupEntity;
 import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.geom.Vec2;
 
-public class MaskEntity extends Entity {
+// TODO: fix; it stopped working when using a root renderOrder list
+public class MaskEntity extends RenderGroupEntity {
 	@Nullable public Entity mask;
 
 	@Override
