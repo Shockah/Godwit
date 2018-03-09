@@ -1,6 +1,7 @@
 package pl.shockah.godwit.gl;
 
 import com.badlogic.gdx.graphics.Mesh;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 
@@ -11,6 +12,9 @@ import javax.annotation.Nonnull;
 import lombok.Getter;
 
 public class CacheableSpriteBatch extends SpriteBatch {
+	@Getter(lazy = true)
+	@Nonnull private final Field lastTextureField = getInitialLastTextureField();
+
 	@Getter(lazy = true)
 	@Nonnull private final Field meshField = getInitialMeshField();
 
@@ -26,11 +30,29 @@ public class CacheableSpriteBatch extends SpriteBatch {
 		super(size, defaultShader);
 	}
 
+	@Nonnull private Field getInitialLastTextureField() {
+		try {
+			Field field = SpriteBatch.class.getDeclaredField("lastTexture");
+			field.setAccessible(true);
+			return field;
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 	@Nonnull private Field getInitialMeshField() {
 		try {
 			Field field = SpriteBatch.class.getDeclaredField("mesh");
 			field.setAccessible(true);
 			return field;
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Nonnull public Texture getLastTexture() {
+		try {
+			return (Texture)getLastTextureField().get(this);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
