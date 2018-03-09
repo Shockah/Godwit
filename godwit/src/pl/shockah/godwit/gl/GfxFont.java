@@ -156,7 +156,6 @@ public class GfxFont implements Renderable {
 			return;
 
 		GlyphLayout layout = getGlyphLayout();
-		ScalableBitmapFontCache cache = getCache();
 
 		Rectangle boundingBox = new Rectangle(
 				v.subtract(0f, (scaleY - 1f) * getData().ascent) - alignment.getVector().multiply(layout.width, layout.height),
@@ -165,6 +164,8 @@ public class GfxFont implements Renderable {
 		);
 		if (!gfx.getBoundingBox().collides(boundingBox))
 			return;
+
+		ScalableBitmapFontCache cache = getCache();
 
 		if (alignment.vertical != Alignment.Vertical.Top)
 			v = v.subtract(0f, layout.height * alignment.vertical.getVector().y());
