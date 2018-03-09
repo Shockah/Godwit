@@ -33,7 +33,10 @@ public class GfxMesh implements Renderable {
 		@Nullable private GfxMesh mesh;
 
 		public void clear() {
-			mesh = null;
+			if (mesh != null) {
+				mesh.dispose();
+				mesh = null;
+			}
 		}
 
 		@Override
