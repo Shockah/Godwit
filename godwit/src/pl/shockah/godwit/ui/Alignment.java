@@ -88,7 +88,7 @@ public interface Alignment {
 		@Nonnull public final Horizontal horizontal;
 		@Nonnull public final Vertical vertical;
 
-		@Getter
+		@Getter(lazy = true)
 		@Nonnull private final IVec2 vector = calculateVector();
 
 		private Plane(@Nonnull Horizontal horizontal, @Nonnull Vertical vertical) {
