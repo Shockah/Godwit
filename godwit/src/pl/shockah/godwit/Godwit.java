@@ -49,6 +49,9 @@ public final class Godwit {
 	@Nonnull private final Entity rootEntity = new RenderGroup();
 	private boolean isFirstTick = true;
 
+	@Getter
+	private float deltaTime = 0f;
+
 	@Getter(lazy = true)
 	private final Texture pixelTexture = getInitialPixelTexture();
 
@@ -74,8 +77,10 @@ public final class Godwit {
 	}
 
 	public void tick() {
+		deltaTime = Gdx.graphics.getDeltaTime();
+
 		if (waitForDeltaToStabilize) {
-			deltas.add(Gdx.graphics.getDeltaTime());
+			deltas.add(deltaTime);
 			if (isFirstTick) {
 				isFirstTick = false;
 				if (renderFirstTickWhenWaitingForDeltaToStabilize) {

@@ -1,12 +1,11 @@
 package pl.shockah.godwit.fx;
 
-import com.badlogic.gdx.Gdx;
-
 import java.util.List;
 
 import javax.annotation.Nonnull;
 
 import pl.shockah.func.Action0;
+import pl.shockah.godwit.Godwit;
 import pl.shockah.godwit.fx.object.ObjectFx;
 import pl.shockah.godwit.fx.object.SequenceObjectFx;
 import pl.shockah.godwit.fx.raw.RawFx;
@@ -51,7 +50,7 @@ public interface Animatable<T extends Animatable<T>> {
 	@SuppressWarnings("unchecked")
 	default void updateFx() {
 		List<FxInstance<? super T>> fxes = getFxInstances();
-		float delta = Gdx.graphics.getDeltaTime() * getAnimatableProperties().animationSpeed;
+		float delta = Godwit.getInstance().getDeltaTime() * getAnimatableProperties().animationSpeed;
 		for (int i = 0; i < fxes.size(); i++) {
 			FxInstance<? super T> fx = fxes[i];
 			fx.updateBy((T)this, delta);

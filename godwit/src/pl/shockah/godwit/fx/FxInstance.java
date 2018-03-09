@@ -1,10 +1,9 @@
 package pl.shockah.godwit.fx;
 
-import com.badlogic.gdx.Gdx;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import pl.shockah.godwit.Godwit;
 import pl.shockah.godwit.fx.object.ObjectFx;
 import pl.shockah.godwit.fx.raw.RawFx;
 
@@ -39,7 +38,7 @@ public class FxInstance<T> {
 	}
 
 	public final void updateDelta(@Nullable T object) {
-		updateBy(object, Gdx.graphics.getDeltaTime());
+		updateBy(object, Godwit.getInstance().getDeltaTime());
 	}
 
 	public void updateBy(@Nullable T object, float delta) {
