@@ -13,6 +13,7 @@ import javax.annotation.Nullable;
 import pl.shockah.func.Action0;
 import pl.shockah.func.Action1;
 import pl.shockah.godwit.geom.IVec2;
+import pl.shockah.godwit.geom.Rectangle;
 import pl.shockah.godwit.geom.Shape;
 import pl.shockah.godwit.geom.Vec2;
 
@@ -38,6 +39,8 @@ public abstract class Gfx {
 	@Nonnull public final IVec2 getSize() {
 		return new Vec2(getWidth(), getHeight());
 	}
+
+	@Nonnull public abstract Rectangle getBoundingBox();
 
 	@Nullable public abstract BlendMode getBlendMode();
 	public abstract void setBlendMode(@Nullable BlendMode blendMode);

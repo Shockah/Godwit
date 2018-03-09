@@ -20,8 +20,8 @@ import lombok.Getter;
 import pl.shockah.godwit.asset.JSONObjectLoader;
 import pl.shockah.godwit.gl.BlendMode;
 import pl.shockah.godwit.gl.GfxContextManager;
-import pl.shockah.godwit.gl.GfxImpl;
 import pl.shockah.godwit.gl.GfxSprite;
+import pl.shockah.godwit.gl.ScreenGfx;
 import pl.shockah.godwit.rand.Randomizer;
 import pl.shockah.jay.JSONObject;
 
@@ -38,7 +38,7 @@ public final class Godwit {
 	@Getter
 	@Nonnull private AssetManager assetManager = new AssetManager();
 
-	@Nonnull public final GfxImpl gfx = new GfxImpl();
+	@Nonnull public final ScreenGfx gfx = new ScreenGfx();
 	@Nonnull public final InputManager inputManager = new InputManager();
 	@Nonnull public final Randomizer random = new Randomizer();
 	public boolean waitForDeltaToStabilize = true;

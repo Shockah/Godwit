@@ -15,6 +15,7 @@ import javax.annotation.Nullable;
 import lombok.Getter;
 import lombok.Setter;
 import pl.shockah.godwit.geom.IVec2;
+import pl.shockah.godwit.geom.Rectangle;
 import pl.shockah.godwit.geom.Vec2;
 
 public class GfxImpl extends Gfx {
@@ -93,6 +94,11 @@ public class GfxImpl extends Gfx {
 	@Override
 	public int getHeight() {
 		return Gdx.graphics.getHeight();
+	}
+
+	@Override
+	@Nonnull public Rectangle getBoundingBox() {
+		return new Rectangle(getSize());
 	}
 
 	@Override

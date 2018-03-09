@@ -13,6 +13,7 @@ import javax.annotation.Nullable;
 import lombok.Getter;
 import lombok.experimental.Delegate;
 import pl.shockah.godwit.geom.IVec2;
+import pl.shockah.godwit.geom.Rectangle;
 import pl.shockah.godwit.geom.Vec2;
 import pl.shockah.godwit.ui.Alignment;
 
@@ -155,10 +156,19 @@ public class GfxFont implements Renderable {
 			return;
 
 		GlyphLayout layout = getGlyphLayout();
+		ScalableBitmapFontCache cache = getCache();
+
+		Rectangle boundingBox = new Rectangle(
+				v.subtract(0f, (scaleY - 1f) * getData().ascent) - alignment.getVector().multiply(layout.width, layout.height),
+				layout.width,
+				layout.height
+		);
+		if (!gfx.getBoundingBox().collides(boundingBox))
+			return;
+
 		if (alignment.vertical != Alignment.Vertical.Top)
 			v = v.subtract(0f, layout.height * alignment.vertical.getVector().y());
 
-		ScalableBitmapFontCache cache = getCache();
 		float oldX = cache.getX();
 		float oldY = cache.getY();
 
