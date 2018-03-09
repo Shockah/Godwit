@@ -3,10 +3,11 @@ package pl.shockah.godwit;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -140,12 +141,25 @@ public final class Godwit {
 	private void runRender() {
 		GfxContextManager.bindSurface(null);
 		gfx.updateCamera();
-		Gdx.gl20.glScissor(0, 0, gfx.getWidth() * 2, gfx.getHeight() * 2);
-		Gdx.gl20.glEnable(GL20.GL_SCISSOR_TEST);
+		setupScissor();
 		gfx.clear(Color.CLEAR);
 		gfx.setBlendMode(BlendMode.normal);
 		rootEntity.render(gfx);
 		gfx.endTick();
 		GfxContextManager.bindSurface(null);
+	}
+
+	private void setupScissor() {
+		Viewport viewport = gfx.getViewport();
+		int leftGutter = viewport != null ? viewport.getLeftGutterWidth() : 0;
+		int rightGutter = viewport != null ? viewport.getRightGutterWidth() : 0;
+		int topGutter = viewport != null ? viewport.getTopGutterHeight() : 0;
+		int bottomGutter = viewport != null ? viewport.getBottomGutterHeight() : 0;
+
+		int horizontalGutter = leftGutter + rightGutter;
+		int verticalGutter = topGutter + bottomGutter;
+
+		Gdx.gl20.glScissor(horizontalGutter * 2, verticalGutter, Gdx.graphics.getWidth() - horizontalGutter * 4, Gdx.graphics.getHeight());
+		Gdx.gl20.glEnable(GL20.GL_SCISSOR_TEST);
 	}
 }
