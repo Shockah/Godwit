@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -29,7 +30,7 @@ public class GfxImpl extends Gfx {
 	@Nullable protected Viewport viewport;
 
 	@Getter
-	@Nonnull private final CacheableSpriteBatch spriteBatch = new CacheableSpriteBatch(8191) {
+	@Nonnull private final SpriteBatch spriteBatch = new SpriteBatch(8191) {
 		{
 			setBlendFunction(-1, -1);
 		}

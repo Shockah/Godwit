@@ -2,6 +2,7 @@ package pl.shockah.godwit.gl;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -16,7 +17,7 @@ import pl.shockah.godwit.geom.Shape;
 import pl.shockah.godwit.geom.Vec2;
 
 public abstract class Gfx {
-	@Nonnull public abstract CacheableSpriteBatch getSpriteBatch();
+	@Nonnull public abstract SpriteBatch getSpriteBatch();
 
 	@Nonnull public abstract ShapeRenderer getShapeRenderer();
 
