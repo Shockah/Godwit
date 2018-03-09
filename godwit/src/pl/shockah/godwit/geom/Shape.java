@@ -37,7 +37,7 @@ public abstract class Shape {
 		}
 	}
 
-	private static abstract class Entity<S extends Shape> extends pl.shockah.godwit.Entity {
+	public static abstract class Entity<S extends Shape> extends pl.shockah.godwit.Entity {
 		@Nonnull public final S shape;
 		@Nonnull public Color color = Color.WHITE;
 

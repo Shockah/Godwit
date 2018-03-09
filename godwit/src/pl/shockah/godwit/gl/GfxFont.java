@@ -186,7 +186,6 @@ public class GfxFont implements Renderable {
 
 		@Override
 		public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
-			super.render(gfx, v);
 			gfx.draw(font, v);
 		}
 	}
