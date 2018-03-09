@@ -144,8 +144,10 @@ public class Rectangle extends Shape implements Shape.Filled, Shape.Outline, Pol
 	}
 
 	public boolean collides(@Nonnull Rectangle rectangle) {
-		IVec2 v = (getCenter() - rectangle.getCenter()).getAbs() - (size + rectangle.size) * 0.5f;
-		return v.x() < 0 && v.y() < 0;
+		return position.x < rectangle.position.x + rectangle.size.x
+				&& position.x + size.x > rectangle.position.x
+				&& position.y < rectangle.position.y + rectangle.size.y
+				&& position.y + size.y > rectangle.position.y;
 	}
 
 	public boolean collides(@Nonnull Line line) {
