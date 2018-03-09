@@ -32,8 +32,8 @@ public class GfxFontTest extends State {
 	}
 
 	@Override
-	public void renderSelf(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
-		super.renderSelf(gfx, v);
+	public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
+		super.render(gfx, v);
 		font.setScale((float)Math.sin(System.currentTimeMillis() / 1000.0) + 1f);
 		font.render(gfx, v + gfx.getSize() * 0.5f);
 	}

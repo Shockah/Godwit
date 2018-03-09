@@ -45,7 +45,7 @@ public final class Godwit {
 	public boolean yPointingDown = true;
 
 	@Nonnull private final List<Float> deltas = new ArrayList<>();
-	@Nonnull private final Entity rootEntity = new Entity();
+	@Nonnull private final Entity rootEntity = new RenderGroup();
 	private boolean isFirstTick = true;
 
 	@Getter(lazy = true)

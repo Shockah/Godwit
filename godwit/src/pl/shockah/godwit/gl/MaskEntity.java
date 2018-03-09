@@ -7,10 +7,11 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import pl.shockah.godwit.Entity;
+import pl.shockah.godwit.RenderGroup;
 import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.geom.Vec2;
 
-public class MaskEntity extends Entity {
+public class MaskEntity extends RenderGroup {
 	@Nullable public Entity mask;
 
 	@Override

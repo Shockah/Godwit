@@ -1,7 +1,6 @@
 package pl.shockah.godwit;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 import javax.annotation.Nonnull;
@@ -11,17 +10,14 @@ import lombok.Getter;
 import pl.shockah.godwit.fx.Animatable;
 import pl.shockah.godwit.fx.Animatables;
 import pl.shockah.godwit.geom.IVec2;
-import pl.shockah.godwit.geom.Vec2;
 import pl.shockah.godwit.geom.MutableVec2;
+import pl.shockah.godwit.geom.Vec2;
 import pl.shockah.godwit.gl.Gfx;
 import pl.shockah.godwit.gl.Renderable;
 import pl.shockah.util.SafeList;
-import pl.shockah.util.SortedLinkedList;
 
 public class Entity implements Renderable, Animatable<Entity> {
-	@Nonnull private static final Comparator<? super Entity> depthComparator = (o1, o2) -> -Float.compare(o1.getDepth(), o2.getDepth());
-
-	@Nonnull public final SafeList<Entity> children = new SafeList<>(new SortedLinkedList<>(depthComparator));
+	@Nonnull public final SafeList<Entity> children = new SafeList<>(new ArrayList<>());
 	@Nonnull public MutableVec2 position = new MutableVec2();
 
 	@Getter
@@ -41,6 +37,26 @@ public class Entity implements Renderable, Animatable<Entity> {
 			parent.children.add(this);
 	}
 
+	public final boolean hasRenderGroup() {
+		Entity entity = this;
+		while (entity != null) {
+			if (entity instanceof RenderGroup && entity != this)
+				return true;
+			entity = entity.getParent();
+		}
+		return false;
+	}
+
+	@Nonnull public final RenderGroup getRenderGroup() {
+		Entity entity = this;
+		while (entity != null) {
+			if (entity instanceof RenderGroup && entity != this)
+				return (RenderGroup)entity;
+			entity = entity.getParent();
+		}
+		throw new IllegalStateException(String.format("Entity %s doesn't have a RenderGroup.", this));
+	}
+
 	public void addChild(@Nonnull Entity entity) {
 		if (entity.parent != null)
 			throw new IllegalStateException(String.format("Entity %s already has a parent %s.", entity, entity.parent));
@@ -48,6 +64,15 @@ public class Entity implements Renderable, Animatable<Entity> {
 		children.add(entity);
 		callAddedToHierarchy(entity);
 		entity.onAddedToParent();
+	}
+
+	public void removeFromParent() {
+		if (parent == null)
+			throw new IllegalStateException(String.format("Entity %s doesn't have a parent.", this));
+		onRemovedFromParent();
+		callRemovedFromHierarchy(this);
+		parent.children.remove(this);
+		parent = null;
 	}
 
 	private static void callAddedToHierarchy(@Nonnull Entity entity) {
@@ -62,15 +87,6 @@ public class Entity implements Renderable, Animatable<Entity> {
 			callRemovedFromHierarchy(child);
 		}
 		entity.onRemovedFromHierarchy();
-	}
-
-	public void removeFromParent() {
-		if (parent == null)
-			throw new IllegalStateException(String.format("Entity %s doesn't have a parent.", this));
-		onRemovedFromParent();
-		callRemovedFromHierarchy(this);
-		parent.children.remove(this);
-		parent = null;
 	}
 
 	public void update() {
@@ -91,10 +107,6 @@ public class Entity implements Renderable, Animatable<Entity> {
 
 	@Override
 	public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
-		v = v + position;
-		renderChildren(gfx, v, true);
-		renderSelf(gfx, v);
-		renderChildren(gfx, v, false);
 	}
 
 	@Override
@@ -107,32 +119,6 @@ public class Entity implements Renderable, Animatable<Entity> {
 		render(gfx, Vec2.zero);
 	}
 
-	public void renderSelf(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
-	}
-
-	public final void renderSelf(@Nonnull Gfx gfx, float x, float y) {
-		renderSelf(gfx, new Vec2(x, y));
-	}
-
-	public final void renderSelf(@Nonnull Gfx gfx) {
-		renderSelf(gfx, Vec2.zero);
-	}
-
-	public void renderChildren(@Nonnull Gfx gfx, @Nonnull IVec2 v, boolean behind) {
-		for (Entity entity : children.get()) {
-			if ((entity.depth > depth) == behind)
-				entity.render(gfx, v);
-		}
-	}
-
-	public final void renderChildren(@Nonnull Gfx gfx, float x, float y, boolean behind) {
-		renderChildren(gfx, new Vec2(x, y), behind);
-	}
-
-	public final void renderChildren(@Nonnull Gfx gfx, boolean behind) {
-		renderChildren(gfx, Vec2.zero, behind);
-	}
-
 	public void onAddedToParent() {
 	}
 
@@ -140,16 +126,30 @@ public class Entity implements Renderable, Animatable<Entity> {
 	}
 
 	public void onAddedToHierarchy() {
+		if (getClass() == Entity.class)
+			return;
+
+		try {
+			getRenderGroup().renderOrder.add(this);
+		} catch (IllegalStateException ignored) {
+		}
 	}
 
 	public void onRemovedFromHierarchy() {
+		if (getClass() == Entity.class)
+			return;
+
+		try {
+			getRenderGroup().renderOrder.remove(this);
+		} catch (IllegalStateException ignored) {
+		}
 	}
 
 	@Nonnull public final IVec2 getAbsolutePoint() {
 		return getAbsolutePoint(Vec2.zero);
 	}
 
-	@Nonnull public IVec2 getAbsolutePoint(@Nonnull IVec2 point) {
+	@Nonnull public final IVec2 getAbsolutePoint(@Nonnull IVec2 point) {
 		Entity entity = this;
 		while (entity != null) {
 			point = entity.getTranslatedPoint(point);
@@ -158,7 +158,22 @@ public class Entity implements Renderable, Animatable<Entity> {
 		return point;
 	}
 
-	@Nonnull public Entity[] getParentTree() {
+	@Nonnull public final IVec2 getPointInEntity(@Nonnull Entity entity) {
+		return getPointInEntity(entity, Vec2.zero);
+	}
+
+	@Nonnull public final IVec2 getPointInEntity(@Nonnull Entity entity, @Nonnull IVec2 point) {
+		Entity current = this;
+		while (current != null) {
+			if (current == entity)
+				return point;
+			point = current.getTranslatedPoint(point);
+			current = current.getParent();
+		}
+		throw new IllegalStateException(String.format("Entity %s is not in the tree of %s.", entity, this));
+	}
+
+	@Nonnull public final Entity[] getParentTree() {
 		List<Entity> tree = new ArrayList<>();
 		Entity entity = this;
 		while (entity != null) {
@@ -171,7 +186,7 @@ public class Entity implements Renderable, Animatable<Entity> {
 		return tree.toArray(new Entity[tree.size()]);
 	}
 
-	@Nonnull public Entity getCommonParent(@Nonnull Entity entity) {
+	@Nonnull public final Entity getCommonParent(@Nonnull Entity entity) {
 		Entity[] parents1 = getParentTree();
 		Entity[] parents2 = entity.getParentTree();
 

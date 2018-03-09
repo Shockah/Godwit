@@ -36,8 +36,8 @@ public class PolygonCollisionTest extends State {
 	}
 
 	@Override
-	public void renderSelf(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
-		super.renderSelf(gfx, v);
+	public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
+		super.render(gfx, v);
 
 		renderPolygon(gfx, v, polygon1, polygon2, new Color(1f, 0f, 0f, 1f), new Color(1f, 0.5f, 0.5f, 1f), new Color(0.5f, 0.5f, 1f, 0.5f));
 		renderPolygon(gfx, v, polygon2, polygon1, new Color(0f, 1f, 0f, 1f), new Color(0.5f, 1f, 0.5f, 1f), new Color(1f, 0.5f, 1f, 0.5f));

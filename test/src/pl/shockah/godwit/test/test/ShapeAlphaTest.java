@@ -13,8 +13,8 @@ import pl.shockah.godwit.gl.Gfx;
 
 public class ShapeAlphaTest extends State {
 	@Override
-	public void renderSelf(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
-		super.renderSelf(gfx, v);
+	public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
+		super.render(gfx, v);
 
 		gfx.setColor(Color.WHITE);
 		gfx.drawFilled(new Rectangle(gfx.getSize()));

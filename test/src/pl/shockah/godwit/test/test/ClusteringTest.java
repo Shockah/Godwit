@@ -46,8 +46,8 @@ public class ClusteringTest extends State {
 	}
 
 	@Override
-	public void renderSelf(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
-		super.renderSelf(gfx, v);
+	public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
+		super.render(gfx, v);
 
 		Circle circle = new Circle(6f);
 		if (clusters == null) {

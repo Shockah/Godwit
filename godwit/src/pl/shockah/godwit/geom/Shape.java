@@ -48,9 +48,11 @@ public abstract class Shape {
 		@Override
 		public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
 			gfx.setColor(color);
-			super.render(gfx, v);
+			drawShape(gfx, v);
 			gfx.setColor(Color.WHITE);
 		}
+
+		protected abstract void drawShape(@Nonnull Gfx gfx, @Nonnull IVec2 v);
 
 		@Nonnull public Entity<S> withColor(@Nonnull Color color) {
 			this.color = color;
@@ -86,8 +88,7 @@ public abstract class Shape {
 			}
 
 			@Override
-			public void renderSelf(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
-				super.renderSelf(gfx, v);
+			protected void drawShape(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
 				gfx.drawFilled(shape, v);
 			}
 		}
@@ -115,8 +116,7 @@ public abstract class Shape {
 			}
 
 			@Override
-			public void renderSelf(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
-				super.renderSelf(gfx, v);
+			protected void drawShape(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
 				gfx.drawOutline(shape, v);
 			}
 		}
