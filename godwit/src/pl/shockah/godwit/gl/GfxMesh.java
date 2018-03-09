@@ -32,6 +32,12 @@ public class GfxMesh implements Renderable {
 	public static class RenderGroup extends pl.shockah.godwit.RenderGroup {
 		@Nullable private GfxMesh mesh;
 
+		@Override
+		public void onRemovedFromHierarchy() {
+			super.onRemovedFromHierarchy();
+			clear();
+		}
+
 		public void clear() {
 			if (mesh != null) {
 				mesh.dispose();
