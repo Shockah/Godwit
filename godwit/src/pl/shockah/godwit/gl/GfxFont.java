@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFontCache;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.math.Matrix4;
 
 import java.util.Objects;
 
@@ -159,14 +158,15 @@ public class GfxFont implements Renderable {
 		if (alignment.vertical != Alignment.Vertical.Top)
 			v = v.subtract(0f, layout.height * alignment.vertical.getVector().y());
 
-		Matrix4 originalMatrix = gfx.getCamera().combined;
-		Matrix4 matrix = originalMatrix.cpy();
-		matrix.translate(v.x(), v.y(), 0f);
+		ScalableBitmapFontCache cache = getCache();
+		float oldX = cache.getX();
+		float oldY = cache.getY();
 
-		gfx.getSpriteBatch().setProjectionMatrix(matrix);
+		cache.translate(v.x(), v.y());
 		gfx.prepareSprites();
-		getCache().draw(gfx.getSpriteBatch());
-		gfx.getSpriteBatch().setProjectionMatrix(originalMatrix);
+		cache.draw(gfx.getSpriteBatch());
+
+		cache.setPosition(oldX, oldY);
 	}
 
 	@Nonnull public Entity asEntity() {
