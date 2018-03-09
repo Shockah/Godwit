@@ -1,10 +1,12 @@
 package pl.shockah.godwit.geom;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import javax.annotation.Nonnull;
 
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import pl.shockah.godwit.Godwit;
 import pl.shockah.godwit.geom.polygon.Polygon;
 import pl.shockah.godwit.geom.polygon.Polygonable;
@@ -15,6 +17,9 @@ import pl.shockah.godwit.gl.GfxSprite;
 public class Rectangle extends Shape implements Shape.Filled, Shape.Outline, Polygonable {
 	@Nonnull public MutableVec2 position;
 	@Nonnull public MutableVec2 size;
+
+	@Getter(lazy = true)
+	private final GfxSprite sprite = new GfxSprite(new Sprite(Godwit.getInstance().getPixelTexture()));
 
 	public static Rectangle centered(float x, float y, float w, float h) {
 		return centered(new MutableVec2(x, y), new MutableVec2(w, h));
@@ -165,7 +170,7 @@ public class Rectangle extends Shape implements Shape.Filled, Shape.Outline, Pol
 
 	@Override
 	public void drawFilled(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
-		GfxSprite sprite = Godwit.getInstance().getPixelSprite();
+		GfxSprite sprite = getSprite();
 		sprite.setColor(gfx.getColor());
 		sprite.setSize(size);
 		gfx.draw(sprite, v + position);
