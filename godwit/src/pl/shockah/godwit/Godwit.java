@@ -115,6 +115,7 @@ public final class Godwit {
 		pixmap.drawPixel(0, 0, Color.WHITE.toIntBits());
 		Texture texture = new Texture(pixmap);
 		pixmap.dispose();
+		texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 		return texture;
 	}
 
