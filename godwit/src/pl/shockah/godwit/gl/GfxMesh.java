@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import lombok.Getter;
 import lombok.experimental.Delegate;
 import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.geom.Vec2;
@@ -35,6 +36,7 @@ public class GfxMesh implements Renderable {
 	}
 
 	public static class RenderGroup extends pl.shockah.godwit.RenderGroup {
+		@Getter
 		@Nullable private GfxMesh mesh;
 
 		@Override
@@ -50,6 +52,10 @@ public class GfxMesh implements Renderable {
 			}
 		}
 
+		protected void setMesh(@Nullable GfxMesh mesh) {
+			this.mesh = mesh;
+		}
+
 		@Override
 		public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
 			if (mesh == null) {
@@ -59,7 +65,7 @@ public class GfxMesh implements Renderable {
 				super.render(gfx, v);
 				mesh = new GfxMesh(batch.getMeshCopy(), batch.getLastTexture(), batch);
 			} else {
-				mesh.render(gfx, v);
+				mesh.render(gfx, Vec2.zero);
 			}
 		}
 	}
