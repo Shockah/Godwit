@@ -88,14 +88,16 @@ public interface Alignment {
 		@Nonnull public final Horizontal horizontal;
 		@Nonnull public final Vertical vertical;
 
+		@Getter
+		@Nonnull private final IVec2 vector = calculateVector();
+
 		private Plane(@Nonnull Horizontal horizontal, @Nonnull Vertical vertical) {
 			this.horizontal = horizontal;
 			this.vertical = vertical;
 		}
 
-		@Override
-		@Nonnull public IVec2 getVector() {
-			return new Vec2(horizontal.vector.x(), vertical.vector.y());
+		@Nonnull private IVec2 calculateVector() {
+			return new Vec2(horizontal.getVector().x(), vertical.getVector().y());
 		}
 
 		@Override
