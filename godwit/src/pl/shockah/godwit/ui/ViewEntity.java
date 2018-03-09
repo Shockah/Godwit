@@ -20,8 +20,8 @@ public class ViewEntity extends Entity {
 	}
 
 	@Override
-	public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
-		super.render(gfx, v);
+	public void renderSelf(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
+		super.renderSelf(gfx, v);
 		view.render(gfx, v);
 	}
 }

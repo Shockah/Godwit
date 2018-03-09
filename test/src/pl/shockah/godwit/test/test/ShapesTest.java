@@ -15,6 +15,11 @@ public class ShapesTest extends State {
 	public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
 		gfx.clear(Color.GRAY);
 		super.render(gfx, v);
+	}
+
+	@Override
+	public void renderSelf(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
+		super.renderSelf(gfx, v);
 
 		Rectangle rect = Rectangle.centered(gfx.getSize() / 2, gfx.getSize() / 2);
 		Rectangle rect2 = new Rectangle(rect.position.x - 4f, rect.position.y - 4f, rect.size.x + 8f, rect.size.y + 8f);

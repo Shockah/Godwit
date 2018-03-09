@@ -61,8 +61,8 @@ public class ColorSpaceEaseTest extends State {
 	}
 
 	@Override
-	public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
-		super.render(gfx, v);
+	public void renderSelf(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
+		super.renderSelf(gfx, v);
 
 		Rectangle rect = new Rectangle(
 				1f * (gfx.getWidth() - SPACING * (COLORS - 1)) / COLORS,

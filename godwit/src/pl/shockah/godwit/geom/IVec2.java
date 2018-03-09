@@ -156,12 +156,4 @@ public abstract class IVec2 implements Easable<IVec2> {
 	@Nonnull public final IVec2 divide(@Nonnull Vec2 v) {
 		return divide(v.x, v.y);
 	}
-
-	@Nonnull public final IVec2 multiply(int f) {
-		return multiply(f, f);
-	}
-
-	@Nonnull public final IVec2 divide(int f) {
-		return divide(f, f);
-	}
 }

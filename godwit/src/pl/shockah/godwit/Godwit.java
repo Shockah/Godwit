@@ -144,10 +144,7 @@ public final class Godwit {
 		Gdx.gl20.glEnable(GL20.GL_SCISSOR_TEST);
 		gfx.clear(Color.CLEAR);
 		gfx.setBlendMode(BlendMode.normal);
-		if (state != null) {
-			state.renderOrder.update();
-			state.render(gfx);
-		}
+		rootEntity.render(gfx);
 		gfx.endTick();
 		GfxContextManager.bindSurface(null);
 	}

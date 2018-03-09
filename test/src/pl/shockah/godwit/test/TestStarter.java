@@ -12,7 +12,7 @@ public final class TestStarter {
 		try {
 			Class<? extends State> clazz = (Class<? extends State>)Class.forName(args[0]);
 			Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-			//config.useVsync(false);
+			config.useVsync(false);
 			State state = clazz.newInstance();
 			if (state instanceof Configurable)
 				((Configurable)state).configure(config);

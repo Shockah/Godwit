@@ -60,8 +60,8 @@ public class SpriteTest extends State {
 	}
 
 	@Override
-	public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
-		super.render(gfx, v);
+	public void renderSelf(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
+		super.renderSelf(gfx, v);
 
 		gfx.setColor(Color.WHITE);
 		gfx.draw(sprite, gfx.getSize() / 2 + v);

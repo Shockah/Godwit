@@ -55,8 +55,8 @@ public class TravellingSalesmanTest extends State {
 	}
 
 	@Override
-	public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
-		super.render(gfx, v);
+	public void renderSelf(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
+		super.renderSelf(gfx, v);
 
 		Circle circle = new Circle(6f);
 		if (route == null || polygon == null) {
