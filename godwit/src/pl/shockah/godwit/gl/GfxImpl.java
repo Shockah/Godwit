@@ -30,7 +30,7 @@ public class GfxImpl extends Gfx {
 	@Nullable protected Viewport viewport;
 
 	@Getter
-	@Nonnull private final SpriteBatch spriteBatch = new SpriteBatch() {
+	@Nonnull private final SpriteBatch spriteBatch = new SpriteBatch(8191) {
 		{
 			setBlendFunction(-1, -1);
 		}
