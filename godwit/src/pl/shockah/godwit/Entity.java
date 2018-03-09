@@ -186,7 +186,9 @@ public class Entity implements Renderable, Animatable<Entity> {
 	}
 
 	@Nonnull public final IVec2 getPointInEntity(@Nonnull Entity entity) {
-		return getPointInEntity(entity, Vec2.zero);
+		MutableVec2 mutable = new MutableVec2();
+		calculatePointInEntity(entity, mutable);
+		return mutable;
 	}
 
 	@Nonnull public final IVec2 getPointInEntity(@Nonnull Entity entity, @Nonnull IVec2 point) {
