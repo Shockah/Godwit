@@ -16,7 +16,8 @@ public class RenderGroup extends Entity {
 
 	@Override
 	public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
-		for (Entity entity : children.get()) {
+		renderOrder.update();
+		for (Entity entity : renderOrder.get()) {
 			entity.render(gfx, entity.getPointInEntity(this));
 		}
 	}

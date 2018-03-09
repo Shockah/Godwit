@@ -64,7 +64,7 @@ public class SpriteTest extends State {
 		super.render(gfx, v);
 
 		gfx.setColor(Color.WHITE);
-		gfx.draw(sprite, gfx.getSize() / 2 + v);
+		gfx.draw(sprite, v + gfx.getSize() / 2);
 
 		if (movingCountdown > 0) {
 			gfx.setColor(Color.RED);

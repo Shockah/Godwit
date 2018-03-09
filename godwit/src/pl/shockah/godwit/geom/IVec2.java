@@ -162,6 +162,6 @@ public abstract class IVec2 implements Easable<IVec2> {
 	}
 
 	@Nonnull public final IVec2 divide(int f) {
-		return multiply(f, f);
+		return divide(f, f);
 	}
 }
