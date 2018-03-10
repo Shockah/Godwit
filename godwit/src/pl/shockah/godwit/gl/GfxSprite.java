@@ -51,19 +51,14 @@ public class GfxSprite implements Renderable, Animatable<GfxSprite> {
 		if (!gfx.getBoundingBox().collides(v.x() - offset.x, v.y() - offset.y, getWidth() * sprite.getScaleX(), getHeight() * sprite.getScaleY()))
 			return;
 
-		if (Vec2.zero.equals(v) && Vec2.zero.equals(offset)) {
-			gfx.prepareSprites();
-			sprite.draw(gfx.getSpriteBatch());
-		} else {
-			float oldX = sprite.getX();
-			float oldY = sprite.getY();
+		float oldX = sprite.getX();
+		float oldY = sprite.getY();
 
-			sprite.translate(v.x() - offset.x, v.y() - offset.y);
-			gfx.prepareSprites();
-			sprite.draw(gfx.getSpriteBatch());
+		sprite.translate(v.x() - offset.x, v.y() - offset.y);
+		gfx.prepareSprites();
+		sprite.draw(gfx.getSpriteBatch());
 
-			sprite.setPosition(oldX, oldY);
-		}
+		sprite.setPosition(oldX, oldY);
 	}
 
 	public final void center() {
