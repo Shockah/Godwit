@@ -48,7 +48,7 @@ public class GfxSprite implements Renderable, Animatable<GfxSprite> {
 
 	@Override
 	public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
-		if (!gfx.getBoundingBox().collides(v.x() - offset.x, v.y() - offset.y, getWidth() * sprite.getScaleX(), getHeight() * sprite.getScaleY()))
+		if (!gfx.getBoundingBox().collides(v.x() - offset.x + sprite.getX(), v.y() - offset.y + sprite.getY(), getWidth() * sprite.getScaleX(), getHeight() * sprite.getScaleY()))
 			return;
 
 		if (Vec2.zero.equals(v) && Vec2.zero.equals(offset)) {
