@@ -14,7 +14,6 @@ import javax.annotation.Nullable;
 
 import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.experimental.Delegate;
 import pl.shockah.func.Action1;
 import pl.shockah.util.SortedLinkedList;
@@ -25,8 +24,8 @@ public class GestureInputManager extends BaseInputManager<GestureInputManager.Pr
 	@Getter(AccessLevel.PROTECTED)
 	@Nonnull private final List<Processor> processors = new SortedLinkedList<>(orderComparator);
 
-	@Getter @Setter(AccessLevel.PROTECTED)
-	@Nullable protected Processor exclusive = null;
+	@Getter
+	@Nullable private Processor exclusive = null;
 
 	protected GestureInputManager() {
 	}
@@ -36,8 +35,13 @@ public class GestureInputManager extends BaseInputManager<GestureInputManager.Pr
 		for (int i = 0; i < count; i++) {
 			multiplexer.removeProcessor(0);
 		}
-		for (Processor processor : getProcessors()) {
-			multiplexer.addProcessor(processor.detector);
+
+		if (exclusive == null) {
+			for (Processor processor : getProcessors()) {
+				multiplexer.addProcessor(processor.detector);
+			}
+		} else {
+			multiplexer.addProcessor(exclusive.detector);
 		}
 	}
 
@@ -45,6 +49,11 @@ public class GestureInputManager extends BaseInputManager<GestureInputManager.Pr
 		if (getExclusive() == processor)
 			Gdx.app.postRunnable(() -> setExclusive(null));
 		super.removeProcessor(processor);
+	}
+
+	public void setExclusive(@Nullable Processor exclusive) {
+		this.exclusive = exclusive;
+		resetupMultiplexer();
 	}
 
 	@Nonnull private GestureDetectorListenerWrapper wrap(@Nonnull GestureDetector.GestureListener listener) {
