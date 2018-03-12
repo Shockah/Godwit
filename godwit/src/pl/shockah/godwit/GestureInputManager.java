@@ -3,6 +3,7 @@ package pl.shockah.godwit;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Timer;
 
 import java.lang.reflect.Field;
 import java.util.Comparator;
@@ -169,6 +170,10 @@ public class GestureInputManager extends BaseInputManager<GestureInputManager.Pr
 					Field inTapSquareField = GestureDetector.class.getDeclaredField("inTapSquare");
 					inTapSquareField.setAccessible(true);
 					inTapSquareField.set(detector, false);
+
+					Field longPressTaskField = GestureDetector.class.getDeclaredField("longPressTask");
+					longPressTaskField.setAccessible(true);
+					((Timer.Task)longPressTaskField.get(detector)).cancel();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
