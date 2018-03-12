@@ -3,6 +3,9 @@ package pl.shockah.godwit.geom;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.Nonnull;
 
 import lombok.EqualsAndHashCode;
@@ -157,11 +160,20 @@ public class Rectangle extends Shape implements Shape.Filled, Shape.Outline, Pol
 	public boolean collides(@Nonnull Line line) {
 		if (contains(line.point1) || contains(line.point2))
 			return true;
-		for (Line myLine : asPolygon().getLines()) {
+		for (Line myLine : getLines()) {
 			if (myLine.collides(line))
 				return true;
 		}
 		return false;
+	}
+
+	@Nonnull public List<Line> getLines() {
+		List<Line> lines = new ArrayList<>();
+		lines.add(new Line(position.x, position.y, position.x + size.x, position.y));
+		lines.add(new Line(position.x + size.x, position.y, position.x + size.x, position.y + size.y));
+		lines.add(new Line(position.x + size.x, position.y + size.y, position.x, position.y + size.y));
+		lines.add(new Line(position.x, position.y + size.y, position.x, position.y));
+		return lines;
 	}
 
 	@Override
