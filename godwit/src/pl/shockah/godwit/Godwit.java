@@ -19,6 +19,8 @@ import javax.annotation.Nullable;
 import java8.util.stream.StreamSupport;
 import lombok.Getter;
 import pl.shockah.godwit.asset.JSONObjectLoader;
+import pl.shockah.godwit.geom.IVec2;
+import pl.shockah.godwit.geom.MutableVec2;
 import pl.shockah.godwit.gl.BlendMode;
 import pl.shockah.godwit.gl.GfxContextManager;
 import pl.shockah.godwit.gl.GfxSprite;
@@ -48,6 +50,7 @@ public final class Godwit {
 
 	@Nonnull private final List<Float> deltas = new ArrayList<>();
 	@Nonnull private final Entity rootEntity = new RenderGroup();
+	@Nonnull private MutableVec2 ppi = new MutableVec2(1f, 1f);
 	private boolean isFirstTick = true;
 
 	@Getter
@@ -77,8 +80,14 @@ public final class Godwit {
 		assetManager.setLoader(JSONObject.class, new JSONObjectLoader(assetManager.getFileHandleResolver()));
 	}
 
+	@Nonnull public IVec2 getPpi() {
+		return ppi;
+	}
+
 	public void tick() {
 		deltaTime = Gdx.graphics.getDeltaTime();
+		ppi.x = Gdx.graphics.getPpiX();
+		ppi.y = Gdx.graphics.getPpiY();
 
 		if (waitForDeltaToStabilize) {
 			deltas.add(deltaTime);
