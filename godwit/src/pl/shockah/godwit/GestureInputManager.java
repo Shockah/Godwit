@@ -53,13 +53,20 @@ public class GestureInputManager extends BaseInputManager<GestureInputManager.Pr
 
 	public void setExclusive(@Nullable Processor exclusive) {
 		this.exclusive = exclusive;
-		if (exclusive != null) {
-			for (Processor processor : getProcessors()) {
-				if (processor != exclusive)
-					processor.cancelLongPressTask();
-			}
-		}
+		if (exclusive != null)
+			cancelLongPressTasks(exclusive);
 		resetupMultiplexer();
+	}
+
+	private void cancelLongPressTasks() {
+		cancelLongPressTasks(null);
+	}
+
+	private void cancelLongPressTasks(@Nullable Processor excluded) {
+		for (Processor processor : getProcessors()) {
+			if (processor != exclusive)
+				processor.cancelLongPressTask();
+		}
 	}
 
 	@Nonnull private GestureDetectorListenerWrapper wrap(@Nonnull GestureDetector.GestureListener listener) {
@@ -85,8 +92,10 @@ public class GestureInputManager extends BaseInputManager<GestureInputManager.Pr
 		@Override
 		public boolean tap(float x, float y, int count, int button) {
 			if (exclusive == null || exclusive == wrapped) {
-				if (wrapped.tap(x, y, count, button))
+				if (wrapped.tap(x, y, count, button)) {
+					cancelLongPressTasks((Processor)wrapped);
 					return true;
+				}
 			}
 			return false;
 		}
@@ -94,8 +103,10 @@ public class GestureInputManager extends BaseInputManager<GestureInputManager.Pr
 		@Override
 		public boolean longPress(float x, float y) {
 			if (exclusive == null || exclusive == wrapped) {
-				if (wrapped.longPress(x, y))
+				if (wrapped.longPress(x, y)) {
+					cancelLongPressTasks((Processor)wrapped);
 					return true;
+				}
 			}
 			return false;
 		}
@@ -103,8 +114,10 @@ public class GestureInputManager extends BaseInputManager<GestureInputManager.Pr
 		@Override
 		public boolean fling(float velocityX, float velocityY, int button) {
 			if (exclusive == null || exclusive == wrapped) {
-				if (wrapped.fling(velocityX, velocityY, button))
+				if (wrapped.fling(velocityX, velocityY, button)) {
+					cancelLongPressTasks((Processor)wrapped);
 					return true;
+				}
 			}
 			return false;
 		}
@@ -134,8 +147,10 @@ public class GestureInputManager extends BaseInputManager<GestureInputManager.Pr
 		@Override
 		public boolean zoom(float initialDistance, float distance) {
 			if (exclusive == null || exclusive == wrapped) {
-				if (wrapped.zoom(initialDistance, distance))
+				if (wrapped.zoom(initialDistance, distance)) {
+					cancelLongPressTasks((Processor)wrapped);
 					return true;
+				}
 			}
 			return false;
 		}
