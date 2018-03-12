@@ -9,94 +9,94 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.Delegate;
+import pl.shockah.func.Action1;
 import pl.shockah.util.SortedLinkedList;
 
-public class GestureInputManager extends InputManager.Delegated {
+public class GestureInputManager extends BaseInputManager<GestureInputManager.Processor> {
 	@Nonnull protected static final Comparator<Processor> orderComparator = (o1, o2) -> -Float.compare(o1.order, o2.order);
 
-	protected GestureInputManager(float order) {
-		super(order, new GestureDetector(new CustomGestureDetectorListener()));
+	@Getter(AccessLevel.PROTECTED)
+	@Nonnull private final List<Processor> processors = new SortedLinkedList<>(orderComparator);
+
+	@Getter @Setter(AccessLevel.PROTECTED)
+	@Nullable protected Processor exclusive = null;
+
+	protected GestureInputManager() {
 	}
 
-	@Nonnull protected List<Processor> getProcessors() {
-		return ((CustomGestureDetectorListener)delegate).processors;
-	}
-
-	@Nullable public Processor getExclusive() {
-		return ((CustomGestureDetectorListener)delegate).exclusive;
-	}
-
-	public void setExclusive(@Nullable Processor exclusive) {
-		((CustomGestureDetectorListener)delegate).exclusive = exclusive;
-	}
-
-	public void addProcessor(Processor processor) {
-		getProcessors().add(processor);
+	protected void resetupMultiplexer() {
+		int count = multiplexer.getProcessors().size;
+		for (int i = 0; i < count; i++) {
+			multiplexer.removeProcessor(0);
+		}
+		for (Processor processor : getProcessors()) {
+			multiplexer.addProcessor(processor.detector);
+		}
 	}
 
 	public void removeProcessor(Processor processor) {
 		if (getExclusive() == processor)
 			setExclusive(null);
-		getProcessors().remove(processor);
+		super.removeProcessor(processor);
 	}
 
-	private static class CustomGestureDetectorListener implements GestureDetector.GestureListener {
-		@Nullable private Processor exclusive = null;
-		@Nonnull private final List<Processor> processors = new SortedLinkedList<>(orderComparator);
+	@Nonnull private GestureDetectorListenerWrapper wrap(@Nonnull GestureDetector.GestureListener listener) {
+		return new GestureDetectorListenerWrapper(listener);
+	}
+
+	private class GestureDetectorListenerWrapper implements GestureDetector.GestureListener {
+		@Nonnull public final GestureDetector.GestureListener wrapped;
+
+		private GestureDetectorListenerWrapper(@Nonnull GestureDetector.GestureListener wrapped) {
+			this.wrapped = wrapped;
+		}
 
 		@Override
 		public boolean touchDown(float x, float y, int pointer, int button) {
-			for (Processor processor : processors) {
-				if (exclusive == null || exclusive == processor) {
-					if (processor.touchDown(x, y, pointer, button))
-						return true;
-				}
+			if (exclusive == null || exclusive == wrapped) {
+				if (wrapped.touchDown(x, y, pointer, button))
+					return true;
 			}
 			return false;
 		}
 
 		@Override
 		public boolean tap(float x, float y, int count, int button) {
-			for (Processor processor : processors) {
-				if (exclusive == null || exclusive == processor) {
-					if (processor.tap(x, y, count, button))
-						return true;
-				}
+			if (exclusive == null || exclusive == wrapped) {
+				if (wrapped.tap(x, y, count, button))
+					return true;
 			}
 			return false;
 		}
 
 		@Override
 		public boolean longPress(float x, float y) {
-			for (Processor processor : processors) {
-				if (exclusive == null || exclusive == processor) {
-					if (processor.longPress(x, y))
-						return true;
-				}
+			if (exclusive == null || exclusive == wrapped) {
+				if (wrapped.longPress(x, y))
+					return true;
 			}
 			return false;
 		}
 
 		@Override
 		public boolean fling(float velocityX, float velocityY, int button) {
-			for (Processor processor : processors) {
-				if (exclusive == null || exclusive == processor) {
-					if (processor.fling(velocityX, velocityY, button))
-						return true;
-				}
+			if (exclusive == null || exclusive == wrapped) {
+				if (wrapped.fling(velocityX, velocityY, button))
+					return true;
 			}
 			return false;
 		}
 
 		@Override
 		public boolean pan(float x, float y, float deltaX, float deltaY) {
-			for (Processor processor : processors) {
-				if (exclusive == null || exclusive == processor) {
-					if (processor.pan(x, y, deltaX, deltaY)) {
-						exclusive = processor;
-						return true;
-					}
+			if (exclusive == null || exclusive == wrapped) {
+				if (wrapped.pan(x, y, deltaX, deltaY)) {
+					exclusive = (Processor)wrapped;
+					return true;
 				}
 			}
 			return false;
@@ -104,12 +104,10 @@ public class GestureInputManager extends InputManager.Delegated {
 
 		@Override
 		public boolean panStop(float x, float y, int pointer, int button) {
-			for (Processor processor : processors) {
-				if (exclusive == processor) {
-					if (processor.panStop(x, y, pointer, button)) {
-						exclusive = null;
-						return true;
-					}
+			if (exclusive == wrapped) {
+				if (wrapped.panStop(x, y, pointer, button)) {
+					exclusive = null;
+					return true;
 				}
 			}
 			return false;
@@ -117,23 +115,19 @@ public class GestureInputManager extends InputManager.Delegated {
 
 		@Override
 		public boolean zoom(float initialDistance, float distance) {
-			for (Processor processor : processors) {
-				if (exclusive == null || exclusive == processor) {
-					if (processor.zoom(initialDistance, distance))
-						return true;
-				}
+			if (exclusive == null || exclusive == wrapped) {
+				if (wrapped.zoom(initialDistance, distance))
+					return true;
 			}
 			return false;
 		}
 
 		@Override
 		public boolean pinch(Vector2 initialPointer1, Vector2 initialPointer2, Vector2 pointer1, Vector2 pointer2) {
-			for (Processor processor : processors) {
-				if (exclusive == null || exclusive == processor) {
-					if (processor.pinch(initialPointer1, initialPointer2, pointer1, pointer2)) {
-						exclusive = processor;
-						return true;
-					}
+			if (exclusive == null || exclusive == wrapped) {
+				if (wrapped.pinch(initialPointer1, initialPointer2, pointer1, pointer2)) {
+					exclusive = (Processor)wrapped;
+					return true;
 				}
 			}
 			return false;
@@ -141,27 +135,36 @@ public class GestureInputManager extends InputManager.Delegated {
 
 		@Override
 		public void pinchStop() {
-			for (Processor processor : processors) {
-				if (exclusive == null || exclusive == processor) {
-					processor.pinchStop();
-					exclusive = null;
-					return;
-				}
+			if (exclusive == null || exclusive == wrapped) {
+				wrapped.pinchStop();
+				exclusive = null;
 			}
 		}
 	}
 
 	public static abstract class Processor implements GestureDetector.GestureListener {
 		public final float order;
+		@Nonnull protected final GestureDetector detector;
 
 		public Processor(float order) {
+			this(order, null);
+		}
+
+		public Processor(float order, @Nullable Action1<GestureDetector> setupDetectorFunc) {
 			this.order = order;
+			detector = new GestureDetector(Godwit.getInstance().inputManager.gestureManager.wrap(this));
+			if (setupDetectorFunc != null)
+				setupDetectorFunc.call(detector);
 		}
 	}
 
 	public static class Adapter extends Processor {
 		public Adapter(float order) {
 			super(order);
+		}
+
+		public Adapter(float order, @Nullable Action1<GestureDetector> setupDetectorFunc) {
+			super(order, setupDetectorFunc);
 		}
 
 		@Override
@@ -214,7 +217,11 @@ public class GestureInputManager extends InputManager.Delegated {
 		@Nonnull public final GestureDetector.GestureListener delegate;
 
 		public Delegated(float order, @Nonnull GestureDetector.GestureListener delegate) {
-			super(order);
+			this(order, delegate, null);
+		}
+
+		public Delegated(float order, @Nonnull GestureDetector.GestureListener delegate, @Nullable Action1<GestureDetector> setupDetectorFunc) {
+			super(order, setupDetectorFunc);
 			this.delegate = delegate;
 		}
 	}

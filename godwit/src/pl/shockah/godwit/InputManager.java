@@ -1,6 +1,5 @@
 package pl.shockah.godwit;
 
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 
 import java.util.Comparator;
@@ -8,29 +7,20 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
+import lombok.Getter;
 import lombok.experimental.Delegate;
 import pl.shockah.util.SortedLinkedList;
 
-public class InputManager {
+public class InputManager extends BaseInputManager<InputManager.Processor> {
 	@Nonnull protected static final Comparator<Processor> orderComparator = (o1, o2) -> -Float.compare(o1.order, o2.order);
 
-	@Nonnull public final GestureInputManager gestureManager = new GestureInputManager(0f);
+	@Nonnull public final GestureInputManager gestureManager = new GestureInputManager();
 
-	@Nonnull final InputMultiplexer multiplexer = new InputMultiplexer();
+	@Getter
 	@Nonnull private final List<Processor> processors = new SortedLinkedList<>(orderComparator);
 
 	public InputManager() {
-		addProcessor(gestureManager);
-	}
-
-	public void addProcessor(Processor processor) {
-		processors.add(processor);
-		resetupMultiplexer();
-	}
-
-	public void removeProcessor(Processor processor) {
-		processors.remove(processor);
-		resetupMultiplexer();
+		addProcessor(new Delegated(0f, gestureManager.multiplexer));
 	}
 
 	protected void resetupMultiplexer() {
@@ -38,7 +28,7 @@ public class InputManager {
 		for (int i = 0; i < count; i++) {
 			multiplexer.removeProcessor(0);
 		}
-		for (Processor processor : processors) {
+		for (Processor processor : getProcessors()) {
 			multiplexer.addProcessor(processor);
 		}
 	}
