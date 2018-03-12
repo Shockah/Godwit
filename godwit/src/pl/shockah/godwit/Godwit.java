@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.glutils.HdpiUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.ArrayList;
@@ -165,7 +166,7 @@ public final class Godwit {
 		int horizontalGutter = leftGutter + rightGutter;
 		int verticalGutter = topGutter + bottomGutter;
 
-		Gdx.gl20.glScissor(horizontalGutter * 2, verticalGutter, Gdx.graphics.getWidth() - horizontalGutter * 4, Gdx.graphics.getHeight());
+		HdpiUtils.glScissor(horizontalGutter * 2, verticalGutter, Gdx.graphics.getWidth() - horizontalGutter * 4, Gdx.graphics.getHeight());
 		Gdx.gl20.glEnable(GL20.GL_SCISSOR_TEST);
 	}
 }
