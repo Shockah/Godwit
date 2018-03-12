@@ -73,7 +73,7 @@ public class Circle extends Shape implements Polygonable, Shape.Filled, Shape.Ou
 		if (horizontally)
 			position.x *= -1;
 		if (vertically)
-			position.x *= -1;
+			position.y *= -1;
 	}
 
 	@Override
@@ -164,7 +164,7 @@ public class Circle extends Shape implements Polygonable, Shape.Filled, Shape.Ou
 			p.addPoint(MutableVec2.angled(radius, 360f / precision * i) + position);
 		}
 
-		lastPos = position;
+		lastPos = position.getCopy();
 		lastPrecision = precision;
 		return lastPoly = p;
 	}
