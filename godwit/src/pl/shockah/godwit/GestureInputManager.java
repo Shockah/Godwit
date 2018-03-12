@@ -1,8 +1,10 @@
 package pl.shockah.godwit;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
 
+import java.lang.reflect.Field;
 import java.util.Comparator;
 import java.util.List;
 
@@ -155,6 +157,22 @@ public class GestureInputManager extends BaseInputManager<GestureInputManager.Pr
 			detector = new GestureDetector(Godwit.getInstance().inputManager.gestureManager.wrap(this));
 			if (setupDetectorFunc != null)
 				setupDetectorFunc.call(detector);
+		}
+
+		public void resetToPanning() {
+			Gdx.app.postRunnable(() -> {
+				try {
+					Field longPressFiredField = GestureDetector.class.getDeclaredField("longPressFired");
+					longPressFiredField.setAccessible(true);
+					longPressFiredField.set(detector, false);
+
+					Field inTapSquareField = GestureDetector.class.getDeclaredField("inTapSquare");
+					inTapSquareField.setAccessible(true);
+					inTapSquareField.set(detector, false);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			});
 		}
 	}
 
