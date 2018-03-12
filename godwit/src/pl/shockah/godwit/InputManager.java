@@ -7,7 +7,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import lombok.experimental.Delegate;
 import pl.shockah.util.SortedLinkedList;
@@ -15,10 +14,14 @@ import pl.shockah.util.SortedLinkedList;
 public class InputManager {
 	@Nonnull protected static final Comparator<Processor> orderComparator = (o1, o2) -> -Float.compare(o1.order, o2.order);
 
+	@Nonnull public final GestureInputManager gestureManager = new GestureInputManager(0f);
+
 	@Nonnull final InputMultiplexer multiplexer = new InputMultiplexer();
 	@Nonnull private final List<Processor> processors = new SortedLinkedList<>(orderComparator);
 
-	@Nullable public Processor lockedProcessor;
+	public InputManager() {
+		addProcessor(gestureManager);
+	}
 
 	public void addProcessor(Processor processor) {
 		processors.add(processor);
@@ -26,8 +29,6 @@ public class InputManager {
 	}
 
 	public void removeProcessor(Processor processor) {
-		if (lockedProcessor == processor)
-			lockedProcessor = null;
 		processors.remove(processor);
 		resetupMultiplexer();
 	}
