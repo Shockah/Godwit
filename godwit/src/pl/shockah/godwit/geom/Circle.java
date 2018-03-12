@@ -89,6 +89,8 @@ public class Circle extends Shape implements Polygonable, Shape.Filled, Shape.Ou
 
 	@Override
 	protected boolean collides(@Nonnull Shape shape, boolean secondTry) {
+		if (radius <= 0f)
+			return false;
 		if (shape instanceof Circle)
 			return collides((Circle)shape);
 		else if (shape instanceof Line)
@@ -169,12 +171,14 @@ public class Circle extends Shape implements Polygonable, Shape.Filled, Shape.Ou
 
 	@Override
 	public void drawFilled(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
-		asPolygon().drawFilled(gfx, v);
+		if (radius > 0f)
+			asPolygon().drawFilled(gfx, v);
 	}
 
 	@Override
 	public void drawOutline(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
-		asPolygon().drawOutline(gfx, v);
+		if (radius > 0f)
+			asPolygon().drawOutline(gfx, v);
 	}
 
 	@Override

@@ -45,9 +45,13 @@ public final class MutableVec2 extends IVec2 {
 		return y;
 	}
 
+	public void set(float x, float y) {
+		this.x = x;
+		this.y = y;
+	}
+
 	public void set(@Nonnull IVec2 v) {
-		x = v.x();
-		y = v.y();
+		set(v.x(), v.y());
 	}
 
 	@Override
