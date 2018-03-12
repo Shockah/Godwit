@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import lombok.experimental.Delegate;
 import pl.shockah.util.SortedLinkedList;
@@ -17,12 +18,16 @@ public class InputManager {
 	@Nonnull final InputMultiplexer multiplexer = new InputMultiplexer();
 	@Nonnull private final List<Processor> processors = new SortedLinkedList<>(orderComparator);
 
+	@Nullable public Processor lockedProcessor;
+
 	public void addProcessor(Processor processor) {
 		processors.add(processor);
 		resetupMultiplexer();
 	}
 
 	public void removeProcessor(Processor processor) {
+		if (lockedProcessor == processor)
+			lockedProcessor = null;
 		processors.remove(processor);
 		resetupMultiplexer();
 	}
