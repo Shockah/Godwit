@@ -47,6 +47,9 @@ public class GfxFont implements Renderable {
 	@Getter
 	@Nonnull private LineBreakMode lineBreakMode = LineBreakMode.Wrap;
 
+	@Getter
+	@Nonnull private IVec2 position = Vec2.zero;
+
 	public GfxFont(@Nonnull BitmapFont font) {
 		this.font = font;
 	}
@@ -80,7 +83,7 @@ public class GfxFont implements Renderable {
 				cache.scale.x = scaleX;
 				cache.scale.y = scaleY;
 			}
-			cache.addText(getGlyphLayout(), 0f, 0f);
+			cache.addText(getGlyphLayout(), position.x(), position.y());
 		}
 		return cache;
 	}
@@ -110,6 +113,13 @@ public class GfxFont implements Renderable {
 		if (lineBreakMode == this.lineBreakMode)
 			return;
 		this.lineBreakMode = lineBreakMode;
+		markDirty();
+	}
+
+	public void setPosition(@Nonnull IVec2 position) {
+		if (position.equals(this.position))
+			return;
+		this.position = position;
 		markDirty();
 	}
 
@@ -157,11 +167,12 @@ public class GfxFont implements Renderable {
 		GlyphLayout layout = getGlyphLayout();
 		IVec2 alignmentVector = alignment.getVector();
 
+		BitmapFont.BitmapFontData data = getData();
 		if (!gfx.getBoundingBox().collides(
-				v.x() - alignmentVector.x() * layout.width,
-				v.y() - (scaleY - 1f) * getData().ascent - alignmentVector.y() * layout.height,
-				layout.width,
-				layout.height
+				v.x() - alignmentVector.x() * layout.width - 4f,
+				v.y() - (scaleY - 1f) * data.ascent - alignmentVector.y() * layout.height - 4f,
+				layout.width + 8f,
+				layout.height + 8f
 		))
 			return;
 
