@@ -42,7 +42,7 @@ public class GestureInputManager extends BaseInputManager<GestureInputManager.Pr
 
 	public void removeProcessor(Processor processor) {
 		if (getExclusive() == processor)
-			setExclusive(null);
+			Gdx.app.postRunnable(() -> setExclusive(null));
 		super.removeProcessor(processor);
 	}
 
@@ -97,7 +97,7 @@ public class GestureInputManager extends BaseInputManager<GestureInputManager.Pr
 		public boolean pan(float x, float y, float deltaX, float deltaY) {
 			if (exclusive == null || exclusive == wrapped) {
 				if (wrapped.pan(x, y, deltaX, deltaY)) {
-					exclusive = (Processor)wrapped;
+					Gdx.app.postRunnable(() -> setExclusive((Processor)wrapped));
 					return true;
 				}
 			}
@@ -108,7 +108,7 @@ public class GestureInputManager extends BaseInputManager<GestureInputManager.Pr
 		public boolean panStop(float x, float y, int pointer, int button) {
 			if (exclusive == wrapped) {
 				if (wrapped.panStop(x, y, pointer, button)) {
-					exclusive = null;
+					Gdx.app.postRunnable(() -> setExclusive(null));
 					return true;
 				}
 			}
@@ -128,7 +128,7 @@ public class GestureInputManager extends BaseInputManager<GestureInputManager.Pr
 		public boolean pinch(Vector2 initialPointer1, Vector2 initialPointer2, Vector2 pointer1, Vector2 pointer2) {
 			if (exclusive == null || exclusive == wrapped) {
 				if (wrapped.pinch(initialPointer1, initialPointer2, pointer1, pointer2)) {
-					exclusive = (Processor)wrapped;
+					Gdx.app.postRunnable(() -> setExclusive((Processor)wrapped));
 					return true;
 				}
 			}
@@ -139,7 +139,7 @@ public class GestureInputManager extends BaseInputManager<GestureInputManager.Pr
 		public void pinchStop() {
 			if (exclusive == null || exclusive == wrapped) {
 				wrapped.pinchStop();
-				exclusive = null;
+				Gdx.app.postRunnable(() -> setExclusive(null));
 			}
 		}
 	}
