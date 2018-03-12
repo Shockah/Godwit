@@ -53,6 +53,12 @@ public class GestureInputManager extends BaseInputManager<GestureInputManager.Pr
 
 	public void setExclusive(@Nullable Processor exclusive) {
 		this.exclusive = exclusive;
+		if (exclusive != null) {
+			for (Processor processor : getProcessors()) {
+				if (processor != exclusive)
+					processor.cancelLongPressTask();
+			}
+		}
 		resetupMultiplexer();
 	}
 
@@ -169,6 +175,16 @@ public class GestureInputManager extends BaseInputManager<GestureInputManager.Pr
 				setupDetectorFunc.call(detector);
 		}
 
+		private void cancelLongPressTask() {
+			try {
+				Field longPressTaskField = GestureDetector.class.getDeclaredField("longPressTask");
+				longPressTaskField.setAccessible(true);
+				((Timer.Task)longPressTaskField.get(detector)).cancel();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
 		public void resetToPanning() {
 			Gdx.app.postRunnable(() -> {
 				try {
@@ -180,9 +196,7 @@ public class GestureInputManager extends BaseInputManager<GestureInputManager.Pr
 					inTapSquareField.setAccessible(true);
 					inTapSquareField.set(detector, false);
 
-					Field longPressTaskField = GestureDetector.class.getDeclaredField("longPressTask");
-					longPressTaskField.setAccessible(true);
-					((Timer.Task)longPressTaskField.get(detector)).cancel();
+					cancelLongPressTask();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
