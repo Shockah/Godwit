@@ -36,6 +36,7 @@ public class GfxFont implements Renderable {
 	@Nullable private GlyphLayout cachedLayout;
 	@Nullable private ScalableBitmapFontCache cache;
 	@Nullable private IVec2 cachedSize;
+	@Nullable private IVec2 cachedOffset;
 
 	@Getter
 	private float scaleX = 1f;
@@ -75,6 +76,7 @@ public class GfxFont implements Renderable {
 		cachedLayout = null;
 		cache = null;
 		cachedSize = null;
+		cachedOffset = null;
 	}
 
 	@Nonnull protected GlyphLayout getGlyphLayout() {
@@ -106,6 +108,22 @@ public class GfxFont implements Renderable {
 		return cache;
 	}
 
+	@Nonnull protected IVec2 getOffset() {
+		if (cachedOffset == null) {
+			GlyphLayout layout = getGlyphLayout();
+			MutableVec2 mutable = new MutableVec2();
+
+			if (this.parameters instanceof FreeTypeFontLoader.FreeTypeFontParameter) {
+				FreeTypeFontLoader.FreeTypeFontParameter parameters = (FreeTypeFontLoader.FreeTypeFontParameter)this.parameters;
+				mutable.x += parameters.borderWidth * scaleX;
+				mutable.y += parameters.borderWidth * scaleY;
+			}
+
+			cachedOffset = mutable;
+		}
+		return cachedOffset;
+	}
+
 	@Nonnull public IVec2 getSize() {
 		if (cachedSize == null) {
 			GlyphLayout layout = getGlyphLayout();
@@ -113,8 +131,8 @@ public class GfxFont implements Renderable {
 
 			if (this.parameters instanceof FreeTypeFontLoader.FreeTypeFontParameter) {
 				FreeTypeFontLoader.FreeTypeFontParameter parameters = (FreeTypeFontLoader.FreeTypeFontParameter)this.parameters;
-				mutable.x -= parameters.borderWidth * 3f;
-				mutable.y += parameters.borderWidth * 2f;
+				mutable.x += parameters.borderWidth * scaleX;
+				mutable.y += parameters.borderWidth * scaleY * 2f;
 			}
 
 			cachedSize = mutable;
@@ -213,7 +231,7 @@ public class GfxFont implements Renderable {
 			return;
 
 		ScalableBitmapFontCache cache = getCache();
-		v = v - alignmentVector.multiply(layoutW, layoutH);
+		v = v - alignmentVector.multiply(layoutW, layoutH) + getOffset();
 
 		float oldX = cache.getX();
 		float oldY = cache.getY();
