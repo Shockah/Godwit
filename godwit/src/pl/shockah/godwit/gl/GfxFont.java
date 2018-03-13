@@ -1,6 +1,5 @@
 package pl.shockah.godwit.gl;
 
-import com.badlogic.gdx.assets.AssetLoaderParameters;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFontCache;
@@ -14,10 +13,7 @@ import javax.annotation.Nullable;
 
 import lombok.Getter;
 import lombok.experimental.Delegate;
-import pl.shockah.godwit.asset.FreeTypeFontLoader;
-import pl.shockah.godwit.asset.SingleAsset;
 import pl.shockah.godwit.geom.IVec2;
-import pl.shockah.godwit.geom.MutableVec2;
 import pl.shockah.godwit.geom.Vec2;
 import pl.shockah.godwit.ui.Alignment;
 
@@ -31,11 +27,8 @@ public class GfxFont implements Renderable {
 	@Delegate(excludes = DelegateExclusions.class)
 	@Nonnull public final BitmapFont font;
 
-	@Nullable public final AssetLoaderParameters<BitmapFont> parameters;
-
 	@Nullable private GlyphLayout cachedLayout;
 	@Nullable private ScalableBitmapFontCache cache;
-	@Nullable private IVec2 cachedSize;
 
 	@Getter
 	private float scaleX = 1f;
@@ -58,23 +51,13 @@ public class GfxFont implements Renderable {
 	@Getter
 	@Nonnull private IVec2 position = Vec2.zero;
 
-	public GfxFont(@Nonnull SingleAsset<BitmapFont> asset) {
-		this(asset.get(), asset.parameters);
-	}
-
 	public GfxFont(@Nonnull BitmapFont font) {
-		this(font, null);
-	}
-
-	public GfxFont(@Nonnull BitmapFont font, @Nullable AssetLoaderParameters<BitmapFont> parameters) {
 		this.font = font;
-		this.parameters = parameters;
 	}
 
 	protected void markDirty() {
 		cachedLayout = null;
 		cache = null;
-		cachedSize = null;
 	}
 
 	@Nonnull protected GlyphLayout getGlyphLayout() {
@@ -104,22 +87,6 @@ public class GfxFont implements Renderable {
 			cache.addText(getGlyphLayout(), position.x(), position.y());
 		}
 		return cache;
-	}
-
-	@Nonnull public IVec2 getSize() {
-		if (cachedSize == null) {
-			GlyphLayout layout = getGlyphLayout();
-			MutableVec2 mutable = new MutableVec2(layout.width, layout.height);
-
-			if (this.parameters instanceof FreeTypeFontLoader.FreeTypeFontParameter) {
-				FreeTypeFontLoader.FreeTypeFontParameter parameters = (FreeTypeFontLoader.FreeTypeFontParameter)this.parameters;
-				mutable.x -= parameters.borderWidth * 3f;
-				mutable.y += parameters.borderWidth * 2f;
-			}
-
-			cachedSize = mutable;
-		}
-		return cachedSize;
 	}
 
 	public void setText(@Nullable String text) {
@@ -198,22 +165,20 @@ public class GfxFont implements Renderable {
 		if (text == null || text.isEmpty())
 			return;
 
-		IVec2 layoutSize = getSize();
-		float layoutW = layoutSize.x();
-		float layoutH = layoutSize.y();
+		GlyphLayout layout = getGlyphLayout();
 		IVec2 alignmentVector = alignment.getVector();
 
 		BitmapFont.BitmapFontData data = getData();
 		if (!gfx.getBoundingBox().collides(
-				v.x() - alignmentVector.x() * layoutW - 4f,
-				v.y() - (scaleY - 1f) * data.ascent - alignmentVector.y() * layoutH - 4f,
-				layoutW + 8f,
-				layoutH + 8f
+				v.x() - alignmentVector.x() * layout.width - 4f,
+				v.y() - (scaleY - 1f) * data.ascent - alignmentVector.y() * layout.height - 4f,
+				layout.width + 8f,
+				layout.height + 8f
 		))
 			return;
 
 		ScalableBitmapFontCache cache = getCache();
-		v = v - alignmentVector.multiply(layoutW, layoutH);
+		v = v - alignmentVector.multiply(layout.width, layout.height);
 
 		float oldX = cache.getX();
 		float oldY = cache.getY();
@@ -232,16 +197,8 @@ public class GfxFont implements Renderable {
 	public static class Entity extends pl.shockah.godwit.Entity {
 		@Nonnull public final GfxFont font;
 
-		public Entity(@Nonnull SingleAsset<BitmapFont> asset) {
-			this(new GfxFont(asset));
-		}
-
 		public Entity(@Nonnull BitmapFont font) {
 			this(new GfxFont(font));
-		}
-
-		public Entity(@Nonnull BitmapFont font, @Nullable AssetLoaderParameters<BitmapFont> parameters) {
-			this(new GfxFont(font, parameters));
 		}
 
 		public Entity(@Nonnull GfxFont font) {
