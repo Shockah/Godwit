@@ -4,6 +4,7 @@ dependencies {
 	compile project(":godwit")
 	compile "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
 	compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+	compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
 }
 
 targetCompatibility = "1.8"
