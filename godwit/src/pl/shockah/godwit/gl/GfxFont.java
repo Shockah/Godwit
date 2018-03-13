@@ -27,7 +27,7 @@ public class GfxFont implements Renderable {
 	@Nonnull public final BitmapFont font;
 
 	@Nullable private GlyphLayout cachedLayout;
-	@Nullable private ScalableBitmapFontCache cache;
+	@Nullable private BitmapFontCache cache;
 
 	@Getter
 	private float scaleX = 1f;
@@ -76,14 +76,18 @@ public class GfxFont implements Renderable {
 		return cachedLayout;
 	}
 
-	@Nonnull protected ScalableBitmapFontCache getCache() {
+	@Nonnull protected BitmapFontCache getCache() {
 		if (cache == null) {
-			cache = new ScalableBitmapFontCache(font);
-			if (scaleX != 0f && scaleY != 0f) {
-				cache.scale.x = scaleX;
-				cache.scale.y = scaleY;
-			}
+			float oldScaleX = font.getData().scaleX;
+			float oldScaleY = font.getData().scaleY;
+
+			if (scaleX != 0f && scaleY != 0f)
+				font.getData().setScale(scaleX, scaleY);
+
+			cache = new BitmapFontCache(font);
 			cache.addText(getGlyphLayout(), position.x(), position.y());
+
+			font.getData().setScale(oldScaleX, oldScaleY);
 		}
 		return cache;
 	}
@@ -176,7 +180,7 @@ public class GfxFont implements Renderable {
 		))
 			return;
 
-		ScalableBitmapFontCache cache = getCache();
+		BitmapFontCache cache = getCache();
 
 		if (alignment.vertical != Alignment.Vertical.Top)
 			v = v.subtract(0f, layout.height * alignmentVector.y());
