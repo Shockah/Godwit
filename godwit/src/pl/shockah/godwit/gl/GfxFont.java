@@ -60,7 +60,7 @@ public class GfxFont implements Renderable {
 		cache = null;
 	}
 
-	@Nonnull protected GlyphLayout getGlyphLayout() {
+	@Nonnull public GlyphLayout getGlyphLayout() {
 		if (text == null || text.isEmpty())
 			throw new IllegalStateException();
 		if (cachedLayout == null) {
