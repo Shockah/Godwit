@@ -113,8 +113,8 @@ public class GfxFont implements Renderable {
 
 			if (this.parameters instanceof FreeTypeFontLoader.FreeTypeFontParameter) {
 				FreeTypeFontLoader.FreeTypeFontParameter parameters = (FreeTypeFontLoader.FreeTypeFontParameter)this.parameters;
-				mutable.x -= parameters.borderWidth * 1.5f * scaleX;
-				mutable.y += parameters.borderWidth * scaleY;
+				mutable.x -= parameters.borderWidth * 3f;
+				mutable.y += parameters.borderWidth * 2f;
 			}
 
 			cachedSize = mutable;
