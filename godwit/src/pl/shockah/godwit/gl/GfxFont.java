@@ -231,6 +231,14 @@ public class GfxFont implements Renderable {
 			this(new GfxFont(asset));
 		}
 
+		public Entity(@Nonnull BitmapFont font) {
+			this(new GfxFont(font));
+		}
+
+		public Entity(@Nonnull BitmapFont font, @Nullable AssetLoaderParameters<BitmapFont> parameters) {
+			this(new GfxFont(font, parameters));
+		}
+
 		public Entity(@Nonnull GfxFont font) {
 			this.font = font;
 		}
