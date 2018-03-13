@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFontCache;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.utils.Align;
 
 import java.util.Objects;
 
@@ -69,7 +70,7 @@ public class GfxFont implements Renderable {
 			if (scaleX != 0f && scaleY != 0f)
 				font.getData().setScale(scaleX, scaleY);
 
-			cachedLayout = new GlyphLayout(font, text, Color.WHITE, maxWidth != null ? maxWidth : 0f, alignment.getHorizontalGdxAlignment(), lineBreakMode == LineBreakMode.Wrap);
+			cachedLayout = new GlyphLayout(font, text, Color.WHITE, maxWidth != null ? maxWidth : 0f, Align.left, lineBreakMode == LineBreakMode.Wrap);
 
 			font.getData().setScale(oldScaleX, oldScaleY);
 		}
@@ -181,9 +182,7 @@ public class GfxFont implements Renderable {
 			return;
 
 		BitmapFontCache cache = getCache();
-
-		if (alignment.vertical != Alignment.Vertical.Top)
-			v = v.subtract(0f, layout.height * alignmentVector.y());
+		v = v - alignmentVector.multiply(layout.width, layout.height);
 
 		float oldX = cache.getX();
 		float oldY = cache.getY();
