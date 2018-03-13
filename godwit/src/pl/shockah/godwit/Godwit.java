@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.HdpiUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -18,6 +19,7 @@ import javax.annotation.Nullable;
 
 import java8.util.stream.StreamSupport;
 import lombok.Getter;
+import pl.shockah.godwit.asset.FreeTypeFontLoader;
 import pl.shockah.godwit.asset.JSONObjectLoader;
 import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.geom.MutableVec2;
@@ -78,6 +80,7 @@ public final class Godwit {
 
 	private void setupAssetManager() {
 		assetManager.setLoader(JSONObject.class, new JSONObjectLoader(assetManager.getFileHandleResolver()));
+		assetManager.setLoader(BitmapFont.class, ".ttf", new FreeTypeFontLoader(assetManager.getFileHandleResolver()));
 	}
 
 	@Nonnull public IVec2 getPpi() {
