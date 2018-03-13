@@ -7,7 +7,7 @@ import javax.annotation.Nonnull;
 
 import pl.shockah.godwit.asset.Asset;
 
-public class State extends RenderGroup {
+public class State extends CameraEntity {
 	@Nonnull private final List<Asset<?>> retainedAssets = new ArrayList<>();
 
 	@Override

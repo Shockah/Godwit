@@ -59,8 +59,8 @@ public class GfxSlice extends Gfx {
 	}
 
 	@Override
-	protected void internalEndTick() {
-		wrapped.internalEndTick();
+	protected void end() {
+		wrapped.end();
 	}
 
 	@Override

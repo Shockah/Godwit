@@ -9,7 +9,7 @@ import pl.shockah.godwit.gl.Gfx;
 import pl.shockah.util.SafeList;
 import pl.shockah.util.SortedLinkedList;
 
-public class RenderGroup extends Entity {
+public class RenderGroupEntity extends Entity {
 	@Nonnull private static final Comparator<? super Entity> depthComparator = (o1, o2) -> -Float.compare(o1.getDepth(), o2.getDepth());
 
 	@Nonnull public final SafeList<Entity> renderOrder = new SafeList<>(new SortedLinkedList<>(depthComparator));

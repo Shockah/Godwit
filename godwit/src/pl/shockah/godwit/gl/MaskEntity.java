@@ -7,21 +7,21 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import pl.shockah.godwit.Entity;
-import pl.shockah.godwit.RenderGroup;
+import pl.shockah.godwit.RenderGroupEntity;
 import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.geom.Vec2;
 
-public class MaskEntity extends RenderGroup {
+public class MaskEntity extends RenderGroupEntity {
 	@Nullable public Entity mask;
 
 	@Override
 	public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
 		setupMasking(gfx);
 		renderMask(gfx, v + position);
-		gfx.internalEndTick();
+		gfx.end();
 		useMasking(gfx);
 		super.render(gfx, v);
-		gfx.internalEndTick();
+		gfx.end();
 		disableMasking(gfx);
 	}
 

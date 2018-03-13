@@ -17,7 +17,7 @@ public final class GfxContextManager {
 		if (boundSurface == surface)
 			return;
 
-		getCurrentGfx().internalEndTick();
+		getCurrentGfx().end();
 
 		if (surface == null) {
 			if (boundSurface != null)
@@ -27,7 +27,5 @@ public final class GfxContextManager {
 			surface.fbo.begin();
 			boundSurface = surface;
 		}
-
-		getCurrentGfx().updateCamera();
 	}
 }
