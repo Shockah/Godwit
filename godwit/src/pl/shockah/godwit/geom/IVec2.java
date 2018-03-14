@@ -97,9 +97,10 @@ public abstract class IVec2 implements Easable<IVec2> {
 
 	@Nonnull public final IVec2 getNormalized() {
 		float length = getLength();
-		if (length == 1f)
+		if (length == 0f || length == 1f)
 			return this;
-		return this * (1f / length);
+		else
+			return this * (1f / length);
 	}
 
 	@Nonnull public MutableVec2 getMutable() {
