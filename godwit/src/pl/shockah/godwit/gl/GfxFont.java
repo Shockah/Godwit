@@ -26,6 +26,7 @@ public class GfxFont implements Renderable {
 		BitmapFontCache getCache();
 		float getScaleX();
 		float getScaleY();
+		void setColor(Color color);
 	}
 
 	@Delegate(excludes = DelegateExclusions.class)
@@ -58,6 +59,9 @@ public class GfxFont implements Renderable {
 
 	@Getter
 	@Nonnull private IVec2 position = Vec2.zero;
+
+	@Getter
+	@Nonnull private Color color = Color.WHITE;
 
 	public GfxFont(@Nonnull SingleAsset<BitmapFont> asset) {
 		this(asset.get(), asset.parameters);
@@ -99,6 +103,7 @@ public class GfxFont implements Renderable {
 	@Nonnull protected ScalableBitmapFontCache getCache() {
 		if (cache == null) {
 			cache = new ScalableBitmapFontCache(font);
+			cache.setColor(color);
 			if (scaleX != 0f && scaleY != 0f) {
 				cache.scale.x = scaleX;
 				cache.scale.y = scaleY;
@@ -207,6 +212,17 @@ public class GfxFont implements Renderable {
 			return;
 
 		markDirty();
+	}
+
+	public void setColor(@Nonnull Color color) {
+		if (color.r == this.color.r && color.g == this.color.g && color.b == this.color.b && color.a == this.color.a)
+			return;
+
+		this.color = color;
+		if (cache != null) {
+			cache.setColor(color);
+			cache.setColors(color);
+		}
 	}
 
 	@Override
