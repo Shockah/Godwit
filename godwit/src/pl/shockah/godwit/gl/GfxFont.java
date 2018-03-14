@@ -26,6 +26,7 @@ public class GfxFont implements Renderable {
 		BitmapFontCache getCache();
 		float getScaleX();
 		float getScaleY();
+		Color getColor();
 		void setColor(Color color);
 	}
 
