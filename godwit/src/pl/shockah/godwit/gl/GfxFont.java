@@ -104,12 +104,12 @@ public class GfxFont implements Renderable {
 	@Nonnull protected ScalableBitmapFontCache getCache() {
 		if (cache == null) {
 			cache = new ScalableBitmapFontCache(font);
-			cache.setColor(color);
 			if (scaleX != 0f && scaleY != 0f) {
 				cache.scale.x = scaleX;
 				cache.scale.y = scaleY;
 			}
 			cache.addText(getGlyphLayout(), position.x(), position.y());
+			cache.setColors(color);
 		}
 		return cache;
 	}
