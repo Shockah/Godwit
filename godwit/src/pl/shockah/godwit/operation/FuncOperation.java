@@ -1,0 +1,43 @@
+package pl.shockah.godwit.operation;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import pl.shockah.func.Func1;
+import pl.shockah.func.Func2;
+
+public final class FuncOperation<Input, Output> extends AbstractOperation<Input, Output> {
+	@Nonnull private final Func2<FuncOperation<Input, Output>, Input, Output> func;
+
+	public FuncOperation(@Nonnull Func1<Input, Output> func) {
+		this(1f, func);
+	}
+
+	public FuncOperation(Func2<FuncOperation<Input, Output>, Input, Output> func) {
+		this(1f, func);
+	}
+
+	public FuncOperation(float weight, @Nonnull Func1<Input, Output> func) {
+		this(weight, (operation, input) -> func.call(input));
+	}
+
+	public FuncOperation(float weight, @Nonnull Func2<FuncOperation<Input, Output>, Input, Output> func) {
+		super(weight);
+		this.func = func;
+	}
+
+	@Override
+	public void setProgress(float progress) {
+		super.setProgress(progress);
+	}
+
+	@Override
+	public void setProgress(float progress, @Nullable String description) {
+		super.setProgress(progress, description);
+	}
+
+	@Override
+	protected Output execute(Input input) {
+		return func.call(this, input);
+	}
+}
