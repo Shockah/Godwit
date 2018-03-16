@@ -14,6 +14,19 @@ public class ChainOperation<Input, IntermediateOutput, Output> implements Operat
 		this.secondOperation = secondOperation;
 	}
 
+	@Nonnull public static <Input, IntermediateOutput, Output> ChainOperation<Input, IntermediateOutput, Output> chain(@Nonnull Operation<Input, IntermediateOutput> firstOperation, @Nonnull Operation<IntermediateOutput, Output> secondOperation) {
+		return new ChainOperation<>(firstOperation, secondOperation);
+	}
+
+	@Nonnull public static <Input, IntermediateOutput, Output> ChainOperation<Input, OperationResult<Input, Output>, IntermediateOutput> chainResult(@Nonnull Operation<Input, Output> firstOperation, @Nonnull Operation<OperationResult<Input, Output>, IntermediateOutput> secondOperation) {
+		return new ChainOperation<>(new WrappedOperation<Input, OperationResult<Input, Output>, Input, Output>(firstOperation) {
+			@Override
+			@Nonnull public OperationResult<Input, Output> run(@Nonnull Input input) {
+				return new OperationResult<>(wrapped, input, wrapped.run(input));
+			}
+		}, secondOperation);
+	}
+
 	@Override
 	public float getWeight() {
 		return firstOperation.getWeight() + secondOperation.getWeight();
