@@ -27,7 +27,7 @@ public abstract class KMeansClustering<T> extends Clustering<T> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	@Nonnull public List<T>[] getClusters(@Nonnull List<T> vectors) {
+	@Nonnull protected List<T>[] execute(@Nonnull List<T> vectors) {
 		List<T>[] clusters = (List<T>[])Array.newInstance(List.class, clusterCount);
 		for (int i = 0; i < clusters.length; i++) {
 			clusters[i] = new ArrayList<>();

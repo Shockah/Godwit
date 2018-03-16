@@ -35,7 +35,7 @@ public class TravellingSalesmanKMeansClustering<T> extends KMeansClustering<T> {
 	@SuppressWarnings("unchecked")
 	@Override
 	@Nonnull protected T[] getInitialSeeds(@Nonnull List<T> vectors) {
-		List<T> route = solver.solve(new HashSet<>(vectors)).getNodes();
+		List<T> route = solver.run(new HashSet<>(vectors)).getNodes();
 		return IntStreams.range(0, clusterCount).mapToObj(index -> {
 			float f = 1f * index / clusterCount;
 			return route.get((int)(f * route.size()));

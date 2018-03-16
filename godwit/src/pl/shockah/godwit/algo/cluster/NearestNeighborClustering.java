@@ -29,7 +29,7 @@ public class NearestNeighborClustering<T> extends Clustering<T> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	@Nonnull public List<T>[] getClusters(@Nonnull List<T> vectors) {
+	@Nonnull protected List<T>[] execute(@Nonnull List<T> vectors) {
 		List<List<T>> clusters = new ArrayList<>();
 		Map<List<T>, Set<T>> distinct = new HashMap<>();
 

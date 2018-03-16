@@ -39,7 +39,7 @@ public class ClusteringTest extends State {
 						v -> new Vec2(v[0], v[1]),
 						4,
 						new NearestNeighborTravellingSalesmanSolver<>(v -> new float[]{v.x(), v.y()}, 0f)
-				).getClusters(new ArrayList<>(nodes));
+				).run(new ArrayList<>(nodes));
 				System.out.println(String.format("Solved in %dms", TimeUtils.millis() - ms));
 			}
 		}

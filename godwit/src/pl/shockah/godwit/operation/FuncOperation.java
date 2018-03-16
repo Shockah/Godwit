@@ -37,7 +37,7 @@ public final class FuncOperation<Input, Output> extends AbstractOperation<Input,
 	}
 
 	@Override
-	protected Output execute(Input input) {
+	@Nonnull protected Output execute(@Nonnull Input input) {
 		return func.call(this, input);
 	}
 }

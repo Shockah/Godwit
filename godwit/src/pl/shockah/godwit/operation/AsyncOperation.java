@@ -3,18 +3,19 @@ package pl.shockah.godwit.operation;
 import com.badlogic.gdx.utils.async.ThreadUtils;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class AsyncOperation<Input, Output> implements Runnable {
 	@Nonnull public final Operation<Input, Output> operation;
-	public final Input input;
+	@Nonnull public final Input input;
 
-	private Output output;
+	@Nullable private Output output;
 
 	@Nonnull private final Object lock = new Object();
 	private boolean started = false;
 	private boolean finished = false;
 
-	public AsyncOperation(@Nonnull Operation<Input, Output> operation, Input input) {
+	public AsyncOperation(@Nonnull Operation<Input, Output> operation, @Nonnull Input input) {
 		this.operation = operation;
 		this.input = input;
 	}
@@ -31,17 +32,20 @@ public class AsyncOperation<Input, Output> implements Runnable {
 		}
 	}
 
-	public Output waitAndGetOutput() {
+	@Nonnull public Output waitAndGetOutput() {
 		while (true) {
 			synchronized (lock) {
-				if (finished)
+				if (finished) {
+					if (output == null)
+						throw new IllegalStateException("Output should not be null at this point.");
 					return output;
+				}
 			}
 			ThreadUtils.yield();
 		}
 	}
 
-	public Output getOutput() {
+	@Nullable public Output getOutput() {
 		synchronized (lock) {
 			return output;
 		}

@@ -30,7 +30,7 @@ public class TravellingSalesmanTest extends State {
 		if (nodes.size() >= 2) {
 			System.out.println(String.format("Solving for %d nodes", nodes.size()));
 			long ms = TimeUtils.millis();
-			route = ExactTravellingSalesmanSolver.forVec2().solve(nodes);
+			route = ExactTravellingSalesmanSolver.forVec2().run(nodes);
 			System.out.println(String.format("Solved in %dms", TimeUtils.millis() - ms));
 
 			polygon = new Polygon();

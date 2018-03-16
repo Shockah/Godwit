@@ -7,8 +7,9 @@ import javax.annotation.Nonnull;
 import pl.shockah.func.Func1;
 import pl.shockah.godwit.algo.DistanceAlgorithm;
 import pl.shockah.godwit.algo.EuclideanDistanceAlgorithm;
+import pl.shockah.godwit.operation.AbstractOperation;
 
-public abstract class Clustering<T> {
+public abstract class Clustering<T> extends AbstractOperation<List<T>, List<T>[]> {
 	@Nonnull protected final Func1<T, float[]> toVectorFunc;
 	@Nonnull protected final Func1<float[], T> fromVectorFunc;
 	@Nonnull protected final DistanceAlgorithm distanceAlgorithm;
@@ -22,6 +23,4 @@ public abstract class Clustering<T> {
 		this.fromVectorFunc = fromVectorFunc;
 		this.distanceAlgorithm = distanceAlgorithm;
 	}
-
-	@Nonnull public abstract List<T>[] getClusters(@Nonnull List<T> vectors);
 }

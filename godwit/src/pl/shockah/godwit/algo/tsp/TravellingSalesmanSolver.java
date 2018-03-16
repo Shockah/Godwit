@@ -14,8 +14,9 @@ import pl.shockah.func.Func1;
 import pl.shockah.godwit.UnorderedPair;
 import pl.shockah.godwit.algo.DistanceAlgorithm;
 import pl.shockah.godwit.algo.EuclideanDistanceAlgorithm;
+import pl.shockah.godwit.operation.AbstractOperation;
 
-public abstract class TravellingSalesmanSolver<T> {
+public abstract class TravellingSalesmanSolver<T> extends AbstractOperation<Set<T>, TravellingSalesmanSolver<T>.Route> {
 	@Nonnull protected final Func1<T, float[]> toVectorFunc;
 	@Nonnull protected final DistanceAlgorithm distanceAlgorithm;
 
@@ -27,8 +28,6 @@ public abstract class TravellingSalesmanSolver<T> {
 		this.toVectorFunc = toVectorFunc;
 		this.distanceAlgorithm = distanceAlgorithm;
 	}
-
-	@Nonnull public abstract Route solve(@Nonnull Set<T> nodes);
 
 	protected class SolveInstance {
 		@Nonnull public final Set<T> nodes;

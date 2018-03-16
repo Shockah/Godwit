@@ -50,7 +50,7 @@ public class NearestNeighborKMeansClustering<T> extends KMeansClustering<T> {
 	@Nonnull protected T[] getInitialSeeds(@Nonnull List<T> vectors) {
 		float threshold = initialThreshold;
 		while (true) {
-			List<T>[] clusters = new NearestNeighborClustering(toVectorFunc, fromVectorFunc, threshold).getClusters(vectors);
+			List<T>[] clusters = new NearestNeighborClustering<>(toVectorFunc, fromVectorFunc, threshold).run(vectors);
 			if (clusters.length >= clusterCount) {
 				return RefStreams.of(clusters)
 						.limit(clusterCount)

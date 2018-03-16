@@ -48,7 +48,7 @@ public abstract class AbstractOperation<Input, Output> implements Operation<Inpu
 	}
 
 	@Override
-	public final Output run(Input input) {
+	@Nonnull public final Output run(@Nonnull Input input) {
 		synchronized (lock) {
 			if (executing)
 				throw new IllegalStateException("Operation is already being executed.");
@@ -63,5 +63,5 @@ public abstract class AbstractOperation<Input, Output> implements Operation<Inpu
 		return output;
 	}
 
-	protected abstract Output execute(Input input);
+	@Nonnull protected abstract Output execute(@Nonnull Input input);
 }

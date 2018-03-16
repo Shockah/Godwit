@@ -31,7 +31,7 @@ public class ChainOperation<Input, IntermediateOutput, Output> implements Operat
 	}
 
 	@Override
-	public Output run(Input input) {
+	@Nonnull public Output run(@Nonnull Input input) {
 		synchronized (lock) {
 			if (executing)
 				throw new IllegalStateException("Operation is already being executed.");

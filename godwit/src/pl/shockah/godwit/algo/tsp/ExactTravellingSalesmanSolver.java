@@ -31,7 +31,7 @@ public class ExactTravellingSalesmanSolver<T> extends TravellingSalesmanSolver<T
 		return new ExactTravellingSalesmanSolver<>(v -> new float[] { v.x(), v.y() }, distanceAlgorithm);
 	}
 
-	@Nonnull public Route solve(@Nonnull Set<T> nodes) {
+	@Nonnull protected Route execute(@Nonnull Set<T> nodes) {
 		SolveInstance instance = new SolveInstance(nodes);
 		for (T node : nodes) {
 			instance.queue.add(new Route(null, node, 0f));
