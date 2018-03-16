@@ -19,25 +19,36 @@ import pl.shockah.godwit.geom.Vec2;
 import pl.shockah.godwit.geom.polygon.Polygon;
 import pl.shockah.godwit.gl.Gfx;
 import pl.shockah.godwit.gl.color.HSVColorSpace;
+import pl.shockah.godwit.operation.AsyncOperation;
 
 public class TravellingSalesmanTest extends State {
 	@Nonnull public final Set<IVec2> nodes = new HashSet<>();
 	@Nullable public TravellingSalesmanSolver<IVec2>.Route route;
+	@Nullable private AsyncOperation<Set<IVec2>, TravellingSalesmanSolver<IVec2>.Route> async;
 	@Nullable public Polygon polygon;
 
 	public void addNode(@Nonnull IVec2 v) {
 		nodes.add(v);
 		if (nodes.size() >= 2) {
-			System.out.println(String.format("Solving for %d nodes", nodes.size()));
-			long ms = TimeUtils.millis();
-			route = ExactTravellingSalesmanSolver.forVec2().run(nodes);
-			System.out.println(String.format("Solved in %dms", TimeUtils.millis() - ms));
+			AsyncOperation<Set<IVec2>, TravellingSalesmanSolver<IVec2>.Route> async = ExactTravellingSalesmanSolver.forVec2().async(nodes);
+			this.async = async;
+			Thread thread = new Thread(() -> {
+				System.out.println(String.format("Solving for %d nodes", nodes.size()));
+				long ms = TimeUtils.millis();
+				async.run();
+				TravellingSalesmanSolver<IVec2>.Route route = async.waitAndGetOutput();
+				this.route = route;
+				this.async = null;
+				System.out.println(String.format("Solved in %dms", TimeUtils.millis() - ms));
 
-			polygon = new Polygon();
-			polygon.closed = false;
-			for (IVec2 node : route.getNodes()) {
-				polygon.addPoint(node);
-			}
+				polygon = new Polygon();
+				polygon.closed = false;
+				for (IVec2 node : route.getNodes()) {
+					polygon.addPoint(node);
+				}
+			});
+			thread.setDaemon(true);
+			thread.start();
 		}
 	}
 
@@ -45,12 +56,16 @@ public class TravellingSalesmanTest extends State {
 	public void updateSelf() {
 		super.updateSelf();
 
+		AsyncOperation<Set<IVec2>, TravellingSalesmanSolver<IVec2>.Route> async = this.async;
+		if (async != null)
+			System.out.println(async.operation.getProgressDescription());
+
 //		addNode(new Vec2(
 //				Godwit.getInstance().random.getFloatRangeGenerator(0f, 1f).generate(),
 //				Godwit.getInstance().random.getFloatRangeGenerator(0f, 1f).generate()
 //		).multiply(Godwit.getInstance().gfx.getSize()));
 
-		if (Gdx.input.justTouched())
+		if (Gdx.input.justTouched() && async == null)
 			addNode(new Vec2(Gdx.input.getX(), Gdx.input.getY()));
 	}
 

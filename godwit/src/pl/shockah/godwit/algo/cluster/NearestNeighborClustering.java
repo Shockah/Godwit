@@ -33,7 +33,15 @@ public class NearestNeighborClustering<T> extends Clustering<T> {
 		List<List<T>> clusters = new ArrayList<>();
 		Map<List<T>, Set<T>> distinct = new HashMap<>();
 
+		int index = 0;
+		int updateProgressEvery = Math.max((int)Math.sqrt(vectors.size() / 10f), 1);
+
 		for (T vector : vectors) {
+			if (index++ % updateProgressEvery == 0) {
+				float percentage = 1f * index / vectors.size();
+				setProgress(percentage, String.format("Clustering: Nearest Neighbor: %.0f%%", percentage * 100f));
+			}
+
 			float smallestDistance = Float.MAX_VALUE;
 			List<T> closestCluster = null;
 			for (List<T> cluster : clusters) {

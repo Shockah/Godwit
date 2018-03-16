@@ -35,6 +35,7 @@ public class TravellingSalesmanKMeansClustering<T> extends KMeansClustering<T> {
 	@SuppressWarnings("unchecked")
 	@Override
 	@Nonnull protected T[] getInitialSeeds(@Nonnull List<T> vectors) {
+		setProgress(0f, "Clustering: K-Means: Getting initial seeds: Travelling Salesman...");
 		List<T> route = solver.run(new HashSet<>(vectors)).getNodes();
 		return IntStreams.range(0, clusterCount).mapToObj(index -> {
 			float f = 1f * index / clusterCount;
