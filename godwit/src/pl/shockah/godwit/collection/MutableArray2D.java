@@ -11,7 +11,7 @@ public class MutableArray2D<T> extends Array2D<T> {
 
 	@SuppressWarnings("unchecked")
 	public MutableArray2D(int width, int height, @Nonnull T fillWith) {
-		super((Class<T>)fillWith.getClass(), width, height);
+		super((Class<? extends T>)fillWith.getClass(), width, height);
 		Arrays.fill(array, fillWith);
 	}
 

@@ -1,4 +1,4 @@
-package pl.shockah.godwit;
+package pl.shockah.godwit.collection;
 
 import javax.annotation.Nullable;
 

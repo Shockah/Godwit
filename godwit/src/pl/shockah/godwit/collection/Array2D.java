@@ -4,6 +4,9 @@ import java.lang.reflect.Array;
 
 import javax.annotation.Nonnull;
 
+import lombok.EqualsAndHashCode;
+
+@EqualsAndHashCode
 public class Array2D<T> {
 	public final int width;
 	public final int height;
@@ -17,6 +20,11 @@ public class Array2D<T> {
 		this.height = height;
 		length = width * height;
 		array = (T[])Array.newInstance(clazz, length);
+	}
+
+	@Override
+	public String toString() {
+		return String.format("[Array2D: %dx%d]", width, height);
 	}
 
 	protected final int getIndex(int x, int y) {

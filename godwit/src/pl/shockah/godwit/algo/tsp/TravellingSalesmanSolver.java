@@ -11,7 +11,7 @@ import javax.annotation.Nullable;
 import java8.util.Maps;
 import lombok.Getter;
 import pl.shockah.func.Func1;
-import pl.shockah.godwit.UnorderedPair;
+import pl.shockah.godwit.collection.UnorderedPair;
 import pl.shockah.godwit.algo.DistanceAlgorithm;
 import pl.shockah.godwit.algo.EuclideanDistanceAlgorithm;
 import pl.shockah.godwit.operation.AbstractOperation;
