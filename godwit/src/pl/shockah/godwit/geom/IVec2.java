@@ -103,14 +103,6 @@ public abstract class IVec2 implements Easable<IVec2> {
 			return this * (1f / length);
 	}
 
-	@Nonnull public MutableVec2 getMutable() {
-		return getMutableCopy();
-	}
-
-	@Nonnull public Vec2 getImmutable() {
-		return getImmutableCopy();
-	}
-
 	@Nonnull public final MutableVec2 getMutableCopy() {
 		return new MutableVec2(x(), y());
 	}

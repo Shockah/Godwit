@@ -98,9 +98,4 @@ public final class MutableVec2 extends IVec2 {
 	@Nonnull public MutableVec2 getCopy() {
 		return new MutableVec2(this);
 	}
-
-	@Override
-	@Nonnull public MutableVec2 getMutable() {
-		return this;
-	}
 }

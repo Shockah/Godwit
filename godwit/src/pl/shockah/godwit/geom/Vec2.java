@@ -56,9 +56,4 @@ public final class Vec2 extends IVec2 {
 	@Nonnull public Vec2 getCopy() {
 		return new Vec2(this);
 	}
-
-	@Override
-	@Nonnull public Vec2 getImmutable() {
-		return this;
-	}
 }
