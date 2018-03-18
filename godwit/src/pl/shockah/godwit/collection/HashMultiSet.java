@@ -39,7 +39,7 @@ public class HashMultiSet<E> implements MultiSet<E> {
 	@Override
 	public int add(E element) {
 		size++;
-		return ++Maps.putIfAbsent(counts, element, new Count()).value;
+		return ++Maps.computeIfAbsent(counts, element, key -> new Count()).value;
 	}
 
 	@Override
