@@ -1,5 +1,7 @@
 package pl.shockah.godwit.gl.color;
 
+import com.badlogic.gdx.graphics.Color;
+
 import javax.annotation.Nonnull;
 
 import lombok.EqualsAndHashCode;
@@ -18,20 +20,28 @@ public class HSVColorSpace implements ColorSpace<HSVColorSpace> {
 		this.v = v;
 	}
 
+	@Nonnull public static HSVColorSpace from(@Nonnull Color color) {
+		return from(color.r, color.g, color.b);
+	}
+
 	@Nonnull public static HSVColorSpace from(@Nonnull RGBColorSpace rgb) {
-		float max = Math2.max(rgb.r, rgb.g, rgb.b);
-		float min = Math2.min(rgb.r, rgb.g, rgb.b);
+		return from(rgb.r, rgb.g, rgb.b);
+	}
+
+	@Nonnull public static HSVColorSpace from(float r, float g, float b) {
+		float max = Math2.max(r, g, b);
+		float min = Math2.min(r, g, b);
 		float range = max - min;
 
 		float h, s, v;
 		if (range == 0)
 			h = 0;
-		else if (max == rgb.r)
-			h = (60 * (rgb.g - rgb.b) / range + 360) % 360;
-		else if (max == rgb.g)
-			h = 60 * (rgb.b - rgb.r) / range + 120;
+		else if (max == r)
+			h = (60 * (g - b) / range + 360) % 360;
+		else if (max == g)
+			h = 60 * (b - r) / range + 120;
 		else
-			h = 60 * (rgb.r - rgb.g) / range + 240;
+			h = 60 * (r - g) / range + 240;
 
 		if (max > 0)
 			s = 1 - min / max;

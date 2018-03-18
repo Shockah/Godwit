@@ -1,5 +1,7 @@
 package pl.shockah.godwit.gl.color;
 
+import com.badlogic.gdx.graphics.Color;
+
 import javax.annotation.Nonnull;
 
 import lombok.EqualsAndHashCode;
@@ -36,12 +38,15 @@ public class XYZColorSpace implements ColorSpace<XYZColorSpace> {
 		this.z = z;
 	}
 
-	@Nonnull
-	public static XYZColorSpace from(@Nonnull RGBColorSpace rgb) {
-		float r = rgb.r;
-		float g = rgb.g;
-		float b = rgb.b;
+	@Nonnull public static XYZColorSpace from(@Nonnull Color color) {
+		return from(color.r, color.g, color.b);
+	}
 
+	@Nonnull public static XYZColorSpace from(@Nonnull RGBColorSpace rgb) {
+		return from(rgb.r, rgb.g, rgb.b);
+	}
+
+	@Nonnull public static XYZColorSpace from(float r, float g, float b) {
 		r = r > 0.04045f ? (float)Math.pow((r + 0.055f) / 1.055f, 2.4f) : r / 12.92f;
 		g = g > 0.04045f ? (float)Math.pow((g + 0.055f) / 1.055f, 2.4f) : g / 12.92f;
 		b = b > 0.04045f ? (float)Math.pow((b + 0.055f) / 1.055f, 2.4f) : b / 12.92f;

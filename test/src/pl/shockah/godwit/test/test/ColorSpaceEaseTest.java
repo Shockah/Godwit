@@ -28,28 +28,28 @@ public class ColorSpaceEaseTest extends State {
 			return space1.ease(space2, f).toColor();
 		}),
 		HSV((c1, c2, f) -> {
-			HSVColorSpace space1 = HSVColorSpace.from(RGBColorSpace.from(c1));
-			HSVColorSpace space2 = HSVColorSpace.from(RGBColorSpace.from(c2));
+			HSVColorSpace space1 = HSVColorSpace.from(c1);
+			HSVColorSpace space2 = HSVColorSpace.from(c2);
 			return space1.ease(space2, f).toColor();
 		}),
 		HSL((c1, c2, f) -> {
-			HSLColorSpace space1 = HSLColorSpace.from(RGBColorSpace.from(c1));
-			HSLColorSpace space2 = HSLColorSpace.from(RGBColorSpace.from(c2));
+			HSLColorSpace space1 = HSLColorSpace.from(c1);
+			HSLColorSpace space2 = HSLColorSpace.from(c2);
 			return space1.ease(space2, f).toColor();
 		}),
 		XYZ((c1, c2, f) -> {
-			XYZColorSpace space1 = XYZColorSpace.from(RGBColorSpace.from(c1));
-			XYZColorSpace space2 = XYZColorSpace.from(RGBColorSpace.from(c2));
+			XYZColorSpace space1 = XYZColorSpace.from(c1);
+			XYZColorSpace space2 = XYZColorSpace.from(c2);
 			return space1.ease(space2, f).toColor();
 		}),
 		Lab((c1, c2, f) -> {
-			LabColorSpace space1 = LabColorSpace.from(XYZColorSpace.from(RGBColorSpace.from(c1)));
-			LabColorSpace space2 = LabColorSpace.from(XYZColorSpace.from(RGBColorSpace.from(c2)));
+			LabColorSpace space1 = LabColorSpace.from(XYZColorSpace.from(c1));
+			LabColorSpace space2 = LabColorSpace.from(XYZColorSpace.from(c2));
 			return space1.ease(space2, f).toColor();
 		}),
 		LCH((c1, c2, f) -> {
-			LCHColorSpace space1 = LCHColorSpace.from(LabColorSpace.from(XYZColorSpace.from(RGBColorSpace.from(c1))));
-			LCHColorSpace space2 = LCHColorSpace.from(LabColorSpace.from(XYZColorSpace.from(RGBColorSpace.from(c2))));
+			LCHColorSpace space1 = LCHColorSpace.from(LabColorSpace.from(XYZColorSpace.from(c1)));
+			LCHColorSpace space2 = LCHColorSpace.from(LabColorSpace.from(XYZColorSpace.from(c2)));
 			return space1.ease(space2, f).toColor();
 		});
 

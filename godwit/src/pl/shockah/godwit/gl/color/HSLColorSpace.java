@@ -1,5 +1,7 @@
 package pl.shockah.godwit.gl.color;
 
+import com.badlogic.gdx.graphics.Color;
+
 import javax.annotation.Nonnull;
 
 import lombok.EqualsAndHashCode;
@@ -18,9 +20,17 @@ public class HSLColorSpace implements ColorSpace<HSLColorSpace> {
 		this.l = l;
 	}
 
+	@Nonnull public static HSLColorSpace from(@Nonnull Color color) {
+		return from(color.r, color.g, color.b);
+	}
+
 	@Nonnull public static HSLColorSpace from(@Nonnull RGBColorSpace rgb) {
-		float max = Math2.max(rgb.r, rgb.g, rgb.b);
-		float min = Math2.min(rgb.r, rgb.g, rgb.b);
+		return from(rgb.r, rgb.g, rgb.b);
+	}
+
+	@Nonnull public static HSLColorSpace from(float r, float g, float b) {
+		float max = Math2.max(r, g, b);
+		float min = Math2.min(r, g, b);
 		float range = max - min;
 
 		float h = 0, s;
@@ -31,15 +41,15 @@ public class HSLColorSpace implements ColorSpace<HSLColorSpace> {
 		} else {
 			s = l < 0.5f ? range / (max + min) : range / (2 - max - min);
 
-			float rr = ((max - rgb.r) / 6f + range / 2f) / range;
-			float gg = ((max - rgb.g) / 6f + range / 2f) / range;
-			float bb = ((max - rgb.b) / 6f + range / 2f) / range;
+			float rr = ((max - r) / 6f + range / 2f) / range;
+			float gg = ((max - g) / 6f + range / 2f) / range;
+			float bb = ((max - b) / 6f + range / 2f) / range;
 
-			if (max == rgb.r)
+			if (max == r)
 				h = bb - gg;
-			else if (max == rgb.g)
+			else if (max == g)
 				h = (1f / 3f) + rr - bb;
-			else if (max == rgb.b)
+			else if (max == b)
 				h = (2f / 3f) + gg - rr;
 
 			if (h < 0)
