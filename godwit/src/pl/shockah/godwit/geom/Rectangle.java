@@ -94,7 +94,7 @@ public class Rectangle extends Shape implements Shape.Filled, Shape.Outline, Pol
 		return copyRectangle();
 	}
 
-	@Nonnull Rectangle copyRectangle() {
+	@Nonnull public Rectangle copyRectangle() {
 		return new Rectangle(position, size);
 	}
 
