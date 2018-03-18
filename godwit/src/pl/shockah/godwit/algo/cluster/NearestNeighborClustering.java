@@ -46,7 +46,7 @@ public class NearestNeighborClustering<T> extends Clustering<T> {
 				setProgress(percentage, String.format("Clustering: Nearest Neighbor: %.0f%%", percentage * 100f));
 			}
 
-			float smallestDistance = Float.MAX_VALUE;
+			float smallestDistance = Float.POSITIVE_INFINITY;
 			MultiSet<T> closestCluster = null;
 			for (MultiSet<T> cluster : clusters) {
 				for (T vector2 : cluster.distinct()) {

@@ -50,7 +50,7 @@ public abstract class KMeansClustering<T> extends Clustering<T> {
 				clusters[i].clear();
 			}
 			for (T vector : vectors) {
-				float smallestDistance = Float.MAX_VALUE;
+				float smallestDistance = Float.POSITIVE_INFINITY;
 				int closestClusterIndex = -1;
 				for (int i = 0; i < clusters.length; i++) {
 					float distance = distanceAlgorithm.getDistance(toVectorFunc.call(vector), toVectorFunc.call(seeds[i]));
