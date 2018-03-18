@@ -26,7 +26,7 @@ public final class Animatables {
 	@Nonnull private static final Map<Animatable<?>, Properties> properties = new WeakHashMap<>();
 
 	@SuppressWarnings("unchecked")
-	public static <T extends Animatable<T>> Properties getAnimatableProperties(T animatable) {
+	public static <T extends Animatable<T>> Properties getAnimatableProperties(@Nonnull T animatable) {
 		return Maps.computeIfAbsent(properties, animatable, key -> new Properties<>((T)key));
 	}
 }
