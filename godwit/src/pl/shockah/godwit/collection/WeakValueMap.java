@@ -1,4 +1,4 @@
-package pl.shockah.util;
+package pl.shockah.godwit.collection;
 
 import javax.annotation.Nonnull;
 import java.lang.ref.WeakReference;

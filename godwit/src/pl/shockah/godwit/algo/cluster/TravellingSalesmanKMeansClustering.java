@@ -1,5 +1,6 @@
 package pl.shockah.godwit.algo.cluster;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class TravellingSalesmanKMeansClustering<T> extends KMeansClustering<T> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	@Nonnull protected T[] getInitialSeeds(@Nonnull List<T> vectors) {
+	@Nonnull protected T[] getInitialSeeds(@Nonnull Collection<T> vectors) {
 		setProgress(0f, "Clustering: K-Means: Getting initial seeds: Travelling Salesman...");
 		List<T> route = solver.run(new HashSet<>(vectors)).getNodes();
 		return IntStreams.range(0, clusterCount).mapToObj(index -> {

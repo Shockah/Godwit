@@ -16,7 +16,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.Delegate;
 import pl.shockah.func.Action1;
-import pl.shockah.util.SortedLinkedList;
+import pl.shockah.godwit.collection.SortedLinkedList;
 
 public class GestureInputManager extends BaseInputManager<GestureInputManager.Processor> {
 	@Nonnull protected static final Comparator<Processor> orderComparator = (o1, o2) -> -Float.compare(o1.order, o2.order);

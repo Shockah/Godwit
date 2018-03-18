@@ -1,6 +1,7 @@
 package pl.shockah.godwit.algo.cluster;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -22,7 +23,7 @@ public class RandomKMeansClustering<T> extends KMeansClustering<T> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	@Nonnull protected T[] getInitialSeeds(@Nonnull List<T> vectors) {
+	@Nonnull protected T[] getInitialSeeds(@Nonnull Collection<T> vectors) {
 		setProgress(0f, "Clustering: K-Means: Getting initial seeds: Random...");
 		List<T> shuffled = new ArrayList<>(new HashSet<>(vectors));
 		Collections.shuffle(shuffled);

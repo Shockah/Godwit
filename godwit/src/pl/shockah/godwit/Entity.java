@@ -14,7 +14,7 @@ import pl.shockah.godwit.geom.MutableVec2;
 import pl.shockah.godwit.geom.Vec2;
 import pl.shockah.godwit.gl.Gfx;
 import pl.shockah.godwit.gl.Renderable;
-import pl.shockah.util.SafeList;
+import pl.shockah.godwit.collection.SafeList;
 
 public class Entity implements Renderable, Animatable<Entity> {
 	@Nonnull public final SafeList<Entity> children = new SafeList<>(new ArrayList<>());

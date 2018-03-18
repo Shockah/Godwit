@@ -1,4 +1,4 @@
-package pl.shockah.util;
+package pl.shockah.godwit.collection;
 
 import java.util.Collection;
 import java.util.Comparator;

@@ -2,6 +2,7 @@ package pl.shockah.godwit.algo.cluster;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.annotation.Nonnull;
@@ -23,11 +24,11 @@ public abstract class KMeansClustering<T> extends Clustering<T> {
 		this.clusterCount = clusterCount;
 	}
 
-	@Nonnull protected abstract T[] getInitialSeeds(@Nonnull List<T> vectors);
+	@Nonnull protected abstract T[] getInitialSeeds(@Nonnull Collection<T> vectors);
 
 	@SuppressWarnings("unchecked")
 	@Override
-	@Nonnull protected List<T>[] execute(@Nonnull List<T> vectors) {
+	@Nonnull protected List<T>[] execute(@Nonnull Collection<T> vectors) {
 		List<T>[] clusters = (List<T>[])Array.newInstance(List.class, clusterCount);
 		for (int i = 0; i < clusters.length; i++) {
 			clusters[i] = new ArrayList<>();
@@ -77,15 +78,15 @@ public abstract class KMeansClustering<T> extends Clustering<T> {
 		for (int i = 0; i < clusters1.length; i++) {
 			if (clusters1[i].size() != clusters2[i].size())
 				return false;
-			for (int j = 0; j < clusters1[i].size(); j++) {
-				if (!clusters1[i][j].equals(clusters2[i][j]))
-					return false;
-			}
+			if (!clusters1[i].equals(clusters2[i]))
+				return false;
 		}
 		return true;
 	}
 
-	@Nonnull private T newSeed(@Nonnull T oldSeed, @Nonnull List<T> vectors) {
+	@Nonnull private T newSeed(@Nonnull T oldSeed, @Nonnull Collection<T> vectors) {
+		if (vectors.isEmpty())
+			throw new IllegalArgumentException("Cannot generate a seed for an empty set.");
 		float[] newSeed = new float[toVectorFunc.call(oldSeed).length];
 		for (T vector : vectors) {
 			float[] vectorf = toVectorFunc.call(vector);

@@ -1,5 +1,6 @@
 package pl.shockah.godwit.algo.cluster;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.annotation.Nonnull;
@@ -31,8 +32,10 @@ public class NearestNeighborKMeansClustering<T> extends KMeansClustering<T> {
 		this.thresholdMultiplier = thresholdMultiplier;
 	}
 
-	@Nonnull protected final T getAverageVector(@Nonnull List<T> vectors) {
-		float[] average = new float[toVectorFunc.call(vectors[0]).length];
+	@Nonnull protected final T getAverageVector(@Nonnull Collection<T> vectors) {
+		if (vectors.isEmpty())
+			throw new IllegalArgumentException("Cannot get an average for an empty set.");
+		float[] average = new float[toVectorFunc.call(vectors.iterator().next()).length];
 		for (T vector : vectors) {
 			float[] vectorf = toVectorFunc.call(vector);
 			for (int n = 0; n < average.length; n++) {
@@ -47,7 +50,7 @@ public class NearestNeighborKMeansClustering<T> extends KMeansClustering<T> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	@Nonnull protected T[] getInitialSeeds(@Nonnull List<T> vectors) {
+	@Nonnull protected T[] getInitialSeeds(@Nonnull Collection<T> vectors) {
 		float threshold = initialThreshold;
 		float inversePercentage = 1f;
 		while (true) {

@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.TimeUtils;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -39,7 +38,7 @@ public class ClusteringTest extends State {
 						v -> new Vec2(v[0], v[1]),
 						4,
 						new NearestNeighborTravellingSalesmanSolver<>(v -> new float[]{v.x(), v.y()}, 0f)
-				).run(new ArrayList<>(nodes));
+				).run(nodes);
 				System.out.println(String.format("Solved in %dms", TimeUtils.millis() - ms));
 			}
 		}
