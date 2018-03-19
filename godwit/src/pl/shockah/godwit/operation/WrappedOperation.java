@@ -27,12 +27,12 @@ public abstract class WrappedOperation<Input, Output, WrappedInput, WrappedOutpu
 	// Retrolambda hates generic default methods
 
 	@Override
-	public <T> ChainOperation<Input, Output, T> chain(@Nonnull Operation<Output, T> operation) {
+	@Nonnull public <T> ChainOperation<Input, Output, T> chain(@Nonnull Operation<Output, T> operation) {
 		return ChainOperation.chain(this, operation);
 	}
 
 	@Override
-	public <T> ChainOperation<Input, OperationResult<Input, Output>, T> chainResult(@Nonnull Operation<OperationResult<Input, Output>, T> operation) {
+	@Nonnull public <T> ChainOperation<Input, OperationResult<Input, Output>, T> chainResult(@Nonnull Operation<OperationResult<Input, Output>, T> operation) {
 		return ChainOperation.chainResult(this, operation);
 	}
 }

@@ -13,7 +13,7 @@ public final class FuncOperation<Input, Output> extends AbstractOperation<Input,
 		this(1f, func);
 	}
 
-	public FuncOperation(Func2<FuncOperation<Input, Output>, Input, Output> func) {
+	public FuncOperation(@Nonnull Func2<FuncOperation<Input, Output>, Input, Output> func) {
 		this(1f, func);
 	}
 

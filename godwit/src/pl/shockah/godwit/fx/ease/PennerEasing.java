@@ -1,19 +1,21 @@
 package pl.shockah.godwit.fx.ease;
 
+import javax.annotation.Nonnull;
+
 public abstract class PennerEasing extends Easing {
-	public static final PennerEasing quadIn = new PennerEasing() {
+	@Nonnull public static final PennerEasing quadIn = new PennerEasing() {
 		@Override
 		public float ease(float f) {
 			return f * f;
 		}
 	};
-	public static final PennerEasing quadOut = new PennerEasing() {
+	@Nonnull public static final PennerEasing quadOut = new PennerEasing() {
 		@Override
 		public float ease(float f) {
 			return -(f * (f - 2));
 		}
 	};
-	public static final PennerEasing quadInOut = new PennerEasing() {
+	@Nonnull public static final PennerEasing quadInOut = new PennerEasing() {
 		@Override
 		public float ease(float f) {
 			if (f < 0.5f)
@@ -23,19 +25,19 @@ public abstract class PennerEasing extends Easing {
 		}
 	};
 
-	public static final PennerEasing cubicIn = new PennerEasing() {
+	@Nonnull public static final PennerEasing cubicIn = new PennerEasing() {
 		@Override
 		public float ease(float f) {
 			return f * f * f;
 		}
 	};
-	public static final PennerEasing cubicOut = new PennerEasing() {
+	@Nonnull public static final PennerEasing cubicOut = new PennerEasing() {
 		@Override
 		public float ease(float f) {
 			return cubicIn.ease(f - 1) + 1;
 		}
 	};
-	public static final PennerEasing cubicInOut = new PennerEasing() {
+	@Nonnull public static final PennerEasing cubicInOut = new PennerEasing() {
 		@Override
 		public float ease(float f) {
 			if (f < 0.5f) {
@@ -47,20 +49,20 @@ public abstract class PennerEasing extends Easing {
 		}
 	};
 
-	public static final PennerEasing quarticIn = new PennerEasing() {
+	@Nonnull public static final PennerEasing quarticIn = new PennerEasing() {
 		@Override
 		public float ease(float f) {
 			return f * f * f * f;
 		}
 	};
-	public static final PennerEasing quarticOut = new PennerEasing() {
+	@Nonnull public static final PennerEasing quarticOut = new PennerEasing() {
 		@Override
 		public float ease(float f) {
 			float f2 = (f - 1);
 			return f2 * f2 * f2 * (1 - f) + 1;
 		}
 	};
-	public static final PennerEasing quarticInOut = new PennerEasing() {
+	@Nonnull public static final PennerEasing quarticInOut = new PennerEasing() {
 		@Override
 		public float ease(float f) {
 			if (f < 0.5f) {
@@ -72,19 +74,19 @@ public abstract class PennerEasing extends Easing {
 		}
 	};
 
-	public static final PennerEasing quinticIn = new PennerEasing() {
+	@Nonnull public static final PennerEasing quinticIn = new PennerEasing() {
 		@Override
 		public float ease(float f) {
 			return f * f * f * f * f;
 		}
 	};
-	public static final PennerEasing quinticOut = new PennerEasing() {
+	@Nonnull public static final PennerEasing quinticOut = new PennerEasing() {
 		@Override
 		public float ease(float f) {
 			return quinticIn.ease(f - 1) + 1;
 		}
 	};
-	public static final PennerEasing quinticInOut = new PennerEasing() {
+	@Nonnull public static final PennerEasing quinticInOut = new PennerEasing() {
 		@Override
 		public float ease(float f) {
 			if (f < 0.5f) {
@@ -96,38 +98,38 @@ public abstract class PennerEasing extends Easing {
 		}
 	};
 
-	public static final PennerEasing sineIn = new PennerEasing() {
+	@Nonnull public static final PennerEasing sineIn = new PennerEasing() {
 		@Override
 		public float ease(float f) {
 			return (float)Math.sin((f - 1) * Math.PI * 0.5f) + 1;
 		}
 	};
-	public static final PennerEasing sineOut = new PennerEasing() {
+	@Nonnull public static final PennerEasing sineOut = new PennerEasing() {
 		@Override
 		public float ease(float f) {
 			return (float)Math.sin(f * Math.PI * 0.5f);
 		}
 	};
-	public static final PennerEasing sineInOut = new PennerEasing() {
+	@Nonnull public static final PennerEasing sineInOut = new PennerEasing() {
 		@Override
 		public float ease(float f) {
 			return 0.5f * (1 - (float)Math.cos(f * Math.PI));
 		}
 	};
 
-	public static final PennerEasing circularIn = new PennerEasing() {
+	@Nonnull public static final PennerEasing circularIn = new PennerEasing() {
 		@Override
 		public float ease(float f) {
 			return 1 - (float)Math.sqrt(1 - (f * f));
 		}
 	};
-	public static final PennerEasing circularOut = new PennerEasing() {
+	@Nonnull public static final PennerEasing circularOut = new PennerEasing() {
 		@Override
 		public float ease(float f) {
 			return (float)Math.sqrt((2 - f) * f);
 		}
 	};
-	public static final PennerEasing circularInOut = new PennerEasing() {
+	@Nonnull public static final PennerEasing circularInOut = new PennerEasing() {
 		@Override
 		public float ease(float f) {
 			if (f < 0.5f)
@@ -137,19 +139,19 @@ public abstract class PennerEasing extends Easing {
 		}
 	};
 
-	public static final PennerEasing exponentialIn = new PennerEasing() {
+	@Nonnull public static final PennerEasing exponentialIn = new PennerEasing() {
 		@Override
 		public float ease(float f) {
 			return (f == 0f) ? f : (float)Math.pow(2, 10 * (f - 1));
 		}
 	};
-	public static final PennerEasing exponentialOut = new PennerEasing() {
+	@Nonnull public static final PennerEasing exponentialOut = new PennerEasing() {
 		@Override
 		public float ease(float f) {
 			return (f == 1f) ? f : 1 - (float)Math.pow(2, -10 * f);
 		}
 	};
-	public static final PennerEasing exponentialInOut = new PennerEasing() {
+	@Nonnull public static final PennerEasing exponentialInOut = new PennerEasing() {
 		@Override
 		public float ease(float f) {
 			if (f == 0f || f == 1f)
@@ -162,19 +164,19 @@ public abstract class PennerEasing extends Easing {
 		}
 	};
 
-	public static final PennerEasing elasticIn = new PennerEasing() {
+	@Nonnull public static final PennerEasing elasticIn = new PennerEasing() {
 		@Override
 		public float ease(float f) {
 			return (float)Math.sin(13 * Math.PI * 0.5f * f) * (float)Math.pow(2, 10 * (f - 1));
 		}
 	};
-	public static final PennerEasing elasticOut = new PennerEasing() {
+	@Nonnull public static final PennerEasing elasticOut = new PennerEasing() {
 		@Override
 		public float ease(float f) {
 			return (float)Math.sin(-13 * Math.PI * 0.5f * (f + 1)) * (float)Math.pow(2, -10 * f) + 1;
 		}
 	};
-	public static final PennerEasing elasticInOut = new PennerEasing() {
+	@Nonnull public static final PennerEasing elasticInOut = new PennerEasing() {
 		@Override
 		public float ease(float f) {
 			if (f < 0.5f)
@@ -184,19 +186,19 @@ public abstract class PennerEasing extends Easing {
 		}
 	};
 
-	public static final PennerEasing backIn = new PennerEasing() {
+	@Nonnull public static final PennerEasing backIn = new PennerEasing() {
 		@Override
 		public float ease(float f) {
 			return f * f * f - f * (float)Math.sin(f * Math.PI);
 		}
 	};
-	public static final PennerEasing backOut = new PennerEasing() {
+	@Nonnull public static final PennerEasing backOut = new PennerEasing() {
 		@Override
 		public float ease(float f) {
 			return 1f - backIn.ease(1 - f);
 		}
 	};
-	public static final PennerEasing backInOut = new PennerEasing() {
+	@Nonnull public static final PennerEasing backInOut = new PennerEasing() {
 		@Override
 		public float ease(float f) {
 			if (f < 0.5f) {
@@ -209,13 +211,13 @@ public abstract class PennerEasing extends Easing {
 		}
 	};
 
-	public static final PennerEasing bounceIn = new PennerEasing() {
+	@Nonnull public static final PennerEasing bounceIn = new PennerEasing() {
 		@Override
 		public float ease(float f) {
 			return 1f - bounceOut.ease(1 - f);
 		}
 	};
-	public static final PennerEasing bounceOut = new PennerEasing() {
+	@Nonnull public static final PennerEasing bounceOut = new PennerEasing() {
 		@Override
 		public float ease(float f) {
 			if (f < 4f / 11f)
@@ -228,7 +230,7 @@ public abstract class PennerEasing extends Easing {
 				return (54 / 5f * f * f) - (513 / 25f * f) + 268 / 25f;
 		}
 	};
-	public static final PennerEasing bounceInOut = new PennerEasing() {
+	@Nonnull public static final PennerEasing bounceInOut = new PennerEasing() {
 		@Override
 		public float ease(float f) {
 			if (f < 0.5f)

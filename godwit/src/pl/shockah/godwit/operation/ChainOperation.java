@@ -7,7 +7,7 @@ public class ChainOperation<Input, IntermediateOutput, Output> implements Operat
 	@Nonnull private final Operation<IntermediateOutput, Output> secondOperation;
 
 	private boolean executing = false;
-	private final Object lock = new Object();
+	@Nonnull private final Object lock = new Object();
 
 	public ChainOperation(@Nonnull Operation<Input, IntermediateOutput> firstOperation, @Nonnull Operation<IntermediateOutput, Output> secondOperation) {
 		this.firstOperation = firstOperation;
@@ -61,12 +61,12 @@ public class ChainOperation<Input, IntermediateOutput, Output> implements Operat
 	// Retrolambda hates generic default methods
 
 	@Override
-	public <T> ChainOperation<Input, Output, T> chain(@Nonnull Operation<Output, T> operation) {
+	@Nonnull public <T> ChainOperation<Input, Output, T> chain(@Nonnull Operation<Output, T> operation) {
 		return ChainOperation.chain(this, operation);
 	}
 
 	@Override
-	public <T> ChainOperation<Input, OperationResult<Input, Output>, T> chainResult(@Nonnull Operation<OperationResult<Input, Output>, T> operation) {
+	@Nonnull public <T> ChainOperation<Input, OperationResult<Input, Output>, T> chainResult(@Nonnull Operation<OperationResult<Input, Output>, T> operation) {
 		return ChainOperation.chainResult(this, operation);
 	}
 }

@@ -15,7 +15,7 @@ public abstract class AbstractOperation<Input, Output> implements Operation<Inpu
 	@Nullable private String progressDescription = null;
 
 	private boolean executing = false;
-	private final Object lock = new Object();
+	@Nonnull private final Object lock = new Object();
 
 	public AbstractOperation() {
 		this(1f);
@@ -68,12 +68,12 @@ public abstract class AbstractOperation<Input, Output> implements Operation<Inpu
 	// Retrolambda hates generic default methods
 
 	@Override
-	public <T> ChainOperation<Input, Output, T> chain(@Nonnull Operation<Output, T> operation) {
+	@Nonnull public <T> ChainOperation<Input, Output, T> chain(@Nonnull Operation<Output, T> operation) {
 		return ChainOperation.chain(this, operation);
 	}
 
 	@Override
-	public <T> ChainOperation<Input, OperationResult<Input, Output>, T> chainResult(@Nonnull Operation<OperationResult<Input, Output>, T> operation) {
+	@Nonnull public <T> ChainOperation<Input, OperationResult<Input, Output>, T> chainResult(@Nonnull Operation<OperationResult<Input, Output>, T> operation) {
 		return ChainOperation.chainResult(this, operation);
 	}
 }
