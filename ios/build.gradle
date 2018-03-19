@@ -1,5 +1,8 @@
 apply plugin: "java"
 apply plugin: "me.tatarka.retrolambda"
+apply plugin: "maven"
+
+group = "com.github.Shockah"
 
 retrolambda {
 	javaVersion JavaVersion.VERSION_1_7
