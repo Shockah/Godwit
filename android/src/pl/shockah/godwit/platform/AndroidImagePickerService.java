@@ -37,7 +37,7 @@ public class AndroidImagePickerService implements ImagePickerService {
 						Bitmap bitmap = result.getBitmap();
 						Gdx.app.postRunnable(() -> {
 							int[] pixels = new int[bitmap.getWidth() * bitmap.getHeight()];
-							bitmap.getPixels(pixels, 0, 4, 0, 0, bitmap.getWidth(), bitmap.getHeight());
+							bitmap.getPixels(pixels, 0, bitmap.getWidth(), 0, 0, bitmap.getWidth(), bitmap.getHeight());
 							for (int i = 0; i< pixels.length; i++) {
 								int pixel = pixels[i];
 								pixels[i] = (pixel << 8) | ((pixel >> 24) & 0xFF);
