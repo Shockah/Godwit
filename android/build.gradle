@@ -9,12 +9,14 @@ buildscript {
 		google()
 	}
 	dependencies {
-		classpath "com.github.dcendents:android-maven-gradle-plugin:1.4.1"
 		classpath "com.android.tools.build:gradle:3.0.1"
 	}
 }
 
 apply plugin: "com.android.library"
+apply plugin: "com.github.dcendents.android-maven"
+
+group = "com.github.Shockah"
 
 configurations {
 	natives
