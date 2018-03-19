@@ -1,0 +1,32 @@
+apply plugin: "java"
+apply plugin: "me.tatarka.retrolambda"
+
+retrolambda {
+	javaVersion JavaVersion.VERSION_1_7
+	defaultMethods true
+}
+
+dependencies {
+	compile project(":core")
+	compile "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
+	compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+	compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
+}
+
+targetCompatibility = "1.8"
+sourceCompatibility = "1.8"
+[compileJava, compileTestJava]*.options*.encoding = "UTF-8"
+
+sourceSets.main {
+	java.srcDirs = ["src"]
+	resources.srcDirs = ["resources"]
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+	classifier = "sources"
+	from sourceSets.main.allSource
+}
+
+artifacts {
+	archives sourcesJar
+}

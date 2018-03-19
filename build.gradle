@@ -16,9 +16,9 @@ buildscript {
 allprojects {
 	ext {
 		appName = "Godwit"
-		gdxVersion = "1.9.6"
+		gdxVersion = "1.9.8"
+		roboVMVersion = "2.3.+"
 		lombokVersion = "1.16.20"
-		groovyVersion = "2.6.0-alpha-2"
 	}
 
 	repositories {
