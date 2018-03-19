@@ -8,7 +8,7 @@ import javax.annotation.Nonnull;
 public class GodwitAdapter extends ApplicationAdapter {
 	@Nonnull public final State initialState;
 
-	public GodwitAdapter(@Nonnull State initialState) {
+	GodwitAdapter(@Nonnull State initialState) {
 		this.initialState = initialState;
 	}
 
