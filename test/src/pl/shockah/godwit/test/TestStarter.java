@@ -3,7 +3,7 @@ package pl.shockah.godwit.test;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 
-import pl.shockah.godwit.GodwitAdapter;
+import pl.shockah.godwit.PlatformGodwitAdapter;
 import pl.shockah.godwit.State;
 
 public final class TestStarter {
@@ -16,7 +16,7 @@ public final class TestStarter {
 			State state = clazz.newInstance();
 			if (state instanceof Configurable)
 				((Configurable)state).configure(config);
-			new Lwjgl3Application(new GodwitAdapter(state), config);
+			new Lwjgl3Application(new PlatformGodwitAdapter(state), config);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

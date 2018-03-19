@@ -1,8 +1,6 @@
 package pl.shockah.godwit.platform;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
 
 import org.robovm.apple.foundation.NSString;
 import org.robovm.apple.uikit.UIAlertAction;
@@ -22,7 +20,7 @@ import javax.annotation.Nonnull;
 
 import pl.shockah.func.Action1;
 
-public class IosImagePickerService implements ImagePickerService {
+public class IosImagePickerService extends ImagePickerService {
 	@Nonnull private final WeakReference<UIViewController> controllerRef;
 
 	public IosImagePickerService(@Nonnull UIViewController controller) {
@@ -37,8 +35,8 @@ public class IosImagePickerService implements ImagePickerService {
 	}
 
 	@Override
-	public void openImagePicker(@Nonnull Action1<Texture> delegate) {
-		UIAlertController alert = new UIAlertController("Choose source:", null, UIAlertControllerStyle.Alert);
+	public void getPixmapViaImagePicker(@Nonnull Action1<Pixmap> delegate) {
+		UIAlertController alert = new UIAlertController("Choose source", null, UIAlertControllerStyle.ActionSheet);
 		alert.addAction(new UIAlertAction("Camera", UIAlertActionStyle.Default, action -> {
 			showImagePickerController(UIImagePickerControllerSourceType.Camera, delegate);
 		}));
@@ -48,19 +46,14 @@ public class IosImagePickerService implements ImagePickerService {
 		getController().presentViewController(alert, true, null);
 	}
 
-	private void showImagePickerController(@Nonnull UIImagePickerControllerSourceType sourceType, @Nonnull Action1<Texture> delegate) {
+	private void showImagePickerController(@Nonnull UIImagePickerControllerSourceType sourceType, @Nonnull Action1<Pixmap> delegate) {
 		UIImagePickerController picker = new UIImagePickerController();
 		picker.setDelegate(new UIImagePickerControllerDelegateAdapter() {
 			@Override
 			public void didFinishPickingMedia(UIImagePickerController picker, UIImagePickerControllerEditingInfo info) {
 				UIImage image = (UIImage)info.get(new NSString("UIImagePickerControllerEditedImage"));
 				byte[] bytes = image.toPNGData().getBytes();
-				Gdx.app.postRunnable(() -> {
-					Pixmap pixmap = new Pixmap(bytes, 0, bytes.length);
-					Texture texture = new Texture(pixmap);
-					pixmap.dispose();
-					delegate.call(texture);
-				});
+				delegate.call(new Pixmap(bytes, 0, bytes.length));
 			}
 		});
 		picker.setAllowsEditing(true);
