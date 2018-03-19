@@ -1,7 +1,7 @@
 package pl.shockah.godwit.platform;
 
 import android.graphics.Bitmap;
-import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -16,17 +16,17 @@ import javax.annotation.Nonnull;
 import pl.shockah.func.Action1;
 
 public class AndroidImagePickerService implements ImagePickerService {
-	@Nonnull private final WeakReference<FragmentActivity> activityRef;
+	@Nonnull private final WeakReference<FragmentManager> managerRef;
 
-	public AndroidImagePickerService(@Nonnull FragmentActivity activity) {
-		this.activityRef = new WeakReference<>(activity);
+	public AndroidImagePickerService(@Nonnull FragmentManager manager) {
+		this.managerRef = new WeakReference<>(manager);
 	}
 
-	@Nonnull private FragmentActivity getActivity() {
-		FragmentActivity activity = activityRef.get();
-		if (activity == null)
-			throw new IllegalStateException("Lost context.");
-		return activity;
+	@Nonnull private FragmentManager getManager() {
+		FragmentManager manager = managerRef.get();
+		if (manager == null)
+			throw new IllegalStateException("Lost manager.");
+		return manager;
 	}
 
 	@Override
@@ -47,6 +47,6 @@ public class AndroidImagePickerService implements ImagePickerService {
 						pixmap.dispose();
 						delegate.call(texture);
 					});
-				}).show(getActivity());
+				}).show(getManager());
 	}
 }
