@@ -1,6 +1,6 @@
 package pl.shockah.godwit;
 
-import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentActivity;
 
 import javax.annotation.Nonnull;
 
@@ -10,7 +10,7 @@ import pl.shockah.godwit.platform.ImagePickerService;
 
 @UtilityClass
 public final class GodwitAndroidSetup {
-	public static void setup(@Nonnull FragmentManager fragmentManager) {
-		Godwit.getInstance().platformServiceProvider.register(ImagePickerService.class, new AndroidImagePickerService(fragmentManager));
+	public static void setup(@Nonnull FragmentActivity activity) {
+		Godwit.getInstance().platformServiceProvider.register(ImagePickerService.class, new AndroidImagePickerService(activity));
 	}
 }
