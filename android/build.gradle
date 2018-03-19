@@ -22,7 +22,9 @@ configurations {
 dependencies {
 	compile project(':core')
 	annotationProcessor "java-oo:javac8-oo-plugin:0.5"
+	testAnnotationProcessor "java-oo:javac8-oo-plugin:0.5"
 	annotationProcessor "org.projectlombok:lombok:1.16.20"
+	testAnnotationProcessor "org.projectlombok:lombok:1.16.20"
 	compile "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
 	natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi"
 	natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi-v7a"
