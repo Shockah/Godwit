@@ -1,5 +1,6 @@
 package pl.shockah.godwit.platform;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 
@@ -54,10 +55,12 @@ public class IosImagePickerService implements ImagePickerService {
 			public void didFinishPickingMedia(UIImagePickerController picker, UIImagePickerControllerEditingInfo info) {
 				UIImage image = (UIImage)info.get(new NSString("UIImagePickerControllerEditedImage"));
 				byte[] bytes = image.toPNGData().getBytes();
-				Pixmap pixmap = new Pixmap(bytes, 0, bytes.length);
-				Texture texture = new Texture(pixmap);
-				pixmap.dispose();
-				delegate.call(texture);
+				Gdx.app.postRunnable(() -> {
+					Pixmap pixmap = new Pixmap(bytes, 0, bytes.length);
+					Texture texture = new Texture(pixmap);
+					pixmap.dispose();
+					delegate.call(texture);
+				});
 			}
 		});
 		picker.setAllowsEditing(true);
