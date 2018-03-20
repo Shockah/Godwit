@@ -35,7 +35,7 @@ public class IosImagePickerService extends ImagePickerService {
 
 	@Override
 	public void getPixmapViaImagePicker(@Nonnull Action1<Pixmap> delegate) {
-		UIAlertController alert = new UIAlertController("Choose source", null, UIAlertControllerStyle.ActionSheet);
+		UIAlertController alert = new UIAlertController(null, null, UIAlertControllerStyle.ActionSheet);
 		alert.addAction(new UIAlertAction("Camera", UIAlertActionStyle.Default, action -> {
 			showImagePickerController(UIImagePickerControllerSourceType.Camera, delegate);
 		}));
@@ -53,12 +53,11 @@ public class IosImagePickerService extends ImagePickerService {
 		picker.setDelegate(new UIImagePickerControllerDelegateAdapter() {
 			@Override
 			public void didFinishPickingMedia(UIImagePickerController picker, UIImagePickerControllerEditingInfo info) {
-				UIImage image = info.getEditedImage();
-				System.out.println(String.format("image: %s", image));
-				byte[] bytes = image.toPNGData().getBytes();
-				System.out.println(String.format("bytes: %d", bytes.length));
-				delegate.call(new Pixmap(bytes, 0, bytes.length));
-				System.out.println("Delegate called");
+				picker.dismissViewController(true, () -> {
+					UIImage image = info.getEditedImage();
+					byte[] bytes = image.toPNGData().getBytes();
+					delegate.call(new Pixmap(bytes, 0, bytes.length));
+				});
 			}
 		});
 		picker.setAllowsEditing(true);
