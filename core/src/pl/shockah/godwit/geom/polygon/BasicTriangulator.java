@@ -32,7 +32,7 @@ public class BasicTriangulator implements Triangulator {
 	@Override
 	public boolean triangulate() {
 		tried = true;
-		return process(poly, tris);
+		return process(poly.toArray(new IVec2[poly.size()]), tris);
 	}
 
 	@Override
@@ -49,16 +49,16 @@ public class BasicTriangulator implements Triangulator {
 		return tris.get(tri * 3 + i);
 	}
 
-	private float area(List<IVec2> contour) {
-		int n = contour.size();
+	private float area(IVec2[] contour) {
+		int n = contour.length;
 
 		float A = 0f;
 		for (int p = n - 1, q = 0; q < n; p = q++) {
-			IVec2 contourP = contour.get(p);
-			IVec2 contourQ = contour.get(q);
+			IVec2 contourP = contour[p];
+			IVec2 contourQ = contour[q];
 			A += contourP.x() * contourQ.y() - contourQ.x() * contourP.y();
 		}
-		return A * .5f;
+		return A * 0.5f;
 	}
 
 	private boolean insideTriangle(double Ax, double Ay, double Bx, double By, double Cx, double Cy, double Px, double Py) {
@@ -84,47 +84,49 @@ public class BasicTriangulator implements Triangulator {
 		return aCROSSbp >= 0f && bCROSScp >= 0f && cCROSSap >= 0f;
 	}
 
-	private boolean snip(List<IVec2> contour, int u, int v, int w, int n, int[] V) {
+	private boolean snip(IVec2[] contour, int u, int v, int w, int n, int[] V) {
 		int p;
 		double Ax, Ay, Bx, By, Cx, Cy, Px, Py;
 
-		Ax = contour.get(V[u]).x();
-		Ay = contour.get(V[u]).y();
+		Ax = contour[V[u]].x();
+		Ay = contour[V[u]].y();
 
-		Bx = contour.get(V[v]).x();
-		By = contour.get(V[v]).y();
+		Bx = contour[V[v]].x();
+		By = contour[V[v]].y();
 
-		Cx = contour.get(V[w]).x();
-		Cy = contour.get(V[w]).y();
+		Cx = contour[V[w]].x();
+		Cy = contour[V[w]].y();
 
 		if (EPSILON > ((Bx - Ax) * (Cy - Ay)) - ((By - Ay) * (Cx - Ax)))
 			return false;
 		for (p = 0; p < n; p++) {
 			if (p == u || p == v || p == w)
 				continue;
-			Px = contour.get(V[p]).x();
-			Py = contour.get(V[p]).y();
+			Px = contour[V[p]].x();
+			Py = contour[V[p]].y();
 			if (insideTriangle(Ax, Ay, Bx, By, Cx, Cy, Px, Py))
 				return false;
 		}
 		return true;
 	}
 
-	private boolean process(List<IVec2> contour, List<IVec2> result) {
+	private boolean process(IVec2[] contour, List<IVec2> result) {
 		result.clear();
 
-		int n = contour.size();
+		int n = contour.length;
 		if (n < 3)
 			return false;
 
 		int[] V = new int[n];
 
 		if (0f < area(contour)) {
-			for (int v = 0; v < n; v++)
+			for (int v = 0; v < n; v++) {
 				V[v] = v;
+			}
 		} else {
-			for (int v = 0; v < n; v++)
+			for (int v = 0; v < n; v++) {
 				V[v] = (n - 1) - v;
+			}
 		}
 
 		int nv = n;
@@ -151,14 +153,15 @@ public class BasicTriangulator implements Triangulator {
 				b = V[v];
 				c = V[w];
 
-				result.add(contour.get(a));
-				result.add(contour.get(b));
-				result.add(contour.get(c));
+				result.add(contour[a]);
+				result.add(contour[b]);
+				result.add(contour[c]);
 
-				for (s = v, t = v + 1; t < nv; s++, t++)
+				for (s = v, t = v + 1; t < nv; s++, t++) {
 					V[s] = V[t];
+				}
 				nv--;
-				count = 2*nv;
+				count = 2 * nv;
 			}
 		}
 		return true;
