@@ -2,7 +2,6 @@ package pl.shockah.godwit.platform;
 
 import com.badlogic.gdx.graphics.Pixmap;
 
-import org.robovm.apple.foundation.NSString;
 import org.robovm.apple.uikit.UIAlertAction;
 import org.robovm.apple.uikit.UIAlertActionStyle;
 import org.robovm.apple.uikit.UIAlertController;
@@ -43,6 +42,9 @@ public class IosImagePickerService extends ImagePickerService {
 		alert.addAction(new UIAlertAction("Photos", UIAlertActionStyle.Default, action -> {
 			showImagePickerController(UIImagePickerControllerSourceType.PhotoLibrary, delegate);
 		}));
+		alert.addAction(new UIAlertAction("Cancel", UIAlertActionStyle.Cancel, action -> {
+			alert.dismissViewController(true, null);
+		}));
 		getController().presentViewController(alert, true, null);
 	}
 
@@ -51,7 +53,7 @@ public class IosImagePickerService extends ImagePickerService {
 		picker.setDelegate(new UIImagePickerControllerDelegateAdapter() {
 			@Override
 			public void didFinishPickingMedia(UIImagePickerController picker, UIImagePickerControllerEditingInfo info) {
-				UIImage image = (UIImage)info.get(new NSString("UIImagePickerControllerEditedImage"));
+				UIImage image = info.getEditedImage();
 				byte[] bytes = image.toPNGData().getBytes();
 				delegate.call(new Pixmap(bytes, 0, bytes.length));
 			}
