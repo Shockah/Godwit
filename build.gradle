@@ -34,6 +34,9 @@ allprojects {
 			url "http://amelentev.github.io/mvnrepo/"
 		}
 		maven {
+			url "http://dl.bintray.com/spookygames/oss"
+		}
+		maven {
 			url "https://jitpack.io"
 		}
 	}
