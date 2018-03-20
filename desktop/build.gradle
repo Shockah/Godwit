@@ -14,8 +14,6 @@ dependencies {
 	compile "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
 	compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
 	compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
-	compile "net.spookygames.gdx:gdx-nativefilechooser:1.0.0"
-	compile "net.spookygames.gdx:gdx-nativefilechooser-desktop:1.0.0"
 }
 
 targetCompatibility = "1.8"
