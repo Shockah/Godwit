@@ -19,7 +19,7 @@ public abstract class IVec2 implements Easable<IVec2> {
 
 	@Override
 	public int hashCode() {
-		return Float.hashCode(x()) * 31 + Float.hashCode(y());
+		return Float.floatToIntBits(x()) * 31 + Float.floatToIntBits(y());
 	}
 
 	public abstract float x();

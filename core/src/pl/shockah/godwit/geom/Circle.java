@@ -49,7 +49,7 @@ public class Circle extends Shape implements Polygonable, Shape.Filled, Shape.Ou
 
 	@Override
 	public int hashCode() {
-		return position.hashCode() * 31 + Float.hashCode(radius);
+		return position.hashCode() * 31 + Float.floatToIntBits(radius);
 	}
 
 	@Override
