@@ -152,12 +152,15 @@ public class Circle extends Shape implements Polygonable, Shape.Filled, Shape.Ou
 
 	@Override
 	@Nonnull public Polygon asPolygon() {
-		return asPolygon((int)Math.ceil(Math.PI * radius * 0.5f));
+		return asPolygon(Math.max((int)Math.ceil(Math.PI * radius * 0.5f), 12));
 	}
 
 	@Nonnull public Polygon asPolygon(int precision) {
-		if (lastPoly != null && lastPoly.getPointCount() == precision && lastPrecision == precision && position.equals(lastPos))
+		if (lastPoly != null && lastPoly.getPointCount() == precision && lastPrecision == precision) {
+			if (!position.equals(lastPos))
+				lastPoly.translate(position - lastPos);
 			return lastPoly;
+		}
 
 		Polygon p = new Polygon.NoHoles();
 		for (int i = 0; i < precision; i++) {
