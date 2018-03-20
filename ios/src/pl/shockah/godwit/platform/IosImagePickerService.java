@@ -54,8 +54,11 @@ public class IosImagePickerService extends ImagePickerService {
 			@Override
 			public void didFinishPickingMedia(UIImagePickerController picker, UIImagePickerControllerEditingInfo info) {
 				UIImage image = info.getEditedImage();
+				System.out.println(String.format("image: %s", image));
 				byte[] bytes = image.toPNGData().getBytes();
+				System.out.println(String.format("bytes: %d", bytes.length));
 				delegate.call(new Pixmap(bytes, 0, bytes.length));
+				System.out.println("Delegate called");
 			}
 		});
 		picker.setAllowsEditing(true);
