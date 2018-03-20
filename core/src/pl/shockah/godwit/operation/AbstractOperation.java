@@ -12,17 +12,28 @@ public abstract class AbstractOperation<Input, Output> implements Operation<Inpu
 	public final float weight;
 
 	private float progress = 0f;
-	@Nullable private String progressDescription = null;
+
+	@Getter
+	@Nonnull public final String description;
 
 	private boolean executing = false;
 	@Nonnull private final Object lock = new Object();
 
 	public AbstractOperation() {
-		this(1f);
+		this(1f, null);
 	}
 
 	public AbstractOperation(float weight) {
+		this(weight, null);
+	}
+
+	public AbstractOperation(@Nullable String description) {
+		this(1f, description);
+	}
+
+	public AbstractOperation(float weight, @Nullable String description) {
 		this.weight = weight;
+		this.description = description != null ? description : getClass().getName();
 	}
 
 	public float getProgress() {
@@ -31,19 +42,9 @@ public abstract class AbstractOperation<Input, Output> implements Operation<Inpu
 		}
 	}
 
-	@Override
-	@Nonnull public String getProgressDescription() {
-		return progressDescription != null ? progressDescription : String.format("%.1f%%", progress * 100f);
-	}
-
 	protected void setProgress(float progress) {
-		setProgress(progress, null);
-	}
-
-	protected void setProgress(float progress, @Nullable String description) {
 		synchronized (lock) {
 			this.progress = MathUtils.clamp(progress, 0f, 1f);
-			progressDescription = description;
 		}
 	}
 

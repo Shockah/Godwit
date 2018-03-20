@@ -58,7 +58,7 @@ public class TravellingSalesmanTest extends State {
 
 		AsyncOperation<Set<IVec2>, TravellingSalesmanSolver<IVec2>.Route> async = this.async;
 		if (async != null)
-			System.out.println(async.operation.getProgressDescription());
+			System.out.println(String.format("%.1f %s", async.operation.getProgress(), async.operation.getDescription()));
 
 //		addNode(new Vec2(
 //				Godwit.getInstance().random.getFloatRangeGenerator(0f, 1f).generate(),

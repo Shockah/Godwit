@@ -55,8 +55,7 @@ public class NearestNeighborKMeansClustering<T> extends KMeansClustering<T> {
 		float inversePercentage = 1f;
 		while (true) {
 			inversePercentage *= 0.5f;
-			float percentage = (1f - inversePercentage) * 0.5f;
-			setProgress(percentage, String.format("Clustering: K-Means: Getting initial seeds: Nearest Neighbor: %.0f%%", percentage * 100f));
+			setProgress((1f - inversePercentage) * 0.5f);
 			List<T>[] clusters = new NearestNeighborClustering<>(toVectorFunc, fromVectorFunc, threshold).run(vectors);
 			if (clusters.length >= clusterCount) {
 				return RefStreams.of(clusters)

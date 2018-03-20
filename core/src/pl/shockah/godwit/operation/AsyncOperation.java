@@ -32,6 +32,14 @@ public class AsyncOperation<Input, Output> implements Runnable {
 		}
 	}
 
+	public float getProgress() {
+		return operation.getProgress();
+	}
+
+	@Nonnull public String getDescription() {
+		return operation.getDescription();
+	}
+
 	@Nonnull public Output waitAndGetOutput() {
 		while (true) {
 			synchronized (lock) {

@@ -39,8 +39,8 @@ public class ChainOperation<Input, IntermediateOutput, Output> implements Operat
 	}
 
 	@Override
-	@Nonnull public String getProgressDescription() {
-		return firstOperation.getProgress() < 1f ? firstOperation.getProgressDescription() : secondOperation.getProgressDescription();
+	@Nonnull public String getDescription() {
+		return firstOperation.getProgress() < 1f ? firstOperation.getDescription() : secondOperation.getDescription();
 	}
 
 	@Override

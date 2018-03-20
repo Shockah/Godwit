@@ -1,7 +1,6 @@
 package pl.shockah.godwit.operation;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import pl.shockah.func.Func1;
 import pl.shockah.func.Func2;
@@ -29,11 +28,6 @@ public final class FuncOperation<Input, Output> extends AbstractOperation<Input,
 	@Override
 	public void setProgress(float progress) {
 		super.setProgress(progress);
-	}
-
-	@Override
-	public void setProgress(float progress, @Nullable String description) {
-		super.setProgress(progress, description);
 	}
 
 	@Override

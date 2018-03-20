@@ -43,8 +43,7 @@ public abstract class KMeansClustering<T> extends Clustering<T> {
 		float inversePercentage = 1f;
 		while (true) {
 			inversePercentage *= 0.5f;
-			float percentage = (1f - inversePercentage) * 0.5f + 0.5f;
-			setProgress(percentage, String.format("Clustering: K-Means: %.0f%%", percentage * 100f));
+			setProgress((1f - inversePercentage) * 0.5f + 0.5f);
 			for (int i = 0; i < clusters.length; i++) {
 				seeds[i] = newSeed(seeds[i], clusters[i]);
 				clusters[i].clear();

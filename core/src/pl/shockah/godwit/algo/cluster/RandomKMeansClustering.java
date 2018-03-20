@@ -24,7 +24,7 @@ public class RandomKMeansClustering<T> extends KMeansClustering<T> {
 	@SuppressWarnings("unchecked")
 	@Override
 	@Nonnull protected T[] getInitialSeeds(@Nonnull Collection<T> vectors) {
-		setProgress(0f, "Clustering: K-Means: Getting initial seeds: Random...");
+		setProgress(0f);
 		List<T> shuffled = new ArrayList<>(new HashSet<>(vectors));
 		Collections.shuffle(shuffled);
 		return shuffled.subList(0, clusterCount).toArray((T[])new Object[clusterCount]);

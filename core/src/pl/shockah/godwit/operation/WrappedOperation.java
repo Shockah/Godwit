@@ -15,8 +15,8 @@ public abstract class WrappedOperation<Input, Output, WrappedInput, WrappedOutpu
 	}
 
 	@Override
-	@Nonnull public String getProgressDescription() {
-		return wrapped.getProgressDescription();
+	@Nonnull public String getDescription() {
+		return wrapped.getDescription();
 	}
 
 	@Override

@@ -4,7 +4,7 @@ import javax.annotation.Nonnull;
 
 public interface Operation<Input, Output> {
 	float getProgress();
-	@Nonnull String getProgressDescription();
+	@Nonnull String getDescription();
 	float getWeight();
 	@Nonnull Output run(Input input);
 
