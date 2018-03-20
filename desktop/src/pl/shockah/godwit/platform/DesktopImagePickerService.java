@@ -16,7 +16,22 @@ import pl.shockah.func.Action1;
 
 public class DesktopImagePickerService extends ImagePickerService {
 	@Override
-	public void getPixmapViaImagePicker(@Nonnull Action1<Pixmap> delegate) {
+	@Nonnull public PermissionState getPermissionState(@Nonnull Source source) {
+		return PermissionState.Authorized;
+	}
+
+	@Override
+	public boolean isCameraAvailable() {
+		return false;
+	}
+
+	@Override
+	public void requestPermission(@Nonnull Source source, @Nonnull Action1<PermissionState> newStateDelegate) {
+		newStateDelegate.call(PermissionState.Authorized);
+	}
+
+	@Override
+	public void getPixmapViaImagePicker(@Nonnull Action1<Pixmap> pixmapDelegate, @Nonnull Action1<PermissionException> permissionExceptionDelegate) {
 		EventQueue.invokeLater(() -> {
 			try {
 				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -30,7 +45,7 @@ public class DesktopImagePickerService extends ImagePickerService {
 				try {
 					File file = chooser.getSelectedFile();
 					byte[] bytes = Files.readAllBytes(file.toPath());
-					delegate.call(new Pixmap(bytes, 0, bytes.length));
+					pixmapDelegate.call(new Pixmap(bytes, 0, bytes.length));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

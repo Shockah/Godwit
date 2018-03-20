@@ -9,15 +9,37 @@ import javax.annotation.Nonnull;
 import pl.shockah.func.Action1;
 
 public abstract class ImagePickerService implements PlatformService {
-	public abstract void getPixmapViaImagePicker(@Nonnull Action1<Pixmap> delegate);
+	@Nonnull public abstract PermissionState getPermissionState(@Nonnull Source source);
 
-	public final void getTextureViaImagePicker(@Nonnull Action1<Texture> delegate) {
+	public abstract boolean isCameraAvailable();
+
+	public abstract void requestPermission(@Nonnull Source source, @Nonnull Action1<PermissionState> newStateDelegate);
+
+	public abstract void getPixmapViaImagePicker(@Nonnull Action1<Pixmap> pixmapDelegate, @Nonnull Action1<PermissionException> permissionExceptionDelegate);
+
+	public final void getTextureViaImagePicker(@Nonnull Action1<Texture> textureDelegate, @Nonnull Action1<PermissionException> permissionExceptionDelegate) {
 		getPixmapViaImagePicker(pixmap -> {
 			Gdx.app.postRunnable(() -> {
 				Texture texture = new Texture(pixmap);
 				pixmap.dispose();
-				delegate.call(texture);
+				textureDelegate.call(texture);
 			});
-		});
+		}, permissionExceptionDelegate);
+	}
+
+	public enum Source {
+		Camera, Library;
+	}
+
+	public enum PermissionState {
+		Unknown, Denied, Authorized;
+	}
+
+	public class PermissionException extends Exception {
+		@Nonnull public final Source source;
+
+		public PermissionException(@Nonnull Source source) {
+			this.source = source;
+		}
 	}
 }

@@ -2,6 +2,11 @@ package pl.shockah.godwit.platform;
 
 import com.badlogic.gdx.graphics.Pixmap;
 
+import org.robovm.apple.avfoundation.AVAuthorizationStatus;
+import org.robovm.apple.avfoundation.AVCaptureDevice;
+import org.robovm.apple.avfoundation.AVMediaType;
+import org.robovm.apple.photos.PHAuthorizationStatus;
+import org.robovm.apple.photos.PHPhotoLibrary;
 import org.robovm.apple.uikit.UIAlertAction;
 import org.robovm.apple.uikit.UIAlertActionStyle;
 import org.robovm.apple.uikit.UIAlertController;
@@ -33,14 +38,77 @@ public class IosImagePickerService extends ImagePickerService {
 		return controller;
 	}
 
+	@Nonnull private static PermissionState mapNativeState(@Nonnull PHAuthorizationStatus status) {
+		switch (status) {
+			case NotDetermined:
+				return PermissionState.Unknown;
+			case Denied:
+				return PermissionState.Denied;
+			case Authorized: case Restricted:
+				return PermissionState.Authorized;
+		}
+		throw new IllegalArgumentException();
+	}
+
+	@Nonnull private static PermissionState mapNativeState(@Nonnull AVAuthorizationStatus status) {
+		switch (status) {
+			case NotDetermined:
+				return PermissionState.Unknown;
+			case Denied:
+				return PermissionState.Denied;
+			case Authorized: case Restricted:
+				return PermissionState.Authorized;
+		}
+		throw new IllegalArgumentException();
+	}
+
 	@Override
-	public void getPixmapViaImagePicker(@Nonnull Action1<Pixmap> delegate) {
+	@Nonnull public PermissionState getPermissionState(@Nonnull Source source) {
+		switch (source) {
+			case Library:
+				return mapNativeState(PHPhotoLibrary.getAuthorizationStatus());
+			case Camera:
+				return mapNativeState(AVCaptureDevice.getAuthorizationStatusForMediaType(AVMediaType.Video));
+		}
+		throw new IllegalArgumentException();
+	}
+
+	@SuppressWarnings("deprecated")
+	@Override
+	public boolean isCameraAvailable() {
+		return UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera) && AVCaptureDevice.getDevicesForMediaType(AVMediaType.Video).size() != 0;
+	}
+
+	@Override
+	public void requestPermission(@Nonnull Source source, @Nonnull Action1<PermissionState> newStateDelegate) {
+		PermissionState permissionState = getPermissionState(source);
+		if (permissionState != PermissionState.Unknown) {
+			newStateDelegate.call(permissionState);
+			return;
+		}
+
+		switch (source) {
+			case Library:
+				PHPhotoLibrary.requestAuthorization(authorizationStatus -> {
+					newStateDelegate.call(mapNativeState(authorizationStatus));
+				});
+				break;
+			case Camera:
+				AVCaptureDevice.requestAccessForMediaType(AVMediaType.Video, granted -> {
+					newStateDelegate.call(granted ? PermissionState.Authorized : PermissionState.Denied);
+				});
+				break;
+		}
+	}
+
+	@Override
+	public void getPixmapViaImagePicker(@Nonnull Action1<Pixmap> pixmapDelegate, @Nonnull Action1<PermissionException> permissionExceptionDelegate) {
 		UIAlertController alert = new UIAlertController(null, null, UIAlertControllerStyle.ActionSheet);
 		alert.addAction(new UIAlertAction("Camera", UIAlertActionStyle.Default, action -> {
-			showImagePickerController(UIImagePickerControllerSourceType.Camera, delegate);
+			requestPermissionAndShowImagePickerController(Source.Camera, pixmapDelegate, permissionExceptionDelegate);
 		}));
 		alert.addAction(new UIAlertAction("Photos", UIAlertActionStyle.Default, action -> {
-			showImagePickerController(UIImagePickerControllerSourceType.PhotoLibrary, delegate);
+			requestPermissionAndShowImagePickerController(Source.Library, pixmapDelegate, permissionExceptionDelegate);
 		}));
 		alert.addAction(new UIAlertAction("Cancel", UIAlertActionStyle.Cancel, action -> {
 			alert.dismissViewController(true, null);
@@ -48,7 +116,24 @@ public class IosImagePickerService extends ImagePickerService {
 		getController().presentViewController(alert, true, null);
 	}
 
-	private void showImagePickerController(@Nonnull UIImagePickerControllerSourceType sourceType, @Nonnull Action1<Pixmap> delegate) {
+	private void requestPermissionAndShowImagePickerController(@Nonnull Source source, @Nonnull Action1<Pixmap> pixmapDelegate, @Nonnull Action1<PermissionException> permissionExceptionDelegate) {
+		requestPermission(source, permissionState -> {
+			if (permissionState == PermissionState.Authorized) {
+				switch (source) {
+					case Library:
+						showImagePickerController(UIImagePickerControllerSourceType.PhotoLibrary, pixmapDelegate);
+						break;
+					case Camera:
+						showImagePickerController(UIImagePickerControllerSourceType.Camera, pixmapDelegate);
+						break;
+				}
+			} else {
+				permissionExceptionDelegate.call(new PermissionException(source));
+			}
+		});
+	}
+
+	private void showImagePickerController(@Nonnull UIImagePickerControllerSourceType sourceType, @Nonnull Action1<Pixmap> pixmapDelegate) {
 		UIImagePickerController picker = new UIImagePickerController();
 		picker.setDelegate(new UIImagePickerControllerDelegateAdapter() {
 			@Override
@@ -56,7 +141,7 @@ public class IosImagePickerService extends ImagePickerService {
 				picker.dismissViewController(true, () -> {
 					UIImage image = info.getEditedImage();
 					byte[] bytes = image.toPNGData().getBytes();
-					delegate.call(new Pixmap(bytes, 0, bytes.length));
+					pixmapDelegate.call(new Pixmap(bytes, 0, bytes.length));
 				});
 			}
 		});
