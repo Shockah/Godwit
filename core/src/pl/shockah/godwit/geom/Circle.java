@@ -157,8 +157,10 @@ public class Circle extends Shape implements Polygonable, Shape.Filled, Shape.Ou
 
 	@Nonnull public Polygon asPolygon(int precision) {
 		if (lastPoly != null && lastPoly.getPointCount() == precision && lastPrecision == precision) {
-			if (!position.equals(lastPos))
+			if (!position.equals(lastPos)) {
 				lastPoly.translate(position - lastPos);
+				lastPos = position.getCopy();
+			}
 			return lastPoly;
 		}
 
