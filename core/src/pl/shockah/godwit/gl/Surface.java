@@ -3,6 +3,7 @@ package pl.shockah.godwit.gl;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.Disposable;
 
 import javax.annotation.Nonnull;
@@ -74,5 +75,12 @@ public class Surface extends GfxImpl implements Renderable, Disposable {
 	public void updateCamera() {
 		centeredCamera = false;
 		super.updateCamera();
+	}
+
+	@Override
+	public void updateCombinedCamera(@Nonnull Matrix4 matrix) {
+		matrix = new Matrix4();
+		matrix.setToOrtho2D(0f, 0f, getWidth(), getHeight());
+		super.updateCombinedCamera(matrix);
 	}
 }
