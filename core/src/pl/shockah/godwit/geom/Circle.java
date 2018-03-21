@@ -1,5 +1,7 @@
 package pl.shockah.godwit.geom;
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -150,9 +152,13 @@ public class Circle extends Shape implements Polygonable, Shape.Filled, Shape.Ou
 		return new IVec2[] { p1, p2 };
 	}
 
+	private int calculateSegmentCount(float radius) {
+		return Math.max((int)Math.ceil(Math.PI * radius * 0.5f), 12);
+	}
+
 	@Override
 	@Nonnull public Polygon asPolygon() {
-		return asPolygon(Math.max((int)Math.ceil(Math.PI * radius * 0.5f), 12));
+		return asPolygon(calculateSegmentCount(radius));
 	}
 
 	@Nonnull public Polygon asPolygon(int precision) {
@@ -176,14 +182,18 @@ public class Circle extends Shape implements Polygonable, Shape.Filled, Shape.Ou
 
 	@Override
 	public void drawFilled(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
-		if (radius > 0f)
-			asPolygon().drawFilled(gfx, v);
+		if (radius > 0f) {
+			gfx.prepareShapes(ShapeRenderer.ShapeType.Filled);
+			gfx.getShapeRenderer().circle(v.x() + position.x, v.y() + position.y, radius, calculateSegmentCount(radius));
+		}
 	}
 
 	@Override
 	public void drawOutline(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
-		if (radius > 0f)
-			asPolygon().drawOutline(gfx, v);
+		if (radius > 0f) {
+			gfx.prepareShapes(ShapeRenderer.ShapeType.Line);
+			gfx.getShapeRenderer().circle(v.x() + position.x, v.y() + position.y, radius, calculateSegmentCount(radius));
+		}
 	}
 
 	@Override
