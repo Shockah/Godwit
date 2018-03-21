@@ -69,4 +69,10 @@ public class Surface extends GfxImpl implements Renderable, Disposable {
 		disposed = true;
 		fbo.dispose();
 	}
+
+	@Override
+	public void updateCamera() {
+		centeredCamera = false;
+		super.updateCamera();
+	}
 }
