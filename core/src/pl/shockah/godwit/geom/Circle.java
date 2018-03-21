@@ -152,13 +152,13 @@ public class Circle extends Shape implements Polygonable, Shape.Filled, Shape.Ou
 		return new IVec2[] { p1, p2 };
 	}
 
-	private int calculateSegmentCount(float radius) {
+	private int calculateSegmentCount() {
 		return Math.max((int)Math.ceil(Math.PI * radius * 0.5f), 12);
 	}
 
 	@Override
 	@Nonnull public Polygon asPolygon() {
-		return asPolygon(calculateSegmentCount(radius));
+		return asPolygon(calculateSegmentCount());
 	}
 
 	@Nonnull public Polygon asPolygon(int precision) {
@@ -184,7 +184,7 @@ public class Circle extends Shape implements Polygonable, Shape.Filled, Shape.Ou
 	public void drawFilled(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
 		if (radius > 0f) {
 			gfx.prepareShapes(ShapeRenderer.ShapeType.Filled);
-			gfx.getShapeRenderer().circle(v.x() + position.x, v.y() + position.y, radius, calculateSegmentCount(radius));
+			gfx.getShapeRenderer().circle(v.x() + position.x, v.y() + position.y, radius, calculateSegmentCount());
 		}
 	}
 
@@ -192,7 +192,7 @@ public class Circle extends Shape implements Polygonable, Shape.Filled, Shape.Ou
 	public void drawOutline(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
 		if (radius > 0f) {
 			gfx.prepareShapes(ShapeRenderer.ShapeType.Line);
-			gfx.getShapeRenderer().circle(v.x() + position.x, v.y() + position.y, radius, calculateSegmentCount(radius));
+			gfx.getShapeRenderer().circle(v.x() + position.x, v.y() + position.y, radius, calculateSegmentCount());
 		}
 	}
 
