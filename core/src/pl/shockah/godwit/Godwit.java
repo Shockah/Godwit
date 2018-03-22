@@ -19,6 +19,7 @@ import javax.annotation.Nullable;
 
 import java8.util.stream.StreamSupport;
 import lombok.Getter;
+import pl.shockah.func.Func0;
 import pl.shockah.godwit.asset.FreeTypeFontLoader;
 import pl.shockah.godwit.asset.JSONObjectLoader;
 import pl.shockah.godwit.geom.IVec2;
@@ -39,7 +40,7 @@ public final class Godwit {
 	@Nullable private State state;
 
 	@Getter
-	@Nullable private State movingToState;
+	@Nullable private Func0<State> movingToState;
 
 	@Getter
 	@Nonnull private AssetManager assetManager = new AssetManager();
@@ -73,6 +74,10 @@ public final class Godwit {
 	}
 
 	public void moveToState(@Nullable State state) {
+		moveToState(() -> state);
+	}
+
+	public void moveToState(@Nullable Func0<State> state) {
 		movingToState = state;
 	}
 
@@ -146,13 +151,18 @@ public final class Godwit {
 
 	private void runStateCreation() {
 		if (movingToState != null) {
-			if (state != null)
-				state.removeFromParent();
-			state = movingToState;
+			State newState = movingToState.call();
 			movingToState = null;
-			gfx.resetCamera();
-			if (state != null)
-				rootEntity.addChild(state);
+
+			if (newState != null) {
+				if (state != null)
+					state.removeFromParent();
+				state = newState;
+				movingToState = null;
+				gfx.resetCamera();
+				if (state != null)
+					rootEntity.addChild(state);
+			}
 		}
 	}
 

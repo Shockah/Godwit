@@ -7,11 +7,16 @@ import org.robovm.apple.uikit.UIViewController;
 
 import javax.annotation.Nonnull;
 
+import pl.shockah.func.Func0;
 import pl.shockah.godwit.platform.ImagePickerService;
 import pl.shockah.godwit.platform.IosImagePickerService;
 
 public class PlatformGodwitAdapter extends GodwitAdapter {
 	public PlatformGodwitAdapter(@Nonnull State initialState) {
+		super(initialState);
+	}
+
+	public PlatformGodwitAdapter(@Nonnull Func0<State> initialState) {
 		super(initialState);
 	}
 

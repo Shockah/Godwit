@@ -5,10 +5,16 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import javax.annotation.Nonnull;
 
+import pl.shockah.func.Func0;
+
 public class GodwitAdapter extends ApplicationAdapter {
-	@Nonnull public final State initialState;
+	@Nonnull public final Func0<State> initialState;
 
 	GodwitAdapter(@Nonnull State initialState) {
+		this(() -> initialState);
+	}
+
+	GodwitAdapter(@Nonnull Func0<State> initialState) {
 		this.initialState = initialState;
 	}
 
