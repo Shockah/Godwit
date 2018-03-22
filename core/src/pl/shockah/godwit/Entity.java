@@ -128,6 +128,7 @@ public class Entity implements Renderable, Animatable<Entity> {
 	}
 
 	public void onAddedToParent() {
+		children.update();
 	}
 
 	public void onRemovedFromParent() {

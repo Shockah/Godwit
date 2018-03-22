@@ -15,6 +15,12 @@ public class RenderGroup extends Entity {
 	@Nonnull public final SafeList<Entity> renderOrder = new SafeList<>(new SortedLinkedList<>(depthComparator));
 
 	@Override
+	public void onAddedToParent() {
+		super.onAddedToParent();
+		renderOrder.update();
+	}
+
+	@Override
 	public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
 		renderOrder.update();
 		for (Entity entity : renderOrder.get()) {
