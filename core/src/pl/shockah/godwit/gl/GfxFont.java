@@ -132,6 +132,8 @@ public class GfxFont implements Renderable {
 
 	@Nonnull public IVec2 getSize() {
 		if (cachedSize == null) {
+			if (text == null || text.isEmpty())
+				return Vec2.zero;
 			GlyphLayout layout = getGlyphLayout();
 			MutableVec2 mutable = new MutableVec2(layout.width, layout.height);
 
