@@ -121,6 +121,7 @@ public class NearestNeighborTravellingSalesmanSolver<T> extends TravellingSalesm
 					StreamSupport.stream(filteredNodes)
 							.limit(Math.max((int)Math.ceil(filteredNodes.size() * ratio), 1))
 							.map(node -> new NearestNeighborTravellingSalesmanSolver<T>.Route(this, node, length + instance.getDistance(this.node, node)))
+							.sorted(Comparators.comparingDouble(Route::getLength))
 							.collect(Collectors.toList())
 			);
 			return true;
