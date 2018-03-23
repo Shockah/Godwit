@@ -33,8 +33,7 @@ import pl.shockah.godwit.rand.Randomizer;
 import pl.shockah.jay.JSONObject;
 
 public final class Godwit {
-	@Getter(lazy = true)
-	@Nonnull private static final Godwit instance = new Godwit();
+	@Nullable private static Godwit instance;
 
 	@Getter
 	@Nullable private State state;
@@ -71,6 +70,16 @@ public final class Godwit {
 	private Godwit() {
 		setupAssetManager();
 		Gdx.input.setInputProcessor(inputManager.multiplexer);
+	}
+
+	static synchronized void setupNewInstance() {
+		instance = new Godwit();
+	}
+
+	@Nonnull public static synchronized Godwit getInstance() {
+		if (instance == null)
+			setupNewInstance();
+		return instance;
 	}
 
 	public void moveToState(@Nullable State state) {

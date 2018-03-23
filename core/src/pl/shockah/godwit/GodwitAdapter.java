@@ -20,6 +20,7 @@ public class GodwitAdapter extends ApplicationAdapter {
 
 	@Override
 	public void create() {
+		Godwit.setupNewInstance();
 		Godwit.getInstance().moveToState(initialState);
 	}
 
