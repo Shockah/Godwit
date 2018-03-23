@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.vansuita.pickimage.bundle.PickSetup;
 import com.vansuita.pickimage.dialog.PickImageDialog;
 
+import java.io.ByteArrayOutputStream;
 import java.lang.ref.WeakReference;
 
 import javax.annotation.Nonnull;
@@ -90,15 +91,10 @@ public class AndroidImagePickerService extends ImagePickerService {
 			PickImageDialog.build(new PickSetup().setSystemDialog(true))
 					.setOnPickResult(result -> {
 						Bitmap bitmap = result.getBitmap();
-						Pixmap pixmap = new Pixmap(bitmap.getWidth(), bitmap.getHeight(), Pixmap.Format.RGBA8888);
-						pixmap.setBlending(Pixmap.Blending.None);
-						for (int y = 0; y < pixmap.getHeight(); y++) {
-							for (int x = 0; x < pixmap.getWidth(); x++) {
-								int argb = bitmap.getPixel(x, y);
-								pixmap.drawPixel(x, y, (argb << 8) | (argb >> 24));
-							}
-						}
-						pixmapDelegate.call(pixmap);
+						ByteArrayOutputStream baos = new ByteArrayOutputStream();
+						bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+						byte[] bytes = baos.toByteArray();
+						pixmapDelegate.call(new Pixmap(bytes, 0, bytes.length));
 						bitmap.recycle();
 					}).show(getActivity());
 		});
