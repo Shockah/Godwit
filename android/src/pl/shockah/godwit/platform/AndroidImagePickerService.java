@@ -90,15 +90,16 @@ public class AndroidImagePickerService extends ImagePickerService {
 			PickImageDialog.build(new PickSetup().setSystemDialog(true))
 					.setOnPickResult(result -> {
 						Bitmap bitmap = result.getBitmap();
-						int[] pixels = new int[bitmap.getWidth() * bitmap.getHeight()];
-						bitmap.getPixels(pixels, 0, bitmap.getWidth(), 0, 0, bitmap.getWidth(), bitmap.getHeight());
-						for (int i = 0; i < pixels.length; i++) {
-							int pixel = pixels[i];
-							pixels[i] = (pixel << 8) | ((pixel >> 24) & 0xFF);
-						}
 						Pixmap pixmap = new Pixmap(bitmap.getWidth(), bitmap.getHeight(), Pixmap.Format.RGBA8888);
-						pixmap.getPixels().asIntBuffer().put(pixels);
+						pixmap.setBlending(Pixmap.Blending.None);
+						for (int y = 0; y < pixmap.getHeight(); y++) {
+							for (int x = 0; x < pixmap.getWidth(); x++) {
+								int argb = bitmap.getPixel(x, y);
+								pixmap.drawPixel(x, y, (argb << 8) | (argb >> 24));
+							}
+						}
 						pixmapDelegate.call(pixmap);
+						bitmap.recycle();
 					}).show(getActivity());
 		});
 	}
