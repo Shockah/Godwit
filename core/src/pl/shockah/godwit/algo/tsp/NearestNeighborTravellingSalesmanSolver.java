@@ -117,13 +117,17 @@ public class NearestNeighborTravellingSalesmanSolver<T> extends TravellingSalesm
 			if (filteredNodes.isEmpty())
 				return false;
 
-			instance.queue.addAll(
-					StreamSupport.stream(filteredNodes)
-							.limit(Math.max((int)Math.ceil(filteredNodes.size() * ratio), 1))
-							.map(node -> new NearestNeighborTravellingSalesmanSolver<T>.Route(this, node, length + instance.getDistance(this.node, node)))
-							.sorted(Comparators.comparingDouble(Route::getLength))
-							.collect(Collectors.toList())
-			);
+			List<Route> collected = StreamSupport.stream(filteredNodes)
+					.limit(Math.max((int) Math.ceil(filteredNodes.size() * ratio), 1))
+					.map(node -> new Route(this, node, length + instance.getDistance(this.node, node)))
+					.sorted(Comparators.comparingDouble(Route::getLength))
+					.collect(Collectors.toList());
+
+			if (instance.queue.isEmpty())
+				instance.queue.addAll(collected);
+			else
+				instance.queue.addAll(0, collected);
+
 			return true;
 		}
 
