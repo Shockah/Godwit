@@ -17,7 +17,10 @@ import pl.shockah.func.Action1;
 public class DesktopImagePickerService extends ImagePickerService {
 	@Override
 	@Nonnull public PermissionState getPermissionState(@Nonnull Source source) {
-		return PermissionState.Authorized;
+		if (System.getProperty("os.name").toLowerCase().contains("mac os x"))
+			return PermissionState.Denied;
+		else
+			return PermissionState.Authorized;
 	}
 
 	@Override
@@ -27,11 +30,19 @@ public class DesktopImagePickerService extends ImagePickerService {
 
 	@Override
 	public void requestPermission(@Nonnull Source source, @Nonnull Action1<PermissionState> newStateDelegate) {
-		newStateDelegate.call(PermissionState.Authorized);
+		if (System.getProperty("os.name").toLowerCase().contains("mac os x"))
+			newStateDelegate.call(PermissionState.Denied);
+		else
+			newStateDelegate.call(PermissionState.Authorized);
 	}
 
 	@Override
 	public void getPixmapViaImagePicker(@Nonnull Action1<Pixmap> pixmapDelegate, @Nonnull Action1<PermissionException> permissionExceptionDelegate) {
+		if (System.getProperty("os.name").toLowerCase().contains("mac os x")) {
+			permissionExceptionDelegate.call(new PermissionException(Source.Library));
+			return;
+		}
+
 		EventQueue.invokeLater(() -> {
 			try {
 				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
