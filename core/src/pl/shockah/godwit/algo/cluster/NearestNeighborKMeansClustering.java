@@ -1,7 +1,9 @@
 package pl.shockah.godwit.algo.cluster;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Nonnull;
 
@@ -51,12 +53,14 @@ public class NearestNeighborKMeansClustering<T> extends KMeansClustering<T> {
 	@SuppressWarnings("unchecked")
 	@Override
 	@Nonnull protected T[] getInitialSeeds(@Nonnull Collection<T> vectors) {
+		Set<T> distinct = new HashSet<>(vectors);
+
 		float threshold = initialThreshold;
 		float inversePercentage = 1f;
 		while (true) {
 			inversePercentage *= 0.5f;
 			setProgress((1f - inversePercentage) * 0.5f);
-			List<T>[] clusters = new NearestNeighborClustering<>(toVectorFunc, fromVectorFunc, threshold).run(vectors);
+			List<T>[] clusters = new NearestNeighborClustering<>(toVectorFunc, fromVectorFunc, threshold).run(distinct);
 			if (clusters.length >= clusterCount) {
 				return RefStreams.of(clusters)
 						.limit(clusterCount)

@@ -11,6 +11,8 @@ import java8.util.stream.RefStreams;
 import pl.shockah.func.Func1;
 import pl.shockah.godwit.algo.DistanceAlgorithm;
 import pl.shockah.godwit.algo.EuclideanDistanceAlgorithm;
+import pl.shockah.godwit.collection.HashMultiSet;
+import pl.shockah.godwit.collection.MultiSet;
 
 public abstract class KMeansClustering<T> extends Clustering<T> {
 	public final int clusterCount;
@@ -29,9 +31,11 @@ public abstract class KMeansClustering<T> extends Clustering<T> {
 	@SuppressWarnings("unchecked")
 	@Override
 	@Nonnull protected List<T>[] execute(@Nonnull Collection<T> vectors) {
-		List<T>[] clusters = (List<T>[])Array.newInstance(List.class, clusterCount);
+		MultiSet<T> inputVectors = new HashMultiSet<>(vectors);
+
+		MultiSet<T>[] clusters = (MultiSet<T>[])Array.newInstance(MultiSet.class, clusterCount);
 		for (int i = 0; i < clusters.length; i++) {
-			clusters[i] = new ArrayList<>();
+			clusters[i] = new HashMultiSet<>();
 		}
 
 		T[] seeds = getInitialSeeds(vectors);
@@ -39,7 +43,7 @@ public abstract class KMeansClustering<T> extends Clustering<T> {
 			clusters[i].add(seeds[i]);
 		}
 
-		List<T>[] previous = null;
+		MultiSet<T>[] previous = null;
 		float inversePercentage = 1f;
 		while (true) {
 			inversePercentage *= 0.5f;
@@ -48,7 +52,8 @@ public abstract class KMeansClustering<T> extends Clustering<T> {
 				seeds[i] = newSeed(seeds[i], clusters[i]);
 				clusters[i].clear();
 			}
-			for (T vector : vectors) {
+			for (MultiSet.Entry<T> entry : inputVectors.entries()) {
+				T vector = entry.getElement();
 				float smallestDistance = Float.POSITIVE_INFINITY;
 				int closestClusterIndex = -1;
 				for (int i = 0; i < clusters.length; i++) {
@@ -58,20 +63,32 @@ public abstract class KMeansClustering<T> extends Clustering<T> {
 						closestClusterIndex = i;
 					}
 				}
-				clusters[closestClusterIndex].add(vector);
+				clusters[closestClusterIndex].add(vector, entry.getCount());
 			}
 
 			if (previous != null && areEqual(previous, clusters))
 				break;
 			previous = RefStreams.of(clusters)
-					.map(ArrayList::new)
-					.toArray(size -> (List<T>[])Array.newInstance(List.class, size));
+					.map(HashMultiSet::new)
+					.toArray(size -> (MultiSet<T>[])Array.newInstance(MultiSet.class, size));
 		}
 
-		return clusters;
+		return RefStreams.of(clusters)
+				.map(cluster -> {
+					List<T> list = new ArrayList<>();
+					for (MultiSet.Entry<T> entry : cluster.entries()) {
+						T vector = entry.getElement();
+						int count = entry.getCount();
+						for (int i = 0; i < count; i++) {
+							list.add(vector);
+						}
+					}
+					return list;
+				})
+				.toArray(size -> (List<T>[])Array.newInstance(List.class, size));
 	}
 
-	private boolean areEqual(@Nonnull List<T>[] clusters1, @Nonnull List<T>[] clusters2) {
+	private boolean areEqual(@Nonnull MultiSet<T>[] clusters1, @Nonnull MultiSet<T>[] clusters2) {
 		if (clusters1.length != clusters2.length)
 			return false;
 		for (int i = 0; i < clusters1.length; i++) {
@@ -83,14 +100,15 @@ public abstract class KMeansClustering<T> extends Clustering<T> {
 		return true;
 	}
 
-	@Nonnull private T newSeed(@Nonnull T oldSeed, @Nonnull Collection<T> vectors) {
+	@Nonnull private T newSeed(@Nonnull T oldSeed, @Nonnull MultiSet<T> vectors) {
 		if (vectors.isEmpty())
 			throw new IllegalArgumentException("Cannot generate a seed for an empty set.");
 		float[] newSeed = new float[toVectorFunc.call(oldSeed).length];
-		for (T vector : vectors) {
-			float[] vectorf = toVectorFunc.call(vector);
+		for (MultiSet.Entry<T> entry : vectors.entries()) {
+			int count = entry.getCount();
+			float[] vectorf = toVectorFunc.call(entry.getElement());
 			for (int n = 0; n < newSeed.length; n++) {
-				newSeed[n] += vectorf[n];
+				newSeed[n] += vectorf[n] * count;
 			}
 		}
 		for (int n = 0; n < newSeed.length; n++) {

@@ -1,5 +1,6 @@
 package pl.shockah.godwit.collection;
 
+import java.util.Collection;
 import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -10,10 +11,30 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 
 import java8.util.Maps;
+import java8.util.stream.Collectors;
+import java8.util.stream.StreamSupport;
+import lombok.EqualsAndHashCode;
 
-public class HashMultiSet<E> implements MultiSet<E> {
+public class HashMultiSet<E> extends AbstractMultiSet<E> {
 	private int size = 0;
 	@Nonnull private final Map<E, Count> counts = new HashMap<>();
+
+	public HashMultiSet() {
+	}
+
+	public HashMultiSet(@Nonnull Collection<? extends E> collection) {
+		this();
+		for (E element : collection) {
+			add(element);
+		}
+	}
+
+	public HashMultiSet(@Nonnull MultiSet<? extends E> multiSet) {
+		this();
+		for (Entry<? extends E> entry : multiSet.entries()) {
+			add(entry.getElement(), entry.getCount());
+		}
+	}
 
 	@Override
 	public void clear() {
@@ -43,6 +64,14 @@ public class HashMultiSet<E> implements MultiSet<E> {
 	}
 
 	@Override
+	public int add(E element, int occurences) {
+		size += occurences;
+		Count count = Maps.computeIfAbsent(counts, element, key -> new Count());
+		count.value += occurences;
+		return count.value;
+	}
+
+	@Override
 	public int remove(E element) {
 		Count count = Maps.getOrDefault(counts, element, new Count());
 		if (count.value == 0)
@@ -55,6 +84,23 @@ public class HashMultiSet<E> implements MultiSet<E> {
 		}
 
 		return --count.value;
+	}
+
+	@Override
+	public int remove(E element, int occurences) {
+		Count count = Maps.getOrDefault(counts, element, new Count());
+		if (count.value == 0)
+			return 0;
+
+		if (count.value <= occurences) {
+			size -= count.value;
+			counts.remove(element);
+			return 0;
+		} else {
+			size -= occurences;
+			count.value -= occurences;
+			return count.value;
+		}
 	}
 
 	@Override
@@ -89,6 +135,23 @@ public class HashMultiSet<E> implements MultiSet<E> {
 				toRemove = null;
 			}
 		};
+	}
+
+	@Override
+	@Nonnull public Set<Entry<E>> entries() {
+		return StreamSupport.stream(counts.entrySet())
+				.map(entry -> new MultiSet.Entry<E>() {
+					@Override
+					public E getElement() {
+						return entry.getKey();
+					}
+
+					@Override
+					public int getCount() {
+						return entry.getValue().value;
+					}
+				})
+				.collect(Collectors.toSet());
 	}
 
 	@Override
@@ -134,6 +197,7 @@ public class HashMultiSet<E> implements MultiSet<E> {
 		};
 	}
 
+	@EqualsAndHashCode
 	private static class Count {
 		private int value = 0;
 	}

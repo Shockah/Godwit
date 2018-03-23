@@ -22,6 +22,8 @@ public interface MultiSet<E> extends Iterable<E> {
 
 	@Nonnull Iterator<E> distinctIterator();
 
+	@Nonnull Set<Entry<E>> entries();
+
 	default boolean contains(Object element) {
 		return count(element) != 0;
 	}
@@ -40,5 +42,14 @@ public interface MultiSet<E> extends Iterable<E> {
 			count = remove(element);
 		}
 		return count;
+	}
+
+	default boolean isEmpty() {
+		return size() == 0;
+	}
+
+	interface Entry<E> {
+		E getElement();
+		int getCount();
 	}
 }
