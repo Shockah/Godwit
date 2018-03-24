@@ -15,6 +15,7 @@ import java.lang.ref.WeakReference;
 import javax.annotation.Nonnull;
 
 import pl.shockah.func.Action1;
+import pl.shockah.godwit.GodwitFragmentActivity;
 
 public class AndroidImagePickerService extends ImagePickerService {
 	@Nonnull private final WeakReference<GodwitFragmentActivity> activityRef;

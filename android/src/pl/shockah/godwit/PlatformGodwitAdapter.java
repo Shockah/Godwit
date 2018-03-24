@@ -6,8 +6,9 @@ import com.badlogic.gdx.backends.android.AndroidFragmentApplication;
 import javax.annotation.Nonnull;
 
 import pl.shockah.func.Func0;
+import pl.shockah.godwit.platform.AndroidBackButtonService;
 import pl.shockah.godwit.platform.AndroidImagePickerService;
-import pl.shockah.godwit.platform.GodwitFragmentActivity;
+import pl.shockah.godwit.platform.BackButtonService;
 import pl.shockah.godwit.platform.ImagePickerService;
 
 public class PlatformGodwitAdapter extends GodwitAdapter {
@@ -25,5 +26,6 @@ public class PlatformGodwitAdapter extends GodwitAdapter {
 
 		GodwitFragmentActivity activity = (GodwitFragmentActivity)((AndroidFragmentApplication)Gdx.app).getActivity();
 		Godwit.getInstance().platformServiceProvider.register(ImagePickerService.class, new AndroidImagePickerService(activity));
+		Godwit.getInstance().platformServiceProvider.register(BackButtonService.class, new AndroidBackButtonService());
 	}
 }

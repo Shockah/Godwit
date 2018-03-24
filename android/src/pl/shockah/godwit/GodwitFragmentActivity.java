@@ -1,4 +1,4 @@
-package pl.shockah.godwit.platform;
+package pl.shockah.godwit;
 
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
