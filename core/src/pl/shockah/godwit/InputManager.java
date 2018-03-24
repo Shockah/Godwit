@@ -1,5 +1,6 @@
 package pl.shockah.godwit;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 
 import java.util.Comparator;
@@ -10,6 +11,7 @@ import javax.annotation.Nonnull;
 import lombok.Getter;
 import lombok.experimental.Delegate;
 import pl.shockah.godwit.collection.SortedLinkedList;
+import pl.shockah.godwit.platform.BackButtonService;
 
 public class InputManager extends BaseInputManager<InputManager.Processor> {
 	@Nonnull protected static final Comparator<Processor> orderComparator = (o1, o2) -> -Float.compare(o1.order, o2.order);
@@ -20,6 +22,17 @@ public class InputManager extends BaseInputManager<InputManager.Processor> {
 	@Nonnull private final List<Processor> processors = new SortedLinkedList<>(orderComparator);
 
 	public InputManager() {
+		addProcessor(new Adapter(0f) {
+			@Override
+			public boolean keyDown(int keycode) {
+				if (keycode == Input.Keys.BACK) {
+					Godwit.getInstance().platformServiceProvider.get(BackButtonService.class).onBackButton();
+					return true;
+				} else {
+					return false;
+				}
+			}
+		});
 		addProcessor(new Delegated(0f, gestureManager.multiplexer));
 	}
 
