@@ -36,7 +36,7 @@ public class AndroidShareService extends ShareService {
 		FileHandle handle = new FileHandle(new File(cachePath, "shared-tmp.png"));
 		PixmapIO.writePNG(handle, pixmap);
 
-		Uri contentUri = FileProvider.getUriForFile(getActivity(), "pl.shockah.godwit.android.shareprovider", handle.file());
+		Uri contentUri = FileProvider.getUriForFile(getActivity(), String.format("%s.%s", getActivity().getPackageName(), "pl.shockah.godwit.android.shareprovider"), handle.file());
 
 		Intent shareIntent = new Intent(Intent.ACTION_SEND);
 		shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
