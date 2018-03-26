@@ -2,7 +2,6 @@ package pl.shockah.godwit.platform;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v4.content.FileProvider;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -43,5 +42,8 @@ public class AndroidShareService extends ShareService {
 		shareIntent.setDataAndType(contentUri, "image/png");
 		shareIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 		getActivity().startActivity(Intent.createChooser(shareIntent, "Choose an app"));
+	}
+
+	public static class FileProvider extends android.support.v4.content.FileProvider {
 	}
 }
