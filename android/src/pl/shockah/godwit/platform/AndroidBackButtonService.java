@@ -31,11 +31,6 @@ public class AndroidBackButtonService extends BackButtonService {
 	}
 
 	@Override
-	public boolean isAvailable() {
-		return true;
-	}
-
-	@Override
 	protected void runDefaultBackButtonAction() {
 		getActivity().onBackPressed();
 	}
