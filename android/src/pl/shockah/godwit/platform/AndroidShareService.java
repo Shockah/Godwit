@@ -40,8 +40,8 @@ public class AndroidShareService extends ShareService {
 
 		Intent shareIntent = new Intent(Intent.ACTION_SEND);
 		shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
-		shareIntent.setType("image/png");
+		shareIntent.setDataAndType(contentUri, "image/png");
 		shareIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-		getActivity().startActivity(Intent.createChooser(shareIntent, "Share"));
+		getActivity().startActivity(Intent.createChooser(shareIntent, "Choose an app"));
 	}
 }
