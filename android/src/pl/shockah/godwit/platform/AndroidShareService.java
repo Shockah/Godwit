@@ -4,11 +4,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.content.FileProvider;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.PixmapIO;
 
+import java.io.File;
 import java.lang.ref.WeakReference;
 
 import javax.annotation.Nonnull;
@@ -31,10 +31,12 @@ public class AndroidShareService extends ShareService {
 
 	@Override
 	public void share(@Nonnull Pixmap pixmap) {
-		FileHandle handle = Gdx.files.local("share-tmp.png");
+		File cachePath = new File(getActivity().getCacheDir(), "shared-images");
+		cachePath.mkdirs();
+		FileHandle handle = new FileHandle(new File(cachePath, "shared-tmp.png"));
 		PixmapIO.writePNG(handle, pixmap);
 
-		Uri contentUri = FileProvider.getUriForFile(getActivity(), "pl.shockah.godwit.android", handle.file());
+		Uri contentUri = FileProvider.getUriForFile(getActivity(), "pl.shockah.godwit.android.shareprovider", handle.file());
 
 		Intent shareIntent = new Intent(Intent.ACTION_SEND);
 		shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
