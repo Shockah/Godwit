@@ -1,6 +1,5 @@
 package pl.shockah.godwit.platform;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class BackButtonService implements PlatformService {
@@ -8,7 +7,7 @@ public class BackButtonService implements PlatformService {
 		return null;
 	}
 
-	public void setDelegate(@Nonnull Delegate delegate) {
+	public void setDelegate(@Nullable Delegate delegate) {
 	}
 
 	public void onBackButton() {

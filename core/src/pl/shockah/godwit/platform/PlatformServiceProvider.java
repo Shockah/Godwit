@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public final class PlatformServiceProvider {
 	@Nonnull private final Map<Class<? extends PlatformService>, PlatformService> services = new HashMap<>();
@@ -13,7 +14,7 @@ public final class PlatformServiceProvider {
 	}
 
 	@SuppressWarnings("unchecked")
-	@Nonnull public <T extends PlatformService> T get(@Nonnull Class<T> clazz) {
+	@Nullable public <T extends PlatformService> T get(@Nonnull Class<T> clazz) {
 		return (T)services.get(clazz);
 	}
 }
