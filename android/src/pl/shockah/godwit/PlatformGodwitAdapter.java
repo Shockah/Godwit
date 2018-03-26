@@ -26,6 +26,6 @@ public class PlatformGodwitAdapter extends GodwitAdapter {
 
 		GodwitFragmentActivity activity = (GodwitFragmentActivity)((AndroidFragmentApplication)Gdx.app).getActivity();
 		Godwit.getInstance().platformServiceProvider.register(ImagePickerService.class, new AndroidImagePickerService(activity));
-		Godwit.getInstance().platformServiceProvider.register(BackButtonService.class, new AndroidBackButtonService());
+		Godwit.getInstance().platformServiceProvider.register(BackButtonService.class, new AndroidBackButtonService(activity));
 	}
 }

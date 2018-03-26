@@ -20,7 +20,12 @@ public class BackButtonService implements PlatformService {
 			Delegate delegate = getDelegate();
 			if (delegate != null)
 				delegate.onBackButton();
+			else
+				runDefaultBackButtonAction();
 		}
+	}
+
+	protected void runDefaultBackButtonAction() {
 	}
 
 	public interface Delegate {
