@@ -32,6 +32,6 @@ public class AndroidBackButtonService extends BackButtonService {
 
 	@Override
 	protected void runDefaultBackButtonAction() {
-		getActivity().onBackPressed();
+		getActivity().runOnUiThread(getActivity()::onBackPressed);
 	}
 }
