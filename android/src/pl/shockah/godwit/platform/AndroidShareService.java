@@ -31,7 +31,7 @@ public class AndroidShareService extends ShareService {
 
 	@Override
 	public void share(@Nonnull Pixmap pixmap) {
-		FileHandle handle = Gdx.files.internal("share-tmp.png");
+		FileHandle handle = Gdx.files.local("share-tmp.png");
 		PixmapIO.writePNG(handle, pixmap);
 
 		Uri contentUri = FileProvider.getUriForFile(getActivity(), "pl.shockah.godwit.android", handle.file());
