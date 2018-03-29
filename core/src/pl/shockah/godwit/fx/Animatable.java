@@ -1,11 +1,10 @@
 package pl.shockah.godwit.fx;
 
-import java.util.List;
-
 import javax.annotation.Nonnull;
 
 import pl.shockah.func.Action0;
 import pl.shockah.godwit.Godwit;
+import pl.shockah.godwit.collection.SafeList;
 import pl.shockah.godwit.fx.object.ObjectFx;
 import pl.shockah.godwit.fx.object.SequenceObjectFx;
 import pl.shockah.godwit.fx.raw.RawFx;
@@ -18,7 +17,7 @@ public interface Animatable<T extends Animatable<T>> {
 	}
 
 	@SuppressWarnings("unchecked")
-	@Nonnull default List<FxInstance<? super T>> getFxInstances() {
+	@Nonnull default SafeList<FxInstance<? super T>> getFxInstances() {
 		return getAnimatableProperties().fxes;
 	}
 
@@ -49,13 +48,13 @@ public interface Animatable<T extends Animatable<T>> {
 
 	@SuppressWarnings("unchecked")
 	default void updateFx() {
-		List<FxInstance<? super T>> fxes = getFxInstances();
+		SafeList<FxInstance<? super T>> fxes = getFxInstances();
+		fxes.update();
 		float delta = Godwit.getInstance().getDeltaTime() * getAnimatableProperties().animationSpeed;
-		for (int i = 0; i < fxes.size(); i++) {
-			FxInstance<? super T> fx = fxes[i];
+		for (FxInstance<? super T> fx : fxes.get()) {
 			fx.updateBy((T)this, delta);
 			if (fx.isStopped())
-				fxes.remove(i--);
+				fxes.remove(fx);
 		}
 	}
 }

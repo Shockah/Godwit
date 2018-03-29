@@ -2,7 +2,6 @@ package pl.shockah.godwit.fx;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
 
@@ -10,12 +9,13 @@ import javax.annotation.Nonnull;
 
 import java8.util.Maps;
 import lombok.experimental.UtilityClass;
+import pl.shockah.godwit.collection.SafeList;
 
 @UtilityClass
 public final class Animatables {
 	public static final class Properties<T extends Animatable<T>> {
 		@Nonnull public final WeakReference<T> self;
-		@Nonnull public final List<FxInstance<? super T>> fxes = new ArrayList<>();
+		@Nonnull public final SafeList<FxInstance<? super T>> fxes = new SafeList<>(new ArrayList<>());
 		public float animationSpeed = 1f;
 
 		private Properties(T self) {
