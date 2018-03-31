@@ -28,7 +28,7 @@ public class AttachedViewportTest extends State {
 	public void update() {
 		super.update();
 
-		StreamSupport.stream(children.get()).filter(e -> e instanceof AttachmentEntity).map(e -> (AttachmentEntity)e).findFirst().ifPresent(e -> {
+		StreamSupport.stream(game.children.get()).filter(e -> e instanceof AttachmentEntity).map(e -> (AttachmentEntity)e).findFirst().ifPresent(e -> {
 			game.getCamera().position.x = e.position.x;
 			game.getCamera().position.y = e.position.y;
 		});

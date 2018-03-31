@@ -19,7 +19,7 @@ public class CameraGroup extends RenderGroup {
 	@Getter
 	@Nonnull private Viewport viewport = new ScreenViewport(camera);
 
-	public boolean centerViewport = true;
+	public boolean centerViewport = false;
 
 	private int lastWidth = 0;
 	private int lastHeight = 0;
