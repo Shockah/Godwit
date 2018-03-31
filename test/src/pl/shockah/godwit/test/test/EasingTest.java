@@ -53,7 +53,7 @@ public class EasingTest extends State {
 				entity.position.y = Easing.linear.ease(2 + Gdx.graphics.getHeight() * 0.2f, Gdx.graphics.getHeight() * 0.8f - 16, f);
 			}).withMethod(method).instance(FxInstance.EndAction.ReverseLoop));
 
-			addChild(entity);
+			game.addChild(entity);
 		}
 	}
 }

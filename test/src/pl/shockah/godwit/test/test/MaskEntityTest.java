@@ -14,7 +14,7 @@ public class MaskEntityTest extends State {
 	public void onAddedToParent() {
 		super.onAddedToParent();
 
-		addChild(new MaskEntity() {{
+		game.addChild(new MaskEntity() {{
 			mask = new ComplexShape.Filled<Circle>() {{
 				add(new Circle(64 - 24, 64, 32f));
 				add(new Circle(64 + 24, 64, 32f));

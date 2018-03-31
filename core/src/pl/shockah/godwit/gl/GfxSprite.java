@@ -48,9 +48,6 @@ public class GfxSprite implements Renderable, Animatable<GfxSprite> {
 
 	@Override
 	public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
-		if (!gfx.getBoundingBox().collides(v.x() - offset.x * sprite.getScaleX() + sprite.getX(), v.y() - offset.y * sprite.getScaleY() + sprite.getY(), getScaledWidth(), getScaledHeight()))
-			return;
-
 		if (Vec2.zero.equals(v) && Vec2.zero.equals(offset)) {
 			gfx.prepareSprites();
 			sprite.draw(gfx.getSpriteBatch());
@@ -211,6 +208,14 @@ public class GfxSprite implements Renderable, Animatable<GfxSprite> {
 
 		@Override
 		public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
+			if (!getCameraGroup().getBoundingBox().collides(
+					v.x() - sprite.offset.x * sprite.getScaleX() + sprite.getX(),
+					v.y() - sprite.offset.y * sprite.getScaleY() + sprite.getY(),
+					sprite.getScaledWidth(),
+					sprite.getScaledHeight()
+			))
+				return;
+
 			gfx.draw(sprite, v);
 		}
 

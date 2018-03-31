@@ -14,6 +14,7 @@ import javax.annotation.Nullable;
 
 import lombok.Getter;
 import lombok.experimental.Delegate;
+import pl.shockah.godwit.CameraGroup;
 import pl.shockah.godwit.asset.FreeTypeFontLoader;
 import pl.shockah.godwit.asset.SingleAsset;
 import pl.shockah.godwit.geom.IVec2;
@@ -230,6 +231,10 @@ public class GfxFont implements Renderable {
 
 	@Override
 	public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
+		render(gfx, v, null);
+	}
+
+	public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v, @Nullable CameraGroup camera) {
 		if (scaleX == 0f || scaleY == 0f)
 			return;
 		if (text == null || text.isEmpty())
@@ -241,7 +246,7 @@ public class GfxFont implements Renderable {
 		IVec2 alignmentVector = alignment.getVector();
 
 		BitmapFont.BitmapFontData data = getData();
-		if (!gfx.getBoundingBox().collides(
+		if (camera != null && !camera.getBoundingBox().collides(
 				v.x() - alignmentVector.x() * layoutW - 4f,
 				v.y() - (scaleY - 1f) * data.ascent - alignmentVector.y() * layoutH - 4f,
 				layoutW + 8f,
@@ -287,7 +292,7 @@ public class GfxFont implements Renderable {
 
 		@Override
 		public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
-			gfx.draw(font, v);
+			font.render(gfx, v, getCameraGroup());
 		}
 	}
 

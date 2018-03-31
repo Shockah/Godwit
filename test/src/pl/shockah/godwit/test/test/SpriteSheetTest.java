@@ -28,6 +28,6 @@ public class SpriteSheetTest extends State {
 		sprite.getFxInstances().add(new ObjectFuncFx<GfxSprite>(0.5f, (obj, f) -> {
 			sprite.setRegion(sheet.get((int)(f * sheet.frameCount) % sheet.frameCount));
 		}).instance(FxInstance.EndAction.Loop));
-		addChild(sprite.asEntity());
+		game.addChild(sprite.asEntity());
 	}
 }

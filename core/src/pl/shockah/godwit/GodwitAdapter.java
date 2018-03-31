@@ -1,7 +1,6 @@
 package pl.shockah.godwit;
 
 import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.utils.viewport.Viewport;
 
 import javax.annotation.Nonnull;
 
@@ -26,11 +25,6 @@ public class GodwitAdapter extends ApplicationAdapter {
 
 	@Override
 	public void resize(int width, int height) {
-		Godwit godwit = Godwit.getInstance();
-		godwit.gfx.getCamera().setToOrtho(godwit.yPointingDown, width, height);
-		Viewport viewport = godwit.gfx.getViewport();
-		if (viewport != null)
-			viewport.update(width, height, false);
 	}
 
 	@Override

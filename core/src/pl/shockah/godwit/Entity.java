@@ -65,6 +65,26 @@ public class Entity implements Renderable, Animatable<Entity> {
 		throw new IllegalStateException(String.format("Entity %s doesn't have a RenderGroup.", this));
 	}
 
+	public final boolean hasCameraGroup() {
+		Entity entity = this;
+		while (entity != null) {
+			if (entity instanceof RenderGroup && entity != this)
+				return true;
+			entity = entity.parent;
+		}
+		return false;
+	}
+
+	@Nonnull public final CameraGroup getCameraGroup() {
+		Entity entity = this;
+		while (entity != null) {
+			if (entity instanceof CameraGroup && entity != this)
+				return (CameraGroup)entity;
+			entity = entity.parent;
+		}
+		throw new IllegalStateException(String.format("Entity %s doesn't have a CameraGroup.", this));
+	}
+
 	public void addChild(@Nonnull Entity entity) {
 		if (entity.parent != null)
 			throw new IllegalStateException(String.format("Entity %s already has a parent %s.", entity, entity.parent));

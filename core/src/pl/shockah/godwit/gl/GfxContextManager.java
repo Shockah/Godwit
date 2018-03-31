@@ -27,7 +27,5 @@ public final class GfxContextManager {
 			surface.fbo.begin();
 			boundSurface = surface;
 		}
-
-		getCurrentGfx().updateCamera();
 	}
 }

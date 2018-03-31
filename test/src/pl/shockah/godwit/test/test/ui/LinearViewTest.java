@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.Color;
 import javax.annotation.Nonnull;
 
 import pl.shockah.godwit.State;
-import pl.shockah.godwit.test.Configurable;
 import pl.shockah.godwit.ui.Alignment;
 import pl.shockah.godwit.ui.BaseLinearView;
 import pl.shockah.godwit.ui.FillView;
@@ -15,9 +14,8 @@ import pl.shockah.godwit.ui.Orientation;
 import pl.shockah.godwit.ui.Padding;
 import pl.shockah.godwit.ui.ViewEntity;
 
-public class LinearViewTest extends State implements Configurable {
-	@Override
-	public void configure(@Nonnull Lwjgl3ApplicationConfiguration config) {
+public class LinearViewTest extends State {
+	public static void configure(@Nonnull Lwjgl3ApplicationConfiguration config) {
 		config.setWindowedMode(256, 256);
 	}
 
@@ -49,6 +47,6 @@ public class LinearViewTest extends State implements Configurable {
 		view4.backgroundColor = Color.CORAL;
 		linearView.add(view4, new BaseLinearView.Attributes(Alignment.Vertical.Bottom));
 
-		addChild(new ViewEntity(new FillView(linearView)));
+		game.addChild(new ViewEntity(new FillView(linearView)));
 	}
 }

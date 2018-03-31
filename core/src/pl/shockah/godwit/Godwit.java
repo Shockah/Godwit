@@ -3,13 +3,10 @@ package pl.shockah.godwit;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.glutils.HdpiUtils;
-import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -168,7 +165,6 @@ public final class Godwit {
 					state.removeFromParent();
 				state = newState;
 				movingToState = null;
-				gfx.resetCamera();
 				if (state != null)
 					rootEntity.addChild(state);
 			}
@@ -181,8 +177,7 @@ public final class Godwit {
 
 	private void runRender() {
 		GfxContextManager.bindSurface(null);
-		gfx.updateCamera();
-		setupScissor();
+		//setupScissor();
 		gfx.clear(Color.CLEAR);
 		gfx.setBlendMode(BlendMode.normal);
 		rootEntity.render(gfx);
@@ -190,17 +185,17 @@ public final class Godwit {
 		GfxContextManager.bindSurface(null);
 	}
 
-	private void setupScissor() {
-		Viewport viewport = gfx.getViewport();
-		int leftGutter = viewport != null ? viewport.getLeftGutterWidth() : 0;
-		int rightGutter = viewport != null ? viewport.getRightGutterWidth() : 0;
-		int topGutter = viewport != null ? viewport.getTopGutterHeight() : 0;
-		int bottomGutter = viewport != null ? viewport.getBottomGutterHeight() : 0;
-
-		int horizontalGutter = leftGutter + rightGutter;
-		int verticalGutter = topGutter + bottomGutter;
-
-		HdpiUtils.glScissor(horizontalGutter * 2, verticalGutter, Gdx.graphics.getWidth() - horizontalGutter * 4, Gdx.graphics.getHeight());
-		Gdx.gl20.glEnable(GL20.GL_SCISSOR_TEST);
-	}
+//	private void setupScissor() {
+//		Viewport viewport = gfx.getViewport();
+//		int leftGutter = viewport != null ? viewport.getLeftGutterWidth() : 0;
+//		int rightGutter = viewport != null ? viewport.getRightGutterWidth() : 0;
+//		int topGutter = viewport != null ? viewport.getTopGutterHeight() : 0;
+//		int bottomGutter = viewport != null ? viewport.getBottomGutterHeight() : 0;
+//
+//		int horizontalGutter = leftGutter + rightGutter;
+//		int verticalGutter = topGutter + bottomGutter;
+//
+//		HdpiUtils.glScissor(horizontalGutter * 2, verticalGutter, Gdx.graphics.getWidth() - horizontalGutter * 4, Gdx.graphics.getHeight());
+//		Gdx.gl20.glEnable(GL20.GL_SCISSOR_TEST);
+//	}
 }
