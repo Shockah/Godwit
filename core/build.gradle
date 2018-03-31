@@ -1,0 +1,38 @@
+apply plugin: "java"
+apply plugin: "me.tatarka.retrolambda"
+apply plugin: "maven"
+
+group = "com.github.Shockah"
+
+retrolambda {
+	javaVersion JavaVersion.VERSION_1_7
+	defaultMethods true
+}
+
+dependencies {
+	compile "java-oo:javac8-oo-plugin:0.5"
+	compile "net.sourceforge.streamsupport:streamsupport:1.6.1"
+	compile "com.github.Shockah:Jay:1.2-retrolambda"
+	compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+	compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
+	compile "com.google.code.findbugs:jsr305:3.0.2"
+	compile "org.projectlombok:lombok:$lombokVersion"
+}
+
+targetCompatibility = "1.8"
+sourceCompatibility = "1.8"
+[compileJava, compileTestJava]*.options*.encoding = "UTF-8"
+
+sourceSets.main {
+	java.srcDirs = ["src"]
+	resources.srcDirs = ["resources"]
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+	classifier = "sources"
+	from sourceSets.main.allSource
+}
+
+artifacts {
+	archives sourcesJar
+}
