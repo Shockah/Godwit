@@ -1,8 +1,10 @@
 package pl.shockah.godwit.gl;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import javax.annotation.Nonnull;
@@ -22,6 +24,14 @@ public abstract class Gfx {
 
 	@Nullable public abstract Viewport getViewport();
 	public abstract void setViewport(@Nullable Viewport viewport);
+
+	@Nonnull public abstract OrthographicCamera getCamera();
+	public abstract void setCamera(@Nonnull OrthographicCamera camera);
+
+	@Nonnull public abstract IVec2 getCameraPosition();
+	public abstract void setCameraPosition(@Nonnull IVec2 position);
+
+	public abstract void resetCamera();
 
 	public abstract int getWidth();
 	public abstract int getHeight();
@@ -60,7 +70,7 @@ public abstract class Gfx {
 		setColor(old);
 	}
 
-	protected abstract void end();
+	protected abstract void internalEndTick();
 
 	protected abstract void prepareContext();
 
@@ -115,4 +125,15 @@ public abstract class Gfx {
 	public final void clear() {
 		clear(getColor());
 	}
+
+	public void updateCamera() {
+		Viewport viewport = getViewport();
+		if (viewport != null)
+			viewport.apply();
+		OrthographicCamera camera = getCamera();
+		camera.update();
+		updateCombinedCamera(camera.combined);
+	}
+
+	public abstract void updateCombinedCamera(@Nonnull Matrix4 matrix);
 }

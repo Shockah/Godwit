@@ -48,41 +48,21 @@ public class Entity implements Renderable, Animatable<Entity> {
 	public final boolean hasRenderGroup() {
 		Entity entity = this;
 		while (entity != null) {
-			if (entity instanceof RenderGroupEntity && entity != this)
+			if (entity instanceof RenderGroup && entity != this)
 				return true;
 			entity = entity.parent;
 		}
 		return false;
 	}
 
-	@Nonnull public final RenderGroupEntity getRenderGroup() {
+	@Nonnull public final RenderGroup getRenderGroup() {
 		Entity entity = this;
 		while (entity != null) {
-			if (entity instanceof RenderGroupEntity && entity != this)
-				return (RenderGroupEntity)entity;
+			if (entity instanceof RenderGroup && entity != this)
+				return (RenderGroup)entity;
 			entity = entity.parent;
 		}
-		throw new IllegalStateException(String.format("Entity %s doesn't have a render group.", this));
-	}
-
-	public final boolean hasCamera() {
-		Entity entity = this;
-		while (entity != null) {
-			if (entity instanceof CameraEntity)
-				return true;
-			entity = entity.parent;
-		}
-		return false;
-	}
-
-	@Nonnull public final CameraEntity getCamera() {
-		Entity entity = this;
-		while (entity != null) {
-			if (entity instanceof CameraEntity)
-				return (CameraEntity)entity;
-			entity = entity.parent;
-		}
-		throw new IllegalStateException(String.format("Entity %s doesn't have a camera.", this));
+		throw new IllegalStateException(String.format("Entity %s doesn't have a RenderGroup.", this));
 	}
 
 	public void addChild(@Nonnull Entity entity) {
@@ -156,7 +136,7 @@ public class Entity implements Renderable, Animatable<Entity> {
 	private void handleAddToRenderGroupHierarchy() {
 		try {
 			if (getClass() != Entity.class) {
-				RenderGroupEntity renderGroup = getRenderGroup();
+				RenderGroup renderGroup = getRenderGroup();
 				if (!renderGroup.renderOrder.contains(this))
 					getRenderGroup().renderOrder.add(this);
 			}
