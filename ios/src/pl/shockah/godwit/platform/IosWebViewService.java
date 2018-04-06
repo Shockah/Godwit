@@ -38,6 +38,7 @@ public class IosWebViewService implements WebViewService {
 
 			UIViewController controller = new UIViewController();
 			UIWebView webView = new UIWebView();
+			webView.setScalesPageToFit(true);
 			controller.getView().addSubview(webView);
 
 			webView.loadRequest(new NSURLRequest(new NSURL(url)));
@@ -66,11 +67,11 @@ public class IosWebViewService implements WebViewService {
 
 			navigation.pushViewController(controller, false);
 
-			navigation.getNavigationItem().setLeftBarButtonItem(new UIBarButtonItem(NSString.getLocalizedString("Close"), UIBarButtonItemStyle.Done, button -> {
-				navigation.dismissViewController(true, null);
-			}));
-
-			getController().presentViewController(navigation, true, null);
+			getController().presentViewController(navigation, true, () -> {
+				navigation.getNavigationItem().setLeftBarButtonItem(new UIBarButtonItem(NSString.getLocalizedString("Close"), UIBarButtonItemStyle.Done, button -> {
+					navigation.dismissViewController(true, null);
+				}));
+			});
 		});
 	}
 }
