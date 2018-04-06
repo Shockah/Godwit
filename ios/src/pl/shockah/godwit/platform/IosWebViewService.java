@@ -1,7 +1,6 @@
 package pl.shockah.godwit.platform;
 
 import org.robovm.apple.dispatch.DispatchQueue;
-import org.robovm.apple.foundation.NSString;
 import org.robovm.apple.foundation.NSURL;
 import org.robovm.apple.foundation.NSURLRequest;
 import org.robovm.apple.uikit.NSLayoutAttribute;
@@ -67,11 +66,11 @@ public class IosWebViewService implements WebViewService {
 
 			navigation.pushViewController(controller, false);
 
-			getController().presentViewController(navigation, true, () -> {
-				navigation.getNavigationItem().setLeftBarButtonItem(new UIBarButtonItem(NSString.getLocalizedString("Close"), UIBarButtonItemStyle.Done, button -> {
-					navigation.dismissViewController(true, null);
-				}));
-			});
+			navigation.getNavigationItem().setRightBarButtonItem(new UIBarButtonItem("Close", UIBarButtonItemStyle.Done, button -> {
+				navigation.dismissViewController(true, null);
+			}));
+
+			getController().presentViewController(navigation, true, null);
 		});
 	}
 }
