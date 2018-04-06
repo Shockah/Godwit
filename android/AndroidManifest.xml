@@ -16,5 +16,10 @@
 				android:name="android.support.FILE_PROVIDER_PATHS"
 				android:resource="@xml/share_paths" />
 		</provider>
+
+		<activity
+			android:name="pl.shockah.godwit.platform.AndroidWebViewService$WebViewActivity"
+			android:exported="false">
+		</activity>
 	</application>
 </manifest>

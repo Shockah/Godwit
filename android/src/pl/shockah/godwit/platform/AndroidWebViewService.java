@@ -37,7 +37,7 @@ public class AndroidWebViewService implements WebViewService {
 		getActivity().startActivity(intent);
 	}
 
-	private static class WebViewActivity extends Activity {
+	public static class WebViewActivity extends Activity {
 		private WebView mWebView;
 
 		@Override
