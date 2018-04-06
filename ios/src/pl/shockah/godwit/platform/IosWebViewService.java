@@ -7,7 +7,7 @@ import org.robovm.apple.uikit.NSLayoutAttribute;
 import org.robovm.apple.uikit.NSLayoutConstraint;
 import org.robovm.apple.uikit.NSLayoutRelation;
 import org.robovm.apple.uikit.UIBarButtonItem;
-import org.robovm.apple.uikit.UIBarButtonItemStyle;
+import org.robovm.apple.uikit.UIBarButtonSystemItem;
 import org.robovm.apple.uikit.UINavigationController;
 import org.robovm.apple.uikit.UIViewController;
 import org.robovm.apple.uikit.UIWebView;
@@ -66,9 +66,9 @@ public class IosWebViewService implements WebViewService {
 
 			navigation.pushViewController(controller, false);
 
-			navigation.getNavigationItem().setRightBarButtonItem(new UIBarButtonItem("Close", UIBarButtonItemStyle.Done, button -> {
-				navigation.dismissViewController(true, null);
-			}));
+			UIBarButtonItem item = new UIBarButtonItem(UIBarButtonSystemItem.Done);
+			item.setOnClickListener(self -> navigation.dismissViewController(true, null));
+			controller.getNavigationItem().setRightBarButtonItem(item);
 
 			getController().presentViewController(navigation, true, null);
 		});
