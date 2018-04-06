@@ -1,12 +1,14 @@
 package pl.shockah.godwit.platform;
 
+import org.robovm.apple.dispatch.DispatchQueue;
 import org.robovm.apple.foundation.NSString;
+import org.robovm.apple.foundation.NSURL;
+import org.robovm.apple.foundation.NSURLRequest;
 import org.robovm.apple.uikit.NSLayoutAttribute;
 import org.robovm.apple.uikit.NSLayoutConstraint;
 import org.robovm.apple.uikit.NSLayoutRelation;
 import org.robovm.apple.uikit.UIBarButtonItem;
 import org.robovm.apple.uikit.UIBarButtonItemStyle;
-import org.robovm.apple.uikit.UIBarStyle;
 import org.robovm.apple.uikit.UINavigationController;
 import org.robovm.apple.uikit.UIViewController;
 import org.robovm.apple.uikit.UIWebView;
@@ -31,41 +33,44 @@ public class IosWebViewService implements WebViewService {
 
 	@Override
 	public void show(@Nonnull String url) {
-		UINavigationController navigation = new UINavigationController();
-		navigation.getNavigationBar().setBarStyle(UIBarStyle.BlackTranslucent);
+		DispatchQueue.getMainQueue().async(() -> {
+			UINavigationController navigation = new UINavigationController();
 
-		UIViewController controller = new UIViewController();
-		UIWebView webView = new UIWebView();
-		controller.getView().addSubview(webView);
+			UIViewController controller = new UIViewController();
+			UIWebView webView = new UIWebView();
+			controller.getView().addSubview(webView);
 
-		webView.setTranslatesAutoresizingMaskIntoConstraints(false);
-		controller.getView().addConstraint(new NSLayoutConstraint(
-				webView, NSLayoutAttribute.Leading, NSLayoutRelation.Equal,
-				controller.getView(), NSLayoutAttribute.Leading,
-				1f, 0f
-		));
-		controller.getView().addConstraint(new NSLayoutConstraint(
-				webView, NSLayoutAttribute.Trailing, NSLayoutRelation.Equal,
-				controller.getView(), NSLayoutAttribute.Trailing,
-				1f, 0f
-		));
-		controller.getView().addConstraint(new NSLayoutConstraint(
-				webView, NSLayoutAttribute.Top, NSLayoutRelation.Equal,
-				controller.getView(), NSLayoutAttribute.Top,
-				1f, 0f
-		));
-		controller.getView().addConstraint(new NSLayoutConstraint(
-				webView, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal,
-				controller.getView(), NSLayoutAttribute.Bottom,
-				1f, 0f
-		));
+			webView.loadRequest(new NSURLRequest(new NSURL(url)));
 
-		navigation.pushViewController(controller, false);
+			webView.setTranslatesAutoresizingMaskIntoConstraints(false);
+			controller.getView().addConstraint(new NSLayoutConstraint(
+					webView, NSLayoutAttribute.Leading, NSLayoutRelation.Equal,
+					controller.getView(), NSLayoutAttribute.Leading,
+					1f, 0f
+			));
+			controller.getView().addConstraint(new NSLayoutConstraint(
+					webView, NSLayoutAttribute.Trailing, NSLayoutRelation.Equal,
+					controller.getView(), NSLayoutAttribute.Trailing,
+					1f, 0f
+			));
+			controller.getView().addConstraint(new NSLayoutConstraint(
+					webView, NSLayoutAttribute.Top, NSLayoutRelation.Equal,
+					controller.getView(), NSLayoutAttribute.Top,
+					1f, 0f
+			));
+			controller.getView().addConstraint(new NSLayoutConstraint(
+					webView, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal,
+					controller.getView(), NSLayoutAttribute.Bottom,
+					1f, 0f
+			));
 
-		navigation.getNavigationItem().setLeftBarButtonItem(new UIBarButtonItem(NSString.getLocalizedString("Close"), UIBarButtonItemStyle.Done, button -> {
-			navigation.dismissViewController(true, null);
-		}));
+			navigation.pushViewController(controller, false);
 
-		getController().presentViewController(navigation, true, null);
+			navigation.getNavigationItem().setLeftBarButtonItem(new UIBarButtonItem(NSString.getLocalizedString("Close"), UIBarButtonItemStyle.Done, button -> {
+				navigation.dismissViewController(true, null);
+			}));
+
+			getController().presentViewController(navigation, true, null);
+		});
 	}
 }
