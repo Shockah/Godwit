@@ -45,6 +45,13 @@ public class AndroidWebViewService implements WebViewService {
 			super.onCreate(savedInstanceState);
 			getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 			mWebView = new WebView(this);
+			mWebView.setInitialScale(1);
+			mWebView.getSettings().setLoadWithOverviewMode(true);
+			mWebView.getSettings().setUseWideViewPort(true);
+			mWebView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
+			mWebView.setScrollbarFadingEnabled(false);
+			mWebView.getSettings().setBuiltInZoomControls(true);
+			mWebView.getSettings().setDisplayZoomControls(false);
 			mWebView.loadUrl(getIntent().getExtras().getString("url"));
 			mWebView.setWebViewClient(new WebViewClient() {
 				@Override
