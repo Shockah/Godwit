@@ -25,10 +25,6 @@ public class CameraGroup extends RenderGroup {
 	private int lastHeight = 0;
 	private boolean lastCenterViewport = centerViewport;
 
-	public CameraGroup() {
-		((OrthographicCamera)camera).setToOrtho(Godwit.getInstance().yPointingDown);
-	}
-
 	@Nonnull public Rectangle getBoundingBox() {
 		return new Rectangle(viewport.getScreenX(), viewport.getScreenY(), viewport.getScreenWidth(), viewport.getScreenHeight());
 	}
@@ -54,14 +50,19 @@ public class CameraGroup extends RenderGroup {
 			lastWidth = newWidth;
 			lastHeight = newHeight;
 			lastCenterViewport = centerViewport;
-			((OrthographicCamera)camera).setToOrtho(Godwit.getInstance().yPointingDown, newWidth, newHeight);
 			viewport.update(newWidth, newHeight, centerViewport);
 		}
+	}
+
+	protected void updateCamera() {
+		if (camera instanceof OrthographicCamera)
+			((OrthographicCamera)camera).setToOrtho(Godwit.getInstance().yPointingDown, lastWidth, lastHeight);
 	}
 
 	@Override
 	public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
 		updateViewportIfNeeded(gfx);
+		updateCamera();
 		viewport.apply();
 		gfx.getSpriteBatch().setProjectionMatrix(camera.combined);
 		gfx.getShapeRenderer().setProjectionMatrix(camera.combined);
