@@ -98,6 +98,7 @@ public final class Godwit {
 	private void setupAssetManager() {
 		assetManager.setLoader(JSONObject.class, new JSONObjectLoader(assetManager.getFileHandleResolver()));
 		assetManager.setLoader(BitmapFont.class, ".ttf", new FreeTypeFontLoader(assetManager.getFileHandleResolver()));
+		Texture.setAssetManager(assetManager);
 	}
 
 	@Nonnull public IVec2 getPpi() {
