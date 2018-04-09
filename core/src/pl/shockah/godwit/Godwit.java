@@ -102,7 +102,7 @@ public final class Godwit {
 	}
 
 	private void setupAssetManager() {
-		Texture.setAssetManager(assetManager);
+		//Texture.setAssetManager(assetManager);
 		assetManager.setLoader(JSONObject.class, new JSONObjectLoader(assetManager.getFileHandleResolver()));
 		assetManager.setLoader(BitmapFont.class, ".ttf", new FreeTypeFontLoader(assetManager.getFileHandleResolver()));
 		if (assetManagerSetupCallback != null)

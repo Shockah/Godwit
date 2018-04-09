@@ -51,8 +51,8 @@ public class GodwitFragmentActivity extends FragmentActivity {
 		if (Gdx.gl20 == null)
 			return;
 
-		Godwit godwit = Godwit.getInstance();
-		godwit.setAssetManager(godwit.getAssetManagerFactory().call());
+		//Godwit godwit = Godwit.getInstance();
+		//godwit.setAssetManager(godwit.getAssetManagerFactory().call());
 	}
 
 	public interface PermissionResponseDelegate {
