@@ -83,8 +83,10 @@ public class GestureInputManager extends BaseInputManager<GestureInputManager.Pr
 		@Override
 		public boolean touchDown(float x, float y, int pointer, int button) {
 			if (exclusive == null || exclusive == wrapped) {
-				if (wrapped.touchDown(x, y, pointer, button))
+				if (wrapped.touchDown(x, y, pointer, button)) {
+					Gdx.app.postRunnable(() -> setExclusive(null));
 					return true;
+				}
 			}
 			return false;
 		}
@@ -93,6 +95,7 @@ public class GestureInputManager extends BaseInputManager<GestureInputManager.Pr
 		public boolean tap(float x, float y, int count, int button) {
 			if (exclusive == null || exclusive == wrapped) {
 				if (wrapped.tap(x, y, count, button)) {
+					Gdx.app.postRunnable(() -> setExclusive(null));
 					cancelLongPressTasks((Processor)wrapped);
 					return true;
 				}
@@ -104,6 +107,7 @@ public class GestureInputManager extends BaseInputManager<GestureInputManager.Pr
 		public boolean longPress(float x, float y) {
 			if (exclusive == null || exclusive == wrapped) {
 				if (wrapped.longPress(x, y)) {
+					Gdx.app.postRunnable(() -> setExclusive(null));
 					cancelLongPressTasks((Processor)wrapped);
 					return true;
 				}
@@ -115,6 +119,7 @@ public class GestureInputManager extends BaseInputManager<GestureInputManager.Pr
 		public boolean fling(float velocityX, float velocityY, int button) {
 			if (exclusive == null || exclusive == wrapped) {
 				if (wrapped.fling(velocityX, velocityY, button)) {
+					Gdx.app.postRunnable(() -> setExclusive(null));
 					cancelLongPressTasks((Processor)wrapped);
 					return true;
 				}
