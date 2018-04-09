@@ -46,7 +46,7 @@ public class GodwitFragmentActivity extends FragmentActivity {
 	protected void onResume() {
 		super.onResume();
 		Godwit godwit = Godwit.getInstance();
-		godwit.setAssetManager(godwit.assetManagerFactory.call());
+		godwit.setAssetManager(godwit.getAssetManagerFactory().call());
 	}
 
 	public interface PermissionResponseDelegate {
