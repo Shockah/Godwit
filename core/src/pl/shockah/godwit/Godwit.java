@@ -54,13 +54,15 @@ public final class Godwit {
 	public boolean renderFirstTickWhenWaitingForDeltaToStabilize = false;
 	public boolean yPointingDown = true;
 
-	@Nonnull public final Func0<AssetManager> assetManagerFactory = AssetManager::new;
 	@Nullable public Action1<AssetManager> assetManagerSetupCallback;
 
 	@Nonnull private final List<Float> deltas = new ArrayList<>();
 	@Nonnull private final Entity rootEntity = new RenderGroup();
 	@Nonnull private MutableVec2 ppi = new MutableVec2(1f, 1f);
 	private boolean isFirstTick = true;
+
+	@Getter
+	@Nonnull private Func0<AssetManager> assetManagerFactory = AssetManager::new;
 
 	@Getter
 	private float deltaTime = 0f;
@@ -105,6 +107,11 @@ public final class Godwit {
 		assetManager.setLoader(BitmapFont.class, ".ttf", new FreeTypeFontLoader(assetManager.getFileHandleResolver()));
 		if (assetManagerSetupCallback != null)
 			assetManagerSetupCallback.call(assetManager);
+	}
+
+	public void setAssetManagerFactory(@Nonnull Func0<AssetManager> assetManagerFactory) {
+		this.assetManagerFactory = assetManagerFactory;
+		setAssetManager(assetManagerFactory.call());
 	}
 
 	@Nonnull public IVec2 getPpi() {
