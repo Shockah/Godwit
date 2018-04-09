@@ -5,6 +5,8 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.util.SparseArray;
 
+import com.badlogic.gdx.Gdx;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +47,10 @@ public class GodwitFragmentActivity extends FragmentActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+
+		if (Gdx.gl20 == null)
+			return;
+
 		Godwit godwit = Godwit.getInstance();
 		godwit.setAssetManager(godwit.getAssetManagerFactory().call());
 	}
