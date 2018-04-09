@@ -55,7 +55,7 @@ android {
 		exclude "META-INF/robovm/ios/robovm.xml"
 	}
 	defaultConfig {
-		minSdkVersion 19
+		minSdkVersion 16
 		targetSdkVersion 25
 	}
 	compileOptions {
