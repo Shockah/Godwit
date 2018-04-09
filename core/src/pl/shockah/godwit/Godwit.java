@@ -19,6 +19,7 @@ import javax.annotation.Nullable;
 
 import java8.util.stream.StreamSupport;
 import lombok.Getter;
+import pl.shockah.func.Action1;
 import pl.shockah.func.Func0;
 import pl.shockah.godwit.asset.FreeTypeFontLoader;
 import pl.shockah.godwit.asset.JSONObjectLoader;
@@ -52,6 +53,9 @@ public final class Godwit {
 	public boolean waitForDeltaToStabilize = true;
 	public boolean renderFirstTickWhenWaitingForDeltaToStabilize = false;
 	public boolean yPointingDown = true;
+
+	@Nonnull public final Func0<AssetManager> assetManagerFactory = AssetManager::new;
+	@Nullable public Action1<AssetManager> assetManagerSetupCallback;
 
 	@Nonnull private final List<Float> deltas = new ArrayList<>();
 	@Nonnull private final Entity rootEntity = new RenderGroup();
@@ -96,9 +100,11 @@ public final class Godwit {
 	}
 
 	private void setupAssetManager() {
+		Texture.setAssetManager(assetManager);
 		assetManager.setLoader(JSONObject.class, new JSONObjectLoader(assetManager.getFileHandleResolver()));
 		assetManager.setLoader(BitmapFont.class, ".ttf", new FreeTypeFontLoader(assetManager.getFileHandleResolver()));
-		Texture.setAssetManager(assetManager);
+		if (assetManagerSetupCallback != null)
+			assetManagerSetupCallback.call(assetManager);
 	}
 
 	@Nonnull public IVec2 getPpi() {

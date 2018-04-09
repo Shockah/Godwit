@@ -3,17 +3,16 @@ package pl.shockah.godwit;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
+import android.util.SparseArray;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Nonnull;
 
 public class GodwitFragmentActivity extends FragmentActivity {
 	@Nonnull private final List<Object> cachedResultCodes = new ArrayList<>();
-	@Nonnull private final Map<Integer, PermissionResponseDelegate> awaiting = new HashMap<>();
+	@Nonnull private final SparseArray<PermissionResponseDelegate> awaiting = new SparseArray<>();
 
 	public int getResultCode(@Nonnull Object obj) {
 		if (!cachedResultCodes.contains(obj))
@@ -41,6 +40,13 @@ public class GodwitFragmentActivity extends FragmentActivity {
 			}
 		}
 		delegate.response(true);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		Godwit godwit = Godwit.getInstance();
+		godwit.setAssetManager(godwit.assetManagerFactory.call());
 	}
 
 	public interface PermissionResponseDelegate {
