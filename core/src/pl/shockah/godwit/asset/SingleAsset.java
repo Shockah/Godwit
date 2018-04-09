@@ -61,7 +61,9 @@ public class SingleAsset<T> extends Asset<T> {
 	}
 
 	public void unload() {
-		getAssetManager().unload(fileName);
+		AssetManager manager = getAssetManager();
+		if (manager.isLoaded(fileName, clazz))
+			manager.unload(fileName);
 	}
 
 	public void finishLoading() {
