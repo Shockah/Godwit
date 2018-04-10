@@ -35,8 +35,9 @@ public class PanGestureRecognizer extends ContinuousGestureRecognizer {
 
 	@Override
 	protected boolean handleTouchDown(@Nonnull Touch touch, @Nonnull Vec2 point) {
-		if (getState() == State.Possible && this.touch == null) {
+		if (getState() == State.Possible && this.touch == null && touch.continuousRecognizer == null) {
 			this.touch = touch;
+			touch.continuousRecognizer = this;
 			setState(State.Detecting);
 			return true;
 		}

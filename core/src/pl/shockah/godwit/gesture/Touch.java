@@ -14,7 +14,7 @@ import pl.shockah.godwit.geom.Vec2;
 public final class Touch {
 	public final int pointer;
 	@Nonnull public final List<Point> points = new ArrayList<>();
-	@Nullable public GestureRecognizer recognizer = null;
+	@Nullable public ContinuousGestureRecognizer continuousRecognizer = null;
 
 	@Getter
 	private boolean finished = false;

@@ -57,9 +57,11 @@ public final class Godwit {
 	@Nullable public Action1<AssetManager> assetManagerSetupCallback;
 
 	@Nonnull private final List<Float> deltas = new ArrayList<>();
-	@Nonnull private final Entity rootEntity = new RenderGroup();
 	@Nonnull private MutableVec2 ppi = new MutableVec2(1f, 1f);
 	private boolean isFirstTick = true;
+
+	@Getter
+	@Nonnull private final Entity rootEntity = new RenderGroup();
 
 	@Getter
 	@Nonnull private Func0<AssetManager> assetManagerFactory = AssetManager::new;
