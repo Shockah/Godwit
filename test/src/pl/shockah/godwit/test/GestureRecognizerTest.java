@@ -5,9 +5,9 @@ import com.badlogic.gdx.Gdx;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import pl.shockah.godwit.Godwit;
 import pl.shockah.godwit.State;
-import pl.shockah.godwit.fx.ease.SmoothstepEasing;
-import pl.shockah.godwit.fx.raw.RawFuncFx;
+import pl.shockah.godwit.collection.Box;
 import pl.shockah.godwit.geom.Circle;
 import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.geom.Shape;
@@ -16,10 +16,11 @@ import pl.shockah.godwit.gesture.GestureHandler;
 import pl.shockah.godwit.gesture.GestureRecognizer;
 import pl.shockah.godwit.gesture.LongPressGestureRecognizer;
 import pl.shockah.godwit.gesture.PanGestureRecognizer;
+import pl.shockah.godwit.gesture.PinchGestureRecognizer;
 import pl.shockah.godwit.gesture.TapGestureRecognizer;
 import pl.shockah.godwit.gl.Gfx;
 
-public class GestureRecognizerTest extends State {
+public class GestureRecognizerTest extends State implements GestureHandler {
 	@Override
 	public void onAddedToHierarchy() {
 		super.onAddedToHierarchy();
@@ -40,20 +41,31 @@ public class GestureRecognizerTest extends State {
 		});
 
 		PanGestureRecognizer pan = new PanGestureRecognizer(entity, (recognizer, initial, current, delta) -> {
-			if (recognizer.getState() == GestureRecognizer.State.Began) {
-				run(new RawFuncFx(0.15f, f -> {
-					entity.shape.radius = 32f + f * 16f;
-				}).withMethod(SmoothstepEasing.smoothstep2));
-			} else if (recognizer.getState() == GestureRecognizer.State.Ended) {
-				run(new RawFuncFx(0.15f, f -> {
-					entity.shape.radius = 32f + (1f - f) * 16f;
-				}).withMethod(SmoothstepEasing.smoothstep2));
-			}
+//			if (recognizer.getState() == GestureRecognizer.State.Began) {
+//				run(new RawFuncFx(0.15f, f -> {
+//					entity.shape.radius = 32f + f * 16f;
+//				}).withMethod(SmoothstepEasing.smoothstep2));
+//			} else if (recognizer.getState() == GestureRecognizer.State.Ended) {
+//				run(new RawFuncFx(0.15f, f -> {
+//					entity.shape.radius = 32f + (1f - f) * 16f;
+//				}).withMethod(SmoothstepEasing.smoothstep2));
+//			}
 
 			entity.shape.translate(delta);
 			//Gdx.app.log("GestureRecognizerTest", "pan");
 		});
 
+		Box<Float> radius = new Box<>();
+		PinchGestureRecognizer pinch = new PinchGestureRecognizer(this, (recognizer, initial1, initial2, current1, current2, initialDistance, currentDistance) -> {
+			if (recognizer.getState() == GestureRecognizer.State.Began) {
+				radius.value = entity.shape.radius;
+			}
+
+			entity.shape.radius = radius.value * currentDistance / initialDistance;
+			//Gdx.app.log("GestureRecognizerTest", "pan");
+		});
+
+		pinch.requireToFail(pan);
 		//pan.requireToFail(longPress);
 
 		//doubleTap.requireToFail(pan);
@@ -63,10 +75,17 @@ public class GestureRecognizerTest extends State {
 		singleTap.requireToFail(longPress);
 		singleTap.requireToFail(doubleTap);
 
+		pinch.register();
 		pan.register();
-		longPress.register();
-		doubleTap.register();
-		singleTap.register();
+
+//		longPress.register();
+//		doubleTap.register();
+//		singleTap.register();
+	}
+
+	@Override
+	@Nullable public Shape.Filled getGestureShape() {
+		return Godwit.getInstance().gfx.getBoundingBox();
 	}
 
 	public static class TestEntity extends Shape.Filled.Entity<Circle> implements GestureHandler {

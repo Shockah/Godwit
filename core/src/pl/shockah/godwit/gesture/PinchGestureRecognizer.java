@@ -43,6 +43,7 @@ public class PinchGestureRecognizer extends ContinuousGestureRecognizer {
 				touches.first.continuousRecognizer = this;
 				touches.second.continuousRecognizer = this;
 				setState(State.Began);
+				callDelegate();
 			}
 			return true;
 		}
@@ -90,7 +91,7 @@ public class PinchGestureRecognizer extends ContinuousGestureRecognizer {
 		float initialDistance = (initialPoint2 - initialPoint1).getLength();
 
 		IVec2 currentPoint1 = touches.first.points.get(touches.first.points.size() - 1).position;
-		IVec2 currentPoint2 = touches.second.points.get(touches.first.points.size() - 1).position;
+		IVec2 currentPoint2 = touches.second.points.get(touches.second.points.size() - 1).position;
 		float currentDistance = (currentPoint2 - currentPoint1).getLength();
 
 		delegate.onPinch(this, initialPoint1, initialPoint2, currentPoint1, currentPoint2, initialDistance, currentDistance);
