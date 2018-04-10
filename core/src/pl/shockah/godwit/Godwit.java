@@ -191,6 +191,7 @@ public final class Godwit {
 
 	private void runUpdate() {
 		rootEntity.update();
+		inputManager.gestureManager.update();
 	}
 
 	private void runRender() {
