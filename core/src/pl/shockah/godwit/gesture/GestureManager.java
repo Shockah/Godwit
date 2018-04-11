@@ -86,14 +86,14 @@ public class GestureManager extends InputAdapter {
 
 	private boolean handle(@Nonnull GestureHandleMethod method, @Nonnull Touch touch, @Nonnull Vec2 point, @Nonnull Entity entity) {
 		Set<ContinuousGestureRecognizer> continuous = new HashSet<>(currentContinuousRecognizers);
-		boolean result = handle(method, continuous, touch, point, entity);
+		boolean result = handle(method, new ArrayList<>(recognizers), continuous, touch, point, entity);
 		for (ContinuousGestureRecognizer recognizer : continuous) {
 			result |= method.handle(recognizer, touch, point);
 		}
 		return result;
 	}
 
-	private boolean handle(@Nonnull GestureHandleMethod method, @Nonnull Set<ContinuousGestureRecognizer> continuous, @Nonnull Touch touch, @Nonnull Vec2 point, @Nonnull Entity entity) {
+	private boolean handle(@Nonnull GestureHandleMethod method, @Nonnull List<GestureRecognizer> recognizers, @Nonnull Set<ContinuousGestureRecognizer> continuous, @Nonnull Touch touch, @Nonnull Vec2 point, @Nonnull Entity entity) {
 		boolean result = false;
 
 		if (entity instanceof GestureHandler) {
@@ -110,28 +110,28 @@ public class GestureManager extends InputAdapter {
 					}
 				}
 
-				result |= handleChildren(method, continuous, touch, point, entity);
+				result |= handleChildren(method, recognizers, continuous, touch, point, entity);
 			}
 		} else {
-			result = handleChildren(method, continuous, touch, point, entity);
+			result = handleChildren(method, recognizers, continuous, touch, point, entity);
 		}
 
 		return result;
 	}
 
-	private boolean handleChildren(@Nonnull GestureHandleMethod method, @Nonnull Set<ContinuousGestureRecognizer> continuous, @Nonnull Touch touch, @Nonnull Vec2 point, @Nonnull Entity entity) {
+	private boolean handleChildren(@Nonnull GestureHandleMethod method, @Nonnull List<GestureRecognizer> recognizers, @Nonnull Set<ContinuousGestureRecognizer> continuous, @Nonnull Touch touch, @Nonnull Vec2 point, @Nonnull Entity entity) {
 		boolean result = false;
 
 		if (entity instanceof RenderGroup) {
 			RenderGroup renderGroup = (RenderGroup)entity;
 			ListIterator<Entity> iterator = renderGroup.renderOrder.get().listIterator(renderGroup.renderOrder.get().size());
 			while (iterator.hasPrevious()) {
-				if (handle(method, continuous, touch, point, iterator.previous()))
+				if (handle(method, recognizers, continuous, touch, point, iterator.previous()))
 					result = true;
 			}
 		} else {
 			for (Entity child : entity.children.get()) {
-				if (handle(method, continuous, touch, point, child))
+				if (handle(method, recognizers, continuous, touch, point, child))
 					result = true;
 			}
 		}
