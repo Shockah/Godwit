@@ -75,6 +75,11 @@ public abstract class GestureRecognizer {
 		}
 	}
 
+	public final void cancel() {
+		if (state != State.Possible)
+			setState(State.Cancelled);
+	}
+
 	public final boolean isInProgress() {
 		return state == State.Began || state == State.Changed;
 	}

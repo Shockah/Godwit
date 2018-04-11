@@ -28,18 +28,6 @@ public class GestureRecognizerTest extends State implements GestureHandler {
 		TestEntity entity = new TestEntity();
 		addChild(entity);
 
-		LongPressGestureRecognizer longPress = new LongPressGestureRecognizer(entity, 0.2f, recognizer -> {
-			Gdx.app.log("GestureRecognizerTest", "long press");
-		});
-
-		TapGestureRecognizer doubleTap = new TapGestureRecognizer(entity, 2, 0.5f, recognizer -> {
-			Gdx.app.log("GestureRecognizerTest", "double tap");
-		});
-
-		TapGestureRecognizer singleTap = new TapGestureRecognizer(entity, recognizer -> {
-			Gdx.app.log("GestureRecognizerTest", "tap");
-		});
-
 		PanGestureRecognizer pan = new PanGestureRecognizer(entity, (recognizer, initial, current, delta) -> {
 //			if (recognizer.getState() == GestureRecognizer.State.Began) {
 //				run(new RawFuncFx(0.15f, f -> {
@@ -55,6 +43,19 @@ public class GestureRecognizerTest extends State implements GestureHandler {
 			//Gdx.app.log("GestureRecognizerTest", "pan");
 		});
 
+		LongPressGestureRecognizer longPress = new LongPressGestureRecognizer(entity, 0.2f, recognizer -> {
+			Gdx.app.log("GestureRecognizerTest", "long press");
+			pan.cancel();
+		});
+
+		TapGestureRecognizer doubleTap = new TapGestureRecognizer(entity, 2, 0.5f, recognizer -> {
+			Gdx.app.log("GestureRecognizerTest", "double tap");
+		});
+
+		TapGestureRecognizer singleTap = new TapGestureRecognizer(entity, recognizer -> {
+			Gdx.app.log("GestureRecognizerTest", "tap");
+		});
+
 		Box<Float> radius = new Box<>();
 		PinchGestureRecognizer pinch = new PinchGestureRecognizer(this, (recognizer, initial, current) -> {
 			if (recognizer.getState() == GestureRecognizer.State.Began) {
@@ -66,12 +67,12 @@ public class GestureRecognizerTest extends State implements GestureHandler {
 		});
 
 		//pinch.requireToFail(pan);
-		pan.requireToFail(longPress);
+		//pan.requireToFail(longPress);
 
 		//doubleTap.requireToFail(pan);
 		doubleTap.requireToFail(longPress);
 
-		singleTap.requireToFail(pan);
+		//singleTap.requireToFail(pan);
 		singleTap.requireToFail(longPress);
 		singleTap.requireToFail(doubleTap);
 
@@ -82,7 +83,7 @@ public class GestureRecognizerTest extends State implements GestureHandler {
 		doubleTap.register();
 		singleTap.register();
 
-		pan.clone().register();
+		//pan.clone().register();
 	}
 
 	@Override

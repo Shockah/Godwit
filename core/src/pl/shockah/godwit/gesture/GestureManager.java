@@ -15,6 +15,7 @@ import javax.annotation.Nonnull;
 import pl.shockah.godwit.Entity;
 import pl.shockah.godwit.Godwit;
 import pl.shockah.godwit.RenderGroup;
+import pl.shockah.godwit.collection.Box;
 import pl.shockah.godwit.geom.Shape;
 import pl.shockah.godwit.geom.Vec2;
 
@@ -86,14 +87,14 @@ public class GestureManager extends InputAdapter {
 
 	private boolean handle(@Nonnull GestureHandleMethod method, @Nonnull Touch touch, @Nonnull Vec2 point, @Nonnull Entity entity) {
 		Set<ContinuousGestureRecognizer> continuous = new HashSet<>(currentContinuousRecognizers);
-		boolean result = handle(method, new ArrayList<>(recognizers), continuous, touch, point, entity);
+		boolean result = handle(method, new Box<>(), new ArrayList<>(recognizers), continuous, touch, point, entity);
 		for (ContinuousGestureRecognizer recognizer : continuous) {
 			result |= method.handle(recognizer, touch, point);
 		}
 		return result;
 	}
 
-	private boolean handle(@Nonnull GestureHandleMethod method, @Nonnull List<GestureRecognizer> recognizers, @Nonnull Set<ContinuousGestureRecognizer> continuous, @Nonnull Touch touch, @Nonnull Vec2 point, @Nonnull Entity entity) {
+	private boolean handle(@Nonnull GestureHandleMethod method, @Nonnull Box<GestureHandler> encloser, @Nonnull List<GestureRecognizer> recognizers, @Nonnull Set<ContinuousGestureRecognizer> continuous, @Nonnull Touch touch, @Nonnull Vec2 point, @Nonnull Entity entity) {
 		boolean result = false;
 
 		if (entity instanceof GestureHandler) {
@@ -101,7 +102,20 @@ public class GestureManager extends InputAdapter {
 			Shape.Filled shape = handler.getGestureShape();
 
 			if ((passThroughWithoutShape && shape == null) || (shape != null && shape.contains(point))) {
+				encloser.value = handler;
 				for (GestureRecognizer recognizer : recognizers) {
+					if (encloser.value != entity && !(recognizer instanceof ContinuousGestureRecognizer) || recognizer.getState() != GestureRecognizer.State.Detecting) {
+						boolean contained = false;
+						for (Entity parent : entity.getParentTree()) {
+							if (parent == encloser.value) {
+								contained = true;
+								break;
+							}
+						}
+						if (!contained)
+							continue;
+					}
+
 					if (recognizer.handler == handler) {
 						if (recognizer instanceof ContinuousGestureRecognizer)
 							continuous.remove(recognizer);
@@ -110,28 +124,28 @@ public class GestureManager extends InputAdapter {
 					}
 				}
 
-				result |= handleChildren(method, recognizers, continuous, touch, point, entity);
+				result |= handleChildren(method, encloser, recognizers, continuous, touch, point, entity);
 			}
 		} else {
-			result = handleChildren(method, recognizers, continuous, touch, point, entity);
+			result = handleChildren(method, encloser, recognizers, continuous, touch, point, entity);
 		}
 
 		return result;
 	}
 
-	private boolean handleChildren(@Nonnull GestureHandleMethod method, @Nonnull List<GestureRecognizer> recognizers, @Nonnull Set<ContinuousGestureRecognizer> continuous, @Nonnull Touch touch, @Nonnull Vec2 point, @Nonnull Entity entity) {
+	private boolean handleChildren(@Nonnull GestureHandleMethod method, @Nonnull Box<GestureHandler> encloser, @Nonnull List<GestureRecognizer> recognizers, @Nonnull Set<ContinuousGestureRecognizer> continuous, @Nonnull Touch touch, @Nonnull Vec2 point, @Nonnull Entity entity) {
 		boolean result = false;
 
 		if (entity instanceof RenderGroup) {
 			RenderGroup renderGroup = (RenderGroup)entity;
 			ListIterator<Entity> iterator = renderGroup.renderOrder.get().listIterator(renderGroup.renderOrder.get().size());
 			while (iterator.hasPrevious()) {
-				if (handle(method, recognizers, continuous, touch, point, iterator.previous()))
+				if (handle(method, encloser, recognizers, continuous, touch, point, iterator.previous()))
 					result = true;
 			}
 		} else {
 			for (Entity child : entity.children.get()) {
-				if (handle(method, recognizers, continuous, touch, point, child))
+				if (handle(method, encloser, recognizers, continuous, touch, point, child))
 					result = true;
 			}
 		}

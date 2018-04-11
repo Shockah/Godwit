@@ -18,7 +18,7 @@ public abstract class ContinuousGestureRecognizer extends GestureRecognizer {
 
 		if (isInProgress() || state == State.Detecting) {
 			Godwit.getInstance().inputManager.gestureManager.currentContinuousRecognizers.add(this);
-			if (state == State.Began) {
+			if (isInProgress()) {
 				for (GestureRecognizer recognizer : Godwit.getInstance().inputManager.gestureManager.recognizers) {
 					if (!(recognizer instanceof ContinuousGestureRecognizer))
 						recognizer.setState(State.Failed);

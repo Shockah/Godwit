@@ -52,7 +52,6 @@ public class PanGestureRecognizer extends ContinuousGestureRecognizer {
 	protected boolean handleTouchDown(@Nonnull Touch touch, @Nonnull Vec2 point) {
 		if ((getState() == State.Possible || getState() == State.Failed) && this.touch == null && touch.getContinuousRecognizer() == null) {
 			this.touch = touch;
-			//touch.continuousRecognizer = this;
 			setState(State.Detecting);
 			return true;
 		}
@@ -73,8 +72,8 @@ public class PanGestureRecognizer extends ContinuousGestureRecognizer {
 				return false;
 
 			if (!new Circle(touch.points.get(0).position, getStationaryRadius()).contains(point)) {
-				setState(State.Began);
 				touch.setContinuousRecognizer(this);
+				setState(State.Began);
 				delegate.onPan(this, touch.points.get(0).position, point, point - touch.points.get(touch.points.size() - 2).position);
 			}
 
