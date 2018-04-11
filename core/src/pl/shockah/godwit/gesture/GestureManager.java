@@ -102,26 +102,32 @@ public class GestureManager extends InputAdapter {
 			Shape.Filled shape = handler.getGestureShape();
 
 			if ((passThroughWithoutShape && shape == null) || (shape != null && shape.contains(point))) {
-				encloser.value = handler;
-				for (GestureRecognizer recognizer : recognizers) {
-					if (encloser.value != entity && !(recognizer instanceof ContinuousGestureRecognizer) || recognizer.getState() != GestureRecognizer.State.Detecting) {
-						boolean contained = false;
-						for (Entity parent : entity.getParentTree()) {
-							if (parent == encloser.value) {
-								contained = true;
-								break;
-							}
+				boolean shouldContinue;
+				if (encloser.value != null) {
+					shouldContinue = false;
+					for (Entity parent : entity.getParentTree()) {
+						if (parent == encloser.value) {
+							shouldContinue = true;
+							break;
 						}
-						if (!contained)
-							continue;
 					}
+				} else {
+					shouldContinue = true;
+				}
 
-					if (recognizer.handler == handler) {
-						if (recognizer instanceof ContinuousGestureRecognizer)
-							continuous.remove(recognizer);
-						if (method.handle(recognizer, touch, point))
-							result = true;
-					}
+				if (shouldContinue && shape != null)
+					encloser.value = handler;
+
+				for (GestureRecognizer recognizer : recognizers) {
+					if (recognizer.handler != handler)
+						continue;
+					if (!(shouldContinue || (recognizer instanceof ContinuousGestureRecognizer && recognizer.getState() == GestureRecognizer.State.Detecting)))
+						continue;
+
+					if (recognizer instanceof ContinuousGestureRecognizer)
+						continuous.remove(recognizer);
+					if (method.handle(recognizer, touch, point))
+						result = true;
 				}
 
 				result |= handleChildren(method, encloser, recognizers, continuous, touch, point, entity);
