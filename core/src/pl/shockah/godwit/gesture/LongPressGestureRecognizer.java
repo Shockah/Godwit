@@ -25,6 +25,10 @@ public class LongPressGestureRecognizer extends GestureRecognizer {
 	private Timer.Task task = null;
 	private boolean shouldEnd = false;
 
+	public LongPressGestureRecognizer(@Nonnull GestureHandler group, float delay, @Nonnull SimpleDelegate delegate) {
+		this(group, delay, (recognizer, touch) -> delegate.onLongPress(recognizer));
+	}
+
 	public LongPressGestureRecognizer(@Nonnull GestureHandler group, float delay, @Nonnull Delegate delegate) {
 		super(group);
 		this.delay = delay;
@@ -54,9 +58,10 @@ public class LongPressGestureRecognizer extends GestureRecognizer {
 
 	@Override
 	protected boolean onRequiredFailFailed(@Nonnull GestureRecognizer recognizer) {
-		if (shouldEnd) {
+		if (shouldEnd && touch != null) {
+			Touch touch = this.touch;
 			setState(State.Ended);
-			delegate.onLongPress(LongPressGestureRecognizer.this);
+			delegate.onLongPress(LongPressGestureRecognizer.this, touch);
 			return true;
 		} else {
 			return false;
@@ -75,7 +80,7 @@ public class LongPressGestureRecognizer extends GestureRecognizer {
 						task = null;
 						if (requiredRecognizersFailed()) {
 							setState(State.Ended);
-							delegate.onLongPress(LongPressGestureRecognizer.this);
+							delegate.onLongPress(LongPressGestureRecognizer.this, touch);
 						} else {
 							shouldEnd = true;
 						}
@@ -114,6 +119,10 @@ public class LongPressGestureRecognizer extends GestureRecognizer {
 	}
 
 	public interface Delegate {
+		void onLongPress(@Nonnull LongPressGestureRecognizer recognizer, @Nonnull Touch touch);
+	}
+
+	public interface SimpleDelegate {
 		void onLongPress(@Nonnull LongPressGestureRecognizer recognizer);
 	}
 }

@@ -17,8 +17,16 @@ public class TapGestureRecognizer extends GestureRecognizer {
 	private Timer.Task task = null;
 	private int taps = 0;
 
+	public TapGestureRecognizer(@Nonnull GestureHandler group, @Nonnull SimpleDelegate delegate) {
+		this(group, (recognizer, touch) -> delegate.onTap(recognizer));
+	}
+
 	public TapGestureRecognizer(@Nonnull GestureHandler group, @Nonnull Delegate delegate) {
 		this(group, 1, 0f, delegate);
+	}
+
+	public TapGestureRecognizer(@Nonnull GestureHandler group, int tapsRequired, float delay, @Nonnull SimpleDelegate delegate) {
+		this(group, tapsRequired, delay, (recognizer, touch) -> delegate.onTap(recognizer));
 	}
 
 	public TapGestureRecognizer(@Nonnull GestureHandler group, int tapsRequired, float delay, @Nonnull Delegate delegate) {
@@ -61,11 +69,12 @@ public class TapGestureRecognizer extends GestureRecognizer {
 
 	@Override
 	protected boolean onRequiredFailFailed(@Nonnull GestureRecognizer recognizer) {
-		if (taps >= tapsRequired) {
+		if (touch != null && taps >= tapsRequired) {
 			if (!requiredRecognizersFailed())
 				return false;
+			Touch touch = this.touch;
 			setState(State.Ended);
-			delegate.onTap(this);
+			delegate.onTap(this, touch);
 		}
 
 		return false;
@@ -115,7 +124,7 @@ public class TapGestureRecognizer extends GestureRecognizer {
 					if (!requiredRecognizersFailed())
 						return false;
 					setState(State.Ended);
-					delegate.onTap(this);
+					delegate.onTap(this, touch);
 				}
 			}
 			return true;
@@ -125,6 +134,10 @@ public class TapGestureRecognizer extends GestureRecognizer {
 	}
 
 	public interface Delegate {
+		void onTap(@Nonnull TapGestureRecognizer recognizer, @Nonnull Touch touch);
+	}
+
+	public interface SimpleDelegate {
 		void onTap(@Nonnull TapGestureRecognizer recognizer);
 	}
 }
