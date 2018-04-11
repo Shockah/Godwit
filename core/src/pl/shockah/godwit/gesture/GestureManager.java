@@ -86,7 +86,7 @@ public class GestureManager extends InputAdapter {
 
 	private boolean handle(@Nonnull GestureHandleMethod method, @Nonnull Touch touch, @Nonnull Vec2 point, @Nonnull Entity entity) {
 		Set<ContinuousGestureRecognizer> continuous = new HashSet<>(currentContinuousRecognizers);
-		boolean result = handle(GestureRecognizer::handleTouchDragged, continuous, touch, point, entity);
+		boolean result = handle(method, continuous, touch, point, entity);
 		for (ContinuousGestureRecognizer recognizer : continuous) {
 			result |= method.handle(recognizer, touch, point);
 		}
