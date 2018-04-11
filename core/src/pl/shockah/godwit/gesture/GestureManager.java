@@ -23,6 +23,8 @@ public class GestureManager extends InputAdapter {
 	@Nonnull public final Set<GestureRecognizer> recognizers = new HashSet<>();
 	@Nonnull protected final Set<ContinuousGestureRecognizer> currentContinuousRecognizers = new HashSet<>();
 
+	public boolean passThroughWithoutShape = false;
+
 	public void update() {
 		List<GestureRecognizer> recognizers = new ArrayList<>(this.recognizers);
 
@@ -98,7 +100,7 @@ public class GestureManager extends InputAdapter {
 			GestureHandler handler = (GestureHandler)entity;
 			Shape.Filled shape = handler.getGestureShape();
 
-			if (shape != null && shape.contains(point)) {
+			if ((passThroughWithoutShape && shape == null) || (shape != null && shape.contains(point))) {
 				for (GestureRecognizer recognizer : recognizers) {
 					if (recognizer.handler == handler) {
 						if (recognizer instanceof ContinuousGestureRecognizer)
