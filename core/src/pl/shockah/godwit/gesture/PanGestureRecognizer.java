@@ -106,6 +106,6 @@ public class PanGestureRecognizer extends ContinuousGestureRecognizer {
 	}
 
 	public interface Delegate {
-		void onPan(@Nonnull PanGestureRecognizer recognizer, @Nonnull IVec2 initialPoint, @Nonnull IVec2 currentPoint, @Nonnull IVec2 delta);
+		void onPan(@Nonnull PanGestureRecognizer recognizer, @Nonnull Vec2 initialPoint, @Nonnull Vec2 currentPoint, @Nonnull Vec2 delta);
 	}
 }
