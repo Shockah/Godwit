@@ -50,7 +50,7 @@ public abstract class GestureRecognizer {
 
 	public abstract GestureRecognizer clone();
 
-	protected void setState(@Nonnull State state) {
+	public void setState(@Nonnull State state) {
 		if (state == this.state)
 			return;
 
