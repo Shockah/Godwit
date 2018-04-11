@@ -109,8 +109,18 @@ public class GestureManager extends InputAdapter {
 							result = true;
 					}
 				}
+
+				result |= handleChildren(method, continuous, touch, point, entity);
 			}
+		} else {
+			result = handleChildren(method, continuous, touch, point, entity);
 		}
+
+		return result;
+	}
+
+	private boolean handleChildren(@Nonnull GestureHandleMethod method, @Nonnull Set<ContinuousGestureRecognizer> continuous, @Nonnull Touch touch, @Nonnull Vec2 point, @Nonnull Entity entity) {
+		boolean result = false;
 
 		if (entity instanceof RenderGroup) {
 			RenderGroup renderGroup = (RenderGroup)entity;
