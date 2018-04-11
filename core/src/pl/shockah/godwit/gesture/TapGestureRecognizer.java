@@ -63,30 +63,23 @@ public class TapGestureRecognizer extends GestureRecognizer {
 	}
 
 	@Override
-	protected boolean onRequiredFailEnded(@Nonnull GestureRecognizer recognizer) {
-		return super.onRequiredFailEnded(recognizer);
-	}
-
-	@Override
-	protected boolean onRequiredFailFailed(@Nonnull GestureRecognizer recognizer) {
+	protected void onRequiredFailFailed(@Nonnull GestureRecognizer recognizer) {
 		if (touch != null && taps >= tapsRequired) {
 			if (!requiredRecognizersFailed())
-				return false;
+				return;
 			if (touch.getRecognizer() != null) {
 				setState(State.Failed);
-				return false;
+				return;
 			}
 			Touch touch = this.touch;
 			touch.setRecognizer(this);
 			setState(State.Ended);
 			delegate.onTap(this, touch);
 		}
-
-		return false;
 	}
 
 	@Override
-	protected boolean handleTouchDown(@Nonnull Touch touch, @Nonnull Vec2 point) {
+	protected void handleTouchDown(@Nonnull Touch touch, @Nonnull Vec2 point) {
 		if (getState() == State.Possible || isInProgress()) {
 			if (isInProgress()) {
 				setState(State.Changed);
@@ -113,32 +106,26 @@ public class TapGestureRecognizer extends GestureRecognizer {
 					}
 				}, delay);
 			}
-			return true;
 		}
-
-		return false;
 	}
 
 	@Override
-	protected boolean handleTouchUp(@Nonnull Touch touch, @Nonnull Vec2 point) {
+	protected void handleTouchUp(@Nonnull Touch touch, @Nonnull Vec2 point) {
 		if (isInProgress()) {
 			if (this.touch == touch) {
 				if (taps >= tapsRequired) {
 					if (!requiredRecognizersFailed())
-						return false;
+						return;
 					if (touch.getRecognizer() != null) {
 						setState(State.Failed);
-						return false;
+						return;
 					}
 					touch.setRecognizer(this);
 					setState(State.Ended);
 					delegate.onTap(this, touch);
 				}
 			}
-			return true;
 		}
-
-		return false;
 	}
 
 	public interface Delegate {

@@ -57,7 +57,8 @@ public class GestureManager extends InputAdapter {
 		Vec2 point = new Vec2(screenX, screenY);
 		touch.addPoint(point);
 		touches.put(pointer, touch);
-		return handle(GestureRecognizer::handleTouchDown, touch, point, Godwit.getInstance().getRootEntity());
+		handle(GestureRecognizer::handleTouchDown, true, touch, point, Godwit.getInstance().getRootEntity());
+		return true;
 	}
 
 	@Override
@@ -68,7 +69,8 @@ public class GestureManager extends InputAdapter {
 
 		Vec2 point = new Vec2(screenX, screenY);
 		touch.addPoint(point);
-		return handle(GestureRecognizer::handleTouchDragged, touch, point, Godwit.getInstance().getRootEntity());
+		handle(GestureRecognizer::handleTouchDragged, false, touch, point, Godwit.getInstance().getRootEntity());
+		return true;
 	}
 
 	@Override
@@ -81,66 +83,45 @@ public class GestureManager extends InputAdapter {
 		touch.addPoint(point);
 		touch.finish();
 		touches.remove(pointer);
-		return handle(GestureRecognizer::handleTouchUp, touch, point, Godwit.getInstance().getRootEntity());
+		handle(GestureRecognizer::handleTouchUp, false, touch, point, Godwit.getInstance().getRootEntity());
+		return true;
 	}
 
-	private boolean handle(@Nonnull GestureHandleMethod method, @Nonnull Touch touch, @Nonnull Vec2 point, @Nonnull Entity entity) {
-		Set<ContinuousGestureRecognizer> continuous = new HashSet<>(currentContinuousRecognizers);
-		boolean result = handle(method, new ArrayList<>(recognizers), continuous, touch, point, entity);
-		for (ContinuousGestureRecognizer recognizer : continuous) {
-			result |= method.handle(recognizer, touch, point);
-		}
-		return result;
+	private void handle(@Nonnull GestureHandleMethod method, boolean checkShape, @Nonnull Touch touch, @Nonnull Vec2 point, @Nonnull Entity entity) {
+		handle(method, checkShape, new ArrayList<>(recognizers), touch, point, entity);
 	}
 
-	private boolean handle(@Nonnull GestureHandleMethod method, @Nonnull List<GestureRecognizer> recognizers, @Nonnull Set<ContinuousGestureRecognizer> continuous, @Nonnull Touch touch, @Nonnull Vec2 point, @Nonnull Entity entity) {
-		boolean result = false;
-
+	private void handle(@Nonnull GestureHandleMethod method, boolean checkShape, @Nonnull List<GestureRecognizer> recognizers, @Nonnull Touch touch, @Nonnull Vec2 point, @Nonnull Entity entity) {
 		if (entity instanceof GestureHandler) {
 			GestureHandler handler = (GestureHandler)entity;
 			Shape.Filled shape = handler.getGestureShape();
 
-			if ((passThroughWithoutShape && shape == null) || (shape != null && shape.contains(point))) {
+			if (!checkShape || (passThroughWithoutShape && shape == null) || (shape != null && shape.contains(point))) {
 				for (GestureRecognizer recognizer : recognizers) {
-					if (recognizer.handler != handler)
-						continue;
-
-					if (recognizer instanceof ContinuousGestureRecognizer)
-						continuous.remove(recognizer);
-					if (method.handle(recognizer, touch, point))
-						result = true;
+					if (recognizer.handler == handler)
+						method.handle(recognizer, touch, point);
 				}
-
-				result |= handleChildren(method, recognizers, continuous, touch, point, entity);
 			}
-		} else {
-			result = handleChildren(method, recognizers, continuous, touch, point, entity);
 		}
 
-		return result;
+		handleChildren(method, checkShape, recognizers, touch, point, entity);
 	}
 
-	private boolean handleChildren(@Nonnull GestureHandleMethod method, @Nonnull List<GestureRecognizer> recognizers, @Nonnull Set<ContinuousGestureRecognizer> continuous, @Nonnull Touch touch, @Nonnull Vec2 point, @Nonnull Entity entity) {
-		boolean result = false;
-
+	private void handleChildren(@Nonnull GestureHandleMethod method, boolean checkShape, @Nonnull List<GestureRecognizer> recognizers, @Nonnull Touch touch, @Nonnull Vec2 point, @Nonnull Entity entity) {
 		if (entity instanceof RenderGroup) {
 			RenderGroup renderGroup = (RenderGroup)entity;
 			ListIterator<Entity> iterator = renderGroup.renderOrder.get().listIterator(renderGroup.renderOrder.get().size());
 			while (iterator.hasPrevious()) {
-				if (handle(method, recognizers, continuous, touch, point, iterator.previous()))
-					result = true;
+				handle(method, checkShape, recognizers, touch, point, iterator.previous());
 			}
 		} else {
 			for (Entity child : entity.children.get()) {
-				if (handle(method, recognizers, continuous, touch, point, child))
-					result = true;
+				handle(method, checkShape, recognizers, touch, point, child);
 			}
 		}
-
-		return result;
 	}
 
 	private interface GestureHandleMethod {
-		boolean handle(@Nonnull GestureRecognizer recognizer, @Nonnull Touch touch, @Nonnull Vec2 point);
+		void handle(@Nonnull GestureRecognizer recognizer, @Nonnull Touch touch, @Nonnull Vec2 point);
 	}
 }

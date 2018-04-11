@@ -69,13 +69,11 @@ public abstract class GestureRecognizer {
 
 		if (state == State.Ended) {
 			for (GestureRecognizer recognizer : failListeners) {
-				if (recognizer.onRequiredFailEnded(this))
-					return;
+				recognizer.onRequiredFailEnded(this);
 			}
 		} else if (state == State.Failed) {
 			for (GestureRecognizer recognizer : failListeners) {
-				if (recognizer.onRequiredFailFailed(this))
-					return;
+				recognizer.onRequiredFailFailed(this);
 			}
 		}
 	}
@@ -109,25 +107,20 @@ public abstract class GestureRecognizer {
 		return true;
 	}
 
-	protected boolean onRequiredFailEnded(@Nonnull GestureRecognizer recognizer) {
+	protected void onRequiredFailEnded(@Nonnull GestureRecognizer recognizer) {
 		setState(State.Failed);
-		return false;
 	}
 
-	protected boolean onRequiredFailFailed(@Nonnull GestureRecognizer recognizer) {
-		return false;
+	protected void onRequiredFailFailed(@Nonnull GestureRecognizer recognizer) {
 	}
 
-	protected boolean handleTouchDown(@Nonnull Touch touch, @Nonnull Vec2 point) {
-		return false;
+	protected void handleTouchDown(@Nonnull Touch touch, @Nonnull Vec2 point) {
 	}
 
-	protected boolean handleTouchDragged(@Nonnull Touch touch, @Nonnull Vec2 point) {
-		return false;
+	protected void handleTouchDragged(@Nonnull Touch touch, @Nonnull Vec2 point) {
 	}
 
-	protected boolean handleTouchUp(@Nonnull Touch touch, @Nonnull Vec2 point) {
-		return false;
+	protected void handleTouchUp(@Nonnull Touch touch, @Nonnull Vec2 point) {
 	}
 
 	public enum State {

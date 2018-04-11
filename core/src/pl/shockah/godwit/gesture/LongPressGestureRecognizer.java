@@ -57,20 +57,17 @@ public class LongPressGestureRecognizer extends GestureRecognizer {
 	}
 
 	@Override
-	protected boolean onRequiredFailFailed(@Nonnull GestureRecognizer recognizer) {
+	protected void onRequiredFailFailed(@Nonnull GestureRecognizer recognizer) {
 		if (shouldEnd && touch != null) {
 			Touch touch = this.touch;
 			touch.setRecognizer(this);
 			setState(State.Ended);
 			delegate.onLongPress(LongPressGestureRecognizer.this, touch);
-			return true;
-		} else {
-			return false;
 		}
 	}
 
 	@Override
-	public boolean handleTouchDown(@Nonnull Touch touch, @Nonnull Vec2 point) {
+	public void handleTouchDown(@Nonnull Touch touch, @Nonnull Vec2 point) {
 		if (getState() == State.Possible) {
 			setState(State.Began);
 			this.touch = touch;
@@ -89,35 +86,24 @@ public class LongPressGestureRecognizer extends GestureRecognizer {
 					});
 				}
 			}, delay);
-			return true;
 		}
-
-		return false;
 	}
 
 	@Override
-	public boolean handleTouchDragged(@Nonnull Touch touch, @Nonnull Vec2 point) {
+	public void handleTouchDragged(@Nonnull Touch touch, @Nonnull Vec2 point) {
 		if (isInProgress()) {
 			if (!new Circle(touch.points.get(0).position, getStationaryRadius()).contains(point)) {
 				setState(State.Failed);
-				return true;
 			} else {
 				setState(State.Changed);
-				return true;
 			}
 		}
-
-		return false;
 	}
 
 	@Override
-	public boolean handleTouchUp(@Nonnull Touch touch, @Nonnull Vec2 point) {
-		if (isInProgress() && this.touch == touch) {
+	public void handleTouchUp(@Nonnull Touch touch, @Nonnull Vec2 point) {
+		if (isInProgress() && this.touch == touch)
 			setState(State.Failed);
-			return true;
-		}
-
-		return false;
 	}
 
 	public interface Delegate {

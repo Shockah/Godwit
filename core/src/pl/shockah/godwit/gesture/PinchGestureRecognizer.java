@@ -26,7 +26,6 @@ public class PinchGestureRecognizer extends ContinuousGestureRecognizer {
 	@Override
 	protected void setState(@Nonnull State state) {
 		super.setState(state);
-
 		if (isFinished())
 			touches = new UnorderedPair<>(null, null);
 	}
@@ -38,7 +37,7 @@ public class PinchGestureRecognizer extends ContinuousGestureRecognizer {
 	}
 
 	@Override
-	protected boolean handleTouchDown(@Nonnull Touch touch, @Nonnull Vec2 point) {
+	protected void handleTouchDown(@Nonnull Touch touch, @Nonnull Vec2 point) {
 		if (getState() == State.Possible && touch.getRecognizer() == null) {
 			for (int i = 0; i < 2; i++) {
 				if (touches.first != null && touches.first.getRecognizer() != null)
@@ -46,7 +45,7 @@ public class PinchGestureRecognizer extends ContinuousGestureRecognizer {
 			}
 
 			if (touches.isFull())
-				return false;
+				return;
 
 			touches = touches.with(touch);
 			if (touches.isFull()) {
@@ -55,40 +54,29 @@ public class PinchGestureRecognizer extends ContinuousGestureRecognizer {
 				setState(State.Began);
 				callDelegate();
 			}
-			return true;
 		}
-
-		return false;
 	}
 
 	@Override
-	protected boolean handleTouchDragged(@Nonnull Touch touch, @Nonnull Vec2 point) {
+	protected void handleTouchDragged(@Nonnull Touch touch, @Nonnull Vec2 point) {
 		if (isInProgress()) {
 			if (!touches.contains(touch))
-				return false;
-
+				return;
 			setState(State.Changed);
 			callDelegate();
-
-			return true;
 		}
-		return false;
 	}
 
 	@Override
-	protected boolean handleTouchUp(@Nonnull Touch touch, @Nonnull Vec2 point) {
+	protected void handleTouchUp(@Nonnull Touch touch, @Nonnull Vec2 point) {
 		if (isInProgress()) {
 			UnorderedPair<Touch> touches = this.touches;
 			setState(State.Ended);
 			callDelegate(touches);
-			return true;
 		} else if (getState() == State.Possible) {
-			if (!touches.isEmpty()) {
+			if (!touches.isEmpty())
 				setState(State.Failed);
-				return true;
-			}
 		}
-		return false;
 	}
 
 	private void callDelegate() {

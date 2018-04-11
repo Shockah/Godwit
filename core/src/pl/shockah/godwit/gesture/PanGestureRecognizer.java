@@ -49,59 +49,47 @@ public class PanGestureRecognizer extends ContinuousGestureRecognizer {
 	}
 
 	@Override
-	protected boolean handleTouchDown(@Nonnull Touch touch, @Nonnull Vec2 point) {
+	protected void handleTouchDown(@Nonnull Touch touch, @Nonnull Vec2 point) {
 		if ((getState() == State.Possible || getState() == State.Failed) && this.touch == null && touch.getRecognizer() == null) {
 			this.touch = touch;
 			setState(State.Detecting);
-			return true;
 		}
-
-		return false;
 	}
 
 	@Override
-	protected boolean handleTouchDragged(@Nonnull Touch touch, @Nonnull Vec2 point) {
+	protected void handleTouchDragged(@Nonnull Touch touch, @Nonnull Vec2 point) {
 		if (touch != this.touch)
-			return false;
+			return;
 
 		if (getState() == State.Detecting) {
 			if (!requiredRecognizersFailed())
-				return false;
-
+				return;
 			if (touch.getRecognizer() != null)
-				return false;
+				return;
 
 			if (!new Circle(touch.points.get(0).position, getStationaryRadius()).contains(point)) {
 				touch.setRecognizer(this);
 				setState(State.Began);
 				delegate.onPan(this, touch.points.get(0).position, point, point - touch.points.get(touch.points.size() - 2).position);
 			}
-
-			return true;
 		} else if (isInProgress()) {
 			setState(State.Changed);
 			delegate.onPan(this, touch.points.get(0).position, point, point - touch.points.get(touch.points.size() - 2).position);
-			return true;
 		}
-
-		return false;
 	}
 
 	@Override
-	protected boolean handleTouchUp(@Nonnull Touch touch, @Nonnull Vec2 point) {
+	protected void handleTouchUp(@Nonnull Touch touch, @Nonnull Vec2 point) {
 		if (touch != this.touch)
-			return false;
+			return;
 		this.touch = null;
 
 		if (getState() == State.Detecting) {
 			setState(State.Failed);
-			return true;
 		} else if (isInProgress()) {
 			setState(State.Ended);
 			delegate.onPan(this, touch.points.get(0).position, point, point - touch.points.get(touch.points.size() - 2).position);
-			return true;
 		}
-		return false;
 	}
 
 	public interface Delegate {
