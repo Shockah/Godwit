@@ -13,7 +13,7 @@ public abstract class ContinuousGestureRecognizer extends GestureRecognizer {
 	}
 
 	@Override
-	protected void setState(@Nonnull State state) {
+	public void setState(@Nonnull State state) {
 		super.setState(state);
 
 		if (isInProgress() || state == State.Detecting) {

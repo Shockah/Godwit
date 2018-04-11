@@ -24,7 +24,7 @@ public class PinchGestureRecognizer extends ContinuousGestureRecognizer {
 	}
 
 	@Override
-	protected void setState(@Nonnull State state) {
+	public void setState(@Nonnull State state) {
 		super.setState(state);
 		if (isFinished())
 			touches = new UnorderedPair<>(null, null);

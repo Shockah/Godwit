@@ -49,7 +49,7 @@ public class TapGestureRecognizer extends GestureRecognizer {
 	}
 
 	@Override
-	protected void setState(@Nonnull State state) {
+	public void setState(@Nonnull State state) {
 		super.setState(state);
 
 		if (isFinished()) {
