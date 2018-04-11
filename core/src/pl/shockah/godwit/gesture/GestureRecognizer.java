@@ -75,8 +75,12 @@ public abstract class GestureRecognizer {
 		}
 	}
 
-	public boolean isInProgress() {
+	public final boolean isInProgress() {
 		return state == State.Began || state == State.Changed;
+	}
+
+	public final boolean isFinished() {
+		return state == State.Ended || state == State.Failed || state == State.Cancelled;
 	}
 
 	public void requireToFail(@Nonnull GestureRecognizer recognizer) {

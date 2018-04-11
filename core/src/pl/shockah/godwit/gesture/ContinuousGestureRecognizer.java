@@ -16,7 +16,7 @@ public abstract class ContinuousGestureRecognizer extends GestureRecognizer {
 	protected void setState(@Nonnull State state) {
 		super.setState(state);
 
-		if (state == State.Detecting || state == State.Began || state == State.Changed) {
+		if (isInProgress() || state == State.Detecting) {
 			Godwit.getInstance().inputManager.gestureManager.currentContinuousRecognizers.add(this);
 			if (state == State.Began) {
 				for (GestureRecognizer recognizer : Godwit.getInstance().inputManager.gestureManager.recognizers) {
@@ -24,7 +24,7 @@ public abstract class ContinuousGestureRecognizer extends GestureRecognizer {
 						recognizer.setState(State.Failed);
 				}
 			}
-		} else if (state == State.Ended || state == State.Cancelled || state == State.Failed) {
+		} else if (isFinished()) {
 			Godwit.getInstance().inputManager.gestureManager.currentContinuousRecognizers.remove(this);
 		}
 	}

@@ -46,7 +46,7 @@ public class LongPressGestureRecognizer extends GestureRecognizer {
 	protected void setState(@Nonnull State state) {
 		super.setState(state);
 
-		if (state == State.Failed || state == State.Ended || state == State.Cancelled) {
+		if (isFinished()) {
 			touch = null;
 			shouldEnd = false;
 			if (task != null) {
