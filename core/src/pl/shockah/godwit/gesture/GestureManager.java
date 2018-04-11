@@ -88,35 +88,54 @@ public class GestureManager extends InputAdapter {
 	}
 
 	private void handle(@Nonnull GestureHandleMethod method, boolean checkShape, @Nonnull Touch touch, @Nonnull Vec2 point, @Nonnull Entity entity) {
-		handle(method, checkShape, new ArrayList<>(recognizers), touch, point, entity);
+		handle(method, checkShape, new ArrayList<>(), new ArrayList<>(recognizers), touch, point, entity);
 	}
 
-	private void handle(@Nonnull GestureHandleMethod method, boolean checkShape, @Nonnull List<GestureRecognizer> recognizers, @Nonnull Touch touch, @Nonnull Vec2 point, @Nonnull Entity entity) {
+	private void handle(@Nonnull GestureHandleMethod method, boolean checkShape, @Nonnull List<Shape.Filled> outsideShapes, @Nonnull List<GestureRecognizer> recognizers, @Nonnull Touch touch, @Nonnull Vec2 point, @Nonnull Entity entity) {
+		List<Shape.Filled> currentOutsideShapes = outsideShapes;
+
 		if (entity instanceof GestureHandler) {
 			GestureHandler handler = (GestureHandler)entity;
 			Shape.Filled shape = handler.getGestureShape();
 
 			if (!checkShape || (passThroughWithoutShape && shape == null) || (shape != null && shape.contains(point))) {
-				for (GestureRecognizer recognizer : recognizers) {
-					if (recognizer.handler == handler)
-						method.handle(recognizer, touch, point);
+				boolean shouldContinue = true;
+				if (checkShape) {
+					for (Shape.Filled outsideShape : outsideShapes) {
+						if (outsideShape.contains(point)) {
+							shouldContinue = false;
+							break;
+						}
+					}
+				}
+
+				if (shouldContinue) {
+					if (checkShape && shape != null) {
+						currentOutsideShapes = new ArrayList<>(outsideShapes);
+						outsideShapes.add(shape);
+					}
+
+					for (GestureRecognizer recognizer : recognizers) {
+						if (recognizer.handler == handler)
+							method.handle(recognizer, touch, point);
+					}
 				}
 			}
 		}
 
-		handleChildren(method, checkShape, recognizers, touch, point, entity);
+		handleChildren(method, checkShape, currentOutsideShapes, recognizers, touch, point, entity);
 	}
 
-	private void handleChildren(@Nonnull GestureHandleMethod method, boolean checkShape, @Nonnull List<GestureRecognizer> recognizers, @Nonnull Touch touch, @Nonnull Vec2 point, @Nonnull Entity entity) {
+	private void handleChildren(@Nonnull GestureHandleMethod method, boolean checkShape, @Nonnull List<Shape.Filled> outsideShapes, @Nonnull List<GestureRecognizer> recognizers, @Nonnull Touch touch, @Nonnull Vec2 point, @Nonnull Entity entity) {
 		if (entity instanceof RenderGroup) {
 			RenderGroup renderGroup = (RenderGroup)entity;
 			ListIterator<Entity> iterator = renderGroup.renderOrder.get().listIterator(renderGroup.renderOrder.get().size());
 			while (iterator.hasPrevious()) {
-				handle(method, checkShape, recognizers, touch, point, iterator.previous());
+				handle(method, checkShape, outsideShapes, recognizers, touch, point, iterator.previous());
 			}
 		} else {
 			for (Entity child : entity.children.get()) {
-				handle(method, checkShape, recognizers, touch, point, child);
+				handle(method, checkShape, outsideShapes, recognizers, touch, point, child);
 			}
 		}
 	}
