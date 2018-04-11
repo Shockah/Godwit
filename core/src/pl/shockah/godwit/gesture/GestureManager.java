@@ -2,8 +2,10 @@ package pl.shockah.godwit.gesture;
 
 import com.badlogic.gdx.InputAdapter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
@@ -22,6 +24,8 @@ public class GestureManager extends InputAdapter {
 	@Nonnull protected final Set<ContinuousGestureRecognizer> currentContinuousRecognizers = new HashSet<>();
 
 	public void update() {
+		List<GestureRecognizer> recognizers = new ArrayList<>(this.recognizers);
+
 		for (GestureRecognizer recognizer : recognizers) {
 			if (recognizer.getState() == GestureRecognizer.State.Ended)
 				recognizer.setState(GestureRecognizer.State.Possible);
@@ -51,13 +55,7 @@ public class GestureManager extends InputAdapter {
 		Vec2 point = new Vec2(screenX, screenY);
 		touch.addPoint(point);
 		touches.put(pointer, touch);
-
-		Set<ContinuousGestureRecognizer> continuous = new HashSet<>(currentContinuousRecognizers);
-		boolean result = handle(GestureRecognizer::handleTouchDown, continuous, touch, point, Godwit.getInstance().getRootEntity());
-		for (ContinuousGestureRecognizer recognizer : continuous) {
-			result |= recognizer.handleTouchDown(touch, point);
-		}
-		return result;
+		return handle(GestureRecognizer::handleTouchDown, touch, point, Godwit.getInstance().getRootEntity());
 	}
 
 	@Override
@@ -68,13 +66,7 @@ public class GestureManager extends InputAdapter {
 
 		Vec2 point = new Vec2(screenX, screenY);
 		touch.addPoint(point);
-
-		Set<ContinuousGestureRecognizer> continuous = new HashSet<>(currentContinuousRecognizers);
-		boolean result = handle(GestureRecognizer::handleTouchDragged, continuous, touch, point, Godwit.getInstance().getRootEntity());
-		for (ContinuousGestureRecognizer recognizer : continuous) {
-			result |= recognizer.handleTouchDragged(touch, point);
-		}
-		return result;
+		return handle(GestureRecognizer::handleTouchDragged, touch, point, Godwit.getInstance().getRootEntity());
 	}
 
 	@Override
@@ -87,11 +79,14 @@ public class GestureManager extends InputAdapter {
 		touch.addPoint(point);
 		touch.finish();
 		touches.remove(pointer);
+		return handle(GestureRecognizer::handleTouchUp, touch, point, Godwit.getInstance().getRootEntity());
+	}
 
+	private boolean handle(@Nonnull GestureHandleMethod method, @Nonnull Touch touch, @Nonnull Vec2 point, @Nonnull Entity entity) {
 		Set<ContinuousGestureRecognizer> continuous = new HashSet<>(currentContinuousRecognizers);
-		boolean result = handle(GestureRecognizer::handleTouchUp, continuous, touch, point, Godwit.getInstance().getRootEntity());
+		boolean result = handle(GestureRecognizer::handleTouchDragged, continuous, touch, point, entity);
 		for (ContinuousGestureRecognizer recognizer : continuous) {
-			result |= recognizer.handleTouchUp(touch, point);
+			result |= method.handle(recognizer, touch, point);
 		}
 		return result;
 	}
