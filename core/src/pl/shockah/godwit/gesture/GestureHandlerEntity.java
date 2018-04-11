@@ -10,11 +10,11 @@ import lombok.Getter;
 import pl.shockah.godwit.Entity;
 import pl.shockah.godwit.geom.Shape;
 
-public class GestureHandlerEntity extends Entity implements GestureHandler {
+public class GestureHandlerEntity<T extends Shape & Shape.Filled> extends Entity implements GestureHandler {
 	@Nonnull protected final Set<GestureRecognizer> gestureRecognizers = new HashSet<>();
 
 	@Getter
-	@Nullable public Shape.Filled gestureShape;
+	@Nullable public T gestureShape;
 
 	@Override
 	public void onAddedToHierarchy() {
