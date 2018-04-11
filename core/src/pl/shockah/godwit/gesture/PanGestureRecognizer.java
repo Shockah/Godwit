@@ -34,7 +34,6 @@ public class PanGestureRecognizer extends ContinuousGestureRecognizer {
 	@Override
 	protected void setState(@Nonnull State state) {
 		super.setState(state);
-
 		if (isFinished())
 			touch = null;
 	}
@@ -43,7 +42,6 @@ public class PanGestureRecognizer extends ContinuousGestureRecognizer {
 	protected void onTouchUsedByRecognizer(@Nonnull Touch touch) {
 		if (touch != this.touch)
 			return;
-
 		if (isInProgress() || getState() == State.Detecting)
 			setState(State.Failed);
 	}

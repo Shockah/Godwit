@@ -92,7 +92,7 @@ public class GestureManager extends InputAdapter {
 	}
 
 	private void handle(@Nonnull GestureHandleMethod method, boolean checkShape, @Nonnull List<Shape.Filled> outsideShapes, @Nonnull List<GestureRecognizer> recognizers, @Nonnull Touch touch, @Nonnull Vec2 point, @Nonnull Entity entity) {
-		List<Shape.Filled> currentOutsideShapes = outsideShapes;
+		List<Shape.Filled> passedOutsideShapes = outsideShapes;
 
 		if (entity instanceof GestureHandler) {
 			GestureHandler handler = (GestureHandler)entity;
@@ -111,7 +111,7 @@ public class GestureManager extends InputAdapter {
 
 				if (shouldContinue) {
 					if (checkShape && shape != null) {
-						currentOutsideShapes = new ArrayList<>(outsideShapes);
+						passedOutsideShapes = new ArrayList<>(outsideShapes);
 						outsideShapes.add(shape);
 					}
 
@@ -123,7 +123,7 @@ public class GestureManager extends InputAdapter {
 			}
 		}
 
-		handleChildren(method, checkShape, currentOutsideShapes, recognizers, touch, point, entity);
+		handleChildren(method, checkShape, passedOutsideShapes, recognizers, touch, point, entity);
 	}
 
 	private void handleChildren(@Nonnull GestureHandleMethod method, boolean checkShape, @Nonnull List<Shape.Filled> outsideShapes, @Nonnull List<GestureRecognizer> recognizers, @Nonnull Touch touch, @Nonnull Vec2 point, @Nonnull Entity entity) {
