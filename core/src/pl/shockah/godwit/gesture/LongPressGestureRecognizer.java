@@ -32,6 +32,13 @@ public class LongPressGestureRecognizer extends GestureRecognizer {
 	}
 
 	@Override
+	public LongPressGestureRecognizer clone() {
+		LongPressGestureRecognizer clone = new LongPressGestureRecognizer(handler, delay, delegate);
+		cloneDependencies(clone);
+		return clone;
+	}
+
+	@Override
 	protected void setState(@Nonnull State state) {
 		super.setState(state);
 

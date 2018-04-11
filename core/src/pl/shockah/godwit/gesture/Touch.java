@@ -8,13 +8,16 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import lombok.Getter;
+import pl.shockah.godwit.Godwit;
 import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.geom.Vec2;
 
 public final class Touch {
 	public final int pointer;
 	@Nonnull public final List<Point> points = new ArrayList<>();
-	@Nullable public ContinuousGestureRecognizer continuousRecognizer = null;
+
+	@Getter
+	@Nullable private ContinuousGestureRecognizer continuousRecognizer = null;
 
 	@Getter
 	private boolean finished = false;
@@ -42,6 +45,17 @@ public final class Touch {
 
 	public void finish() {
 		finished = true;
+	}
+
+	public void setContinuousRecognizer(@Nullable ContinuousGestureRecognizer recognizer) {
+		continuousRecognizer = recognizer;
+		if (recognizer != null) {
+			for (ContinuousGestureRecognizer continuousRecognizer : new ArrayList<>(Godwit.getInstance().inputManager.gestureManager.currentContinuousRecognizers)) {
+				if (continuousRecognizer == recognizer)
+					continue;
+				continuousRecognizer.onTouchUsedByContinuousRecognizer(this);
+			}
+		}
 	}
 
 	public static final class Point {

@@ -9,6 +9,9 @@ public abstract class ContinuousGestureRecognizer extends GestureRecognizer {
 		super(handler);
 	}
 
+	protected void onTouchUsedByContinuousRecognizer(@Nonnull Touch touch) {
+	}
+
 	@Override
 	protected void setState(@Nonnull State state) {
 		super.setState(state);

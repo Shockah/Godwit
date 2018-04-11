@@ -56,31 +56,33 @@ public class GestureRecognizerTest extends State implements GestureHandler {
 		});
 
 		Box<Float> radius = new Box<>();
-		PinchGestureRecognizer pinch = new PinchGestureRecognizer(this, (recognizer, initial1, initial2, current1, current2, initialDistance, currentDistance) -> {
+		PinchGestureRecognizer pinch = new PinchGestureRecognizer(this, (recognizer, initial, current) -> {
 			if (recognizer.getState() == GestureRecognizer.State.Began) {
 				radius.value = entity.shape.radius;
 			}
 
-			entity.shape.radius = radius.value * currentDistance / initialDistance;
+			entity.shape.radius = radius.value * current.distance / initial.distance;
 			//Gdx.app.log("GestureRecognizerTest", "pan");
 		});
 
-		pinch.requireToFail(pan);
-		//pan.requireToFail(longPress);
+		//pinch.requireToFail(pan);
+		pan.requireToFail(longPress);
 
 		//doubleTap.requireToFail(pan);
 		doubleTap.requireToFail(longPress);
 
-		//singleTap.requireToFail(pan);
+		singleTap.requireToFail(pan);
 		singleTap.requireToFail(longPress);
 		singleTap.requireToFail(doubleTap);
 
 		pinch.register();
 		pan.register();
 
-//		longPress.register();
-//		doubleTap.register();
-//		singleTap.register();
+		longPress.register();
+		doubleTap.register();
+		singleTap.register();
+
+		pan.clone().register();
 	}
 
 	@Override

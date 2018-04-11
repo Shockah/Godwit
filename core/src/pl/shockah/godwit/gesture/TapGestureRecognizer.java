@@ -34,6 +34,13 @@ public class TapGestureRecognizer extends GestureRecognizer {
 	}
 
 	@Override
+	public TapGestureRecognizer clone() {
+		TapGestureRecognizer clone = new TapGestureRecognizer(handler, tapsRequired, delay, delegate);
+		cloneDependencies(clone);
+		return clone;
+	}
+
+	@Override
 	protected void setState(@Nonnull State state) {
 		super.setState(state);
 

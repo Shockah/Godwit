@@ -70,7 +70,6 @@ public class GestureManager extends InputAdapter {
 		Vec2 point = new Vec2(screenX, screenY);
 		touch.addPoint(point);
 
-
 		Set<ContinuousGestureRecognizer> continuous = new HashSet<>(currentContinuousRecognizers);
 		boolean result = handle(GestureRecognizer::handleTouchDragged, continuous, touch, point, Godwit.getInstance().getRootEntity());
 		for (ContinuousGestureRecognizer recognizer : continuous) {
