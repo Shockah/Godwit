@@ -4,7 +4,6 @@ import javax.annotation.Nonnull;
 
 import lombok.EqualsAndHashCode;
 import pl.shockah.godwit.collection.UnorderedPair;
-import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.geom.Vec2;
 
 public class PinchGestureRecognizer extends ContinuousGestureRecognizer {
@@ -97,12 +96,12 @@ public class PinchGestureRecognizer extends ContinuousGestureRecognizer {
 	}
 
 	private void callDelegate(@Nonnull UnorderedPair<Touch> touches) {
-		IVec2 initialPoint1 = touches.first.points.get(0).position;
-		IVec2 initialPoint2 = touches.second.points.get(0).position;
+		Vec2 initialPoint1 = touches.first.points.get(0).position;
+		Vec2 initialPoint2 = touches.second.points.get(0).position;
 		float initialDistance = (initialPoint2 - initialPoint1).getLength();
 
-		IVec2 currentPoint1 = touches.first.points.get(touches.first.points.size() - 1).position;
-		IVec2 currentPoint2 = touches.second.points.get(touches.second.points.size() - 1).position;
+		Vec2 currentPoint1 = touches.first.points.get(touches.first.points.size() - 1).position;
+		Vec2 currentPoint2 = touches.second.points.get(touches.second.points.size() - 1).position;
 		float currentDistance = (currentPoint2 - currentPoint1).getLength();
 
 		delegate.onPinch(
@@ -118,11 +117,11 @@ public class PinchGestureRecognizer extends ContinuousGestureRecognizer {
 
 	@EqualsAndHashCode
 	public static final class PinchInfo {
-		@Nonnull public final IVec2 point1;
-		@Nonnull public final IVec2 point2;
+		@Nonnull public final Vec2 point1;
+		@Nonnull public final Vec2 point2;
 		public final float distance;
 
-		public PinchInfo(@Nonnull IVec2 point1, @Nonnull IVec2 point2, float distance) {
+		public PinchInfo(@Nonnull Vec2 point1, @Nonnull Vec2 point2, float distance) {
 			this.point1 = point1;
 			this.point2 = point2;
 			this.distance = distance;
