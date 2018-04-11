@@ -17,7 +17,7 @@ public final class Touch {
 	@Nonnull public final List<Point> points = new ArrayList<>();
 
 	@Getter
-	@Nullable private ContinuousGestureRecognizer continuousRecognizer = null;
+	@Nullable private GestureRecognizer recognizer = null;
 
 	@Getter
 	private boolean finished = false;
@@ -47,13 +47,13 @@ public final class Touch {
 		finished = true;
 	}
 
-	public void setContinuousRecognizer(@Nullable ContinuousGestureRecognizer recognizer) {
-		continuousRecognizer = recognizer;
+	public void setRecognizer(@Nullable GestureRecognizer recognizer) {
+		this.recognizer = recognizer;
 		if (recognizer != null) {
 			for (ContinuousGestureRecognizer continuousRecognizer : new ArrayList<>(Godwit.getInstance().inputManager.gestureManager.currentContinuousRecognizers)) {
 				if (continuousRecognizer == recognizer)
 					continue;
-				continuousRecognizer.onTouchUsedByContinuousRecognizer(this);
+				continuousRecognizer.onTouchUsedByRecognizer(this);
 			}
 		}
 	}

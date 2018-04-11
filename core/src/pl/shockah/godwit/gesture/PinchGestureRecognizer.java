@@ -32,16 +32,16 @@ public class PinchGestureRecognizer extends ContinuousGestureRecognizer {
 	}
 
 	@Override
-	protected void onTouchUsedByContinuousRecognizer(@Nonnull Touch touch) {
+	protected void onTouchUsedByRecognizer(@Nonnull Touch touch) {
 		if (touches.contains(touch))
 			setState(State.Failed);
 	}
 
 	@Override
 	protected boolean handleTouchDown(@Nonnull Touch touch, @Nonnull Vec2 point) {
-		if (getState() == State.Possible && touch.getContinuousRecognizer() == null) {
+		if (getState() == State.Possible && touch.getRecognizer() == null) {
 			for (int i = 0; i < 2; i++) {
-				if (touches.first != null && touches.first.getContinuousRecognizer() != null)
+				if (touches.first != null && touches.first.getRecognizer() != null)
 					touches = touches.without(touches.first);
 			}
 
@@ -50,8 +50,8 @@ public class PinchGestureRecognizer extends ContinuousGestureRecognizer {
 
 			touches = touches.with(touch);
 			if (touches.isFull()) {
-				touches.first.setContinuousRecognizer(this);
-				touches.second.setContinuousRecognizer(this);
+				touches.first.setRecognizer(this);
+				touches.second.setRecognizer(this);
 				setState(State.Began);
 				callDelegate();
 			}

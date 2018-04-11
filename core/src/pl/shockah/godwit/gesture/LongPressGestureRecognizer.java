@@ -60,6 +60,7 @@ public class LongPressGestureRecognizer extends GestureRecognizer {
 	protected boolean onRequiredFailFailed(@Nonnull GestureRecognizer recognizer) {
 		if (shouldEnd && touch != null) {
 			Touch touch = this.touch;
+			touch.setRecognizer(this);
 			setState(State.Ended);
 			delegate.onLongPress(LongPressGestureRecognizer.this, touch);
 			return true;
@@ -79,6 +80,7 @@ public class LongPressGestureRecognizer extends GestureRecognizer {
 					Gdx.app.postRunnable(() -> {
 						task = null;
 						if (requiredRecognizersFailed()) {
+							touch.setRecognizer(LongPressGestureRecognizer.this);
 							setState(State.Ended);
 							delegate.onLongPress(LongPressGestureRecognizer.this, touch);
 						} else {

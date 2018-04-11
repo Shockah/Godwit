@@ -72,11 +72,12 @@ public class TapGestureRecognizer extends GestureRecognizer {
 		if (touch != null && taps >= tapsRequired) {
 			if (!requiredRecognizersFailed())
 				return false;
-			if (touch.getContinuousRecognizer() != null) {
+			if (touch.getRecognizer() != null) {
 				setState(State.Failed);
 				return false;
 			}
 			Touch touch = this.touch;
+			touch.setRecognizer(this);
 			setState(State.Ended);
 			delegate.onTap(this, touch);
 		}
@@ -125,10 +126,11 @@ public class TapGestureRecognizer extends GestureRecognizer {
 				if (taps >= tapsRequired) {
 					if (!requiredRecognizersFailed())
 						return false;
-					if (touch.getContinuousRecognizer() != null) {
+					if (touch.getRecognizer() != null) {
 						setState(State.Failed);
 						return false;
 					}
+					touch.setRecognizer(this);
 					setState(State.Ended);
 					delegate.onTap(this, touch);
 				}
