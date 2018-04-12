@@ -4,7 +4,7 @@ import com.badlogic.gdx.InputAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
@@ -20,8 +20,8 @@ import pl.shockah.godwit.geom.Vec2;
 
 public class GestureManager extends InputAdapter {
 	@Nonnull public final Map<Integer, Touch> touches = new HashMap<>();
-	@Nonnull public final Set<GestureRecognizer> recognizers = new HashSet<>();
-	@Nonnull protected final Set<ContinuousGestureRecognizer> currentContinuousRecognizers = new HashSet<>();
+	@Nonnull public final Set<GestureRecognizer> recognizers = new LinkedHashSet<>();
+	@Nonnull protected final Set<ContinuousGestureRecognizer> currentContinuousRecognizers = new LinkedHashSet<>();
 
 	public boolean passThroughWithoutShape = false;
 
