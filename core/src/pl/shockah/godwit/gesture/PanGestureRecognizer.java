@@ -112,7 +112,7 @@ public class PanGestureRecognizer extends ContinuousGestureRecognizer {
 		Date lastDate = touch.points.get(touch.points.size() - 1).date;
 		Date firstDate = null;
 
-		for (int i = touch.points.size() - 1; i >= 0; i++) {
+		for (int i = touch.points.size() - 1; i >= 0; i--) {
 			if (samples != null && currentSamples >= samples)
 				break;
 			Touch.Point point = touch.points.get(i);
