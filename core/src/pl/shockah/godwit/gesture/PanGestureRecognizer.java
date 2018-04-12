@@ -106,6 +106,7 @@ public class PanGestureRecognizer extends ContinuousGestureRecognizer {
 		Vec2 firstPoint = null;
 		int currentSamples = 0;
 		Date lastDate = touch.points.get(touch.points.size() - 1).date;
+		Date firstDate = null;
 
 		for (int i = touch.points.size() - 1; i >= 0; i++) {
 			if (samples != null && currentSamples >= samples)
@@ -117,12 +118,15 @@ public class PanGestureRecognizer extends ContinuousGestureRecognizer {
 			v.y += point.position.y;
 			currentSamples++;
 			firstPoint = point.position;
+			firstDate = point.date;
 		}
 
 		if (firstPoint == null)
 			return Vec2.zero;
+		if (lastDate.getTime() <= firstDate.getTime())
+			return Vec2.zero;
 
-		return (v / currentSamples) - firstPoint;
+		return ((v / currentSamples) - firstPoint) * ((lastDate.getTime() - firstDate.getTime()) / 1000f);
 	}
 
 	public interface Delegate {
