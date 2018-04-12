@@ -1,11 +1,14 @@
 package pl.shockah.godwit.gesture;
 
+import java.util.Date;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import pl.shockah.godwit.Godwit;
 import pl.shockah.godwit.geom.Circle;
 import pl.shockah.godwit.geom.IVec2;
+import pl.shockah.godwit.geom.MutableVec2;
 import pl.shockah.godwit.geom.Vec2;
 
 public class PanGestureRecognizer extends ContinuousGestureRecognizer {
@@ -88,6 +91,38 @@ public class PanGestureRecognizer extends ContinuousGestureRecognizer {
 			setState(State.Ended);
 			delegate.onPan(this, touch.points.get(0).position, point, point - touch.points.get(touch.points.size() - 2).position);
 		}
+	}
+
+	@Nonnull public static Vec2 getFlingVelocityForDuration(@Nonnull Touch touch, float duration) {
+		return getFlingVelocity(touch, duration, null);
+	}
+
+	@Nonnull public static Vec2 getFlingVelocityForSamples(@Nonnull Touch touch, int samples) {
+		return getFlingVelocity(touch, null, samples);
+	}
+
+	@Nonnull public static Vec2 getFlingVelocity(@Nonnull Touch touch, @Nullable Float duration, @Nullable Integer samples) {
+		MutableVec2 v = new MutableVec2();
+		Vec2 firstPoint = null;
+		int currentSamples = 0;
+		Date lastDate = touch.points.get(touch.points.size() - 1).date;
+
+		for (int i = touch.points.size() - 1; i >= 0; i++) {
+			if (samples != null && currentSamples >= samples)
+				break;
+			Touch.Point point = touch.points.get(i);
+			if (duration != null && lastDate.getTime() - point.date.getTime() > duration * 1000)
+				break;
+			v.x += point.position.x;
+			v.y += point.position.y;
+			currentSamples++;
+			firstPoint = point.position;
+		}
+
+		if (firstPoint == null)
+			return Vec2.zero;
+
+		return (v / currentSamples) - firstPoint;
 	}
 
 	public interface Delegate {
