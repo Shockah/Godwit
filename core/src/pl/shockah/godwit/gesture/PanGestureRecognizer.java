@@ -22,6 +22,10 @@ public class PanGestureRecognizer extends ContinuousGestureRecognizer {
 
 	@Nullable public Touch touch = null;
 
+	public PanGestureRecognizer(@Nonnull GestureHandler handler, @Nonnull SimpleDelegate delegate) {
+		this(handler, (recognizer, touch, initialPoint, currentPoint, delta) -> delegate.onPan(recognizer, initialPoint, currentPoint, delta));
+	}
+
 	public PanGestureRecognizer(@Nonnull GestureHandler handler, @Nonnull Delegate delegate) {
 		super(handler);
 		this.delegate = delegate;
@@ -71,11 +75,11 @@ public class PanGestureRecognizer extends ContinuousGestureRecognizer {
 			if (!new Circle(touch.points.get(0).position, getStationaryRadius()).contains(point)) {
 				touch.setRecognizer(this);
 				setState(State.Began);
-				delegate.onPan(this, touch.points.get(0).position, point, point - touch.points.get(touch.points.size() - 2).position);
+				delegate.onPan(this, touch, touch.points.get(0).position, point, point - touch.points.get(touch.points.size() - 2).position);
 			}
 		} else if (isInProgress()) {
 			setState(State.Changed);
-			delegate.onPan(this, touch.points.get(0).position, point, point - touch.points.get(touch.points.size() - 2).position);
+			delegate.onPan(this, touch, touch.points.get(0).position, point, point - touch.points.get(touch.points.size() - 2).position);
 		}
 	}
 
@@ -89,7 +93,7 @@ public class PanGestureRecognizer extends ContinuousGestureRecognizer {
 			setState(State.Failed);
 		} else if (isInProgress()) {
 			setState(State.Ended);
-			delegate.onPan(this, touch.points.get(0).position, point, point - touch.points.get(touch.points.size() - 2).position);
+			delegate.onPan(this, touch, touch.points.get(0).position, point, point - touch.points.get(touch.points.size() - 2).position);
 		}
 	}
 
@@ -130,6 +134,10 @@ public class PanGestureRecognizer extends ContinuousGestureRecognizer {
 	}
 
 	public interface Delegate {
+		void onPan(@Nonnull PanGestureRecognizer recognizer, @Nonnull Touch touch, @Nonnull Vec2 initialPoint, @Nonnull Vec2 currentPoint, @Nonnull Vec2 delta);
+	}
+
+	public interface SimpleDelegate {
 		void onPan(@Nonnull PanGestureRecognizer recognizer, @Nonnull Vec2 initialPoint, @Nonnull Vec2 currentPoint, @Nonnull Vec2 delta);
 	}
 }
