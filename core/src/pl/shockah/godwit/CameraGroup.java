@@ -30,6 +30,15 @@ public class CameraGroup extends RenderGroup {
 		return new Rectangle(viewport.getScreenX(), viewport.getScreenY(), viewport.getScreenWidth(), viewport.getScreenHeight());
 	}
 
+	@Override
+	public void onAddedToHierarchy() {
+		super.onAddedToHierarchy();
+		for (Entity entity : getParentTree()) {
+			if (entity instanceof CameraGroup && entity != this)
+				throw new IllegalStateException("CameraGroups can't be nested.");
+		}
+	}
+
 	public void setCamera(@Nonnull Camera camera) {
 		this.camera = camera;
 		viewport.setCamera(camera);
@@ -62,7 +71,7 @@ public class CameraGroup extends RenderGroup {
 
 	protected void updateCameraOnScreenSizeChange(int width, int height, boolean centerViewport) {
 		if (camera instanceof OrthographicCamera)
-			((OrthographicCamera)camera).setToOrtho(Godwit.getInstance().yPointingDown, lastWidth, lastHeight);
+			((OrthographicCamera)camera).setToOrtho(Godwit.getInstance().yPointingDown, width, height);
 	}
 
 	@Nonnull public Vec2 getCameraPosition() {
