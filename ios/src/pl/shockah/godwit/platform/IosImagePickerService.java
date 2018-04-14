@@ -47,7 +47,7 @@ public class IosImagePickerService extends ImagePickerService {
 			case Authorized: case Restricted:
 				return PermissionState.Authorized;
 		}
-		throw new IllegalArgumentException();
+		throw new IllegalArgumentException("Status shouldn't be null.");
 	}
 
 	@Nonnull private static PermissionState mapNativeState(@Nonnull AVAuthorizationStatus status) {
@@ -59,7 +59,7 @@ public class IosImagePickerService extends ImagePickerService {
 			case Authorized: case Restricted:
 				return PermissionState.Authorized;
 		}
-		throw new IllegalArgumentException();
+		throw new IllegalArgumentException("Status shouldn't be null.");
 	}
 
 	@Override
@@ -70,7 +70,7 @@ public class IosImagePickerService extends ImagePickerService {
 			case Camera:
 				return mapNativeState(AVCaptureDevice.getAuthorizationStatusForMediaType(AVMediaType.Video));
 		}
-		throw new IllegalArgumentException();
+		throw new IllegalArgumentException("Source shouldn't be null.");
 	}
 
 	@SuppressWarnings("deprecated")

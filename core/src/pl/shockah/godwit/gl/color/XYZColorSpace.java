@@ -96,11 +96,11 @@ public class XYZColorSpace implements ColorSpace<XYZColorSpace> {
 	@Nonnull public RGBColorSpace toExactRGB() {
 		RGBColorSpace rgb = toRGB();
 		if (rgb.r < 0 || rgb.r > 1)
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Cannot convert to RGB - R outside the 0-1 bounds.");
 		if (rgb.g < 0 || rgb.g > 1)
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Cannot convert to RGB - G outside the 0-1 bounds.");
 		if (rgb.b < 0 || rgb.b > 1)
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Cannot convert to RGB - B outside the 0-1 bounds.");
 		return rgb;
 	}
 

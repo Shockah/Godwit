@@ -38,7 +38,8 @@ public class View implements Renderable {
 
 	public void removeFromParent() {
 		if (parent == null)
-			throw new IllegalStateException();
+			throw new IllegalStateException(String.format("View %s does not have a parent.", this));
 		parent.remove(this);
+		parent = null;
 	}
 }

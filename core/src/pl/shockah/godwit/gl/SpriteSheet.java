@@ -60,16 +60,15 @@ public class SpriteSheet {
 
 	@Nonnull public TextureRegion get(int column, int row) {
 		if (column < 0 || column >= columns)
-			throw new ArrayIndexOutOfBoundsException();
+			throw new ArrayIndexOutOfBoundsException(String.format("Column argument out of the 0-%d bounds.", columns - 1));
 		if (row < 0 || row >= rows)
-			throw new ArrayIndexOutOfBoundsException();
+			throw new ArrayIndexOutOfBoundsException(String.format("Row argument out of the 0-%d bounds.", rows - 1));
 
 		TextureRegion region = cache[column][row];
 		if (region == null) {
 			IVec2 size = getFrameSize();
 			IVec2 position = new Vec2(margin) + new Vec2(column, row) * (size + new Vec2(spacing)) - new Vec2(spacing);
 			region = new TextureRegion(texture, (int)position.x(), (int)position.y(), (int)size.x(), (int)size.y());
-			//region = new TextureRegion(texture, (int)position.x(), (int)(position.y() + size.y()), (int)size.x(), (int)-size.y());
 			cache[column][row] = region;
 		}
 		return region;

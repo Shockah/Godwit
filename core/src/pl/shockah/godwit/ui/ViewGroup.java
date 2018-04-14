@@ -23,7 +23,7 @@ public abstract class ViewGroup<T> extends ViewHolder<T> {
 
 	@Nullable public T getAttributesForView(@Nonnull View view) {
 		if (!views.contains(view))
-			throw new IllegalStateException();
+			throw new IllegalStateException(String.format("ViewGroup %s does not contain view %s.", this, view));
 		return attributes[view];
 	}
 

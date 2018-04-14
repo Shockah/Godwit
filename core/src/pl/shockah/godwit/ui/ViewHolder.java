@@ -10,13 +10,13 @@ public abstract class ViewHolder<T> extends View {
 
 	public void add(@Nonnull View view, @Nullable T attributes) {
 		if (view.parent != null)
-			throw new IllegalStateException();
+			throw new IllegalStateException(String.format("Cannot add view %s to ViewHolder %s, as it already has a parent (%s).", view, this, view.parent));
 		view.parent = this;
 	}
 
 	public void remove(@Nonnull View view) {
 		if (view.parent != this)
-			throw new IllegalStateException();
+			throw new IllegalStateException(String.format("View %s has a parent, but it is not %s (%s).", view, this, view.parent));
 		view.parent = null;
 	}
 }

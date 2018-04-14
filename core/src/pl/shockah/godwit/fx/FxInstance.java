@@ -59,7 +59,7 @@ public class FxInstance<T> {
 		else if (fx instanceof ObjectFx<?> && object != null)
 			((ObjectFx<T>)fx).update(object, f, previous);
 		else
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Unsupported Fx.");
 	}
 
 	@SuppressWarnings("unchecked")
@@ -69,7 +69,7 @@ public class FxInstance<T> {
 		else if (fx instanceof ObjectFx<?> && object != null)
 			((ObjectFx<T>)fx).finish(object, f, previous);
 		else
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Unsupported Fx.");
 	}
 
 	public void update(@Nullable T object) {
