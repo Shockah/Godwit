@@ -38,7 +38,7 @@ public class AndroidImagePickerService extends ImagePickerService {
 			case PackageManager.PERMISSION_DENIED:
 				return PermissionState.Unknown;
 			default:
-				throw new IllegalStateException();
+				throw new IllegalArgumentException(String.format("Cannot map native state `%d` to a PermissionState.", state));
 		}
 	}
 
@@ -50,7 +50,7 @@ public class AndroidImagePickerService extends ImagePickerService {
 			case Camera:
 				return mapNativeState(ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA));
 		}
-		throw new IllegalArgumentException();
+		throw new IllegalArgumentException("Source cannot be null.");
 	}
 
 	@Override

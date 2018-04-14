@@ -15,7 +15,7 @@ public class BaseLinearView<T extends BaseLinearView.Attributes> extends ViewGro
 	private Attributes getAttributes(@Nonnull View view) {
 		Attributes attributes = getAttributesForView(view);
 		if (attributes == null)
-			throw new NullPointerException();
+			throw new NullPointerException(String.format("BaseLinearView %s does not contain view %s.", this, view));
 		return attributes;
 	}
 

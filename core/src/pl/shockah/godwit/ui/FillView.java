@@ -29,7 +29,7 @@ public class FillView extends ViewHolder<Void> {
 	@Override
 	public void add(@Nonnull View view, @Nullable Void attributes) {
 		if (innerView != null)
-			throw new IllegalStateException();
+			throw new IllegalStateException(String.format("FillView %s already contains a view (%s).", this, view));
 		super.add(view, attributes);
 		innerView = view;
 
@@ -39,8 +39,8 @@ public class FillView extends ViewHolder<Void> {
 
 	@Override
 	public void remove(@Nonnull View view) {
-		if (innerView != null)
-			throw new IllegalStateException();
+		if (innerView != view)
+			throw new IllegalStateException(String.format("FillView %s does not contain view %s.", this, view));
 		super.remove(view);
 		innerView = null;
 	}

@@ -37,7 +37,7 @@ public abstract class SequenceFx<F extends Fx> implements Fx {
 
 	@Override
 	public void setMethod(@Nonnull Easing method) {
-		throw new UnsupportedOperationException();
+		throw new UnsupportedOperationException("Cannot set an Easing method on a SequenceFx.");
 	}
 
 	@Nonnull protected FxResult<F> getFx(float f, boolean includingEqual) {

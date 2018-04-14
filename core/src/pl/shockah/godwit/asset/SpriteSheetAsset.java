@@ -61,7 +61,7 @@ public class SpriteSheetAsset extends ComplexAsset<SpriteSheet> {
 			columns = json.getInt("x");
 			rows = json.getInt("y");
 		} else {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Cannot parse SpriteSheet size from JSON.");
 		}
 
 		int spacing = json.getInt("spacing", 0);

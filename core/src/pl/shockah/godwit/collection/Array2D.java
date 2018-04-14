@@ -29,9 +29,9 @@ public class Array2D<T> {
 
 	protected final int getIndex(int x, int y) {
 		if (x < 0 || x >= width)
-			throw new ArrayIndexOutOfBoundsException();
+			throw new ArrayIndexOutOfBoundsException(String.format("X argument out of the 0-%d bounds.", width - 1));
 		if (y < 0 || y >= height)
-			throw new ArrayIndexOutOfBoundsException();
+			throw new ArrayIndexOutOfBoundsException(String.format("Y argument out of the 0-%d bounds.", height - 1));
 		return y * width + x;
 	}
 

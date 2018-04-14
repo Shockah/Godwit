@@ -86,7 +86,7 @@ public class GfxFont implements Renderable {
 
 	@Nonnull protected GlyphLayout getGlyphLayout() {
 		if (text == null || text.isEmpty())
-			throw new IllegalStateException();
+			throw new IllegalStateException("Cannot get a GlyphLayout for an empty text.");
 		if (cachedLayout == null) {
 			float oldScaleX = font.getData().scaleX;
 			float oldScaleY = font.getData().scaleY;

@@ -85,7 +85,7 @@ public class AndroidLauncher extends GodwitFragmentActivity implements AndroidFr
 				config.useRotationVectorSensor = false;
 				return initializeForView(new PlatformGodwitAdapter(state), config);
 			} catch (Exception e) {
-				throw new RuntimeException(e);
+				throw new RuntimeException("Cannot start a test.", e);
 			}
 		}
 	}

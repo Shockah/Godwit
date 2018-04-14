@@ -47,7 +47,7 @@ public class DesktopImagePickerService extends ImagePickerService {
 			try {
 				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 			} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
-				throw new RuntimeException(e);
+				throw new RuntimeException("Cannot use system look and feel.", e);
 			}
 
 			JFileChooser chooser = new JFileChooser();
