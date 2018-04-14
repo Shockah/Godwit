@@ -7,11 +7,10 @@ import com.badlogic.gdx.graphics.g2d.BitmapFontCache;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.utils.Align;
 
-import java.util.Objects;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import java8.util.Objects;
 import lombok.Getter;
 import lombok.experimental.Delegate;
 import pl.shockah.godwit.CameraGroup;

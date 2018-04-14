@@ -11,12 +11,13 @@ import javax.annotation.Nonnull;
 import lombok.Getter;
 import lombok.experimental.Delegate;
 import pl.shockah.godwit.collection.SortedLinkedList;
+import pl.shockah.godwit.gesture.GestureManager;
 import pl.shockah.godwit.platform.BackButtonService;
 
 public class InputManager extends BaseInputManager<InputManager.Processor> {
 	@Nonnull protected static final Comparator<Processor> orderComparator = (o1, o2) -> -Float.compare(o1.order, o2.order);
 
-	@Nonnull public final GestureInputManager gestureManager = new GestureInputManager();
+	@Nonnull public final GestureManager gestureManager = new GestureManager();
 
 	@Getter
 	@Nonnull private final List<Processor> processors = new SortedLinkedList<>(orderComparator);
@@ -33,7 +34,7 @@ public class InputManager extends BaseInputManager<InputManager.Processor> {
 				}
 			}
 		});
-		addProcessor(new Delegated(0f, gestureManager.multiplexer));
+		addProcessor(new Delegated(0f, gestureManager));
 	}
 
 	protected void resetupMultiplexer() {

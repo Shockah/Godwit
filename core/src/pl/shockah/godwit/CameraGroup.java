@@ -10,6 +10,7 @@ import javax.annotation.Nonnull;
 import lombok.Getter;
 import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.geom.Rectangle;
+import pl.shockah.godwit.geom.Vec2;
 import pl.shockah.godwit.gl.Gfx;
 
 public class CameraGroup extends RenderGroup {
@@ -47,22 +48,36 @@ public class CameraGroup extends RenderGroup {
 		int newHeight = gfx.getHeight();
 
 		if (newWidth != lastWidth || newHeight != lastHeight || lastCenterViewport != centerViewport) {
+			updateOnScreenSizeChange(newWidth, newHeight, centerViewport);
 			lastWidth = newWidth;
 			lastHeight = newHeight;
 			lastCenterViewport = centerViewport;
-			viewport.update(newWidth, newHeight, centerViewport);
 		}
 	}
 
-	protected void updateCamera() {
+	protected void updateOnScreenSizeChange(int width, int height, boolean centerViewport) {
+		updateCameraOnScreenSizeChange(width, height, centerViewport);
+		viewport.update(width, height, centerViewport);
+	}
+
+	protected void updateCameraOnScreenSizeChange(int width, int height, boolean centerViewport) {
 		if (camera instanceof OrthographicCamera)
 			((OrthographicCamera)camera).setToOrtho(Godwit.getInstance().yPointingDown, lastWidth, lastHeight);
+	}
+
+	@Nonnull public Vec2 getCameraPosition() {
+		return new Vec2(camera.position.x, camera.position.y);
+	}
+
+	public void setCameraPosition(@Nonnull IVec2 v) {
+		camera.position.x = v.x();
+		camera.position.y = v.y();
+		camera.update();
 	}
 
 	@Override
 	public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
 		updateViewportIfNeeded(gfx);
-		updateCamera();
 		viewport.apply();
 		gfx.getSpriteBatch().setProjectionMatrix(camera.combined);
 		gfx.getShapeRenderer().setProjectionMatrix(camera.combined);

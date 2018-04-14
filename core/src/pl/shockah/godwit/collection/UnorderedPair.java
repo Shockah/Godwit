@@ -1,14 +1,14 @@
 package pl.shockah.godwit.collection;
 
-import javax.annotation.Nullable;
+import javax.annotation.Nonnull;
 
 import java8.util.Objects;
 
 public final class UnorderedPair<T> {
-	@Nullable public final T first;
-	@Nullable public final T second;
+	public final T first;
+	public final T second;
 
-	public UnorderedPair(@Nullable T first, @Nullable T second) {
+	public UnorderedPair(T first, T second) {
 		this.first = first;
 		this.second = second;
 	}
@@ -26,5 +26,41 @@ public final class UnorderedPair<T> {
 	@Override
 	public int hashCode() {
 		return Objects.hashCode(first) ^ Objects.hashCode(second);
+	}
+
+	public int size() {
+		return (first != null ? 1 : 0) + (second != null ? 1 : 0);
+	}
+
+	public boolean isEmpty() {
+		return first == null && second == null;
+	}
+
+	public boolean isFull() {
+		return first != null && second != null;
+	}
+
+	public boolean contains(Object o) {
+		return Objects.equals(first, o) || Objects.equals(second, o);
+	}
+
+	public UnorderedPair<T> with(@Nonnull T object) {
+		if (first == null && second == null)
+			return new UnorderedPair<>(object, null);
+		else if (first != null && second == null)
+			return new UnorderedPair<>(first, object);
+		else if (first == null)
+			return new UnorderedPair<>(second, object);
+		else
+			return this;
+	}
+
+	public UnorderedPair<T> without(@Nonnull T object) {
+		if (Objects.equals(first, object))
+			return new UnorderedPair<>(second, null);
+		else if (Objects.equals(second, object))
+			return new UnorderedPair<>(first, null);
+		else
+			return this;
 	}
 }

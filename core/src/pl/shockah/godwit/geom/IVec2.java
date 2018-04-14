@@ -27,59 +27,59 @@ public abstract class IVec2 implements Easable<IVec2> {
 
 	@Nonnull public abstract IVec2 getCopy();
 
-	@Nonnull public IVec2 add(float x, float y) {
-		return x == 0 && y == 0 ? this : new Vec2(x() + x, y() + y);
+	@Nonnull public Vec2 add(float x, float y) {
+		return x == 0 && y == 0 ? getImmutableCopy() : new Vec2(x() + x, y() + y);
 	}
 
-	@Nonnull public final IVec2 add(@Nonnull IVec2 v) {
+	@Nonnull public final Vec2 add(@Nonnull IVec2 v) {
 		return add(v.x(), v.y());
 	}
 
-	@Nonnull public IVec2 subtract(float x, float y) {
-		return x == 0 && y == 0 ? this : new Vec2(x() - x, y() - y);
+	@Nonnull public Vec2 subtract(float x, float y) {
+		return x == 0 && y == 0 ? getImmutableCopy() : new Vec2(x() - x, y() - y);
 	}
 
-	@Nonnull public final IVec2 subtract(@Nonnull IVec2 v) {
+	@Nonnull public final Vec2 subtract(@Nonnull IVec2 v) {
 		return subtract(v.x(), v.y());
 	}
 
-	@Nonnull public IVec2 multiply(float x, float y) {
-		return x == 1 && y == 1 ? this : new Vec2(x() * x, y() * y);
+	@Nonnull public Vec2 multiply(float x, float y) {
+		return x == 1 && y == 1 ? getImmutableCopy() : new Vec2(x() * x, y() * y);
 	}
 
-	@Nonnull public final IVec2 multiply(@Nonnull IVec2 v) {
+	@Nonnull public final Vec2 multiply(@Nonnull IVec2 v) {
 		return multiply(v.x(), v.y());
 	}
 
-	@Nonnull public final IVec2 multiply(float f) {
+	@Nonnull public final Vec2 multiply(float f) {
 		return multiply(f, f);
 	}
 
-	@Nonnull public IVec2 divide(float x, float y) {
-		return x == 1 && y == 1 ? this : new Vec2(x() / x, y() / y);
+	@Nonnull public Vec2 divide(float x, float y) {
+		return x == 1 && y == 1 ? getImmutableCopy() : new Vec2(x() / x, y() / y);
 	}
 
-	@Nonnull public final IVec2 divide(@Nonnull IVec2 v) {
+	@Nonnull public final Vec2 divide(@Nonnull IVec2 v) {
 		return divide(v.x(), v.y());
 	}
 
-	@Nonnull public final IVec2 divide(float f) {
+	@Nonnull public final Vec2 divide(float f) {
 		return divide(f, f);
 	}
 
-	@Nonnull public IVec2 negate() {
-		return x() == 0 && y() == 0 ? this : new Vec2(-x(), -y());
+	@Nonnull public Vec2 negate() {
+		return x() == 0 && y() == 0 ? getImmutableCopy() : new Vec2(-x(), -y());
 	}
 
-	@Nonnull public IVec2 withX(float x) {
-		return x == x() ? this : new Vec2(x, y());
+	@Nonnull public Vec2 withX(float x) {
+		return x == x() ? getImmutableCopy() : new Vec2(x, y());
 	}
 
-	@Nonnull public IVec2 withY(float y) {
-		return y == y() ? this : new Vec2(x(), y);
+	@Nonnull public Vec2 withY(float y) {
+		return y == y() ? getImmutableCopy() : new Vec2(x(), y);
 	}
 
-	@Nonnull public final IVec2 getAbs() {
+	@Nonnull public final Vec2 getAbs() {
 		return new Vec2(Math.abs(x()), Math.abs(y()));
 	}
 
@@ -95,10 +95,10 @@ public abstract class IVec2 implements Easable<IVec2> {
 		return (float)Math.toDegrees(Math.atan2(y() - v.y(), v.x() - x()));
 	}
 
-	@Nonnull public final IVec2 getNormalized() {
+	@Nonnull public final Vec2 getNormalized() {
 		float length = getLength();
 		if (length == 0f || length == 1f)
-			return this;
+			return getImmutableCopy();
 		else
 			return this * (1f / length);
 	}
@@ -112,49 +112,49 @@ public abstract class IVec2 implements Easable<IVec2> {
 	}
 
 	@Override
-	@Nonnull public final IVec2 ease(@Nonnull IVec2 other, float f) {
+	@Nonnull public final Vec2 ease(@Nonnull IVec2 other, float f) {
 		return new Vec2(Easing.linear.ease(x(), other.x(), f), Easing.linear.ease(y(), other.y(), f));
 	}
 
 	// ----- java-oo weirdness fixes for IntelliJ
 
-	@Nonnull public final IVec2 add(@Nonnull MutableVec2 v) {
+	@Nonnull public final Vec2 add(@Nonnull MutableVec2 v) {
 		return add(v.x, v.y);
 	}
 
-	@Nonnull public final IVec2 add(@Nonnull Vec2 v) {
+	@Nonnull public final Vec2 add(@Nonnull Vec2 v) {
 		return add(v.x, v.y);
 	}
 
-	@Nonnull public final IVec2 subtract(@Nonnull MutableVec2 v) {
+	@Nonnull public final Vec2 subtract(@Nonnull MutableVec2 v) {
 		return subtract(v.x, v.y);
 	}
 
-	@Nonnull public final IVec2 subtract(@Nonnull Vec2 v) {
+	@Nonnull public final Vec2 subtract(@Nonnull Vec2 v) {
 		return subtract(v.x, v.y);
 	}
 
-	@Nonnull public final IVec2 multiply(@Nonnull MutableVec2 v) {
+	@Nonnull public final Vec2 multiply(@Nonnull MutableVec2 v) {
 		return multiply(v.x, v.y);
 	}
 
-	@Nonnull public final IVec2 multiply(@Nonnull Vec2 v) {
+	@Nonnull public final Vec2 multiply(@Nonnull Vec2 v) {
 		return multiply(v.x, v.y);
 	}
 
-	@Nonnull public final IVec2 multiply(int f) {
+	@Nonnull public final Vec2 multiply(int f) {
 		return multiply(f, f);
 	}
 
-	@Nonnull public final IVec2 divide(@Nonnull MutableVec2 v) {
+	@Nonnull public final Vec2 divide(@Nonnull MutableVec2 v) {
 		return divide(v.x, v.y);
 	}
 
-	@Nonnull public final IVec2 divide(@Nonnull Vec2 v) {
+	@Nonnull public final Vec2 divide(@Nonnull Vec2 v) {
 		return divide(v.x, v.y);
 	}
 
-	@Nonnull public final IVec2 divide(int f) {
+	@Nonnull public final Vec2 divide(int f) {
 		return divide(f, f);
 	}
 }

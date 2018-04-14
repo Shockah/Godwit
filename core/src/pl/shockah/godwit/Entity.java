@@ -1,12 +1,14 @@
 package pl.shockah.godwit;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import lombok.Getter;
+import pl.shockah.godwit.collection.SafeList;
 import pl.shockah.godwit.fx.Animatable;
 import pl.shockah.godwit.fx.Animatables;
 import pl.shockah.godwit.geom.IVec2;
@@ -14,12 +16,13 @@ import pl.shockah.godwit.geom.MutableVec2;
 import pl.shockah.godwit.geom.Vec2;
 import pl.shockah.godwit.gl.Gfx;
 import pl.shockah.godwit.gl.Renderable;
-import pl.shockah.godwit.collection.SafeList;
 
 public class Entity implements Renderable, Animatable<Entity> {
 	@Nonnull public final SafeList<Entity> children = new SafeList<>(new ArrayList<>());
 	@Nonnull public MutableVec2 position = new MutableVec2();
-	@Nullable private Entity parent;
+
+	@Getter
+	private Entity parent;
 
 	@Getter
 	private float depth = 0f;
@@ -37,12 +40,6 @@ public class Entity implements Renderable, Animatable<Entity> {
 
 	public final boolean hasParent() {
 		return parent != null;
-	}
-
-	@Nonnull public final Entity getParent() {
-		if (parent != null)
-			return parent;
-		throw new IllegalStateException(String.format("Entity %s doesn't have a parent.", this));
 	}
 
 	public final boolean hasRenderGroup() {
@@ -230,7 +227,7 @@ public class Entity implements Renderable, Animatable<Entity> {
 	}
 
 	@Nonnull public final Entity[] getParentTree() {
-		List<Entity> tree = new ArrayList<>();
+		List<Entity> tree = new LinkedList<>();
 		Entity entity = this;
 		while (entity != null) {
 			if (tree.isEmpty())
@@ -242,17 +239,18 @@ public class Entity implements Renderable, Animatable<Entity> {
 		return tree.toArray(new Entity[tree.size()]);
 	}
 
-	@Nonnull public final Entity getCommonParent(@Nonnull Entity entity) {
-		Entity[] parents1 = getParentTree();
-		Entity[] parents2 = entity.getParentTree();
-
-		if (parents1[0] != parents2[0])
-			throw new IllegalStateException(String.format("Entities %s and %s don't have a common parent.", this, entity));
-		for (int i = 1; i < Math.min(parents1.length, parents2.length); i++) {
-			if (parents1[i] != parents2[i])
-				return parents1[i - 1];
+	@Nullable public static Entity getCommonParent(@Nonnull Entity[] parentTree1, @Nonnull Entity[] parentTree2, @Nonnull Entity entity1, @Nonnull Entity entity2) {
+		if (parentTree1[0] != parentTree2[0])
+			return null;
+		for (int i = 1; i < Math.min(parentTree1.length, parentTree2.length); i++) {
+			if (parentTree1[i] != parentTree2[i])
+				return parentTree1[i - 1];
 		}
-		return parents1[Math.min(parents1.length, parents2.length) - 1];
+		return parentTree1[Math.min(parentTree1.length, parentTree2.length) - 1];
+	}
+
+	@Nullable public final Entity getCommonParent(@Nonnull Entity entity) {
+		return getCommonParent(getParentTree(), entity.getParentTree(), this, entity);
 	}
 
 	protected void calculateTranslatedPoint(@Nonnull MutableVec2 point) {

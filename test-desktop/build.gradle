@@ -1,0 +1,74 @@
+apply plugin: "java"
+
+dependencies {
+	compile project(":test")
+	compile project(":desktop")
+	compile "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
+	compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+	compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
+}
+
+targetCompatibility = "1.8"
+sourceCompatibility = "1.8"
+[compileJava, compileTestJava]*.options*.encoding = "UTF-8"
+
+sourceSets.main {
+	java.srcDirs = ["src"]
+	resources.srcDirs = ["resources"]
+}
+
+project.ext.package = "pl.shockah.godwit.test"
+project.ext.mainClassName = "${project.package}.desktop.TestStarter"
+
+void handleFiles(File baseDir, File file) {
+	if (file.isDirectory()) {
+		file.eachFile {
+			handleFiles(baseDir, it)
+		}
+	} else if (file.name.endsWith(".java")) {
+		addTask(baseDir, file)
+	}
+}
+
+void addTask(File baseDir, File file) {
+	String extraPath = file.absolutePath.substring(baseDir.absolutePath.length())
+	String className = extraPath.replace("\\", "/").split("\\.").dropRight(1).join(".")
+	if (className.startsWith("/"))
+		className = className.substring(1)
+	className = className.replace("/", ".")
+	String fullClassName = "${project.package}.$className"
+	String justClassName = fullClassName.split("\\.").last()
+	String baseTestName = justClassName.endsWith("Test") ? justClassName.substring(0, justClassName.length() - 4) : justClassName
+
+	if (fullClassName.contains("\$"))
+		return
+
+	tasks.create("test$baseTestName", JavaExec) {
+		group = "test"
+
+		dependsOn "classes"
+
+		main = project.mainClassName
+		args fullClassName
+		classpath = sourceSets.main.runtimeClasspath
+		standardInput = System.in
+		ignoreExitValue = true
+		if (System.getProperty("os.name") == "Mac OS X")
+			jvmArgs "-XstartOnFirstThread"
+		workingDir = project.file("../test-android/assets/")
+
+		if (System.getProperty('DEBUG', 'false') == 'true') {
+			jvmArgs '-Xdebug', '-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005'
+			debug true
+		}
+		if (System.getProperty('PROFILE', 'false') == 'true') {
+			def properties = new Properties()
+			properties.load(project.rootProject.file("local.properties").newDataInputStream())
+			jvmArgs properties.getProperty("profiler-arg")
+		}
+	}
+}
+
+File baseDir = new File(project.file("../test/"), "src/${mainClassName.split("\\.").dropRight(2).join("/")}/")
+println baseDir
+handleFiles(baseDir, baseDir)

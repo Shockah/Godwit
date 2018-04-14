@@ -16,6 +16,7 @@ import javax.annotation.Nullable;
 
 import java8.util.stream.StreamSupport;
 import lombok.Getter;
+import pl.shockah.func.Action1;
 import pl.shockah.func.Func0;
 import pl.shockah.godwit.asset.FreeTypeFontLoader;
 import pl.shockah.godwit.asset.JSONObjectLoader;
@@ -50,10 +51,17 @@ public final class Godwit {
 	public boolean renderFirstTickWhenWaitingForDeltaToStabilize = false;
 	public boolean yPointingDown = true;
 
+	@Nullable public Action1<AssetManager> assetManagerSetupCallback;
+
 	@Nonnull private final List<Float> deltas = new ArrayList<>();
-	@Nonnull private final Entity rootEntity = new RenderGroup();
 	@Nonnull private MutableVec2 ppi = new MutableVec2(1f, 1f);
 	private boolean isFirstTick = true;
+
+	@Getter
+	@Nonnull private final Entity rootEntity = new RenderGroup();
+
+	@Getter
+	@Nonnull private Func0<AssetManager> assetManagerFactory = AssetManager::new;
 
 	@Getter
 	private float deltaTime = 0f;
@@ -93,8 +101,16 @@ public final class Godwit {
 	}
 
 	private void setupAssetManager() {
+		//Texture.setAssetManager(assetManager);
 		assetManager.setLoader(JSONObject.class, new JSONObjectLoader(assetManager.getFileHandleResolver()));
 		assetManager.setLoader(BitmapFont.class, ".ttf", new FreeTypeFontLoader(assetManager.getFileHandleResolver()));
+		if (assetManagerSetupCallback != null)
+			assetManagerSetupCallback.call(assetManager);
+	}
+
+	public void setAssetManagerFactory(@Nonnull Func0<AssetManager> assetManagerFactory) {
+		this.assetManagerFactory = assetManagerFactory;
+		setAssetManager(assetManagerFactory.call());
 	}
 
 	@Nonnull public IVec2 getPpi() {
@@ -173,6 +189,7 @@ public final class Godwit {
 
 	private void runUpdate() {
 		rootEntity.update();
+		inputManager.gestureManager.update();
 	}
 
 	private void runRender() {
