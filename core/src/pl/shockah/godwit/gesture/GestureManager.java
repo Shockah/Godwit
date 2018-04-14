@@ -1,6 +1,7 @@
 package pl.shockah.godwit.gesture;
 
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.math.Vector3;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,6 +13,7 @@ import java.util.Set;
 
 import javax.annotation.Nonnull;
 
+import pl.shockah.godwit.CameraGroup;
 import pl.shockah.godwit.Entity;
 import pl.shockah.godwit.Godwit;
 import pl.shockah.godwit.RenderGroup;
@@ -98,7 +100,19 @@ public class GestureManager extends InputAdapter {
 			GestureHandler handler = (GestureHandler)entity;
 			Shape.Filled shape = handler.getGestureShape();
 
-			if (!checkShape || (passThroughWithoutShape && shape == null) || (shape != null && shape.contains(point))) {
+			boolean shouldContinue = !checkShape || (passThroughWithoutShape && shape == null);
+			if (!shouldContinue && shape != null) {
+				Vec2 newPoint = point;
+				try {
+					CameraGroup cameraGroup = entity.getCameraGroup();
+					Vector3 unproject = cameraGroup.getCamera().unproject(new Vector3(point.x, point.y, 0f));
+					newPoint = new Vec2(unproject.x, unproject.y);
+				} catch (Exception ignored) {
+				}
+				shouldContinue = shape.contains(newPoint);
+			}
+
+			if (shouldContinue) {
 				for (GestureRecognizer recognizer : recognizers) {
 					if (recognizer.handler == handler) {
 						if (delayedHandlers == null)
