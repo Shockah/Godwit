@@ -57,7 +57,7 @@ public class Randomizer {
 		return () -> (generator.generate() + 1f) * 0.5f * (maximum - minimum) + minimum;
 	}
 
-	@Nonnull public <T> Generator<T> getGenerator(List<T> list) {
+	@Nonnull public <T> Generator<T> getGenerator(@Nonnull List<T> list) {
 		return () -> getRandom(list);
 	}
 
@@ -66,7 +66,7 @@ public class Randomizer {
 		return () -> getRandom(array);
 	}
 
-	@Nonnull public final <T> T getRandom(List<T> list) {
+	@Nonnull public final <T> T getRandom(@Nonnull List<T> list) {
 		return list.get(source.nextInt(list.size()));
 	}
 
