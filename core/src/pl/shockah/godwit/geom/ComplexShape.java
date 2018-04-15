@@ -21,13 +21,9 @@ public class ComplexShape<T extends Shape> extends Shape {
 		shapes.remove(shape);
 	}
 
-	@Override
-	@Nonnull public Shape copy() {
-		return copyComplexShape();
-	}
-
 	@SuppressWarnings("unchecked")
-	@Nonnull public ComplexShape<T> copyComplexShape() {
+	@Override
+	@Nonnull public ComplexShape<T> copy() {
 		ComplexShape<T> complexShape = new ComplexShape<>();
 		for (T shape : shapes) {
 			complexShape.add((T)shape.copy());
@@ -93,13 +89,9 @@ public class ComplexShape<T extends Shape> extends Shape {
 	}
 
 	public static class Filled<T extends Shape & Shape.Filled> extends ComplexShape<T> implements Shape.Filled {
-		@Override
-		@Nonnull public ComplexShape<T> copyComplexShape() {
-			return copyComplexShapeFilled();
-		}
-
 		@SuppressWarnings("unchecked")
-		@Nonnull public ComplexShape.Filled<T> copyComplexShapeFilled() {
+		@Override
+		@Nonnull public ComplexShape.Filled<T> copy() {
 			ComplexShape.Filled<T> complexShape = new ComplexShape.Filled<>();
 			for (T shape : shapes) {
 				complexShape.add((T)shape.copy());
@@ -125,13 +117,9 @@ public class ComplexShape<T extends Shape> extends Shape {
 	}
 
 	public static class Outline<T extends Shape & Shape.Outline> extends ComplexShape<T> implements Shape.Outline {
-		@Override
-		@Nonnull public ComplexShape<T> copyComplexShape() {
-			return copyComplexShapeOutline();
-		}
-
 		@SuppressWarnings("unchecked")
-		@Nonnull public ComplexShape.Outline<T> copyComplexShapeOutline() {
+		@Override
+		@Nonnull public ComplexShape.Outline<T> copy() {
 			ComplexShape.Outline<T> complexShape = new ComplexShape.Outline<>();
 			for (T shape : shapes) {
 				complexShape.add((T)shape.copy());
@@ -148,13 +136,9 @@ public class ComplexShape<T extends Shape> extends Shape {
 	}
 
 	public static class FilledOutline<T extends Shape & Shape.Filled & Shape.Outline> extends ComplexShape.Filled<T> implements Shape.Outline {
-		@Override
-		@Nonnull public ComplexShape<T> copyComplexShape() {
-			return copyComplexShapeFilledOutline();
-		}
-
 		@SuppressWarnings("unchecked")
-		@Nonnull public FilledOutline<T> copyComplexShapeFilledOutline() {
+		@Override
+		@Nonnull public FilledOutline<T> copy() {
 			FilledOutline<T> complexShape = new FilledOutline<>();
 			for (T shape : shapes) {
 				complexShape.add((T)shape.copy());

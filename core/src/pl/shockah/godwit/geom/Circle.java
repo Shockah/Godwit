@@ -33,11 +33,7 @@ public class Circle extends Shape implements Polygonable, Shape.Filled, Shape.Ou
 	}
 
 	@Override
-	@Nonnull public Shape copy() {
-		return copyCircle();
-	}
-
-	@Nonnull public Circle copyCircle() {
+	@Nonnull public Circle copy() {
 		return new Circle(position, radius);
 	}
 

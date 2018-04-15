@@ -52,11 +52,7 @@ public class Triangle extends Shape implements Polygonable, Shape.Filled, Shape.
 	}
 
 	@Override
-	@Nonnull public Shape copy() {
-		return copyTriangle();
-	}
-
-	@Nonnull public Triangle copyTriangle() {
+	@Nonnull public Triangle copy() {
 		return new Triangle(point1, point2, point3);
 	}
 

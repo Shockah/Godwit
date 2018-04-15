@@ -44,7 +44,7 @@ public final class UnorderedPair<T> {
 		return Objects.equals(first, o) || Objects.equals(second, o);
 	}
 
-	public UnorderedPair<T> with(@Nonnull T object) {
+	@Nonnull public UnorderedPair<T> with(@Nonnull T object) {
 		if (first == null && second == null)
 			return new UnorderedPair<>(object, null);
 		else if (first != null && second == null)
@@ -55,7 +55,7 @@ public final class UnorderedPair<T> {
 			return this;
 	}
 
-	public UnorderedPair<T> without(@Nonnull T object) {
+	@Nonnull public UnorderedPair<T> without(@Nonnull T object) {
 		if (Objects.equals(first, object))
 			return new UnorderedPair<>(second, null);
 		else if (Objects.equals(second, object))

@@ -32,11 +32,7 @@ public class Line extends Shape implements Shape.Outline, Easable<Line> {
 	}
 
 	@Override
-	@Nonnull public Shape copy() {
-		return copyLine();
-	}
-
-	@Nonnull public Line copyLine() {
+	@Nonnull public Line copy() {
 		return new Line(point1, point2);
 	}
 

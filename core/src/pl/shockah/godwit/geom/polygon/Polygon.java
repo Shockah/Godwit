@@ -24,17 +24,13 @@ public class Polygon extends Shape implements Polygonable, Shape.Filled, Shape.O
 	public boolean closed = true;
 
 	@Override
-	@Nonnull public Shape copy() {
-		return copyPolygon();
-	}
-
-	@Nonnull public Polygon copyPolygon() {
+	@Nonnull public Polygon copy() {
 		Polygon p = new Polygon();
 		p.closed = closed;
 		p.points.addAll(points);
 		if (!dirty) {
 			for (Triangle triangle : triangulated) {
-				p.triangulated.add(triangle.copyTriangle());
+				p.triangulated.add(triangle.copy());
 			}
 			p.dirty = false;
 		}

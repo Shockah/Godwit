@@ -90,11 +90,7 @@ public class Rectangle extends Shape implements Shape.Filled, Shape.Outline, Pol
 	}
 
 	@Override
-	@Nonnull public Shape copy() {
-		return copyRectangle();
-	}
-
-	@Nonnull public Rectangle copyRectangle() {
+	@Nonnull public Rectangle copy() {
 		return new Rectangle(position, size);
 	}
 
@@ -105,7 +101,7 @@ public class Rectangle extends Shape implements Shape.Filled, Shape.Outline, Pol
 
 	@Override
 	@Nonnull public Rectangle getBoundingBox() {
-		return copyRectangle();
+		return copy();
 	}
 
 	@Nonnull IVec2 getCenter() {
