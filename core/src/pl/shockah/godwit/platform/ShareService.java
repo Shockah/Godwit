@@ -4,6 +4,6 @@ import com.badlogic.gdx.graphics.Pixmap;
 
 import javax.annotation.Nonnull;
 
-public abstract class ShareService implements PlatformService {
-	public abstract void share(@Nonnull Pixmap pixmap);
+public interface ShareService extends PlatformService {
+	void share(@Nonnull Pixmap pixmap);
 }
