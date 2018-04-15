@@ -8,12 +8,12 @@ import javax.annotation.Nonnull;
 
 import pl.shockah.godwit.Godwit;
 import pl.shockah.godwit.State;
+import pl.shockah.godwit.fx.FuncFx;
 import pl.shockah.godwit.fx.FxInstance;
 import pl.shockah.godwit.fx.RunnableFx;
+import pl.shockah.godwit.fx.SequenceFx;
 import pl.shockah.godwit.fx.WaitFx;
 import pl.shockah.godwit.fx.ease.PennerEasing;
-import pl.shockah.godwit.fx.raw.RawFuncFx;
-import pl.shockah.godwit.fx.raw.SequenceRawFx;
 import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.gl.Gfx;
 import pl.shockah.godwit.gl.GfxSprite;
@@ -32,20 +32,20 @@ public class SequenceFxTest extends State {
 		sprite = new GfxSprite(new Sprite(assetManager.get("question-mark.png", Texture.class)));
 		sprite.center();
 
-		run(new SequenceRawFx(
-				new RawFuncFx(2f, f -> {
+		run(new SequenceFx(
+				new FuncFx(2f, f -> {
 					sprite.rotate(f * 90f);
 				}).withMethod(PennerEasing.elasticInOut).additive().repeat(3),
 				new WaitFx(1f),
-				new RawFuncFx(0.5f, f -> {
+				new FuncFx(0.5f, f -> {
 					sprite.setAlpha(1f - f);
 				}).withMethod(PennerEasing.sineInOut),
-				new RawFuncFx(1f, f -> {
+				new FuncFx(1f, f -> {
 					sprite.setAlpha(f);
 				}).withMethod(PennerEasing.bounceOut),
 				new RunnableFx(() -> {
 					float scale = sprite.getScale();
-					getFxInstances().add(new RawFuncFx(1f, f -> {
+					getFxInstances().add(new FuncFx(1f, f -> {
 						sprite.setScale(scale * (1f + f * 0.1f));
 					}).withMethod(PennerEasing.elasticInOut).instance());
 				}),

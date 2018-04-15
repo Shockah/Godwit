@@ -2,13 +2,8 @@ package pl.shockah.godwit.fx;
 
 import javax.annotation.Nonnull;
 
-import pl.shockah.func.Action0;
 import pl.shockah.godwit.Godwit;
 import pl.shockah.godwit.collection.SafeList;
-import pl.shockah.godwit.fx.object.ObjectFx;
-import pl.shockah.godwit.fx.object.SequenceObjectFx;
-import pl.shockah.godwit.fx.raw.RawFx;
-import pl.shockah.godwit.fx.raw.SequenceRawFx;
 
 public interface Animatable<T extends Animatable<T>> {
 	@SuppressWarnings("unchecked")
@@ -16,43 +11,36 @@ public interface Animatable<T extends Animatable<T>> {
 		return Animatables.getAnimatableProperties((T)this);
 	}
 
-	@SuppressWarnings("unchecked")
-	@Nonnull default SafeList<FxInstance<? super T>> getFxInstances() {
+	@Nonnull default SafeList<FxInstance> getFxInstances() {
 		return getAnimatableProperties().fxes;
 	}
 
-	default void run(@Nonnull FxInstance<T> instance) {
+	default void run(@Nonnull FxInstance instance) {
 		getFxInstances().add(instance);
 	}
 
-	default void run(@Nonnull RawFx fx) {
+	default void run(@Nonnull Fx fx) {
 		getFxInstances().add(fx.instance());
 	}
 
-	default void run(@Nonnull ObjectFx<? super T> fx) {
-		getFxInstances().add(fx.instance());
+	default void run(@Nonnull Runnable func) {
+		getFxInstances().add(new RunnableFx(func).instance());
 	}
 
-	default void runDelayed(float delay, @Nonnull RawFx fx) {
-		run(new SequenceRawFx(new WaitFx(delay), fx));
+	default void runDelayed(float delay, @Nonnull Fx fx) {
+		run(new SequenceFx(new WaitFx(delay), fx));
 	}
 
-	@SuppressWarnings("unchecked")
-	default void runDelayed(float delay, @Nonnull ObjectFx<? super T> fx) {
-		run(new SequenceObjectFx<>(new WaitFx(delay).asObject(Object.class), fx));
+	default void runDelayed(float delay, @Nonnull Runnable func) {
+		run(new SequenceFx(new WaitFx(delay), new RunnableFx(func)));
 	}
 
-	default void runDelayed(float delay, @Nonnull Action0 func) {
-		run(new SequenceRawFx(new WaitFx(delay), new RunnableFx(func::call)));
-	}
-
-	@SuppressWarnings("unchecked")
 	default void updateFx() {
-		SafeList<FxInstance<? super T>> fxes = getFxInstances();
+		SafeList<FxInstance> fxes = getFxInstances();
 		fxes.update();
 		float delta = Godwit.getInstance().getDeltaTime() * getAnimatableProperties().animationSpeed;
-		for (FxInstance<? super T> fx : fxes.get()) {
-			fx.updateBy((T)this, delta);
+		for (FxInstance fx : fxes.get()) {
+			fx.updateBy(delta);
 			if (fx.isStopped())
 				fxes.remove(fx);
 		}

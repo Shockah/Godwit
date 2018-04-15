@@ -7,8 +7,8 @@ import javax.annotation.Nonnull;
 import pl.shockah.godwit.State;
 import pl.shockah.godwit.fx.FxInstance;
 import pl.shockah.godwit.fx.RunnableFx;
+import pl.shockah.godwit.fx.SequenceFx;
 import pl.shockah.godwit.fx.WaitFx;
-import pl.shockah.godwit.fx.raw.SequenceRawFx;
 import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.gl.Gfx;
 
@@ -19,7 +19,7 @@ public class MetronomeTest extends State {
 	public void onAddedToParent() {
 		super.onAddedToParent();
 
-		run(new SequenceRawFx(
+		run(new SequenceFx(
 				new RunnableFx(() -> {
 					state = !state;
 					System.out.println(state);

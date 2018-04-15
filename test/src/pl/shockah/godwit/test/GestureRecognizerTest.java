@@ -30,11 +30,11 @@ public class GestureRecognizerTest extends State implements GestureHandler {
 
 		PanGestureRecognizer pan = new PanGestureRecognizer(entity, (recognizer, initial, current, delta) -> {
 //			if (recognizer.getState() == GestureRecognizer.State.Began) {
-//				run(new RawFuncFx(0.15f, f -> {
+//				run(new FuncFx(0.15f, f -> {
 //					entity.shape.radius = 32f + f * 16f;
 //				}).withMethod(SmoothstepEasing.smoothstep2));
 //			} else if (recognizer.getState() == GestureRecognizer.State.Ended) {
-//				run(new RawFuncFx(0.15f, f -> {
+//				run(new FuncFx(0.15f, f -> {
 //					entity.shape.radius = 32f + (1f - f) * 16f;
 //				}).withMethod(SmoothstepEasing.smoothstep2));
 //			}
