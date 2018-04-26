@@ -25,15 +25,15 @@ public class BaseLinearView<T extends BaseLinearView.Attributes> extends ViewGro
 
 		float offset = 0f;
 		for (View view : getViews()) {
-			IVec2 size = bounds.size - orientation.vector * offset;
+			IVec2 size = bounds.size.subtract(orientation.vector.multiply(offset));
 			size = view.getIntrinsicSize(size);
 			view.bounds.size = size.getMutableCopy();
 
-			IVec2 basePosition = orientation.vector * offset;
-			IVec2 alignmentPosition = (bounds.size - view.bounds.size) * orientation.getPerpendicular().vector * getAttributes(view).alignment.getNonNanVector();
-			view.bounds.position = (basePosition + alignmentPosition).getMutableCopy();
+			IVec2 basePosition = orientation.vector.multiply(offset);
+			IVec2 alignmentPosition = bounds.size.subtract(view.bounds.size).multiply(orientation.getPerpendicular().vector).multiply(getAttributes(view).alignment.getNonNanVector());
+			view.bounds.position = basePosition.add(alignmentPosition).getMutableCopy();
 
-			offset += (size * orientation.vector).getLength() + spacing;
+			offset += size.multiply(orientation.vector).getLength() + spacing;
 		}
 	}
 

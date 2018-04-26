@@ -45,7 +45,7 @@ public class Polygon extends Shape implements Polygonable, Shape.Filled, Shape.O
 		if (closed != polygon.closed || points.size() != polygon.points.size())
 			return false;
 		for (int i = 0; i < points.size(); i++) {
-			if (points[i] != polygon.points[i])
+			if (points.get(i) != polygon.points.get(i))
 				return false;
 		}
 		return true;
@@ -53,12 +53,12 @@ public class Polygon extends Shape implements Polygonable, Shape.Filled, Shape.O
 
 	@Override
 	public int hashCode() {
-		BigInteger hash = 0;
+		BigInteger hash = BigInteger.ZERO;
 		for (IVec2 point : points) {
-			hash = hash * BigInteger.valueOf(31) * BigInteger.valueOf(31);
-			hash = hash + BigInteger.valueOf(point.hashCode());
+			hash = hash.multiply(BigInteger.valueOf(31)).multiply(BigInteger.valueOf(31));
+			hash = hash.add(BigInteger.valueOf(point.hashCode()));
 		}
-		return (hash * BigInteger.valueOf(2) + BigInteger.valueOf(closed ? 1 : 0)).intValue();
+		return hash.multiply(BigInteger.valueOf(2)).add(BigInteger.valueOf(closed ? 1 : 0)).intValue();
 	}
 
 	@Override
@@ -66,7 +66,7 @@ public class Polygon extends Shape implements Polygonable, Shape.Filled, Shape.O
 		float[] x = new float[points.size()];
 		float[] y = new float[points.size()];
 		for (int i = 0; i < points.size(); i++) {
-			IVec2 v = points[i];
+			IVec2 v = points.get(i);
 			x[i] = v.x();
 			y[i] = v.y();
 		}
@@ -80,7 +80,7 @@ public class Polygon extends Shape implements Polygonable, Shape.Filled, Shape.O
 	@Override
 	public void translate(@Nonnull IVec2 v) {
 		for (int i = 0; i < points.size(); i++) {
-			points[i] = points[i] + v;
+			points.set(i, points.get(i).add(v));
 		}
 		if (!dirty) {
 			for (Triangle triangle : triangulated) {
@@ -93,7 +93,7 @@ public class Polygon extends Shape implements Polygonable, Shape.Filled, Shape.O
 	public void mirror(boolean horizontally, boolean vertically) {
 		IVec2 modifier = new Vec2(horizontally ? -1 : 1, vertically ? -1 : 1);
 		for (int i = 0; i < points.size(); i++) {
-			points[i] = points[i] * modifier;
+			points.set(i, points.get(i).multiply(modifier));
 		}
 		if (!dirty) {
 			for (Triangle triangle : triangulated) {
@@ -105,7 +105,7 @@ public class Polygon extends Shape implements Polygonable, Shape.Filled, Shape.O
 	@Override
 	public void scale(float scale) {
 		for (int i = 0; i < points.size(); i++) {
-			points[i] = points[i] * scale;
+			points.set(i, points.get(i).multiply(scale));
 		}
 		if (!dirty) {
 			for (Triangle triangle : triangulated) {
@@ -200,11 +200,11 @@ public class Polygon extends Shape implements Polygonable, Shape.Filled, Shape.O
 	}
 
 	@Nonnull public IVec2 get(int index) {
-		return points[index];
+		return points.get(index);
 	}
 
 	public void set(int index, @Nonnull IVec2 value) {
-		points[index] = value;
+		points.set(index, value);
 		dirty = true;
 		triangulated.clear();
 	}
@@ -212,10 +212,10 @@ public class Polygon extends Shape implements Polygonable, Shape.Filled, Shape.O
 	@Nonnull public List<Line> getLines() {
 		List<Line> lines = new ArrayList<>();
 		for (int i = 1; i < points.size(); i++) {
-			lines.add(new Line(points[i - 1], points[i]));
+			lines.add(new Line(points.get(i - 1), points.get(i)));
 		}
 		if (closed)
-			lines.add(new Line(points[points.size() - 1], points[0]));
+			lines.add(new Line(points.get(points.size() - 1), points.get(0)));
 		return lines;
 	}
 
@@ -240,8 +240,8 @@ public class Polygon extends Shape implements Polygonable, Shape.Filled, Shape.O
 		int size = points.size();
 		int loopSize = closed ? size : (size - 1);
 		for (int i = 0; i < loopSize; i++) {
-			IVec2 v1 = points[i];
-			IVec2 v2 = points[(i + 1) % size];
+			IVec2 v1 = points.get(i);
+			IVec2 v2 = points.get((i + 1) % size);
 			gfx.getShapeRenderer().line(v.x() + v1.x(), v.y() + v1.y(), v.x() + v2.x(), v.y() + v2.y());
 		}
 	}

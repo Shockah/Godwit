@@ -86,11 +86,11 @@ public class PinchGestureRecognizer extends ContinuousGestureRecognizer {
 	private void callDelegate(@Nonnull UnorderedPair<Touch> touches) {
 		Vec2 initialPoint1 = touches.first.points.get(0).position;
 		Vec2 initialPoint2 = touches.second.points.get(0).position;
-		float initialDistance = (initialPoint2 - initialPoint1).getLength();
+		float initialDistance = (initialPoint2.subtract(initialPoint1)).getLength();
 
 		Vec2 currentPoint1 = touches.first.points.get(touches.first.points.size() - 1).position;
 		Vec2 currentPoint2 = touches.second.points.get(touches.second.points.size() - 1).position;
-		float currentDistance = (currentPoint2 - currentPoint1).getLength();
+		float currentDistance = (currentPoint2.subtract(currentPoint1)).getLength();
 
 		delegate.onPinch(
 				this,

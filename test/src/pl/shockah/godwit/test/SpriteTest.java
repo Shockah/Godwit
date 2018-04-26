@@ -45,7 +45,7 @@ public class SpriteTest extends State {
 
 		int offsetX = (r ? 1 : 0) - (l ? 1 : 0);
 		int offsetY = (d ? 1 : 0) - (u ? 1 : 0);
-		sprite.setOrigin(sprite.getOrigin() + new Vec2(offsetX, offsetY) * 4);
+		sprite.setOrigin(sprite.getOrigin().add(offsetX * 4, offsetY * 4));
 		sprite.offset = sprite.getOrigin().getMutableCopy();
 
 		if (l || r || u || d) {
@@ -64,7 +64,7 @@ public class SpriteTest extends State {
 		super.render(gfx, v);
 
 		gfx.setColor(Color.WHITE);
-		gfx.draw(sprite, v + gfx.getSize() / 2);
+		gfx.draw(sprite, v.add(gfx.getSize().multiply(0.5f)));
 
 		if (movingCountdown > 0) {
 			gfx.setColor(Color.RED);

@@ -22,9 +22,9 @@ public class SpriteSheetTest extends State {
 		loadAsset(sheet);
 		SpriteSheet sheet = SpriteSheetTest.sheet.get();
 
-		GfxSprite sprite = new GfxSprite(new Sprite(sheet[0]));
+		GfxSprite sprite = new GfxSprite(new Sprite(sheet.get(0)));
 		sprite.center();
-		sprite.setPosition(Godwit.getInstance().gfx.getSize() * 0.5f);
+		sprite.setPosition(Godwit.getInstance().gfx.getSize().multiply(0.5f));
 		sprite.getFxInstances().add(new ObjectFuncFx<GfxSprite>(0.5f, (obj, f) -> {
 			sprite.setRegion(sheet.get((int)(f * sheet.frameCount) % sheet.frameCount));
 		}).instance(FxInstance.EndAction.Loop));

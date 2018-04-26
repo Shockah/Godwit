@@ -74,7 +74,7 @@ public class ColorSpaceEaseTest extends State {
 			for (int j = 0; j < COLORS; j++) {
 				float f = 1f * j / (COLORS - 1);
 				gfx.setColor(type.func.call(Color.RED, Color.GREEN, f));
-				gfx.drawFilled(rect, v + rect.size.add(SPACING, MARGIN).multiply(j, i));
+				gfx.drawFilled(rect, v.add(rect.size.add(SPACING, MARGIN).multiply(j, i)));
 			}
 		}
 	}

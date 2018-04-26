@@ -50,8 +50,8 @@ public class SpriteSheet {
 
 	@Nonnull private IVec2 calculateFrameSize(@Nonnull Texture texture) {
 		IVec2 textureSize = new Vec2(texture.getWidth(), texture.getHeight());
-		IVec2 blankSpace = new Vec2(margin, margin) * 2 + new Vec2(spacing, spacing) * new Vec2(columns - 1, rows - 1);
-		return (textureSize - blankSpace) / new Vec2(columns, rows);
+		IVec2 blankSpace = new Vec2(margin * 2).add(new Vec2(spacing).multiply(columns - 1, rows - 1));
+		return textureSize.subtract(blankSpace).divide(columns, rows);
 	}
 
 	@Nonnull public TextureRegion get(int frameIndex) {
@@ -67,7 +67,7 @@ public class SpriteSheet {
 		TextureRegion region = cache[column][row];
 		if (region == null) {
 			IVec2 size = getFrameSize();
-			IVec2 position = new Vec2(margin) + new Vec2(column, row) * (size + new Vec2(spacing)) - new Vec2(spacing);
+			IVec2 position = new Vec2(margin).add(new Vec2(column, row).multiply((size.add(spacing, spacing)).subtract(spacing, spacing)));
 			region = new TextureRegion(texture, (int)position.x(), (int)position.y(), (int)size.x(), (int)size.y());
 			cache[column][row] = region;
 		}

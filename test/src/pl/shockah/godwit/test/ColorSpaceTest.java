@@ -87,7 +87,7 @@ public class ColorSpaceTest extends State {
 							throw new IndexOutOfBoundsException();
 					}
 					gfx.setColor(space.toColor());
-					gfx.drawFilled(rect, v + rect.size.multiply(x, y));
+					gfx.drawFilled(rect, v.add(rect.size.multiply(x, y)));
 				} catch (Exception ignored) {
 				}
 			}

@@ -49,8 +49,8 @@ public class SpriteSheetAsset extends ComplexAsset<SpriteSheet> {
 
 		if (json.containsKey("frames")) {
 			JSONList<Integer> jsonFrames = json.getList("frames").ofInts();
-			columns = jsonFrames[0];
-			rows = jsonFrames[1];
+			columns = jsonFrames.get(0);
+			rows = jsonFrames.get(1);
 		} else if (json.containsKey("columns") && json.containsKey("rows")) {
 			columns = json.getInt("columns");
 			rows = json.getInt("rows");

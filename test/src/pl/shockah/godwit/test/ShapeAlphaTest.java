@@ -20,7 +20,7 @@ public class ShapeAlphaTest extends State {
 		gfx.drawFilled(new Rectangle(gfx.getSize()));
 
 		gfx.setColor(new Color(1f, 0f, 0f, 0.5f));
-		gfx.drawFilled(new Circle(gfx.getSize() * 0.5f - new MutableVec2(24f, 0f), 64f));
-		gfx.drawFilled(new Circle(gfx.getSize() * 0.5f + new MutableVec2(24f, 0f), 64f));
+		gfx.drawFilled(new Circle(gfx.getSize().multiply(0.5f).subtract(new MutableVec2(24f, 0f)), 64f));
+		gfx.drawFilled(new Circle(gfx.getSize().multiply(0.5f).add(new MutableVec2(24f, 0f)), 64f));
 	}
 }

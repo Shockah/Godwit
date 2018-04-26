@@ -35,14 +35,14 @@ public class TriangleCollisionTest extends State {
 		rotation -= 2f;
 
 		Triangle triangle1 = new Triangle(
-				MutableVec2.angled(length, rotation) + staticTrianglePosition,
-				MutableVec2.angled(length, rotation + 120) + staticTrianglePosition,
-				MutableVec2.angled(length, rotation + 240) + staticTrianglePosition
+				MutableVec2.angled(length, rotation).add(staticTrianglePosition),
+				MutableVec2.angled(length, rotation + 120).add(staticTrianglePosition),
+				MutableVec2.angled(length, rotation + 240).add(staticTrianglePosition)
 		);
 		Triangle triangle2 = new Triangle(
-				MutableVec2.angled(length, 0) + trianglePosition,
-				MutableVec2.angled(length, 120) + trianglePosition,
-				MutableVec2.angled(length, 240) + trianglePosition
+				MutableVec2.angled(length, 0).add(trianglePosition),
+				MutableVec2.angled(length, 120).add(trianglePosition),
+				MutableVec2.angled(length, 240).add(trianglePosition)
 		);
 
 		gfx.setColor(triangle1.collides(triangle2) ? Color.WHITE : Color.GRAY);

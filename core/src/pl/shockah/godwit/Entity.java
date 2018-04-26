@@ -239,7 +239,7 @@ public class Entity implements Renderable, Animatable<Entity> {
 	}
 
 	@Nonnull protected IVec2 getTranslatedPoint(@Nonnull IVec2 point) {
-		return point + position;
+		return point.add(position);
 	}
 
 	@SuppressWarnings("unchecked")

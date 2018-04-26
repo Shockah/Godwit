@@ -100,7 +100,7 @@ public class GestureRecognizerTest extends State implements GestureHandler {
 
 		@Override
 		@Nullable public Shape.Filled getGestureShape() {
-			Circle shape = this.shape.copyCircle();
+			Circle shape = this.shape.copy();
 			shape.translate(lastRenderPosition);
 			return shape;
 		}

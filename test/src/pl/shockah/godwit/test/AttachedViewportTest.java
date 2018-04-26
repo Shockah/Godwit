@@ -33,7 +33,7 @@ public class AttachedViewportTest extends State {
 	public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
 		gfx.clear(Color.GRAY);
 		gfx.setColor(Color.RED);
-		gfx.drawFilled(Rectangle.centered(gfx.getSize() / 2f + v, gfx.getSize() * 0.2f));
+		gfx.drawFilled(Rectangle.centered(gfx.getSize().multiply(0.5f).add(v), gfx.getSize().multiply(0.2f)));
 		super.render(gfx, v);
 	}
 

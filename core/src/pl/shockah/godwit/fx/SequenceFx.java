@@ -43,7 +43,7 @@ public abstract class SequenceFx<F extends Fx> implements Fx {
 	@Nonnull protected FxResult<F> getFx(float f, boolean includingEqual) {
 		float fStart = 0f;
 		for (int i = 0; i < fxes.size(); i++) {
-			F fx = fxes[i];
+			F fx = fxes.get(i);
 			float duration = fx.getDuration();
 			if (includingEqual) {
 				if (f - fStart <= duration)
@@ -55,7 +55,7 @@ public abstract class SequenceFx<F extends Fx> implements Fx {
 			fStart += duration;
 		}
 		int lastIndex = fxes.size() - 1;
-		F last = fxes[lastIndex];
+		F last = fxes.get(lastIndex);
 		return new FxResult<>(last, lastIndex, fStart - last.getDuration(), fStart);
 	}
 
@@ -67,11 +67,11 @@ public abstract class SequenceFx<F extends Fx> implements Fx {
 		if (resultPrevious.index != result.index) {
 			if (f > previous) {
 				for (int i = resultPrevious.index; i < result.index; i++) {
-					results.add(fxes[i]);
+					results.add(fxes.get(i));
 				}
 			} else if (f < previous) {
 				for (int i = resultPrevious.index; i > result.index; i--) {
-					results.add(fxes[i]);
+					results.add(fxes.get(i));
 				}
 			}
 		}

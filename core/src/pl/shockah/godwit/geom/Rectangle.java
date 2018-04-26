@@ -37,7 +37,7 @@ public class Rectangle extends Shape implements Shape.Filled, Shape.Outline, Pol
 	}
 
 	public static Rectangle centered(@Nonnull IVec2 position, @Nonnull IVec2 size) {
-		return new Rectangle(position - size * 0.5f, size);
+		return new Rectangle(position.subtract(size.multiply(0.5f)), size);
 	}
 
 	public static Rectangle centered(float x, float y, float l) {
@@ -105,7 +105,7 @@ public class Rectangle extends Shape implements Shape.Filled, Shape.Outline, Pol
 	}
 
 	@Nonnull IVec2 getCenter() {
-		return position + size * 0.5f;
+		return position.add(size.multiply(0.5f));
 	}
 
 	@Override
@@ -124,8 +124,8 @@ public class Rectangle extends Shape implements Shape.Filled, Shape.Outline, Pol
 
 	@Override
 	public void scale(float scale) {
-		position.set(position * scale);
-		size.set(size * scale);
+		position.set(position.multiply(scale));
+		size.set(size.multiply(scale));
 	}
 
 	@Override
@@ -176,9 +176,9 @@ public class Rectangle extends Shape implements Shape.Filled, Shape.Outline, Pol
 	@Nonnull public Polygon asPolygon() {
 		Polygon p = new Polygon.NoHoles();
 		p.addPoint(position);
-		p.addPoint(position + size.withY(0f));
-		p.addPoint(position + size);
-		p.addPoint(position + size.withX(0f));
+		p.addPoint(position.add(size.withY(0f)));
+		p.addPoint(position.add(size));
+		p.addPoint(position.add(size.withX(0f)));
 		return p;
 	}
 
@@ -187,7 +187,7 @@ public class Rectangle extends Shape implements Shape.Filled, Shape.Outline, Pol
 		GfxSprite sprite = getSprite();
 		sprite.setColor(gfx.getColor());
 		sprite.setSize(size);
-		gfx.draw(sprite, v + position);
+		gfx.draw(sprite, v.add(position));
 	}
 
 	@Override

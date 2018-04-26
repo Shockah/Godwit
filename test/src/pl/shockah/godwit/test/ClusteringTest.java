@@ -52,14 +52,14 @@ public class ClusteringTest extends State {
 		if (clusters == null) {
 			gfx.setColor(Color.WHITE);
 			for (IVec2 node : nodes) {
-				gfx.drawFilled(circle, v + node);
+				gfx.drawFilled(circle, v.add(node));
 			}
 		} else {
 			int index = 0;
 			for (List<IVec2> cluster : clusters) {
 				gfx.setColor(new HSVColorSpace(1f * index / clusters.length, 1f, 1f).toColor());
 				for (IVec2 node : cluster) {
-					gfx.drawFilled(circle, v + node);
+					gfx.drawFilled(circle, v.add(node));
 				}
 				index++;
 			}

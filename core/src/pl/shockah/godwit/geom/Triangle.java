@@ -96,9 +96,9 @@ public class Triangle extends Shape implements Polygonable, Shape.Filled, Shape.
 
 	@Override
 	public void scale(float scale) {
-		point1.set(point1 * scale);
-		point2.set(point2 * scale);
-		point3.set(point3 * scale);
+		point1.set(point1.multiply(scale));
+		point2.set(point2.multiply(scale));
+		point3.set(point3.multiply(scale));
 	}
 
 	private static float sign(float x1, float y1, float x2, float y2, float x3, float y3) {

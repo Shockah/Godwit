@@ -72,8 +72,8 @@ public class Line extends Shape implements Shape.Outline, Easable<Line> {
 
 	@Override
 	public void scale(float scale) {
-		point1.set(point1 * scale);
-		point2.set(point2 * scale);
+		point1.set(point1.multiply(scale));
+		point2.set(point2.multiply(scale));
 	}
 
 	@Override

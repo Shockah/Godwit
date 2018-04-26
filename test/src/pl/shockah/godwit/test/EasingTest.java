@@ -43,7 +43,7 @@ public class EasingTest extends State {
 		Texture texture = assetManager.get("question-mark.png", Texture.class);
 
 		for (int i = 0; i < methods.size(); i++) {
-			Easing method = methods[i];
+			Easing method = methods.get(i);
 			GfxSprite sprite = new GfxSprite(new Sprite(texture));
 			sprite.setSize(new Vec2(16f, 16f));
 

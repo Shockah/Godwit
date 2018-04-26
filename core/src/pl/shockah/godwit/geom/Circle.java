@@ -76,13 +76,13 @@ public class Circle extends Shape implements Polygonable, Shape.Filled, Shape.Ou
 
 	@Override
 	public void scale(float scale) {
-		position.set(position * scale);
+		position.set(position.multiply(scale));
 		radius *= scale;
 	}
 
 	@Override
 	public boolean contains(@Nonnull IVec2 v) {
-		return (position - v).getLength() <= radius;
+		return position.subtract(v).getLength() <= radius;
 	}
 
 	@Override
@@ -99,7 +99,7 @@ public class Circle extends Shape implements Polygonable, Shape.Filled, Shape.Ou
 	}
 
 	public boolean collides(@Nonnull Circle circle) {
-		return (circle.position - position).getLength() < radius + circle.radius;
+		return circle.position.subtract(position).getLength() < radius + circle.radius;
 	}
 
 	public boolean collides(@Nonnull Line line) {
@@ -160,7 +160,7 @@ public class Circle extends Shape implements Polygonable, Shape.Filled, Shape.Ou
 	@Nonnull public Polygon asPolygon(int precision) {
 		if (lastPoly != null && lastPoly.getPointCount() == precision && lastPrecision == precision) {
 			if (!position.equals(lastPos)) {
-				lastPoly.translate(position - lastPos);
+				lastPoly.translate(position.subtract(lastPos));
 				lastPos = position.getCopy();
 			}
 			return lastPoly;
@@ -168,7 +168,7 @@ public class Circle extends Shape implements Polygonable, Shape.Filled, Shape.Ou
 
 		Polygon p = new Polygon.NoHoles();
 		for (int i = 0; i < precision; i++) {
-			p.addPoint(MutableVec2.angled(radius, 360f / precision * i) + position);
+			p.addPoint(MutableVec2.angled(radius, 360f / precision * i).add(position));
 		}
 
 		lastPos = position.getCopy();

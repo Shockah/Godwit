@@ -77,7 +77,7 @@ public class TravellingSalesmanTest extends State {
 		if (route == null || polygon == null) {
 			gfx.setColor(Color.WHITE);
 			for (IVec2 node : nodes) {
-				gfx.drawFilled(circle, v + node);
+				gfx.drawFilled(circle, v.add(node));
 			}
 		} else {
 			gfx.setColor(Color.WHITE);
@@ -86,7 +86,7 @@ public class TravellingSalesmanTest extends State {
 			int index = 0;
 			for (IVec2 node : route.getNodes()) {
 				gfx.setColor(new HSVColorSpace(1f * index / nodes.size(), 1f, 1f).toColor());
-				gfx.drawFilled(circle, v + node);
+				gfx.drawFilled(circle, v.add(node));
 				index++;
 			}
 		}
