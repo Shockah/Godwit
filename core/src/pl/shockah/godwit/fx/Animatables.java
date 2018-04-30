@@ -15,7 +15,7 @@ import pl.shockah.unicorn.SafeList;
 public final class Animatables {
 	public static final class Properties<T extends Animatable<T>> {
 		@Nonnull public final WeakReference<T> self;
-		@Nonnull public final SafeList<FxInstance<? super T>> fxes = new SafeList<>(new ArrayList<>());
+		@Nonnull public final SafeList<FxInstance> fxes = new SafeList<>(new ArrayList<>());
 		public float animationSpeed = 1f;
 
 		private Properties(T self) {

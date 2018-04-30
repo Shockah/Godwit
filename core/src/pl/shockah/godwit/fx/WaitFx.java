@@ -1,8 +1,6 @@
 package pl.shockah.godwit.fx;
 
-import pl.shockah.godwit.fx.raw.RawFxImpl;
-
-public final class WaitFx extends RawFxImpl {
+public final class WaitFx extends FxImpl {
 	public WaitFx(float duration) {
 		super(duration);
 	}

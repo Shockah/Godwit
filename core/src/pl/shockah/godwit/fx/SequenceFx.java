@@ -11,18 +11,17 @@ import java8.util.stream.StreamSupport;
 import lombok.Getter;
 import pl.shockah.unicorn.ease.Easing;
 
-public abstract class SequenceFx<F extends Fx> implements Fx {
-	@Nonnull protected final List<F> fxes;
+public class SequenceFx implements Fx {
+	@Nonnull protected final List<Fx> fxes;
 
 	@Getter(lazy = true)
 	private final float duration = calculateDuration();
 
-	@SafeVarargs
-	public SequenceFx(F... fxes) {
+	public SequenceFx(Fx... fxes) {
 		this(Arrays.asList(fxes));
 	}
 
-	public SequenceFx(@Nonnull List<? extends F> fxes) {
+	public SequenceFx(@Nonnull List<Fx> fxes) {
 		this.fxes = Collections.unmodifiableList(new ArrayList<>(fxes));
 	}
 
@@ -40,30 +39,30 @@ public abstract class SequenceFx<F extends Fx> implements Fx {
 		throw new UnsupportedOperationException("Cannot set an Easing method on a SequenceFx.");
 	}
 
-	@Nonnull protected FxResult<F> getFx(float f, boolean includingEqual) {
+	@Nonnull protected FxResult getFx(float f, boolean includingEqual) {
 		float fStart = 0f;
 		for (int i = 0; i < fxes.size(); i++) {
-			F fx = fxes.get(i);
+			Fx fx = fxes.get(i);
 			float duration = fx.getDuration();
 			if (includingEqual) {
 				if (f - fStart <= duration)
-					return new FxResult<>(fx, i, fStart, fStart + fx.getDuration());
+					return new FxResult(fx, i, fStart, fStart + fx.getDuration());
 			} else {
 				if (f - fStart < duration)
-					return new FxResult<>(fx, i, fStart, fStart + fx.getDuration());
+					return new FxResult(fx, i, fStart, fStart + fx.getDuration());
 			}
 			fStart += duration;
 		}
 		int lastIndex = fxes.size() - 1;
-		F last = fxes.get(lastIndex);
-		return new FxResult<>(last, lastIndex, fStart - last.getDuration(), fStart);
+		Fx last = fxes.get(lastIndex);
+		return new FxResult(last, lastIndex, fStart - last.getDuration(), fStart);
 	}
 
-	@Nonnull protected List<F> getFxesToFinish(float f, float previous) {
-		FxResult<F> resultPrevious = getFx(previous, true);
-		FxResult<F> result = getFx(f, false);
+	@Nonnull protected List<Fx> getFxesToFinish(float f, float previous) {
+		FxResult resultPrevious = getFx(previous, true);
+		FxResult result = getFx(f, false);
 
-		List<F> results = new ArrayList<>();
+		List<Fx> results = new ArrayList<>();
 		if (resultPrevious.index != result.index) {
 			if (f > previous) {
 				for (int i = resultPrevious.index; i < result.index; i++) {
@@ -78,13 +77,43 @@ public abstract class SequenceFx<F extends Fx> implements Fx {
 		return results;
 	}
 
-	protected static final class FxResult<F extends Fx> {
-		public final F fx;
+	protected void update(float f, float previous, boolean finish) {
+		if (fxes.isEmpty())
+			return;
+
+		float duration = getDuration();
+		f *= duration;
+		previous *= duration;
+
+		for (Fx fx : getFxesToFinish(f, previous)) {
+			float value = f > previous ? 1f : 0f;
+			fx.finish(value, value);
+		}
+
+		FxResult result = getFx(f, false);
+		if (finish)
+			result.fx.finish(result.getFxF(f), result.getFxF(previous));
+		else
+			result.fx.update(result.getEased(f), result.getEased(previous));
+	}
+
+	@Override
+	public void update(float f, float previous) {
+		update(f, previous, false);
+	}
+
+	@Override
+	public void finish(float f, float previous) {
+		update(f, previous, true);
+	}
+
+	protected static final class FxResult {
+		public final Fx fx;
 		public final int index;
 		public final float a;
 		public final float b;
 
-		FxResult(F fx, int index, float a, float b) {
+		FxResult(Fx fx, int index, float a, float b) {
 			this.fx = fx;
 			this.index = index;
 			this.a = a;

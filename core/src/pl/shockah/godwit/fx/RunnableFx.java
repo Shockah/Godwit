@@ -2,9 +2,7 @@ package pl.shockah.godwit.fx;
 
 import javax.annotation.Nonnull;
 
-import pl.shockah.godwit.fx.raw.RawFxImpl;
-
-public class RunnableFx extends RawFxImpl {
+public class RunnableFx extends FxImpl {
 	@Nonnull protected final Runnable action;
 
 	public RunnableFx(@Nonnull Runnable action) {
