@@ -2,9 +2,9 @@ package pl.shockah.godwit.fx;
 
 import javax.annotation.Nonnull;
 
-import pl.shockah.godwit.fx.ease.Easing;
 import pl.shockah.godwit.fx.object.ObjectFx;
 import pl.shockah.godwit.fx.raw.RawFx;
+import pl.shockah.unicorn.ease.Easing;
 
 public class RawToObjectBridgeFx<T> implements ObjectFx<T> {
 	public final RawFx fx;

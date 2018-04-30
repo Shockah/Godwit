@@ -11,12 +11,12 @@ import pl.shockah.godwit.State;
 import pl.shockah.godwit.fx.FxInstance;
 import pl.shockah.godwit.fx.RunnableFx;
 import pl.shockah.godwit.fx.WaitFx;
-import pl.shockah.godwit.fx.ease.PennerEasing;
 import pl.shockah.godwit.fx.raw.RawFuncFx;
 import pl.shockah.godwit.fx.raw.SequenceRawFx;
 import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.gl.Gfx;
 import pl.shockah.godwit.gl.GfxSprite;
+import pl.shockah.unicorn.ease.PennerEasing;
 
 public class SequenceFxTest extends State {
 	private GfxSprite sprite;

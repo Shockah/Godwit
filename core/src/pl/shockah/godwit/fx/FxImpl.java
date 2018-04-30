@@ -4,7 +4,7 @@ import javax.annotation.Nonnull;
 
 import lombok.Getter;
 import lombok.Setter;
-import pl.shockah.godwit.fx.ease.Easing;
+import pl.shockah.unicorn.ease.Easing;
 
 public abstract class FxImpl implements Fx {
 	@Getter

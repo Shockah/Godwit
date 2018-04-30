@@ -2,8 +2,8 @@ package pl.shockah.godwit.geom;
 
 import javax.annotation.Nonnull;
 
-import pl.shockah.godwit.fx.ease.Easable;
-import pl.shockah.godwit.fx.ease.Easing;
+import pl.shockah.unicorn.ease.Easable;
+import pl.shockah.unicorn.ease.Easing;
 
 public abstract class IVec2 implements Easable<IVec2> {
 	IVec2() {

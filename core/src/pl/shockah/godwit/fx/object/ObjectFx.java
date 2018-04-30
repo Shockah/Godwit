@@ -6,7 +6,7 @@ import java8.util.stream.Collectors;
 import java8.util.stream.IntStreams;
 import pl.shockah.godwit.fx.Fx;
 import pl.shockah.godwit.fx.FxInstance;
-import pl.shockah.godwit.fx.ease.Easing;
+import pl.shockah.unicorn.ease.Easing;
 
 public interface ObjectFx<T> extends Fx {
 	void update(@Nonnull T object, float f, float previous);

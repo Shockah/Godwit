@@ -10,9 +10,9 @@ import javax.annotation.Nonnull;
 
 import lombok.Getter;
 import lombok.experimental.Delegate;
-import pl.shockah.godwit.collection.SortedLinkedList;
 import pl.shockah.godwit.gesture.GestureManager;
 import pl.shockah.godwit.platform.BackButtonService;
+import pl.shockah.unicorn.SortedLinkedList;
 
 public class InputManager extends BaseInputManager<InputManager.Processor> {
 	@Nonnull protected static final Comparator<Processor> orderComparator = (o1, o2) -> -Float.compare(o1.order, o2.order);

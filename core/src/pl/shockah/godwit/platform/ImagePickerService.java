@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 
 import javax.annotation.Nonnull;
 
-import pl.shockah.func.Action1;
+import pl.shockah.unicorn.func.Action1;
 
 public abstract class ImagePickerService implements PlatformService {
 	@Nonnull public abstract PermissionState getPermissionState(@Nonnull Source source);

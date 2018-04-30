@@ -5,11 +5,11 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import javax.annotation.Nonnull;
 
 import lombok.EqualsAndHashCode;
-import pl.shockah.godwit.Math2;
-import pl.shockah.godwit.fx.ease.Easable;
 import pl.shockah.godwit.geom.polygon.Polygon;
 import pl.shockah.godwit.geom.polygon.Polygonable;
 import pl.shockah.godwit.gl.Gfx;
+import pl.shockah.unicorn.Math2;
+import pl.shockah.unicorn.ease.Easable;
 
 @EqualsAndHashCode(callSuper = false)
 public class Triangle extends Shape implements Polygonable, Shape.Filled, Shape.Outline, Easable<Triangle> {

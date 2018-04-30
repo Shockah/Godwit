@@ -3,8 +3,8 @@ package pl.shockah.godwit.gesture;
 import javax.annotation.Nonnull;
 
 import lombok.EqualsAndHashCode;
-import pl.shockah.godwit.collection.UnorderedPair;
 import pl.shockah.godwit.geom.Vec2;
+import pl.shockah.unicorn.UnorderedPair;
 
 public class PinchGestureRecognizer extends ContinuousGestureRecognizer {
 	@Nonnull public final Delegate delegate;

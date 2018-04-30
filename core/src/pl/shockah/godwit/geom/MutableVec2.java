@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import javax.annotation.Nonnull;
 
-import pl.shockah.godwit.Math2;
+import pl.shockah.unicorn.Math2;
 
 public final class MutableVec2 extends IVec2 {
 	public float x;

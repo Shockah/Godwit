@@ -5,11 +5,11 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import pl.shockah.godwit.fx.ease.Easable;
-import pl.shockah.godwit.fx.ease.Easing;
 import pl.shockah.godwit.geom.polygon.Polygon;
 import pl.shockah.godwit.geom.polygon.Polygonable;
 import pl.shockah.godwit.gl.Gfx;
+import pl.shockah.unicorn.ease.Easable;
+import pl.shockah.unicorn.ease.Easing;
 
 public class Circle extends Shape implements Polygonable, Shape.Filled, Shape.Outline, Easable<Circle> {
 	@Nonnull public MutableVec2 position;

@@ -2,13 +2,13 @@ package pl.shockah.godwit.fx;
 
 import javax.annotation.Nonnull;
 
-import pl.shockah.func.Action0;
 import pl.shockah.godwit.Godwit;
-import pl.shockah.godwit.collection.SafeList;
 import pl.shockah.godwit.fx.object.ObjectFx;
 import pl.shockah.godwit.fx.object.SequenceObjectFx;
 import pl.shockah.godwit.fx.raw.RawFx;
 import pl.shockah.godwit.fx.raw.SequenceRawFx;
+import pl.shockah.unicorn.SafeList;
+import pl.shockah.unicorn.func.Action0;
 
 public interface Animatable<T extends Animatable<T>> {
 	@SuppressWarnings("unchecked")

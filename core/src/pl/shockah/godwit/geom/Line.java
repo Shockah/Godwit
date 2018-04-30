@@ -6,8 +6,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import lombok.EqualsAndHashCode;
-import pl.shockah.godwit.fx.ease.Easable;
 import pl.shockah.godwit.gl.Gfx;
+import pl.shockah.unicorn.ease.Easable;
 
 @EqualsAndHashCode(callSuper = false)
 public class Line extends Shape implements Shape.Outline, Easable<Line> {

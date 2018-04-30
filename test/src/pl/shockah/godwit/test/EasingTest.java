@@ -13,13 +13,13 @@ import java8.util.Lists;
 import pl.shockah.godwit.Godwit;
 import pl.shockah.godwit.State;
 import pl.shockah.godwit.fx.FxInstance;
-import pl.shockah.godwit.fx.ease.Easing;
-import pl.shockah.godwit.fx.ease.PennerEasing;
-import pl.shockah.godwit.fx.ease.SmoothstepEasing;
 import pl.shockah.godwit.fx.raw.RawFuncFx;
 import pl.shockah.godwit.geom.Vec2;
 import pl.shockah.godwit.geom.MutableVec2;
 import pl.shockah.godwit.gl.GfxSprite;
+import pl.shockah.unicorn.ease.Easing;
+import pl.shockah.unicorn.ease.PennerEasing;
+import pl.shockah.unicorn.ease.SmoothstepEasing;
 
 public class EasingTest extends State {
 	@Nonnull private final List<Easing> methods = Lists.of(

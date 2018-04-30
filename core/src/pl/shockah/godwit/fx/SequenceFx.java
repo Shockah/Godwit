@@ -9,7 +9,7 @@ import javax.annotation.Nonnull;
 
 import java8.util.stream.StreamSupport;
 import lombok.Getter;
-import pl.shockah.godwit.fx.ease.Easing;
+import pl.shockah.unicorn.ease.Easing;
 
 public abstract class SequenceFx<F extends Fx> implements Fx {
 	@Nonnull protected final List<F> fxes;

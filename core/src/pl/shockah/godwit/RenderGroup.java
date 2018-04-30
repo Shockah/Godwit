@@ -4,10 +4,10 @@ import java.util.Comparator;
 
 import javax.annotation.Nonnull;
 
-import pl.shockah.godwit.collection.SafeList;
-import pl.shockah.godwit.collection.SortedLinkedList;
 import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.gl.Gfx;
+import pl.shockah.unicorn.SafeList;
+import pl.shockah.unicorn.SortedLinkedList;
 
 public class RenderGroup extends Entity {
 	@Nonnull private static final Comparator<? super Entity> depthComparator = (o1, o2) -> -Float.compare(o1.getDepth(), o2.getDepth());

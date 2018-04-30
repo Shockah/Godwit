@@ -8,7 +8,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import lombok.Getter;
-import pl.shockah.godwit.collection.SafeList;
 import pl.shockah.godwit.fx.Animatable;
 import pl.shockah.godwit.fx.Animatables;
 import pl.shockah.godwit.geom.IVec2;
@@ -16,6 +15,7 @@ import pl.shockah.godwit.geom.MutableVec2;
 import pl.shockah.godwit.geom.Vec2;
 import pl.shockah.godwit.gl.Gfx;
 import pl.shockah.godwit.gl.Renderable;
+import pl.shockah.unicorn.SafeList;
 
 public class Entity implements Renderable, Animatable<Entity> {
 	@Nonnull public final SafeList<Entity> children = new SafeList<>(new ArrayList<>());

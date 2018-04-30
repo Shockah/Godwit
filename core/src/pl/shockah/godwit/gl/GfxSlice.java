@@ -6,11 +6,11 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import javax.annotation.Nonnull;
 
 import lombok.experimental.Delegate;
-import pl.shockah.func.Action0;
-import pl.shockah.func.Action1;
 import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.geom.Rectangle;
 import pl.shockah.godwit.geom.Shape;
+import pl.shockah.unicorn.func.Action0;
+import pl.shockah.unicorn.func.Action1;
 
 public class GfxSlice extends Gfx {
 	private interface DelegateExlusions {

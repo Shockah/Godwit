@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import javax.annotation.Nonnull;
 
-import pl.shockah.godwit.Math2;
+import pl.shockah.unicorn.Math2;
 
 public final class Vec2 extends IVec2 {
 	public static final Vec2 zero = new Vec2();

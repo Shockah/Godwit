@@ -8,7 +8,6 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import pl.shockah.godwit.Math2;
 import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.geom.Vec2;
 import pl.shockah.godwit.geom.Line;
@@ -16,6 +15,7 @@ import pl.shockah.godwit.geom.Rectangle;
 import pl.shockah.godwit.geom.Shape;
 import pl.shockah.godwit.geom.Triangle;
 import pl.shockah.godwit.gl.Gfx;
+import pl.shockah.unicorn.Math2;
 
 public class Polygon extends Shape implements Polygonable, Shape.Filled, Shape.Outline {
 	@Nonnull protected final List<IVec2> points = new ArrayList<>();

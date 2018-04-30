@@ -11,6 +11,11 @@ retrolambda {
 
 dependencies {
 	compile "net.sourceforge.streamsupport:streamsupport:1.6.1"
+	compile "com.github.Shockah.Unicorn:core:2.0"
+	compile "com.github.Shockah.Unicorn:func:2.0"
+	compile "com.github.Shockah.Unicorn:collection:2.0"
+	compile "com.github.Shockah.Unicorn:ease:2.0"
+	compile "com.github.Shockah.Unicorn:colorspace:2.0"
 	compile "com.github.Shockah:Jay:1.2-retrolambda"
 	compile "com.badlogicgames.gdx:gdx:$gdxVersion"
 	compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"

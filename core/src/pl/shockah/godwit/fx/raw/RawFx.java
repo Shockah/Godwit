@@ -7,8 +7,8 @@ import java8.util.stream.IntStreams;
 import pl.shockah.godwit.fx.Fx;
 import pl.shockah.godwit.fx.FxInstance;
 import pl.shockah.godwit.fx.RawToObjectBridgeFx;
-import pl.shockah.godwit.fx.ease.Easing;
 import pl.shockah.godwit.fx.object.ObjectFx;
+import pl.shockah.unicorn.ease.Easing;
 
 public interface RawFx extends Fx {
 	void update(float f, float previous);

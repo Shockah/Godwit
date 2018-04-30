@@ -9,7 +9,7 @@ import javax.annotation.Nonnull;
 
 import java8.util.Maps;
 import lombok.experimental.UtilityClass;
-import pl.shockah.godwit.collection.SafeList;
+import pl.shockah.unicorn.SafeList;
 
 @UtilityClass
 public final class Animatables {
