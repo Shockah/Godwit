@@ -1,15 +1,15 @@
-package pl.shockah.godwit.fx.raw;
+package pl.shockah.godwit.fx;
 
 import javax.annotation.Nonnull;
 
-public class RawFuncFx extends RawFxImpl {
+public class FuncFx extends FxImpl {
 	@Nonnull public final Func2 func;
 
-	public RawFuncFx(float duration, @Nonnull Func func) {
+	public FuncFx(float duration, @Nonnull Func func) {
 		this(duration, (f, previous) -> func.call(f));
 	}
 
-	public RawFuncFx(float duration, @Nonnull Func2 func) {
+	public FuncFx(float duration, @Nonnull Func2 func) {
 		super(duration);
 		this.func = func;
 	}

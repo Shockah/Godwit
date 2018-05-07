@@ -17,7 +17,7 @@ public class MaskEntity extends RenderGroup {
 	@Override
 	public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
 		setupMasking(gfx);
-		renderMask(gfx, v + position);
+		renderMask(gfx, v.add(position));
 		gfx.internalEndTick();
 		useMasking(gfx);
 		super.render(gfx, v);

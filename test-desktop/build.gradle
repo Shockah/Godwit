@@ -55,6 +55,7 @@ void addTask(File baseDir, File file) {
 		ignoreExitValue = true
 		if (System.getProperty("os.name") == "Mac OS X")
 			jvmArgs "-XstartOnFirstThread"
+		jvmArgs "-Dorg.lwjgl.system.allocator=system"
 		workingDir = project.file("../test-android/assets/")
 
 		if (System.getProperty('DEBUG', 'false') == 'true') {

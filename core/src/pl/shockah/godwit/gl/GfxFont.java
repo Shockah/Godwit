@@ -254,7 +254,7 @@ public class GfxFont implements Renderable {
 			return;
 
 		ScalableBitmapFontCache cache = getCache();
-		v = v - alignmentVector.multiply(layoutW, layoutH) + getOffset();
+		v = v.subtract(alignmentVector.multiply(layoutW, layoutH)).add(getOffset());
 
 		float oldX = cache.getX();
 		float oldY = cache.getY();

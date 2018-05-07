@@ -14,7 +14,7 @@ import javax.annotation.Nonnull;
 
 import pl.shockah.godwit.GodwitFragmentActivity;
 
-public class AndroidShareService extends ShareService {
+public class AndroidShareService implements ShareService {
 	@Nonnull private final WeakReference<GodwitFragmentActivity> activityRef;
 
 	public AndroidShareService(@Nonnull GodwitFragmentActivity activity) {

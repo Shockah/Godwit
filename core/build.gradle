@@ -10,8 +10,13 @@ retrolambda {
 }
 
 dependencies {
-	compile "java-oo:javac8-oo-plugin:0.5"
 	compile "net.sourceforge.streamsupport:streamsupport:1.6.1"
+	compile "com.github.Shockah.Unicorn:core:$unicornVersion"
+	compile "com.github.Shockah.Unicorn:func:$unicornVersion"
+	compile "com.github.Shockah.Unicorn:collection:$unicornVersion"
+	compile "com.github.Shockah.Unicorn:ease:$unicornVersion"
+	compile "com.github.Shockah.Unicorn:colorspace:$unicornVersion"
+	compile "com.github.Shockah.Unicorn:rand:$unicornVersion"
 	compile "com.github.Shockah:Jay:1.2-retrolambda"
 	compile "com.badlogicgames.gdx:gdx:$gdxVersion"
 	compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"

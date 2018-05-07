@@ -17,7 +17,7 @@ import javax.annotation.Nonnull;
 
 import pl.shockah.godwit.MemoryFileHandle;
 
-public class IosShareService extends ShareService {
+public class IosShareService implements ShareService {
 	@Nonnull private final WeakReference<UIViewController> controllerRef;
 
 	public IosShareService(@Nonnull UIViewController controller) {

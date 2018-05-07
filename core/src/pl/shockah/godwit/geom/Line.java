@@ -6,8 +6,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import lombok.EqualsAndHashCode;
-import pl.shockah.godwit.fx.ease.Easable;
 import pl.shockah.godwit.gl.Gfx;
+import pl.shockah.unicorn.ease.Easable;
 
 @EqualsAndHashCode(callSuper = false)
 public class Line extends Shape implements Shape.Outline, Easable<Line> {
@@ -32,11 +32,7 @@ public class Line extends Shape implements Shape.Outline, Easable<Line> {
 	}
 
 	@Override
-	@Nonnull public Shape copy() {
-		return copyLine();
-	}
-
-	@Nonnull public Line copyLine() {
+	@Nonnull public Line copy() {
 		return new Line(point1, point2);
 	}
 
@@ -76,8 +72,8 @@ public class Line extends Shape implements Shape.Outline, Easable<Line> {
 
 	@Override
 	public void scale(float scale) {
-		point1.set(point1 * scale);
-		point2.set(point2 * scale);
+		point1.set(point1.multiply(scale));
+		point2.set(point2.multiply(scale));
 	}
 
 	@Override

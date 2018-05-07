@@ -2,8 +2,8 @@ package pl.shockah.godwit.geom;
 
 import javax.annotation.Nonnull;
 
-import pl.shockah.godwit.fx.ease.Easable;
-import pl.shockah.godwit.fx.ease.Easing;
+import pl.shockah.unicorn.ease.Easable;
+import pl.shockah.unicorn.ease.Easing;
 
 public abstract class IVec2 implements Easable<IVec2> {
 	IVec2() {
@@ -100,7 +100,7 @@ public abstract class IVec2 implements Easable<IVec2> {
 		if (length == 0f || length == 1f)
 			return getImmutableCopy();
 		else
-			return this * (1f / length);
+			return this.multiply(1f / length);
 	}
 
 	@Nonnull public final MutableVec2 getMutableCopy() {
@@ -114,47 +114,5 @@ public abstract class IVec2 implements Easable<IVec2> {
 	@Override
 	@Nonnull public final Vec2 ease(@Nonnull IVec2 other, float f) {
 		return new Vec2(Easing.linear.ease(x(), other.x(), f), Easing.linear.ease(y(), other.y(), f));
-	}
-
-	// ----- java-oo weirdness fixes for IntelliJ
-
-	@Nonnull public final Vec2 add(@Nonnull MutableVec2 v) {
-		return add(v.x, v.y);
-	}
-
-	@Nonnull public final Vec2 add(@Nonnull Vec2 v) {
-		return add(v.x, v.y);
-	}
-
-	@Nonnull public final Vec2 subtract(@Nonnull MutableVec2 v) {
-		return subtract(v.x, v.y);
-	}
-
-	@Nonnull public final Vec2 subtract(@Nonnull Vec2 v) {
-		return subtract(v.x, v.y);
-	}
-
-	@Nonnull public final Vec2 multiply(@Nonnull MutableVec2 v) {
-		return multiply(v.x, v.y);
-	}
-
-	@Nonnull public final Vec2 multiply(@Nonnull Vec2 v) {
-		return multiply(v.x, v.y);
-	}
-
-	@Nonnull public final Vec2 multiply(int f) {
-		return multiply(f, f);
-	}
-
-	@Nonnull public final Vec2 divide(@Nonnull MutableVec2 v) {
-		return divide(v.x, v.y);
-	}
-
-	@Nonnull public final Vec2 divide(@Nonnull Vec2 v) {
-		return divide(v.x, v.y);
-	}
-
-	@Nonnull public final Vec2 divide(int f) {
-		return divide(f, f);
 	}
 }

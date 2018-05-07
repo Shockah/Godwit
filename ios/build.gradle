@@ -1,13 +1,19 @@
-apply plugin: "java"
-apply plugin: "me.tatarka.retrolambda"
-apply plugin: "maven"
-
-group = "com.github.Shockah"
-
-retrolambda {
-	javaVersion JavaVersion.VERSION_1_7
-	defaultMethods true
+buildscript {
+	repositories {
+		mavenLocal()
+		mavenCentral()
+		maven {
+			url "https://oss.sonatype.org/content/repositories/snapshots/"
+		}
+		jcenter()
+	}
+	dependencies {
+		classpath 'com.mobidevelop.robovm:robovm-gradle-plugin:2.3.3'
+	}
 }
+
+apply plugin: "java"
+apply plugin: "robovm"
 
 dependencies {
 	compile project(':core')
@@ -18,20 +24,44 @@ dependencies {
 	compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-ios"
 }
 
-targetCompatibility = "1.8"
-sourceCompatibility = "1.8"
-[compileJava, compileTestJava]*.options*.encoding = "UTF-8"
-
 sourceSets.main {
 	java.srcDirs = ["src"]
-	resources.srcDirs = ["resources"]
 }
 
-task sourcesJar(type: Jar, dependsOn: classes) {
-	classifier = "sources"
-	from sourceSets.main.allSource
+targetCompatibility = '1.8'
+sourceCompatibility = '1.8'
+
+ext {
+//	signIdentity = "iPhone Developer: Michael Dolas (3QHLV6Y589)"
+//	provisioningProfile = "65c884dc-5df2-4086-963e-b66e81bd4957"
+
+	signIdentity = "C122253E219FAFDD2E7EA09DEBFF77B2F7332041"
+	provisioningProfile = "1bede9b1-8b82-4744-9fe7-23623e5b8034"
 }
 
-artifacts {
-	archives sourcesJar
+task cleanRobovmBuild {
+	new File("$project.name/build/robovm").deleteDir()
+}
+
+task installIDevice {
+	dependsOn createIPA
+
+	doLast {
+		exec {
+			executable "ideviceinstaller"
+			args("-i", "${project.buildDir}/robovm/${executableName}.ipa")
+		}
+	}
+}
+
+launchIPhoneSimulator.dependsOn(cleanRobovmBuild, build)
+launchIPadSimulator.dependsOn(cleanRobovmBuild, build)
+launchIOSDevice.dependsOn(cleanRobovmBuild, build)
+createIPA.dependsOn(cleanRobovmBuild, build)
+
+robovm {
+	archs = "arm64"
+	iosSignIdentity = signIdentity
+	iosProvisioningProfile = provisioningProfile
+	iosSkipSigning = false
 }

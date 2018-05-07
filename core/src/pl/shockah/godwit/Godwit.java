@@ -16,8 +16,6 @@ import javax.annotation.Nullable;
 
 import java8.util.stream.StreamSupport;
 import lombok.Getter;
-import pl.shockah.func.Action1;
-import pl.shockah.func.Func0;
 import pl.shockah.godwit.asset.FreeTypeFontLoader;
 import pl.shockah.godwit.asset.JSONObjectLoader;
 import pl.shockah.godwit.geom.IVec2;
@@ -27,8 +25,10 @@ import pl.shockah.godwit.gl.GfxContextManager;
 import pl.shockah.godwit.gl.GfxSprite;
 import pl.shockah.godwit.gl.ScreenGfx;
 import pl.shockah.godwit.platform.PlatformServiceProvider;
-import pl.shockah.godwit.rand.Randomizer;
 import pl.shockah.jay.JSONObject;
+import pl.shockah.unicorn.func.Action1;
+import pl.shockah.unicorn.func.Func0;
+import pl.shockah.unicorn.rand.Randomizer;
 
 public final class Godwit {
 	@Nullable private static Godwit instance;

@@ -41,6 +41,6 @@ public final class Padding {
 	}
 
 	@Nonnull public IVec2 getVector() {
-		return getTopLeftVector() + getBottomRightVector();
+		return getTopLeftVector().add(getBottomRightVector());
 	}
 }

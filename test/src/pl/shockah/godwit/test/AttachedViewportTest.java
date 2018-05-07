@@ -26,8 +26,8 @@ public class AttachedViewportTest extends State {
 			@Override
 			public void updateSelf() {
 				super.updateSelf();
-				shape.size = (Godwit.getInstance().gfx.getSize() * 0.2f).getMutableCopy();
-				shape.position = (Godwit.getInstance().gfx.getSize() * 0.5f - shape.size * 0.5f).getMutableCopy();
+				shape.size = (Godwit.getInstance().gfx.getSize().multiply(0.2f)).getMutableCopy();
+				shape.position = (Godwit.getInstance().gfx.getSize().multiply(0.5f).subtract(shape.size.multiply(0.5f))).getMutableCopy();
 			}
 		});
 

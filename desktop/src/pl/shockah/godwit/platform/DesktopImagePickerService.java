@@ -12,7 +12,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import pl.shockah.func.Action1;
+import pl.shockah.unicorn.func.Action1;
 
 public class DesktopImagePickerService extends ImagePickerService {
 	@Override

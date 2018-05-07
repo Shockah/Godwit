@@ -16,7 +16,7 @@ public class ShapesTest extends State {
 		gfx.clear(Color.GRAY);
 		super.render(gfx, v);
 
-		Rectangle rect = Rectangle.centered(gfx.getSize() / 2, gfx.getSize() / 2);
+		Rectangle rect = Rectangle.centered(gfx.getSize().multiply(0.5f), gfx.getSize().multiply(0.5f));
 		Rectangle rect2 = new Rectangle(rect.position.x - 4f, rect.position.y - 4f, rect.size.x + 8f, rect.size.y + 8f);
 
 		Circle circle = new Circle(rect.position, Math.min(rect.size.x, rect.size.y) * 0.2f);

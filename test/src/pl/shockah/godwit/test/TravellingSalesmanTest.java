@@ -11,15 +11,16 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import pl.shockah.godwit.State;
-import pl.shockah.godwit.algo.tsp.ExactTravellingSalesmanSolver;
-import pl.shockah.godwit.algo.tsp.TravellingSalesmanSolver;
 import pl.shockah.godwit.geom.Circle;
 import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.geom.Vec2;
 import pl.shockah.godwit.geom.polygon.Polygon;
+import pl.shockah.godwit.gl.ColorUtil;
 import pl.shockah.godwit.gl.Gfx;
-import pl.shockah.godwit.gl.color.HSVColorSpace;
-import pl.shockah.godwit.operation.AsyncOperation;
+import pl.shockah.unicorn.algo.tsp.ExactTravellingSalesmanSolver;
+import pl.shockah.unicorn.algo.tsp.TravellingSalesmanSolver;
+import pl.shockah.unicorn.color.HSVColorSpace;
+import pl.shockah.unicorn.operation.AsyncOperation;
 
 public class TravellingSalesmanTest extends State {
 	@Nonnull public final Set<IVec2> nodes = new HashSet<>();
@@ -30,7 +31,7 @@ public class TravellingSalesmanTest extends State {
 	public void addNode(@Nonnull IVec2 v) {
 		nodes.add(v);
 		if (nodes.size() >= 2) {
-			AsyncOperation<Set<IVec2>, TravellingSalesmanSolver<IVec2>.Route> async = ExactTravellingSalesmanSolver.forVec2().async(nodes);
+			AsyncOperation<Set<IVec2>, TravellingSalesmanSolver<IVec2>.Route> async = new ExactTravellingSalesmanSolver<IVec2>(p -> new float[] { p.x(), p.y() }).async(nodes);
 			this.async = async;
 			Thread thread = new Thread(() -> {
 				System.out.println(String.format("Solving for %d nodes", nodes.size()));
@@ -77,7 +78,7 @@ public class TravellingSalesmanTest extends State {
 		if (route == null || polygon == null) {
 			gfx.setColor(Color.WHITE);
 			for (IVec2 node : nodes) {
-				gfx.drawFilled(circle, v + node);
+				gfx.drawFilled(circle, v.add(node));
 			}
 		} else {
 			gfx.setColor(Color.WHITE);
@@ -85,8 +86,8 @@ public class TravellingSalesmanTest extends State {
 
 			int index = 0;
 			for (IVec2 node : route.getNodes()) {
-				gfx.setColor(new HSVColorSpace(1f * index / nodes.size(), 1f, 1f).toColor());
-				gfx.drawFilled(circle, v + node);
+				gfx.setColor(ColorUtil.toGdx(new HSVColorSpace(1f * index / nodes.size(), 1f, 1f)));
+				gfx.drawFilled(circle, v.add(node));
 				index++;
 			}
 		}

@@ -2,12 +2,12 @@ package pl.shockah.godwit.fx;
 
 import javax.annotation.Nonnull;
 
-import pl.shockah.godwit.fx.ease.Easing;
+import pl.shockah.unicorn.ease.Easing;
 
-public abstract class ModifierFx<F extends Fx> implements Fx {
-	@Nonnull public final F fx;
+public abstract class ModifierFx implements Fx {
+	@Nonnull public final Fx fx;
 
-	public ModifierFx(@Nonnull F fx) {
+	public ModifierFx(@Nonnull Fx fx) {
 		this.fx = fx;
 	}
 

@@ -7,11 +7,11 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import pl.shockah.func.Action0;
-import pl.shockah.func.Action1;
 import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.geom.Shape;
 import pl.shockah.godwit.geom.Vec2;
+import pl.shockah.unicorn.func.Action0;
+import pl.shockah.unicorn.func.Action1;
 
 public abstract class Gfx {
 	@Nonnull public abstract SpriteBatch getSpriteBatch();

@@ -5,11 +5,11 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import pl.shockah.godwit.fx.ease.Easable;
-import pl.shockah.godwit.fx.ease.Easing;
 import pl.shockah.godwit.geom.polygon.Polygon;
 import pl.shockah.godwit.geom.polygon.Polygonable;
 import pl.shockah.godwit.gl.Gfx;
+import pl.shockah.unicorn.ease.Easable;
+import pl.shockah.unicorn.ease.Easing;
 
 public class Circle extends Shape implements Polygonable, Shape.Filled, Shape.Outline, Easable<Circle> {
 	@Nonnull public MutableVec2 position;
@@ -33,11 +33,7 @@ public class Circle extends Shape implements Polygonable, Shape.Filled, Shape.Ou
 	}
 
 	@Override
-	@Nonnull public Shape copy() {
-		return copyCircle();
-	}
-
-	@Nonnull public Circle copyCircle() {
+	@Nonnull public Circle copy() {
 		return new Circle(position, radius);
 	}
 
@@ -80,13 +76,13 @@ public class Circle extends Shape implements Polygonable, Shape.Filled, Shape.Ou
 
 	@Override
 	public void scale(float scale) {
-		position.set(position * scale);
+		position.set(position.multiply(scale));
 		radius *= scale;
 	}
 
 	@Override
 	public boolean contains(@Nonnull IVec2 v) {
-		return (position - v).getLength() <= radius;
+		return position.subtract(v).getLength() <= radius;
 	}
 
 	@Override
@@ -103,7 +99,7 @@ public class Circle extends Shape implements Polygonable, Shape.Filled, Shape.Ou
 	}
 
 	public boolean collides(@Nonnull Circle circle) {
-		return (circle.position - position).getLength() < radius + circle.radius;
+		return circle.position.subtract(position).getLength() < radius + circle.radius;
 	}
 
 	public boolean collides(@Nonnull Line line) {
@@ -164,7 +160,7 @@ public class Circle extends Shape implements Polygonable, Shape.Filled, Shape.Ou
 	@Nonnull public Polygon asPolygon(int precision) {
 		if (lastPoly != null && lastPoly.getPointCount() == precision && lastPrecision == precision) {
 			if (!position.equals(lastPos)) {
-				lastPoly.translate(position - lastPos);
+				lastPoly.translate(position.subtract(lastPos));
 				lastPos = position.getCopy();
 			}
 			return lastPoly;
@@ -172,7 +168,7 @@ public class Circle extends Shape implements Polygonable, Shape.Filled, Shape.Ou
 
 		Polygon p = new Polygon.NoHoles();
 		for (int i = 0; i < precision; i++) {
-			p.addPoint(MutableVec2.angled(radius, 360f / precision * i) + position);
+			p.addPoint(MutableVec2.angled(radius, 360f / precision * i).add(position));
 		}
 
 		lastPos = position.getCopy();

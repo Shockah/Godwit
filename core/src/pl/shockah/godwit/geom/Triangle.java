@@ -5,11 +5,11 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import javax.annotation.Nonnull;
 
 import lombok.EqualsAndHashCode;
-import pl.shockah.godwit.Math2;
-import pl.shockah.godwit.fx.ease.Easable;
 import pl.shockah.godwit.geom.polygon.Polygon;
 import pl.shockah.godwit.geom.polygon.Polygonable;
 import pl.shockah.godwit.gl.Gfx;
+import pl.shockah.unicorn.Math2;
+import pl.shockah.unicorn.ease.Easable;
 
 @EqualsAndHashCode(callSuper = false)
 public class Triangle extends Shape implements Polygonable, Shape.Filled, Shape.Outline, Easable<Triangle> {
@@ -52,11 +52,7 @@ public class Triangle extends Shape implements Polygonable, Shape.Filled, Shape.
 	}
 
 	@Override
-	@Nonnull public Shape copy() {
-		return copyTriangle();
-	}
-
-	@Nonnull public Triangle copyTriangle() {
+	@Nonnull public Triangle copy() {
 		return new Triangle(point1, point2, point3);
 	}
 
@@ -100,9 +96,9 @@ public class Triangle extends Shape implements Polygonable, Shape.Filled, Shape.
 
 	@Override
 	public void scale(float scale) {
-		point1.set(point1 * scale);
-		point2.set(point2 * scale);
-		point3.set(point3 * scale);
+		point1.set(point1.multiply(scale));
+		point2.set(point2.multiply(scale));
+		point3.set(point3.multiply(scale));
 	}
 
 	private static float sign(float x1, float y1, float x2, float y2, float x3, float y3) {

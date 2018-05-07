@@ -65,7 +65,7 @@ public class GfxSprite implements Renderable, Animatable<GfxSprite> {
 
 	public final void center() {
 		setOriginCenter();
-		offset = (getSize() * 0.5f).getMutableCopy();
+		offset = getSize().multiply(0.5f).getMutableCopy();
 	}
 
 	public @Nonnull IVec2 getOrigin() {
@@ -164,7 +164,7 @@ public class GfxSprite implements Renderable, Animatable<GfxSprite> {
 	}
 
 	@Nonnull public IVec2 getScaledSize() {
-		return getSize() * getScaleVector();
+		return getSize().multiply(getScaleVector());
 	}
 
 	@Nonnull public IVec2 getScaleVector() {

@@ -29,7 +29,7 @@ public abstract class ShapeView<T extends Shape> extends View {
 		public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
 			super.render(gfx, v);
 			if (shape != null)
-				shape.drawFilled(gfx, -shape.getBoundingBox().position + v);
+				shape.drawFilled(gfx, shape.getBoundingBox().position.negate().add(v));
 		}
 	}
 
@@ -42,7 +42,7 @@ public abstract class ShapeView<T extends Shape> extends View {
 		public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
 			super.render(gfx, v);
 			if (shape != null)
-				shape.drawOutline(gfx, -shape.getBoundingBox().position + v);
+				shape.drawOutline(gfx, shape.getBoundingBox().position.negate().add(v));
 		}
 	}
 }

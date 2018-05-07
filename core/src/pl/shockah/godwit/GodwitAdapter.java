@@ -4,7 +4,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 
 import javax.annotation.Nonnull;
 
-import pl.shockah.func.Func0;
+import pl.shockah.unicorn.func.Func0;
 
 public class GodwitAdapter extends ApplicationAdapter {
 	@Nonnull public final Func0<State> initialState;

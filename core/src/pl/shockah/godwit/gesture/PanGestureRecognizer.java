@@ -75,11 +75,11 @@ public class PanGestureRecognizer extends ContinuousGestureRecognizer {
 			if (!new Circle(touch.points.get(0).position, getStationaryRadius()).contains(point)) {
 				touch.setRecognizer(this);
 				setState(State.Began);
-				delegate.onPan(this, touch, touch.points.get(0).position, point, point - touch.points.get(touch.points.size() - 2).position);
+				delegate.onPan(this, touch, touch.points.get(0).position, point, point.subtract(touch.points.get(touch.points.size() - 2).position));
 			}
 		} else if (isInProgress()) {
 			setState(State.Changed);
-			delegate.onPan(this, touch, touch.points.get(0).position, point, point - touch.points.get(touch.points.size() - 2).position);
+			delegate.onPan(this, touch, touch.points.get(0).position, point, point.subtract(touch.points.get(touch.points.size() - 2).position));
 		}
 	}
 
@@ -93,7 +93,7 @@ public class PanGestureRecognizer extends ContinuousGestureRecognizer {
 			setState(State.Failed);
 		} else if (isInProgress()) {
 			setState(State.Ended);
-			delegate.onPan(this, touch, touch.points.get(0).position, point, point - touch.points.get(touch.points.size() - 2).position);
+			delegate.onPan(this, touch, touch.points.get(0).position, point, point.subtract(touch.points.get(touch.points.size() - 2).position));
 		}
 	}
 
@@ -130,7 +130,7 @@ public class PanGestureRecognizer extends ContinuousGestureRecognizer {
 		if (lastDate.getTime() <= firstDate.getTime())
 			return Vec2.zero;
 
-		return ((v / currentSamples) - firstPoint) * ((lastDate.getTime() - firstDate.getTime()) / 1000f);
+		return ((v.divide(currentSamples)).subtract(firstPoint)).multiply((lastDate.getTime() - firstDate.getTime()) / 1000f);
 	}
 
 	public interface Delegate {

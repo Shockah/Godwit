@@ -5,18 +5,19 @@ import com.badlogic.gdx.utils.TimeUtils;
 
 import javax.annotation.Nonnull;
 
-import pl.shockah.func.Func3;
 import pl.shockah.godwit.State;
-import pl.shockah.godwit.fx.ease.Easing;
 import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.geom.Rectangle;
+import pl.shockah.godwit.gl.ColorUtil;
 import pl.shockah.godwit.gl.Gfx;
-import pl.shockah.godwit.gl.color.HSLColorSpace;
-import pl.shockah.godwit.gl.color.HSVColorSpace;
-import pl.shockah.godwit.gl.color.LCHColorSpace;
-import pl.shockah.godwit.gl.color.LabColorSpace;
-import pl.shockah.godwit.gl.color.RGBColorSpace;
-import pl.shockah.godwit.gl.color.XYZColorSpace;
+import pl.shockah.unicorn.color.HSLColorSpace;
+import pl.shockah.unicorn.color.HSVColorSpace;
+import pl.shockah.unicorn.color.LCHColorSpace;
+import pl.shockah.unicorn.color.LabColorSpace;
+import pl.shockah.unicorn.color.RGBColorSpace;
+import pl.shockah.unicorn.color.XYZColorSpace;
+import pl.shockah.unicorn.ease.Easing;
+import pl.shockah.unicorn.func.Func3;
 
 public class ColorSpaceTest extends State {
 	public static ColorSpaceType type = ColorSpaceType.RGB;
@@ -86,8 +87,8 @@ public class ColorSpaceTest extends State {
 						default:
 							throw new IndexOutOfBoundsException();
 					}
-					gfx.setColor(space.toColor());
-					gfx.drawFilled(rect, v + rect.size.multiply(x, y));
+					gfx.setColor(ColorUtil.toGdx(space));
+					gfx.drawFilled(rect, v.add(rect.size.multiply(x, y)));
 				} catch (Exception ignored) {
 				}
 			}
