@@ -7,7 +7,6 @@ import javax.annotation.Nullable;
 
 import pl.shockah.godwit.Godwit;
 import pl.shockah.godwit.State;
-import pl.shockah.godwit.collection.Box;
 import pl.shockah.godwit.geom.Circle;
 import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.geom.Shape;
@@ -19,6 +18,7 @@ import pl.shockah.godwit.gesture.PanGestureRecognizer;
 import pl.shockah.godwit.gesture.PinchGestureRecognizer;
 import pl.shockah.godwit.gesture.TapGestureRecognizer;
 import pl.shockah.godwit.gl.Gfx;
+import pl.shockah.unicorn.Box;
 
 public class GestureRecognizerTest extends State implements GestureHandler {
 	@Override

@@ -28,10 +28,10 @@ import pl.shockah.godwit.gl.GfxContextManager;
 import pl.shockah.godwit.gl.GfxSprite;
 import pl.shockah.godwit.gl.ScreenGfx;
 import pl.shockah.godwit.platform.PlatformServiceProvider;
-import pl.shockah.godwit.rand.Randomizer;
 import pl.shockah.jay.JSONObject;
 import pl.shockah.unicorn.func.Action1;
 import pl.shockah.unicorn.func.Func0;
+import pl.shockah.unicorn.rand.Randomizer;
 
 public final class Godwit {
 	@Nullable private static Godwit instance;

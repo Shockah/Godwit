@@ -17,7 +17,6 @@ apply plugin: "robovm"
 
 dependencies {
 	compile project(':core')
-	compile project(':ios')
 	compile "com.mobidevelop.robovm:robovm-rt:$roboVMVersion"
 	compile "com.mobidevelop.robovm:robovm-cocoatouch:$roboVMVersion"
 	compile "com.badlogicgames.gdx:gdx-backend-robovm:$gdxVersion"

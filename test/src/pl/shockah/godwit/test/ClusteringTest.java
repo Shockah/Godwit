@@ -12,13 +12,14 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import pl.shockah.godwit.State;
-import pl.shockah.godwit.algo.cluster.TravellingSalesmanKMeansClustering;
-import pl.shockah.godwit.algo.tsp.NearestNeighborTravellingSalesmanSolver;
 import pl.shockah.godwit.geom.Circle;
 import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.geom.Vec2;
+import pl.shockah.godwit.gl.ColorUtil;
 import pl.shockah.godwit.gl.Gfx;
-import pl.shockah.godwit.gl.color.HSVColorSpace;
+import pl.shockah.unicorn.algo.cluster.TravellingSalesmanKMeansClustering;
+import pl.shockah.unicorn.algo.tsp.NearestNeighborTravellingSalesmanSolver;
+import pl.shockah.unicorn.color.HSVColorSpace;
 
 public class ClusteringTest extends State {
 	@Nonnull public final Set<IVec2> nodes = new HashSet<>();
@@ -57,7 +58,7 @@ public class ClusteringTest extends State {
 		} else {
 			int index = 0;
 			for (List<IVec2> cluster : clusters) {
-				gfx.setColor(new HSVColorSpace(1f * index / clusters.length, 1f, 1f).toColor());
+				gfx.setColor(ColorUtil.toGdx(new HSVColorSpace(1f * index / clusters.length, 1f, 1f)));
 				for (IVec2 node : cluster) {
 					gfx.drawFilled(circle, v.add(node));
 				}
