@@ -14,6 +14,9 @@ buildscript {
 
 apply plugin: "java"
 apply plugin: "robovm"
+apply plugin: "maven"
+
+group = "com.github.Shockah"
 
 dependencies {
 	compile project(':core')
@@ -31,37 +34,17 @@ sourceSets.main {
 targetCompatibility = '1.8'
 sourceCompatibility = '1.8'
 
-ext {
-//	signIdentity = "iPhone Developer: Michael Dolas (3QHLV6Y589)"
-//	provisioningProfile = "65c884dc-5df2-4086-963e-b66e81bd4957"
-
-	signIdentity = "C122253E219FAFDD2E7EA09DEBFF77B2F7332041"
-	provisioningProfile = "1bede9b1-8b82-4744-9fe7-23623e5b8034"
-}
-
-task cleanRobovmBuild {
-	new File("$project.name/build/robovm").deleteDir()
-}
-
-task installIDevice {
-	dependsOn createIPA
-
-	doLast {
-		exec {
-			executable "ideviceinstaller"
-			args("-i", "${project.buildDir}/robovm/${executableName}.ipa")
-		}
-	}
-}
-
-launchIPhoneSimulator.dependsOn(cleanRobovmBuild, build)
-launchIPadSimulator.dependsOn(cleanRobovmBuild, build)
-launchIOSDevice.dependsOn(cleanRobovmBuild, build)
-createIPA.dependsOn(cleanRobovmBuild, build)
+tasks.removeAll([launchIPhoneSimulator, launchIPadSimulator, launchIOSDevice, createIPA])
 
 robovm {
 	archs = "arm64"
-	iosSignIdentity = signIdentity
-	iosProvisioningProfile = provisioningProfile
-	iosSkipSigning = false
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+	classifier = "sources"
+	from sourceSets.main.allSource
+}
+
+artifacts {
+	archives sourcesJar
 }
