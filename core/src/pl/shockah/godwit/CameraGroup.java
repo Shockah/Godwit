@@ -2,10 +2,12 @@ package pl.shockah.godwit;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import lombok.Getter;
 import pl.shockah.godwit.geom.IVec2;
@@ -25,9 +27,30 @@ public class CameraGroup extends RenderGroup {
 	private int lastWidth = 0;
 	private int lastHeight = 0;
 	private boolean lastCenterViewport = centerViewport;
+	@Nullable private Rectangle cachedBoundingBox;
 
 	@Nonnull public Rectangle getBoundingBox() {
-		return new Rectangle(camera.position.x, camera.position.y, viewport.getScreenWidth(), viewport.getScreenHeight());
+		if (cachedBoundingBox == null) {
+			Vector3 vec = new Vector3(viewport.getScreenX(), viewport.getScreenY(), 0);
+			camera.unproject(vec);
+
+			float x1 = vec.x;
+			float y1 = vec.y;
+
+			vec.set(viewport.getScreenX() + viewport.getScreenWidth(), viewport.getScreenY() + viewport.getScreenHeight(), 0);
+			camera.unproject(vec);
+
+			float x2 = vec.x;
+			float y2 = vec.y;
+
+			float x = Math.min(x1, x2);
+			float y = Math.min(y1, y2);
+			float w = Math.max(x1, x2) - x;
+			float h = Math.max(y1, y2) - y;
+
+			cachedBoundingBox = new Rectangle(x, y, w, h);
+		}
+		return cachedBoundingBox;
 	}
 
 	@Override
@@ -67,11 +90,17 @@ public class CameraGroup extends RenderGroup {
 	protected void updateOnScreenSizeChange(int width, int height, boolean centerViewport) {
 		updateCameraOnScreenSizeChange(width, height, centerViewport);
 		viewport.update(width, height, centerViewport);
+		cachedBoundingBox = null;
 	}
 
 	protected void updateCameraOnScreenSizeChange(int width, int height, boolean centerViewport) {
 		if (camera instanceof OrthographicCamera)
 			((OrthographicCamera)camera).setToOrtho(Godwit.getInstance().yPointingDown, width, height);
+	}
+
+	public final void updateCamera() {
+		camera.update();
+		cachedBoundingBox = null;
 	}
 
 	@Nonnull public Vec2 getCameraPosition() {
@@ -81,7 +110,7 @@ public class CameraGroup extends RenderGroup {
 	public void setCameraPosition(@Nonnull IVec2 v) {
 		camera.position.x = v.x();
 		camera.position.y = v.y();
-		camera.update();
+		updateCamera();
 	}
 
 	@Override
