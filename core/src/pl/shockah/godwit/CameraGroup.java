@@ -27,7 +27,7 @@ public class CameraGroup extends RenderGroup {
 	private boolean lastCenterViewport = centerViewport;
 
 	@Nonnull public Rectangle getBoundingBox() {
-		return new Rectangle(viewport.getScreenX(), viewport.getScreenY(), viewport.getScreenWidth(), viewport.getScreenHeight());
+		return new Rectangle(camera.position.x, camera.position.y, viewport.getScreenWidth(), viewport.getScreenHeight());
 	}
 
 	@Override

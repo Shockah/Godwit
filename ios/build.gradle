@@ -34,7 +34,10 @@ sourceSets.main {
 targetCompatibility = '1.8'
 sourceCompatibility = '1.8'
 
-tasks.removeAll([launchIPhoneSimulator, launchIPadSimulator, launchIOSDevice, createIPA])
+tasks.removeAll([
+		launchIPhoneSimulator, launchIPadSimulator, launchIOSDevice, createIPA,
+		launchConsole, robovmArchive, robovmInstall
+])
 
 robovm {
 	archs = "arm64"
