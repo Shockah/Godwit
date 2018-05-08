@@ -10,8 +10,6 @@ import javax.annotation.Nullable;
 import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.geom.Shape;
 import pl.shockah.godwit.geom.Vec2;
-import pl.shockah.unicorn.func.Action0;
-import pl.shockah.unicorn.func.Action1;
 
 public abstract class Gfx {
 	@Nonnull public abstract SpriteBatch getSpriteBatch();
@@ -21,7 +19,7 @@ public abstract class Gfx {
 	public abstract int getWidth();
 	public abstract int getHeight();
 
-	@Nonnull public final IVec2 getSize() {
+	@Nonnull public final Vec2 getSize() {
 		return new Vec2(getWidth(), getHeight());
 	}
 
@@ -37,20 +35,6 @@ public abstract class Gfx {
 
 	public final void setColor(float r, float g, float b) {
 		setColor(new Color(r, g, b, 1f));
-	}
-
-	public final void withColor(@Nonnull Color color, @Nonnull Action0 f) {
-		Color old = getColor();
-		setColor(color);
-		f.call();
-		setColor(old);
-	}
-
-	public final void withColor(@Nonnull Color color, @Nonnull Action1<Gfx> f) {
-		Color old = getColor();
-		setColor(color);
-		f.call(this);
-		setColor(old);
 	}
 
 	protected abstract void internalEndTick();
@@ -73,27 +57,27 @@ public abstract class Gfx {
 		draw(renderable, Vec2.zero);
 	}
 
-	public <S extends Shape & Shape.Filled> void drawFilled(@Nonnull S shape, @Nonnull IVec2 v) {
+	public void drawFilled(@Nonnull Shape.Filled shape, @Nonnull IVec2 v) {
 		shape.drawFilled(this, v);
 	}
 
-	public <S extends Shape & Shape.Filled> void drawFilled(@Nonnull S shape, float x, float y) {
+	public void drawFilled(@Nonnull Shape.Filled shape, float x, float y) {
 		drawFilled(shape, new Vec2(x, y));
 	}
 
-	public <S extends Shape & Shape.Filled> void drawFilled(@Nonnull S shape) {
+	public void drawFilled(@Nonnull Shape.Filled shape) {
 		drawFilled(shape, Vec2.zero);
 	}
 
-	public <S extends Shape & Shape.Outline> void drawOutline(@Nonnull S shape, @Nonnull IVec2 v) {
+	public void drawOutline(@Nonnull Shape.Outline shape, @Nonnull IVec2 v) {
 		shape.drawOutline(this, v);
 	}
 
-	public <S extends Shape & Shape.Outline> void drawOutline(@Nonnull S shape, float x, float y) {
+	public void drawOutline(@Nonnull Shape.Outline shape, float x, float y) {
 		drawOutline(shape, new Vec2(x, y));
 	}
 
-	public <S extends Shape & Shape.Outline> void drawOutline(@Nonnull S shape) {
+	public void drawOutline(@Nonnull Shape.Outline shape) {
 		drawOutline(shape, Vec2.zero);
 	}
 

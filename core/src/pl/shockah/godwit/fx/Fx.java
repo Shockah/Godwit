@@ -20,7 +20,9 @@ public interface Fx {
 	}
 
 	default Fx repeat(int count) {
-		return new SequenceFx(IntStreams.range(0, count).mapToObj(i -> this).collect(Collectors.toList()));
+		return new SequenceFx(IntStreams.range(0, count)
+				.mapToObj(i -> this)
+				.collect(Collectors.toList()));
 	}
 
 	@Nonnull default Fx withMethod(@Nonnull Easing method) {

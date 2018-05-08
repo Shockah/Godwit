@@ -25,14 +25,13 @@ public class View implements Renderable {
 	@Override
 	public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
 		if (backgroundColor != null) {
-			gfx.withColor(backgroundColor, () -> {
-				gfx.drawFilled(new Rectangle(bounds.size), v);
-			});
+			gfx.setColor(Color.WHITE);
+			gfx.drawFilled(new Rectangle(bounds.size), v);
 		}
 	}
 
 	@Nonnull
-	public IVec2 getIntrinsicSize(@Nonnull IVec2 availableSize) {
+	public Vec2 getIntrinsicSize(@Nonnull IVec2 availableSize) {
 		return Vec2.zero;
 	}
 

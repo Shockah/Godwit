@@ -65,7 +65,7 @@ public class GfxSprite implements Renderable, Animatable<GfxSprite> {
 
 	public final void center() {
 		setOriginCenter();
-		offset = getSize().multiply(0.5f).getMutableCopy();
+		offset = getSize().multiply(0.5f).mutableCopy();
 	}
 
 	public @Nonnull IVec2 getOrigin() {
@@ -143,7 +143,7 @@ public class GfxSprite implements Renderable, Animatable<GfxSprite> {
 		return sprite.getScaleX();
 	}
 
-	@Nonnull public IVec2 getSize() {
+	@Nonnull public Vec2 getSize() {
 		return new Vec2(sprite.getWidth(), sprite.getHeight());
 	}
 
@@ -151,7 +151,7 @@ public class GfxSprite implements Renderable, Animatable<GfxSprite> {
 		setSize(size.x(), size.y());
 	}
 
-	@Nonnull public IVec2 getRegionSize() {
+	@Nonnull public Vec2 getRegionSize() {
 		return new Vec2(sprite.getRegionWidth(), sprite.getRegionHeight());
 	}
 
@@ -167,7 +167,7 @@ public class GfxSprite implements Renderable, Animatable<GfxSprite> {
 		return getSize().multiply(getScaleVector());
 	}
 
-	@Nonnull public IVec2 getScaleVector() {
+	@Nonnull public Vec2 getScaleVector() {
 		return new Vec2(sprite.getScaleX(), sprite.getScaleY());
 	}
 
@@ -175,7 +175,7 @@ public class GfxSprite implements Renderable, Animatable<GfxSprite> {
 		setScale(scale.x(), scale.y());
 	}
 
-	@Nonnull public IVec2 getPosition() {
+	@Nonnull public Vec2 getPosition() {
 		return new Vec2(sprite.getX(), sprite.getY());
 	}
 

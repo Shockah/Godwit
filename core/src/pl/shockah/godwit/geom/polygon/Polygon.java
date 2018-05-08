@@ -8,16 +8,17 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
+import pl.shockah.godwit.geom.AbstractShape;
 import pl.shockah.godwit.geom.IVec2;
-import pl.shockah.godwit.geom.Vec2;
 import pl.shockah.godwit.geom.Line;
 import pl.shockah.godwit.geom.Rectangle;
 import pl.shockah.godwit.geom.Shape;
 import pl.shockah.godwit.geom.Triangle;
+import pl.shockah.godwit.geom.Vec2;
 import pl.shockah.godwit.gl.Gfx;
 import pl.shockah.unicorn.Math2;
 
-public class Polygon extends Shape implements Polygonable, Shape.Filled, Shape.Outline {
+public class Polygon extends AbstractShape implements Polygonable, Shape.Filled, Shape.Outline {
 	@Nonnull protected final List<IVec2> points = new ArrayList<>();
 	@Nonnull protected final List<Triangle> triangulated = new ArrayList<>();
 	protected boolean dirty = true;
@@ -166,7 +167,7 @@ public class Polygon extends Shape implements Polygonable, Shape.Filled, Shape.O
 	}
 
 	@Override
-	protected boolean collides(@Nonnull Shape shape, boolean secondTry) {
+	public boolean collides(@Nonnull Shape shape, boolean secondTry) {
 		if (shape instanceof Triangle)
 			return collides((Triangle)shape);
 		else if (shape instanceof Polygonable)

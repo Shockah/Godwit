@@ -11,7 +11,7 @@ import pl.shockah.godwit.gl.Gfx;
 import pl.shockah.unicorn.ease.Easable;
 import pl.shockah.unicorn.ease.Easing;
 
-public class Circle extends Shape implements Polygonable, Shape.Filled, Shape.Outline, Easable<Circle> {
+public class Circle extends AbstractShape implements Polygonable, Shape.Filled, Shape.Outline, Easable<Circle> {
 	@Nonnull public MutableVec2 position;
 	public float radius;
 
@@ -28,7 +28,7 @@ public class Circle extends Shape implements Polygonable, Shape.Filled, Shape.Ou
 	}
 
 	public Circle(@Nonnull IVec2 position, float radius) {
-		this.position = position.getMutableCopy();
+		this.position = position.mutableCopy();
 		this.radius = radius;
 	}
 
@@ -86,7 +86,7 @@ public class Circle extends Shape implements Polygonable, Shape.Filled, Shape.Ou
 	}
 
 	@Override
-	protected boolean collides(@Nonnull Shape shape, boolean secondTry) {
+	public boolean collides(@Nonnull Shape shape, boolean secondTry) {
 		if (radius <= 0f)
 			return false;
 		if (shape instanceof Circle)

@@ -5,21 +5,20 @@ import com.badlogic.gdx.utils.Align;
 import javax.annotation.Nonnull;
 
 import lombok.Getter;
-import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.geom.Vec2;
 
 public interface Alignment {
-	@Nonnull IVec2 getVector();
+	@Nonnull Vec2 getVector();
 
 	int getGdxAlignment();
 
-	@Nonnull default IVec2 getNonNanVector() {
+	@Nonnull default Vec2 getNonNanVector() {
 		return getNonNanVector(1f);
 	}
 
-	@Nonnull default IVec2 getNonNanVector(float nanValue) {
-		IVec2 v = getVector();
-		return new Vec2(Float.isNaN(v.x()) ? nanValue : v.x(), Float.isNaN(v.y()) ? nanValue : v.y());
+	@Nonnull default Vec2 getNonNanVector(float nanValue) {
+		Vec2 v = getVector();
+		return new Vec2(Float.isNaN(v.x) ? nanValue : v.x, Float.isNaN(v.y) ? nanValue : v.y);
 	}
 
 	default int getHorizontalGdxAlignment() {
@@ -36,9 +35,9 @@ public interface Alignment {
 		Right(new Vec2(1f, Float.NaN));
 
 		@Getter
-		@Nonnull private final IVec2 vector;
+		@Nonnull private final Vec2 vector;
 
-		Horizontal(@Nonnull IVec2 vector) {
+		Horizontal(@Nonnull Vec2 vector) {
 			this.vector = vector;
 		}
 
@@ -63,9 +62,9 @@ public interface Alignment {
 		Bottom(new Vec2(Float.NaN, 1f));
 
 		@Getter
-		@Nonnull private final IVec2 vector;
+		@Nonnull private final Vec2 vector;
 
-		Vertical(@Nonnull IVec2 vector) {
+		Vertical(@Nonnull Vec2 vector) {
 			this.vector = vector;
 		}
 
@@ -89,15 +88,15 @@ public interface Alignment {
 		@Nonnull public final Vertical vertical;
 
 		@Getter(lazy = true)
-		@Nonnull private final IVec2 vector = calculateVector();
+		@Nonnull private final Vec2 vector = calculateVector(horizontal, vertical);
 
 		private Plane(@Nonnull Horizontal horizontal, @Nonnull Vertical vertical) {
 			this.horizontal = horizontal;
 			this.vertical = vertical;
 		}
 
-		@Nonnull private IVec2 calculateVector() {
-			return new Vec2(horizontal.getVector().x(), vertical.getVector().y());
+		@Nonnull private Vec2 calculateVector(@Nonnull Horizontal horizontal, @Nonnull Vertical vertical) {
+			return new Vec2(horizontal.vector.x, vertical.vector.y);
 		}
 
 		@Override

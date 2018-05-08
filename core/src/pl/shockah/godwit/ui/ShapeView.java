@@ -16,11 +16,11 @@ public abstract class ShapeView<T extends Shape> extends View {
 	}
 
 	@Override
-	@Nonnull public IVec2 getIntrinsicSize(@Nonnull IVec2 availableSize) {
-		return shape != null ? shape.getBoundingBox().size : Vec2.zero;
+	@Nonnull public Vec2 getIntrinsicSize(@Nonnull IVec2 availableSize) {
+		return shape != null ? shape.getBoundingBox().size.asImmutable() : Vec2.zero;
 	}
 
-	public static class Filled<T extends Shape & Shape.Filled> extends ShapeView<T> {
+	public static class Filled<T extends Shape.Filled> extends ShapeView<T> {
 		public Filled(@Nullable T shape) {
 			super(shape);
 		}
@@ -33,7 +33,7 @@ public abstract class ShapeView<T extends Shape> extends View {
 		}
 	}
 
-	public static class Outline<T extends Shape & Shape.Outline> extends ShapeView<T> {
+	public static class Outline<T extends Shape.Outline> extends ShapeView<T> {
 		public Outline(@Nullable T shape) {
 			super(shape);
 		}

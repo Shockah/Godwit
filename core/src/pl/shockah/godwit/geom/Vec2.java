@@ -7,7 +7,7 @@ import javax.annotation.Nonnull;
 import pl.shockah.unicorn.Math2;
 
 public final class Vec2 extends IVec2 {
-	public static final Vec2 zero = new Vec2();
+	@Nonnull public static final Vec2 zero = new Vec2();
 
 	public final float x;
 	public final float y;
@@ -55,5 +55,10 @@ public final class Vec2 extends IVec2 {
 	@Override
 	@Nonnull public Vec2 getCopy() {
 		return new Vec2(this);
+	}
+
+	@Override
+	@Nonnull public Vec2 asImmutable() {
+		return this;
 	}
 }

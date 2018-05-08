@@ -34,7 +34,7 @@ public final class Touch {
 		if (position instanceof Vec2)
 			addPoint((Vec2)position);
 		else
-			addPoint(position.getImmutableCopy());
+			addPoint(position.asImmutable());
 	}
 
 	public void addPoint(@Nonnull Vec2 position) {

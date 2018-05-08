@@ -4,40 +4,26 @@ import com.badlogic.gdx.graphics.Color;
 
 import javax.annotation.Nonnull;
 
-import pl.shockah.godwit.geom.polygon.Polygonable;
 import pl.shockah.godwit.gl.Gfx;
 
-public abstract class Shape {
-	@Nonnull public abstract Shape copy();
+public interface Shape {
+	@Nonnull Shape copy();
 
-	@Nonnull public abstract Rectangle getBoundingBox();
+	@Nonnull Rectangle getBoundingBox();
 
-	public final void translate(float x, float y) {
-		translate(new Vec2(x, y));
-	}
+	void translate(float x, float y);
 
-	public abstract void translate(@Nonnull IVec2 v);
+	void translate(@Nonnull IVec2 v);
 
-	public abstract void mirror(boolean horizontally, boolean vertically);
+	void mirror(boolean horizontally, boolean vertically);
 
-	public abstract void scale(float scale);
+	void scale(float scale);
 
-	public final boolean collides(@Nonnull Shape shape) {
-		return collides(shape, false);
-	}
+	boolean collides(@Nonnull Shape shape);
 
-	protected boolean collides(@Nonnull Shape shape, boolean secondTry) {
-		if (secondTry) {
-			if (this instanceof Polygonable && shape instanceof Polygonable)
-				return ((Polygonable)this).asPolygon().collides((Polygonable)shape);
-			else
-				throw new UnsupportedOperationException(String.format("%s --><-- %s collision isn't implemented.", getClass().getSimpleName(), shape.getClass().getSimpleName()));
-		} else {
-			return shape.collides(this, true);
-		}
-	}
+	boolean collides(@Nonnull Shape shape, boolean secondTry);
 
-	public static abstract class Entity<S extends Shape> extends pl.shockah.godwit.Entity {
+	abstract class Entity<S extends Shape> extends pl.shockah.godwit.Entity {
 		@Nonnull public final S shape;
 		@Nonnull public Color color = Color.WHITE;
 
@@ -60,7 +46,7 @@ public abstract class Shape {
 		}
 	}
 
-	public interface Filled {
+	interface Filled extends Shape {
 		void drawFilled(@Nonnull Gfx gfx, @Nonnull IVec2 v);
 
 		default void drawFilled(@Nonnull Gfx gfx, float x, float y) {
@@ -79,10 +65,10 @@ public abstract class Shape {
 
 		@SuppressWarnings("unchecked")
 		@Nonnull default Entity asFilledEntity() {
-			return new Entity((Shape & Filled)this);
+			return new Entity(this);
 		}
 
-		class Entity<S extends Shape & Filled> extends Shape.Entity<S> {
+		class Entity<S extends Filled> extends Shape.Entity<S> {
 			public Entity(@Nonnull S shape) {
 				super(shape);
 			}
@@ -94,7 +80,7 @@ public abstract class Shape {
 		}
 	}
 
-	public interface Outline {
+	interface Outline extends Shape {
 		void drawOutline(@Nonnull Gfx gfx, @Nonnull IVec2 v);
 
 		default void drawOutline(@Nonnull Gfx gfx, float x, float y) {
@@ -107,10 +93,10 @@ public abstract class Shape {
 
 		@SuppressWarnings("unchecked")
 		@Nonnull default Entity asOutlineEntity() {
-			return new Entity((Shape & Outline)this);
+			return new Entity(this);
 		}
 
-		class Entity<S extends Shape & Outline> extends Shape.Entity<S> {
+		class Entity<S extends Outline> extends Shape.Entity<S> {
 			public Entity(@Nonnull S shape) {
 				super(shape);
 			}

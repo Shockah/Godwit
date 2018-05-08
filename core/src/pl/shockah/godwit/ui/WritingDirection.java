@@ -3,7 +3,6 @@ package pl.shockah.godwit.ui;
 import javax.annotation.Nonnull;
 
 import java8.util.Lists;
-import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.geom.Vec2;
 
 public enum WritingDirection {
@@ -16,15 +15,15 @@ public enum WritingDirection {
 	TopToBottomAndRightToLeft(new Vec2(0, 1), new Vec2(-1, 0)),
 	BottomToTopAndRightToLeft(new Vec2(0, -1), new Vec2(-1, 0));
 
-	@Nonnull public final IVec2 rowVector;
-	@Nonnull public final IVec2 columnVector;
+	@Nonnull public final Vec2 rowVector;
+	@Nonnull public final Vec2 columnVector;
 
-	WritingDirection(@Nonnull IVec2 rowVector, @Nonnull IVec2 columnVector) {
+	WritingDirection(@Nonnull Vec2 rowVector, @Nonnull Vec2 columnVector) {
 		this.rowVector = rowVector;
 		this.columnVector = columnVector;
 	}
 
-	@Nonnull public IVec2 getCorner() {
+	@Nonnull public Vec2 getCorner() {
 		return new Vec2(isLeftToRight() ? 0 : 1, isTopToBottom() ? 0 : 1);
 	}
 

@@ -3,7 +3,6 @@ package pl.shockah.godwit.ui;
 import javax.annotation.Nonnull;
 
 import lombok.EqualsAndHashCode;
-import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.geom.Vec2;
 
 @EqualsAndHashCode
@@ -32,15 +31,15 @@ public final class Padding {
 		this.bottom = bottom;
 	}
 
-	@Nonnull public IVec2 getTopLeftVector() {
+	@Nonnull public Vec2 getTopLeftVector() {
 		return new Vec2(left, top);
 	}
 
-	@Nonnull public IVec2 getBottomRightVector() {
+	@Nonnull public Vec2 getBottomRightVector() {
 		return new Vec2(right, bottom);
 	}
 
-	@Nonnull public IVec2 getVector() {
+	@Nonnull public Vec2 getVector() {
 		return getTopLeftVector().add(getBottomRightVector());
 	}
 }

@@ -190,27 +190,28 @@ public class Entity implements Renderable, Animatable<Entity> {
 		handleRemoveFromRenderGroupHierarchy();
 	}
 
-	@Nonnull public final IVec2 getAbsolutePoint() {
+	@Nonnull public final Vec2 getAbsolutePoint() {
 		return getAbsolutePoint(Vec2.zero);
 	}
 
-	@Nonnull public final IVec2 getAbsolutePoint(@Nonnull IVec2 point) {
+	@Nonnull public final Vec2 getAbsolutePoint(@Nonnull IVec2 point) {
+		Vec2 currentPoint = point.asImmutable();
 		Entity entity = this;
 		while (entity != null) {
-			point = entity.getTranslatedPoint(point);
+			currentPoint = entity.getTranslatedPoint(currentPoint);
 			entity = entity.parent;
 		}
-		return point;
+		return currentPoint;
 	}
 
-	@Nonnull public final IVec2 getPointInEntity(@Nonnull Entity entity) {
+	@Nonnull public final MutableVec2 getPointInEntity(@Nonnull Entity entity) {
 		MutableVec2 mutable = new MutableVec2();
 		calculatePointInEntity(entity, mutable);
 		return mutable;
 	}
 
-	@Nonnull public final IVec2 getPointInEntity(@Nonnull Entity entity, @Nonnull IVec2 point) {
-		MutableVec2 mutable = point.getMutableCopy();
+	@Nonnull public final MutableVec2 getPointInEntity(@Nonnull Entity entity, @Nonnull IVec2 point) {
+		MutableVec2 mutable = point.mutableCopy();
 		calculatePointInEntity(entity, mutable);
 		return mutable;
 	}
@@ -258,7 +259,7 @@ public class Entity implements Renderable, Animatable<Entity> {
 		point.y += position.y;
 	}
 
-	@Nonnull protected IVec2 getTranslatedPoint(@Nonnull IVec2 point) {
+	@Nonnull protected Vec2 getTranslatedPoint(@Nonnull IVec2 point) {
 		return point.add(position);
 	}
 

@@ -1,6 +1,5 @@
 package pl.shockah.godwit.gl;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import javax.annotation.Nonnull;
@@ -19,20 +18,18 @@ public class GfxSlice extends Gfx {
 		void draw(Renderable renderable, IVec2 v);
 		void draw(Renderable renderable, float x, float y);
 		void draw(Renderable renderable);
-		<S extends Shape & Shape.Filled> void drawFilled(S shape, IVec2 v);
-		<S extends Shape & Shape.Filled> void drawFilled(S shape, float x, float y);
-		<S extends Shape & Shape.Filled> void drawFilled(S shape);
-		<S extends Shape & Shape.Outline> void drawOutline(S shape, IVec2 v);
-		<S extends Shape & Shape.Outline> void drawOutline(S shape, float x, float y);
-		<S extends Shape & Shape.Outline> void drawOutline(S shape);
+		void drawFilled(Shape.Filled shape, IVec2 v);
+		void drawFilled(Shape.Filled shape, float x, float y);
+		void drawFilled(Shape.Filled shape);
+		void drawOutline(Shape.Outline shape, IVec2 v);
+		void drawOutline(Shape.Outline shape, float x, float y);
+		void drawOutline(Shape.Outline shape);
 		void drawPoint(IVec2 v);
 		void drawPoint(float x, float y);
 
 		IVec2 getSize();
 		void setColor(float r, float g, float b, float a);
 		void setColor(float r, float g, float b);
-		void withColor(Color color, Action0 f);
-		void withColor(Color color, Action1<Gfx> f);
 		void prepareSprites(Action0 f);
 		void prepareSprites(Action1<Gfx> f);
 		void prepareShapes(ShapeRenderer.ShapeType type, Action0 f);
@@ -74,12 +71,12 @@ public class GfxSlice extends Gfx {
 	}
 
 	@Override
-	public <S extends Shape & Shape.Filled> void drawFilled(@Nonnull S shape, @Nonnull IVec2 v) {
+	public void drawFilled(@Nonnull Shape.Filled shape, @Nonnull IVec2 v) {
 		wrapped.drawFilled(shape, v.x() + bounds.position.x, v.y() + bounds.position.y);
 	}
 
 	@Override
-	public <S extends Shape & Shape.Outline> void drawOutline(@Nonnull S shape, @Nonnull IVec2 v) {
+	public void drawOutline(@Nonnull Shape.Outline shape, @Nonnull IVec2 v) {
 		wrapped.drawOutline(shape, v.x() + bounds.position.x, v.y() + bounds.position.y);
 	}
 

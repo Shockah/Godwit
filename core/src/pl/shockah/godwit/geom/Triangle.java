@@ -12,7 +12,7 @@ import pl.shockah.unicorn.Math2;
 import pl.shockah.unicorn.ease.Easable;
 
 @EqualsAndHashCode(callSuper = false)
-public class Triangle extends Shape implements Polygonable, Shape.Filled, Shape.Outline, Easable<Triangle> {
+public class Triangle extends AbstractShape implements Polygonable, Shape.Filled, Shape.Outline, Easable<Triangle> {
 	@Nonnull public MutableVec2 point1;
 	@Nonnull public MutableVec2 point2;
 	@Nonnull public MutableVec2 point3;
@@ -46,9 +46,9 @@ public class Triangle extends Shape implements Polygonable, Shape.Filled, Shape.
 	}
 
 	public Triangle(@Nonnull IVec2 point1, @Nonnull IVec2 point2, @Nonnull IVec2 point3) {
-		this.point1 = point1.getMutableCopy();
-		this.point2 = point2.getMutableCopy();
-		this.point3 = point3.getMutableCopy();
+		this.point1 = point1.mutableCopy();
+		this.point2 = point2.mutableCopy();
+		this.point3 = point3.mutableCopy();
 	}
 
 	@Override
@@ -114,7 +114,7 @@ public class Triangle extends Shape implements Polygonable, Shape.Filled, Shape.
 	}
 
 	@Override
-	protected boolean collides(@Nonnull Shape shape, boolean secondTry) {
+	public boolean collides(@Nonnull Shape shape, boolean secondTry) {
 		if (shape instanceof Triangle)
 			return collides((Triangle)shape);
 		if (shape instanceof Line)

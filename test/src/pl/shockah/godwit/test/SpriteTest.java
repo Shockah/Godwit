@@ -12,7 +12,6 @@ import javax.annotation.Nonnull;
 import pl.shockah.godwit.Godwit;
 import pl.shockah.godwit.State;
 import pl.shockah.godwit.geom.IVec2;
-import pl.shockah.godwit.geom.Vec2;
 import pl.shockah.godwit.geom.Line;
 import pl.shockah.godwit.geom.MutableVec2;
 import pl.shockah.godwit.gl.Gfx;
@@ -46,7 +45,7 @@ public class SpriteTest extends State {
 		int offsetX = (r ? 1 : 0) - (l ? 1 : 0);
 		int offsetY = (d ? 1 : 0) - (u ? 1 : 0);
 		sprite.setOrigin(sprite.getOrigin().add(offsetX * 4, offsetY * 4));
-		sprite.offset = sprite.getOrigin().getMutableCopy();
+		sprite.offset = sprite.getOrigin().mutableCopy();
 
 		if (l || r || u || d) {
 			sprite.setRotation(0f);

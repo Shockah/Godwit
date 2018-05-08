@@ -17,7 +17,7 @@ import pl.shockah.godwit.gl.Gfx;
 import pl.shockah.godwit.gl.GfxSprite;
 
 @EqualsAndHashCode(callSuper = false)
-public class Rectangle extends Shape implements Shape.Filled, Shape.Outline, Polygonable {
+public class Rectangle extends AbstractShape implements Shape.Filled, Shape.Outline, Polygonable {
 	@Nonnull public MutableVec2 position;
 	@Nonnull public MutableVec2 size;
 
@@ -69,8 +69,8 @@ public class Rectangle extends Shape implements Shape.Filled, Shape.Outline, Pol
 	}
 
 	public Rectangle(@Nonnull IVec2 position, @Nonnull IVec2 size) {
-		this.position = position.getMutableCopy();
-		this.size = size.getMutableCopy();
+		this.position = position.mutableCopy();
+		this.size = size.mutableCopy();
 	}
 
 	public Rectangle(float x, float y, float l) {
@@ -104,7 +104,7 @@ public class Rectangle extends Shape implements Shape.Filled, Shape.Outline, Pol
 		return copy();
 	}
 
-	@Nonnull IVec2 getCenter() {
+	@Nonnull public IVec2 getCenter() {
 		return position.add(size.multiply(0.5f));
 	}
 
@@ -134,7 +134,7 @@ public class Rectangle extends Shape implements Shape.Filled, Shape.Outline, Pol
 	}
 
 	@Override
-	protected boolean collides(@Nonnull Shape shape, boolean secondTry) {
+	public boolean collides(@Nonnull Shape shape, boolean secondTry) {
 		if (shape instanceof Rectangle)
 			return collides((Rectangle)shape);
 		if (shape instanceof Line)

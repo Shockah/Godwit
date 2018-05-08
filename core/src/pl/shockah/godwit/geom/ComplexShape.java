@@ -10,7 +10,7 @@ import java8.util.stream.Collectors;
 import java8.util.stream.StreamSupport;
 import pl.shockah.godwit.gl.Gfx;
 
-public class ComplexShape<T extends Shape> extends Shape {
+public class ComplexShape<T extends Shape> extends AbstractShape {
 	@Nonnull protected final Set<T> shapes = new HashSet<>();
 
 	public void add(@Nonnull T shape) {
@@ -66,7 +66,7 @@ public class ComplexShape<T extends Shape> extends Shape {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	protected boolean collides(@Nonnull Shape shape, boolean secondTry) {
+	public boolean collides(@Nonnull Shape shape, boolean secondTry) {
 		if (shape instanceof ComplexShape<?>) {
 			return collides((ComplexShape<Shape>)shape);
 		} else {
@@ -88,7 +88,7 @@ public class ComplexShape<T extends Shape> extends Shape {
 		return false;
 	}
 
-	public static class Filled<T extends Shape & Shape.Filled> extends ComplexShape<T> implements Shape.Filled {
+	public static class Filled<T extends Shape.Filled> extends ComplexShape<T> implements Shape.Filled {
 		@SuppressWarnings("unchecked")
 		@Override
 		@Nonnull public ComplexShape.Filled<T> copy() {
@@ -116,7 +116,7 @@ public class ComplexShape<T extends Shape> extends Shape {
 		}
 	}
 
-	public static class Outline<T extends Shape & Shape.Outline> extends ComplexShape<T> implements Shape.Outline {
+	public static class Outline<T extends Shape.Outline> extends ComplexShape<T> implements Shape.Outline {
 		@SuppressWarnings("unchecked")
 		@Override
 		@Nonnull public ComplexShape.Outline<T> copy() {
@@ -135,7 +135,7 @@ public class ComplexShape<T extends Shape> extends Shape {
 		}
 	}
 
-	public static class FilledOutline<T extends Shape & Shape.Filled & Shape.Outline> extends ComplexShape.Filled<T> implements Shape.Outline {
+	public static class FilledOutline<T extends Shape.Filled & Shape.Outline> extends ComplexShape.Filled<T> implements Shape.Outline {
 		@SuppressWarnings("unchecked")
 		@Override
 		@Nonnull public FilledOutline<T> copy() {

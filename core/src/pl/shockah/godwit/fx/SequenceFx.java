@@ -15,7 +15,7 @@ public class SequenceFx implements Fx {
 	@Nonnull protected final List<Fx> fxes;
 
 	@Getter(lazy = true)
-	private final float duration = calculateDuration();
+	private final float duration = calculateDuration(fxes);
 
 	public SequenceFx(Fx... fxes) {
 		this(Arrays.asList(fxes));
@@ -25,7 +25,7 @@ public class SequenceFx implements Fx {
 		this.fxes = Collections.unmodifiableList(new ArrayList<>(fxes));
 	}
 
-	private float calculateDuration() {
+	private float calculateDuration(@Nonnull List<Fx> fxes) {
 		return (float)StreamSupport.stream(fxes).mapToDouble(Fx::getDuration).sum();
 	}
 

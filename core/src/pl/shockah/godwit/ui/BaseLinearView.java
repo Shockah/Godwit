@@ -27,11 +27,11 @@ public class BaseLinearView<T extends BaseLinearView.Attributes> extends ViewGro
 		for (View view : getViews()) {
 			IVec2 size = bounds.size.subtract(orientation.vector.multiply(offset));
 			size = view.getIntrinsicSize(size);
-			view.bounds.size = size.getMutableCopy();
+			view.bounds.size = size.mutableCopy();
 
 			IVec2 basePosition = orientation.vector.multiply(offset);
 			IVec2 alignmentPosition = bounds.size.subtract(view.bounds.size).multiply(orientation.getPerpendicular().vector).multiply(getAttributes(view).alignment.getNonNanVector());
-			view.bounds.position = basePosition.add(alignmentPosition).getMutableCopy();
+			view.bounds.position = basePosition.add(alignmentPosition).mutableCopy();
 
 			offset += size.multiply(orientation.vector).getLength() + spacing;
 		}

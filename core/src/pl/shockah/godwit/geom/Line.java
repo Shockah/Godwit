@@ -10,7 +10,7 @@ import pl.shockah.godwit.gl.Gfx;
 import pl.shockah.unicorn.ease.Easable;
 
 @EqualsAndHashCode(callSuper = false)
-public class Line extends Shape implements Shape.Outline, Easable<Line> {
+public class Line extends AbstractShape implements Shape.Outline, Easable<Line> {
 	@Nonnull public MutableVec2 point1;
 	@Nonnull public MutableVec2 point2;
 
@@ -27,8 +27,8 @@ public class Line extends Shape implements Shape.Outline, Easable<Line> {
 	}
 
 	public Line(@Nonnull IVec2 point1, @Nonnull IVec2 point2) {
-		this.point1 = point1.getMutableCopy();
-		this.point2 = point2.getMutableCopy();
+		this.point1 = point1.mutableCopy();
+		this.point2 = point2.mutableCopy();
 	}
 
 	@Override
@@ -48,6 +48,10 @@ public class Line extends Shape implements Shape.Outline, Easable<Line> {
 		float maxX = Math.max(point1.x, point2.x);
 		float maxY = Math.max(point1.y, point2.y);
 		return new Rectangle(minX, minY, maxX - minX, maxY - minY);
+	}
+
+	@Nonnull public IVec2 getCenter() {
+		return point1.add(point2).multiply(0.5f);
 	}
 
 	@Override
@@ -77,7 +81,7 @@ public class Line extends Shape implements Shape.Outline, Easable<Line> {
 	}
 
 	@Override
-	protected boolean collides(@Nonnull Shape shape, boolean secondTry) {
+	public boolean collides(@Nonnull Shape shape, boolean secondTry) {
 		if (shape instanceof Line)
 			return collides((Line)shape);
 		return super.collides(shape, secondTry);

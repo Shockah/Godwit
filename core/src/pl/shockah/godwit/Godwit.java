@@ -18,8 +18,7 @@ import java8.util.stream.StreamSupport;
 import lombok.Getter;
 import pl.shockah.godwit.asset.FreeTypeFontLoader;
 import pl.shockah.godwit.asset.JSONObjectLoader;
-import pl.shockah.godwit.geom.IVec2;
-import pl.shockah.godwit.geom.MutableVec2;
+import pl.shockah.godwit.geom.Vec2;
 import pl.shockah.godwit.gl.BlendMode;
 import pl.shockah.godwit.gl.GfxContextManager;
 import pl.shockah.godwit.gl.GfxSprite;
@@ -54,7 +53,7 @@ public final class Godwit {
 	@Nullable public Action1<AssetManager> assetManagerSetupCallback;
 
 	@Nonnull private final List<Float> deltas = new ArrayList<>();
-	@Nonnull private MutableVec2 ppi = new MutableVec2(1f, 1f);
+	@Nonnull private Vec2 ppi = new Vec2(1f, 1f);
 	private boolean isFirstTick = true;
 
 	@Getter
@@ -113,14 +112,13 @@ public final class Godwit {
 		setAssetManager(assetManagerFactory.call());
 	}
 
-	@Nonnull public IVec2 getPpi() {
+	@Nonnull public Vec2 getPpi() {
 		return ppi;
 	}
 
 	public void tick() {
 		deltaTime = Gdx.graphics.getDeltaTime();
-		ppi.x = Gdx.graphics.getPpiX();
-		ppi.y = Gdx.graphics.getPpiY();
+		ppi = new Vec2(Gdx.graphics.getPpiX(), Gdx.graphics.getPpiY());
 
 		if (waitForDeltaToStabilize) {
 			deltas.add(deltaTime);
@@ -181,8 +179,7 @@ public final class Godwit {
 					state.removeFromParent();
 				state = newState;
 				movingToState = null;
-				if (state != null)
-					rootEntity.addChild(state);
+				rootEntity.addChild(state);
 			}
 		}
 	}
@@ -194,25 +191,10 @@ public final class Godwit {
 
 	private void runRender() {
 		GfxContextManager.bindSurface(null);
-		//setupScissor();
 		gfx.clear(Color.CLEAR);
 		gfx.setBlendMode(BlendMode.normal);
 		rootEntity.render(gfx);
 		gfx.endTick();
 		GfxContextManager.bindSurface(null);
 	}
-
-//	private void setupScissor() {
-//		Viewport viewport = gfx.getViewport();
-//		int leftGutter = viewport != null ? viewport.getLeftGutterWidth() : 0;
-//		int rightGutter = viewport != null ? viewport.getRightGutterWidth() : 0;
-//		int topGutter = viewport != null ? viewport.getTopGutterHeight() : 0;
-//		int bottomGutter = viewport != null ? viewport.getBottomGutterHeight() : 0;
-//
-//		int horizontalGutter = leftGutter + rightGutter;
-//		int verticalGutter = topGutter + bottomGutter;
-//
-//		HdpiUtils.glScissor(horizontalGutter * 2, verticalGutter, Gdx.graphics.getWidth() - horizontalGutter * 4, Gdx.graphics.getHeight());
-//		Gdx.gl20.glEnable(GL20.GL_SCISSOR_TEST);
-//	}
 }

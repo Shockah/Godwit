@@ -53,11 +53,11 @@ public class FillView extends ViewHolder<Void> {
 	}
 
 	private void adjustBounds(@Nonnull IVec2 size) {
-		cachedSize = size.getMutableCopy();
+		cachedSize = size.mutableCopy();
 		bounds.size = cachedSize;
 		if (innerView != null) {
-			innerView.bounds.position = padding.getTopLeftVector().getMutableCopy();
-			innerView.bounds.size = (cachedSize.subtract(padding.getVector())).getMutableCopy();
+			innerView.bounds.position = padding.getTopLeftVector().mutableCopy();
+			innerView.bounds.size = (cachedSize.subtract(padding.getVector())).mutableCopy();
 		}
 		onLayout();
 	}
@@ -73,7 +73,7 @@ public class FillView extends ViewHolder<Void> {
 	}
 
 	@Override
-	@Nonnull public IVec2 getIntrinsicSize(@Nonnull IVec2 availableSize) {
+	@Nonnull public Vec2 getIntrinsicSize(@Nonnull IVec2 availableSize) {
 		return (innerView != null ? innerView.getIntrinsicSize(availableSize.subtract(padding.getVector())) : Vec2.zero).add(padding.getVector());
 	}
 }

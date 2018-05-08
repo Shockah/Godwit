@@ -17,7 +17,6 @@ import pl.shockah.godwit.CameraGroup;
 import pl.shockah.godwit.asset.FreeTypeFontLoader;
 import pl.shockah.godwit.asset.SingleAsset;
 import pl.shockah.godwit.geom.IVec2;
-import pl.shockah.godwit.geom.MutableVec2;
 import pl.shockah.godwit.geom.Vec2;
 import pl.shockah.godwit.ui.Alignment;
 
@@ -37,8 +36,8 @@ public class GfxFont implements Renderable {
 
 	@Nullable private GlyphLayout cachedLayout;
 	@Nullable private ScalableBitmapFontCache cache;
-	@Nullable private IVec2 cachedSize;
-	@Nullable private IVec2 cachedOffset;
+	@Nullable private Vec2 cachedSize;
+	@Nullable private Vec2 cachedOffset;
 
 	@Getter
 	private float scaleX = 1f;
@@ -114,36 +113,34 @@ public class GfxFont implements Renderable {
 		return cache;
 	}
 
-	@Nonnull protected IVec2 getOffset() {
+	@Nonnull protected Vec2 getOffset() {
 		if (cachedOffset == null) {
-			GlyphLayout layout = getGlyphLayout();
-			MutableVec2 mutable = new MutableVec2();
+			getGlyphLayout();
+			Vec2 offset = Vec2.zero;
 
 			if (this.parameters instanceof FreeTypeFontLoader.FreeTypeFontParameter) {
 				FreeTypeFontLoader.FreeTypeFontParameter parameters = (FreeTypeFontLoader.FreeTypeFontParameter)this.parameters;
-				mutable.x += parameters.borderWidth * scaleX;
-				mutable.y += parameters.borderWidth * scaleY;
+				offset = new Vec2(parameters.borderWidth * scaleX, parameters.borderWidth * scaleY);
 			}
 
-			cachedOffset = mutable;
+			cachedOffset = offset;
 		}
 		return cachedOffset;
 	}
 
-	@Nonnull public IVec2 getSize() {
+	@Nonnull public Vec2 getSize() {
 		if (cachedSize == null) {
 			if (text == null || text.isEmpty())
 				return Vec2.zero;
 			GlyphLayout layout = getGlyphLayout();
-			MutableVec2 mutable = new MutableVec2(layout.width, layout.height);
+			Vec2 size = new Vec2(layout.width, layout.height);
 
 			if (this.parameters instanceof FreeTypeFontLoader.FreeTypeFontParameter) {
 				FreeTypeFontLoader.FreeTypeFontParameter parameters = (FreeTypeFontLoader.FreeTypeFontParameter)this.parameters;
-				mutable.x += parameters.borderWidth * scaleX;
-				mutable.y += parameters.borderWidth * scaleY * 2f;
+				size = size.add(parameters.borderWidth * scaleX, parameters.borderWidth * scaleY * 2f);
 			}
 
-			cachedSize = mutable;
+			cachedSize = size;
 		}
 		return cachedSize;
 	}
@@ -183,7 +180,7 @@ public class GfxFont implements Renderable {
 		markDirty();
 	}
 
-	@Nonnull public IVec2 getScaleVector() {
+	@Nonnull public Vec2 getScaleVector() {
 		BitmapFont.BitmapFontData data = font.getData();
 		return new Vec2(data.scaleX, data.scaleY);
 	}

@@ -88,7 +88,9 @@ public abstract class GestureRecognizer {
 
 	public void requireToFail(@Nonnull GestureRecognizer recognizer) {
 		if (recognizer == this)
-			throw new IllegalArgumentException("Cannot require the same GestureRecognizer to fail.");
+			throw new IllegalArgumentException("Cannot require itself GestureRecognizer to fail.");
+		if (recognizer.requireToFail.contains(this))
+			throw new IllegalArgumentException("Detected circular failure GestureRecognizer dependency.");
 
 		requireToFail.add(recognizer);
 		recognizer.failListeners.add(this);

@@ -28,7 +28,7 @@ public abstract class IVec2 implements Easable<IVec2> {
 	@Nonnull public abstract IVec2 getCopy();
 
 	@Nonnull public Vec2 add(float x, float y) {
-		return x == 0 && y == 0 ? getImmutableCopy() : new Vec2(x() + x, y() + y);
+		return x == 0 && y == 0 ? asImmutable() : new Vec2(x() + x, y() + y);
 	}
 
 	@Nonnull public final Vec2 add(@Nonnull IVec2 v) {
@@ -36,7 +36,7 @@ public abstract class IVec2 implements Easable<IVec2> {
 	}
 
 	@Nonnull public Vec2 subtract(float x, float y) {
-		return x == 0 && y == 0 ? getImmutableCopy() : new Vec2(x() - x, y() - y);
+		return x == 0 && y == 0 ? asImmutable() : new Vec2(x() - x, y() - y);
 	}
 
 	@Nonnull public final Vec2 subtract(@Nonnull IVec2 v) {
@@ -44,7 +44,7 @@ public abstract class IVec2 implements Easable<IVec2> {
 	}
 
 	@Nonnull public Vec2 multiply(float x, float y) {
-		return x == 1 && y == 1 ? getImmutableCopy() : new Vec2(x() * x, y() * y);
+		return x == 1 && y == 1 ? asImmutable() : new Vec2(x() * x, y() * y);
 	}
 
 	@Nonnull public final Vec2 multiply(@Nonnull IVec2 v) {
@@ -56,7 +56,7 @@ public abstract class IVec2 implements Easable<IVec2> {
 	}
 
 	@Nonnull public Vec2 divide(float x, float y) {
-		return x == 1 && y == 1 ? getImmutableCopy() : new Vec2(x() / x, y() / y);
+		return x == 1 && y == 1 ? asImmutable() : new Vec2(x() / x, y() / y);
 	}
 
 	@Nonnull public final Vec2 divide(@Nonnull IVec2 v) {
@@ -68,15 +68,15 @@ public abstract class IVec2 implements Easable<IVec2> {
 	}
 
 	@Nonnull public Vec2 negate() {
-		return x() == 0 && y() == 0 ? getImmutableCopy() : new Vec2(-x(), -y());
+		return x() == 0 && y() == 0 ? asImmutable() : new Vec2(-x(), -y());
 	}
 
 	@Nonnull public Vec2 withX(float x) {
-		return x == x() ? getImmutableCopy() : new Vec2(x, y());
+		return x == x() ? asImmutable() : new Vec2(x, y());
 	}
 
 	@Nonnull public Vec2 withY(float y) {
-		return y == y() ? getImmutableCopy() : new Vec2(x(), y);
+		return y == y() ? asImmutable() : new Vec2(x(), y);
 	}
 
 	@Nonnull public final Vec2 getAbs() {
@@ -98,16 +98,16 @@ public abstract class IVec2 implements Easable<IVec2> {
 	@Nonnull public final Vec2 getNormalized() {
 		float length = getLength();
 		if (length == 0f || length == 1f)
-			return getImmutableCopy();
+			return asImmutable();
 		else
 			return this.multiply(1f / length);
 	}
 
-	@Nonnull public final MutableVec2 getMutableCopy() {
+	@Nonnull public final MutableVec2 mutableCopy() {
 		return new MutableVec2(x(), y());
 	}
 
-	@Nonnull public final Vec2 getImmutableCopy() {
+	@Nonnull public Vec2 asImmutable() {
 		return new Vec2(x(), y());
 	}
 
