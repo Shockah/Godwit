@@ -50,7 +50,7 @@ public class Line extends AbstractShape implements Shape.Outline, Easable<Line> 
 		return new Rectangle(minX, minY, maxX - minX, maxY - minY);
 	}
 
-	@Nonnull public IVec2 getCenter() {
+	@Nonnull public Vec2 getCenter() {
 		return point1.add(point2).multiply(0.5f);
 	}
 
@@ -91,7 +91,7 @@ public class Line extends AbstractShape implements Shape.Outline, Easable<Line> 
 		return intersect(line) != null;
 	}
 
-	@Nullable public IVec2 intersect(@Nonnull Line line) {
+	@Nullable public Vec2 intersect(@Nonnull Line line) {
 		float dx1 = point2.x - point1.x;
 		float dx2 = line.point2.x - line.point1.x;
 		float dy1 = point2.y - point1.y;
@@ -117,7 +117,7 @@ public class Line extends AbstractShape implements Shape.Outline, Easable<Line> 
 		return new Vec2(ix, iy);
 	}
 
-	@Nonnull public IVec2[] intersect(@Nonnull Circle circle) {
+	@Nonnull public Vec2[] intersect(@Nonnull Circle circle) {
 		return circle.intersect(this);
 	}
 

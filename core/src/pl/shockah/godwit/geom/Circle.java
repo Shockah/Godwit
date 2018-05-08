@@ -119,7 +119,7 @@ public class Circle extends AbstractShape implements Polygonable, Shape.Filled, 
 		return false;
 	}
 
-	@Nonnull public IVec2[] intersect(@Nonnull Line line) {
+	@Nonnull public Vec2[] intersect(@Nonnull Line line) {
 		float baX = line.point2.x - line.point1.x;
 		float baY = line.point2.y - line.point1.y;
 		float caX = position.x - line.point1.x;
@@ -134,18 +134,18 @@ public class Circle extends AbstractShape implements Polygonable, Shape.Filled, 
 
 		float disc = pBy2 * pBy2 - q;
 		if (disc < 0)
-			return new IVec2[0];
+			return new Vec2[0];
 
 		float tmpSqrt = (float)Math.sqrt(disc);
 		float abScalingFactor1 = -pBy2 + tmpSqrt;
 		float abScalingFactor2 = -pBy2 - tmpSqrt;
 
-		IVec2 p1 = new Vec2(line.point1.x - baX * abScalingFactor1, line.point1.y - baY * abScalingFactor1);
+		Vec2 p1 = new Vec2(line.point1.x - baX * abScalingFactor1, line.point1.y - baY * abScalingFactor1);
 		if (disc == 0)
-			return new IVec2[] { p1 };
+			return new Vec2[] { p1 };
 
-		IVec2 p2 = new Vec2(line.point1.x - baX * abScalingFactor2, line.point1.y - baY * abScalingFactor2);
-		return new IVec2[] { p1, p2 };
+		Vec2 p2 = new Vec2(line.point1.x - baX * abScalingFactor2, line.point1.y - baY * abScalingFactor2);
+		return new Vec2[] { p1, p2 };
 	}
 
 	private int calculateSegmentCount() {

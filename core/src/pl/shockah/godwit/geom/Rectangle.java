@@ -104,7 +104,7 @@ public class Rectangle extends AbstractShape implements Shape.Filled, Shape.Outl
 		return copy();
 	}
 
-	@Nonnull public IVec2 getCenter() {
+	@Nonnull public Vec2 getCenter() {
 		return position.add(size.multiply(0.5f));
 	}
 
