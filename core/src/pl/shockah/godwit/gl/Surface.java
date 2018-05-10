@@ -1,5 +1,6 @@
 package pl.shockah.godwit.gl;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
@@ -31,6 +32,11 @@ public class Surface extends GfxImpl implements Renderable, Disposable {
 		fbo = new FrameBuffer(Pixmap.Format.RGBA8888, width, height, depth, false);
 		region = new TextureRegion(fbo.getColorBufferTexture(), 0, 0, width, height);
 		region.flip(false, Godwit.getInstance().yPointingDown);
+
+		OrthographicCamera camera = new OrthographicCamera();
+		camera.setToOrtho(true, width, height);
+		getSpriteBatch().setProjectionMatrix(camera.combined);
+		getShapeRenderer().setProjectionMatrix(camera.combined);
 	}
 
 	@Override
