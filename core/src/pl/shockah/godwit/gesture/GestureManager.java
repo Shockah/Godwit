@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector3;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.ListIterator;
@@ -90,16 +91,20 @@ public class GestureManager extends InputAdapter {
 	}
 
 	private void handle(@Nonnull GestureHandleMethod method, boolean checkShape, @Nonnull Touch touch, @Nonnull Vec2 point, @Nonnull Entity entity) {
-		handle(method, checkShape, new ArrayList<>(recognizers), touch, point, entity);
+		handle(method, checkShape, new ArrayList<>(recognizers), new HashSet<>(), touch, point, entity);
 	}
 
-	private void handle(@Nonnull GestureHandleMethod method, boolean checkShape, @Nonnull List<GestureRecognizer> recognizers, @Nonnull Touch touch, @Nonnull Vec2 point, @Nonnull Entity entity) {
+	private void handle(@Nonnull GestureHandleMethod method, boolean checkShape, @Nonnull List<GestureRecognizer> recognizers, @Nonnull Set<CameraGroup> unprojected, @Nonnull Touch touch, @Nonnull Vec2 point, @Nonnull Entity entity) {
 		List<GestureRecognizer> delayedHandlers = null;
 
 		try {
 			CameraGroup cameraGroup = entity.getCameraGroup();
-			Vector3 unproject = cameraGroup.getCamera().unproject(new Vector3(point.x, point.y, 0f));
-			point = new Vec2(unproject.x, unproject.y);
+			if (!unprojected.contains(cameraGroup)) {
+				Vector3 unproject = cameraGroup.getCamera().unproject(new Vector3(point.x, point.y, 0f));
+				point = new Vec2(unproject.x, unproject.y);
+				unprojected = new HashSet<>(unprojected);
+				unprojected.add(cameraGroup);
+			}
 		} catch (Exception ignored) {
 		}
 
@@ -118,7 +123,7 @@ public class GestureManager extends InputAdapter {
 			}
 		}
 
-		handleChildren(method, checkShape, recognizers, touch, point, entity);
+		handleChildren(method, checkShape, recognizers, unprojected, touch, point, entity);
 
 		if (delayedHandlers != null) {
 			for (GestureRecognizer recognizer : delayedHandlers) {
@@ -127,16 +132,16 @@ public class GestureManager extends InputAdapter {
 		}
 	}
 
-	private void handleChildren(@Nonnull GestureHandleMethod method, boolean checkShape, @Nonnull List<GestureRecognizer> recognizers, @Nonnull Touch touch, @Nonnull Vec2 point, @Nonnull Entity entity) {
+	private void handleChildren(@Nonnull GestureHandleMethod method, boolean checkShape, @Nonnull List<GestureRecognizer> recognizers, @Nonnull Set<CameraGroup> unprojected, @Nonnull Touch touch, @Nonnull Vec2 point, @Nonnull Entity entity) {
 		if (entity instanceof RenderGroup) {
 			RenderGroup renderGroup = (RenderGroup)entity;
 			ListIterator<Entity> iterator = renderGroup.renderOrder.get().listIterator(renderGroup.renderOrder.get().size());
 			while (iterator.hasPrevious()) {
-				handle(method, checkShape, recognizers, touch, point, iterator.previous());
+				handle(method, checkShape, recognizers, unprojected, touch, point, iterator.previous());
 			}
 		} else {
 			for (Entity child : entity.children.get()) {
-				handle(method, checkShape, recognizers, touch, point, child);
+				handle(method, checkShape, recognizers, unprojected, touch, point, child);
 			}
 		}
 	}
