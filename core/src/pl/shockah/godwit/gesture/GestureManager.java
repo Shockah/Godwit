@@ -96,23 +96,18 @@ public class GestureManager extends InputAdapter {
 	private void handle(@Nonnull GestureHandleMethod method, boolean checkShape, @Nonnull List<GestureRecognizer> recognizers, @Nonnull Touch touch, @Nonnull Vec2 point, @Nonnull Entity entity) {
 		List<GestureRecognizer> delayedHandlers = null;
 
+		try {
+			CameraGroup cameraGroup = entity.getCameraGroup();
+			Vector3 unproject = cameraGroup.getCamera().unproject(new Vector3(point.x, point.y, 0f));
+			point = new Vec2(unproject.x, unproject.y);
+		} catch (Exception ignored) {
+		}
+
 		if (entity instanceof GestureHandler) {
 			GestureHandler handler = (GestureHandler)entity;
 			Shape.Filled shape = handler.getGestureShape();
 
-			boolean shouldContinue = !checkShape || (passThroughWithoutShape && shape == null);
-			if (!shouldContinue && shape != null) {
-				Vec2 newPoint = point;
-				try {
-					CameraGroup cameraGroup = entity.getCameraGroup();
-					Vector3 unproject = cameraGroup.getCamera().unproject(new Vector3(point.x, point.y, 0f));
-					newPoint = new Vec2(unproject.x, unproject.y);
-				} catch (Exception ignored) {
-				}
-				shouldContinue = shape.contains(newPoint);
-			}
-
-			if (shouldContinue) {
+			if (!checkShape || (passThroughWithoutShape && shape == null) || (shape != null && shape.contains(point))) {
 				for (GestureRecognizer recognizer : recognizers) {
 					if (recognizer.handler == handler) {
 						if (delayedHandlers == null)
