@@ -34,7 +34,7 @@ public class Surface extends GfxImpl implements Renderable, Disposable {
 		region.flip(false, Godwit.getInstance().yPointingDown);
 
 		OrthographicCamera camera = new OrthographicCamera();
-		camera.setToOrtho(true, width, height);
+		camera.setToOrtho(false, width, height);
 		getSpriteBatch().setProjectionMatrix(camera.combined);
 		getShapeRenderer().setProjectionMatrix(camera.combined);
 	}
