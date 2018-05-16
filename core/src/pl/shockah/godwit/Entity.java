@@ -87,6 +87,7 @@ public class Entity implements Renderable, Animatable<Entity> {
 			throw new IllegalStateException(String.format("Entity %s already has a parent %s.", entity, entity.parent));
 		entity.parent = this;
 		children.add(entity);
+		callDownAddedToHierarchy(this, entity);
 		callAddedToHierarchy(entity);
 		entity.onAddedToParent();
 	}
@@ -96,6 +97,7 @@ public class Entity implements Renderable, Animatable<Entity> {
 			throw new IllegalStateException(String.format("Entity %s doesn't have a parent.", this));
 		onRemovedFromParent();
 		callRemovedFromHierarchy(this);
+		callDownRemovedFromHierarchy(parent, this);
 		parent.children.remove(this);
 		parent = null;
 	}
@@ -107,11 +109,25 @@ public class Entity implements Renderable, Animatable<Entity> {
 		}
 	}
 
+	private static void callDownAddedToHierarchy(@Nonnull Entity context, @Nonnull Entity entity) {
+		context.onAddedToHierarchy(entity);
+		Entity parent = context.getParent();
+		if (parent != null)
+			callDownAddedToHierarchy(parent, entity);
+	}
+
 	private static void callRemovedFromHierarchy(@Nonnull Entity entity) {
 		for (Entity child : entity.children.get()) {
 			callRemovedFromHierarchy(child);
 		}
 		entity.onRemovedFromHierarchy();
+	}
+
+	private static void callDownRemovedFromHierarchy(@Nonnull Entity context, @Nonnull Entity entity) {
+		context.onRemovedFromHierarchy(entity);
+		Entity parent = context.getParent();
+		if (parent != null)
+			callDownRemovedFromHierarchy(parent, entity);
 	}
 
 	public void update() {
@@ -188,6 +204,12 @@ public class Entity implements Renderable, Animatable<Entity> {
 
 	public void onRemovedFromHierarchy() {
 		handleRemoveFromRenderGroupHierarchy();
+	}
+
+	public void onAddedToHierarchy(@Nonnull Entity indirectChild) {
+	}
+
+	public void onRemovedFromHierarchy(@Nonnull Entity indirectChild) {
 	}
 
 	@Nonnull public final Vec2 getAbsolutePoint() {
