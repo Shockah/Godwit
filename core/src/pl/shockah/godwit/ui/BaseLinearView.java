@@ -2,7 +2,7 @@ package pl.shockah.godwit.ui;
 
 import javax.annotation.Nonnull;
 
-import pl.shockah.godwit.geom.IVec2;
+import pl.shockah.godwit.geom.Vec2;
 
 public class BaseLinearView<T extends BaseLinearView.Attributes> extends ViewGroup<T> {
 	@Nonnull public final Orientation orientation;
@@ -25,12 +25,12 @@ public class BaseLinearView<T extends BaseLinearView.Attributes> extends ViewGro
 
 		float offset = 0f;
 		for (View view : getViews()) {
-			IVec2 size = bounds.size.subtract(orientation.vector.multiply(offset));
+			Vec2 size = bounds.size.subtract(orientation.vector.multiply(offset));
 			size = view.getIntrinsicSize(size);
 			view.bounds.size = size.mutableCopy();
 
-			IVec2 basePosition = orientation.vector.multiply(offset);
-			IVec2 alignmentPosition = bounds.size.subtract(view.bounds.size).multiply(orientation.getPerpendicular().vector).multiply(getAttributes(view).alignment.getNonNanVector());
+			Vec2 basePosition = orientation.vector.multiply(offset);
+			Vec2 alignmentPosition = bounds.size.subtract(view.bounds.size).multiply(orientation.getPerpendicular().vector).multiply(getAttributes(view).alignment.getNonNanVector());
 			view.bounds.position = basePosition.add(alignmentPosition).mutableCopy();
 
 			offset += size.multiply(orientation.vector).getLength() + spacing;
