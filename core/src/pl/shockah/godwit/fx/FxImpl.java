@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import pl.shockah.unicorn.ease.Easing;
 
-public abstract class FxImpl implements Fx {
+public abstract class FxImpl extends AbstractFx {
 	@Getter
 	private final float duration;
 

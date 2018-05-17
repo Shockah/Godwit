@@ -11,7 +11,7 @@ import java8.util.stream.StreamSupport;
 import lombok.Getter;
 import pl.shockah.unicorn.ease.Easing;
 
-public class SequenceFx implements Fx {
+public class SequenceFx extends AbstractFx {
 	@Nonnull protected final List<Fx> fxes;
 
 	@Getter(lazy = true)

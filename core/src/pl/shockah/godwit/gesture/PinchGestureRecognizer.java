@@ -4,7 +4,7 @@ import javax.annotation.Nonnull;
 
 import lombok.EqualsAndHashCode;
 import pl.shockah.godwit.geom.Vec2;
-import pl.shockah.unicorn.UnorderedPair;
+import pl.shockah.unicorn.collection.UnorderedPair;
 
 public class PinchGestureRecognizer extends ContinuousGestureRecognizer {
 	@Nonnull public final Delegate delegate;

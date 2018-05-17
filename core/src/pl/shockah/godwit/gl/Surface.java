@@ -11,6 +11,7 @@ import javax.annotation.Nonnull;
 import lombok.Getter;
 import pl.shockah.godwit.Godwit;
 import pl.shockah.godwit.geom.IVec2;
+import pl.shockah.godwit.geom.Vec2;
 
 public class Surface extends GfxImpl implements Renderable, Disposable {
 	@Nonnull public final FrameBuffer fbo;
@@ -74,6 +75,14 @@ public class Surface extends GfxImpl implements Renderable, Disposable {
 			return;
 		disposed = true;
 		fbo.dispose();
+	}
+
+	public final void render(@Nonnull Gfx gfx, float x, float y) {
+		render(gfx, new Vec2(x, y));
+	}
+
+	public final void render(@Nonnull Gfx gfx) {
+		render(gfx, Vec2.zero);
 	}
 
 //	@Override

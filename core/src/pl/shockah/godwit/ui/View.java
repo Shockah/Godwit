@@ -6,12 +6,12 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import pl.shockah.godwit.geom.IVec2;
-import pl.shockah.godwit.geom.Vec2;
 import pl.shockah.godwit.geom.Rectangle;
+import pl.shockah.godwit.geom.Vec2;
+import pl.shockah.godwit.gl.AbstractRenderable;
 import pl.shockah.godwit.gl.Gfx;
-import pl.shockah.godwit.gl.Renderable;
 
-public class View implements Renderable {
+public class View extends AbstractRenderable {
 	@Nullable public ViewHolder parent = null;
 	@Nullable public Color backgroundColor = null;
 	@Nonnull public Rectangle bounds = new Rectangle(0, 0);

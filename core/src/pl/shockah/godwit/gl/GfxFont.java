@@ -20,7 +20,7 @@ import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.geom.Vec2;
 import pl.shockah.godwit.ui.Alignment;
 
-public class GfxFont implements Renderable {
+public class GfxFont extends AbstractRenderable {
 	private interface DelegateExclusions {
 		BitmapFontCache getCache();
 		float getScaleX();

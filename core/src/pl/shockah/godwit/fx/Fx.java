@@ -2,43 +2,32 @@ package pl.shockah.godwit.fx;
 
 import javax.annotation.Nonnull;
 
-import java8.util.stream.Collectors;
-import java8.util.stream.IntStreams;
 import pl.shockah.unicorn.ease.Easing;
 
 public interface Fx {
 	float getDuration();
 
-	@Nonnull Easing getMethod();
+	@Nonnull
+	Easing getMethod();
 
 	void setMethod(@Nonnull Easing method);
 
 	void update(float f, float previous);
 
-	default void finish(float f, float previous) {
-		update(f, previous);
-	}
+	void finish(float f, float previous);
 
-	default Fx repeat(int count) {
-		return new SequenceFx(IntStreams.range(0, count)
-				.mapToObj(i -> this)
-				.collect(Collectors.toList()));
-	}
+	@Nonnull
+	Fx repeat(int count);
 
-	@Nonnull default Fx withMethod(@Nonnull Easing method) {
-		setMethod(method);
-		return this;
-	}
+	@Nonnull
+	Fx withMethod(@Nonnull Easing method);
 
-	default Fx additive() {
-		return new AdditiveFx(this);
-	}
+	@Nonnull
+	Fx additive();
 
-	default FxInstance instance() {
-		return instance(FxInstance.EndAction.End);
-	}
+	@Nonnull
+	FxInstance instance();
 
-	default FxInstance instance(@Nonnull FxInstance.EndAction endAction) {
-		return new FxInstance(this, endAction);
-	}
+	@Nonnull
+	FxInstance instance(@Nonnull FxInstance.EndAction endAction);
 }

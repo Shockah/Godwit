@@ -4,7 +4,7 @@ import javax.annotation.Nonnull;
 
 import pl.shockah.unicorn.ease.Easing;
 
-public abstract class ModifierFx implements Fx {
+public abstract class ModifierFx extends AbstractFx {
 	@Nonnull public final Fx fx;
 
 	public ModifierFx(@Nonnull Fx fx) {

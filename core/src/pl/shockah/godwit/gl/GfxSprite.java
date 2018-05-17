@@ -5,17 +5,15 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import lombok.experimental.Delegate;
 import pl.shockah.godwit.Godwit;
-import pl.shockah.godwit.fx.Animatable;
-import pl.shockah.godwit.fx.Animatables;
+import pl.shockah.godwit.fx.AbstractAnimatable;
 import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.geom.MutableVec2;
 import pl.shockah.godwit.geom.Vec2;
 
-public class GfxSprite implements Renderable, Animatable<GfxSprite> {
+public class GfxSprite extends AbstractAnimatable implements Renderable {
 	private interface DelegateExclusions {
 		float getRotation();
 		void setRotation(float rotation);
@@ -33,8 +31,6 @@ public class GfxSprite implements Renderable, Animatable<GfxSprite> {
 	@Nonnull public final Sprite sprite;
 
 	@Nonnull public MutableVec2 offset = new MutableVec2();
-
-	@Nullable private Animatables.Properties<GfxSprite> animatableProperties;
 
 	public GfxSprite(@Nonnull Sprite sprite) {
 		this.sprite = sprite;
@@ -61,6 +57,14 @@ public class GfxSprite implements Renderable, Animatable<GfxSprite> {
 
 			sprite.setPosition(oldX, oldY);
 		}
+	}
+
+	public final void render(@Nonnull Gfx gfx, float x, float y) {
+		render(gfx, new Vec2(x, y));
+	}
+
+	public final void render(@Nonnull Gfx gfx) {
+		render(gfx, Vec2.zero);
 	}
 
 	public final void center() {
@@ -181,14 +185,6 @@ public class GfxSprite implements Renderable, Animatable<GfxSprite> {
 
 	public void setPosition(@Nonnull IVec2 position) {
 		setPosition(position.x(), position.y());
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	@Nonnull public Animatables.Properties<GfxSprite> getAnimatableProperties() {
-		if (animatableProperties == null)
-			animatableProperties = Animatables.getAnimatableProperties(this);
-		return animatableProperties;
 	}
 
 	@Nonnull public Entity asEntity() {

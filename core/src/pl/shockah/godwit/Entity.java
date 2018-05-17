@@ -8,16 +8,15 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import lombok.Getter;
-import pl.shockah.godwit.fx.Animatable;
-import pl.shockah.godwit.fx.Animatables;
+import pl.shockah.godwit.fx.AbstractAnimatable;
 import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.geom.MutableVec2;
 import pl.shockah.godwit.geom.Vec2;
 import pl.shockah.godwit.gl.Gfx;
 import pl.shockah.godwit.gl.Renderable;
-import pl.shockah.unicorn.SafeList;
+import pl.shockah.unicorn.collection.SafeList;
 
-public class Entity implements Renderable, Animatable<Entity> {
+public class Entity extends AbstractAnimatable implements Renderable {
 	@Nonnull public final SafeList<Entity> children = new SafeList<>(new ArrayList<>());
 	@Nonnull public MutableVec2 position = new MutableVec2();
 
@@ -26,8 +25,6 @@ public class Entity implements Renderable, Animatable<Entity> {
 
 	@Getter
 	private float depth = 0f;
-
-	@Nullable private Animatables.Properties<Entity> animatableProperties;
 
 	public final void setDepth(float depth) {
 		Entity parent = this.parent;
@@ -283,13 +280,5 @@ public class Entity implements Renderable, Animatable<Entity> {
 
 	@Nonnull protected Vec2 getTranslatedPoint(@Nonnull IVec2 point) {
 		return point.add(position);
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	@Nonnull public Animatables.Properties<Entity> getAnimatableProperties() {
-		if (animatableProperties == null)
-			animatableProperties = Animatables.getAnimatableProperties(this);
-		return animatableProperties;
 	}
 }

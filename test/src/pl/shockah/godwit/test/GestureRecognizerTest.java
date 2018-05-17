@@ -19,7 +19,7 @@ import pl.shockah.godwit.gesture.PanGestureRecognizer;
 import pl.shockah.godwit.gesture.PinchGestureRecognizer;
 import pl.shockah.godwit.gesture.TapGestureRecognizer;
 import pl.shockah.godwit.gl.Gfx;
-import pl.shockah.unicorn.Box;
+import pl.shockah.unicorn.collection.Box;
 
 public class GestureRecognizerTest extends State implements GestureHandler {
 	@Override
