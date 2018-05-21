@@ -10,12 +10,13 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import lombok.Getter;
+import pl.shockah.godwit.constraint.Constraint;
 import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.geom.Rectangle;
 import pl.shockah.godwit.geom.Vec2;
 import pl.shockah.godwit.gl.Gfx;
 
-public class CameraGroup extends RenderGroup {
+public class CameraGroup extends ConstrainableRenderGroup {
 	@Getter
 	@Nonnull private Camera camera = new OrthographicCamera();
 
@@ -84,6 +85,9 @@ public class CameraGroup extends RenderGroup {
 			lastWidth = newWidth;
 			lastHeight = newHeight;
 			lastCenterViewport = centerViewport;
+
+			size.x = lastWidth;
+			size.y = lastHeight;
 		}
 	}
 
@@ -120,5 +124,10 @@ public class CameraGroup extends RenderGroup {
 		gfx.getSpriteBatch().setProjectionMatrix(camera.combined);
 		gfx.getShapeRenderer().setProjectionMatrix(camera.combined);
 		super.render(gfx, v);
+	}
+
+	@Override
+	public void setAttribute(@Nonnull Constraint.Attribute attribute, float value) {
+		throw new UnsupportedOperationException();
 	}
 }
