@@ -5,6 +5,9 @@ import com.badlogic.gdx.graphics.Pixmap;
 import org.robovm.apple.avfoundation.AVAuthorizationStatus;
 import org.robovm.apple.avfoundation.AVCaptureDevice;
 import org.robovm.apple.avfoundation.AVMediaType;
+import org.robovm.apple.coregraphics.CGPoint;
+import org.robovm.apple.coregraphics.CGRect;
+import org.robovm.apple.coregraphics.CGSize;
 import org.robovm.apple.photos.PHAuthorizationStatus;
 import org.robovm.apple.photos.PHPhotoLibrary;
 import org.robovm.apple.uikit.UIAlertAction;
@@ -17,6 +20,7 @@ import org.robovm.apple.uikit.UIImagePickerController;
 import org.robovm.apple.uikit.UIImagePickerControllerDelegateAdapter;
 import org.robovm.apple.uikit.UIImagePickerControllerEditingInfo;
 import org.robovm.apple.uikit.UIImagePickerControllerSourceType;
+import org.robovm.apple.uikit.UIPopoverArrowDirection;
 import org.robovm.apple.uikit.UIPopoverPresentationController;
 import org.robovm.apple.uikit.UIUserInterfaceIdiom;
 import org.robovm.apple.uikit.UIView;
@@ -112,7 +116,11 @@ public class IosImagePickerService extends ImagePickerService {
 			UIPopoverPresentationController popover = alert.getPopoverPresentationController();
 			UIView view = getController().getView();
 			popover.setSourceView(view);
-			popover.setSourceRect(view.getFrame());
+			popover.setSourceRect(new CGRect(
+					new CGPoint(view.getBounds().getMidX(), view.getBounds().getMidY()),
+					new CGSize(0, 0)
+			));
+			popover.setPermittedArrowDirections(UIPopoverArrowDirection.None);
 		}
 
 		alert.addAction(new UIAlertAction("Camera", UIAlertActionStyle.Default, action -> {
