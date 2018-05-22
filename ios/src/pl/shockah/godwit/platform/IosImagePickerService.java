@@ -17,8 +17,9 @@ import org.robovm.apple.uikit.UIImagePickerController;
 import org.robovm.apple.uikit.UIImagePickerControllerDelegateAdapter;
 import org.robovm.apple.uikit.UIImagePickerControllerEditingInfo;
 import org.robovm.apple.uikit.UIImagePickerControllerSourceType;
-import org.robovm.apple.uikit.UIScreen;
+import org.robovm.apple.uikit.UIPopoverPresentationController;
 import org.robovm.apple.uikit.UIUserInterfaceIdiom;
+import org.robovm.apple.uikit.UIView;
 import org.robovm.apple.uikit.UIViewController;
 
 import java.lang.ref.WeakReference;
@@ -107,8 +108,12 @@ public class IosImagePickerService extends ImagePickerService {
 	@Override
 	public void getPixmapViaImagePicker(@Nonnull Action1<Pixmap> pixmapDelegate, @Nonnull Action1<PermissionException> permissionExceptionDelegate) {
 		UIAlertController alert = new UIAlertController(null, null, UIAlertControllerStyle.ActionSheet);
-		if (UIDevice.getCurrentDevice().getUserInterfaceIdiom() == UIUserInterfaceIdiom.Pad)
-			alert.getPopoverPresentationController().setSourceRect(UIScreen.getMainScreen().getBounds());
+		if (UIDevice.getCurrentDevice().getUserInterfaceIdiom() == UIUserInterfaceIdiom.Pad) {
+			UIPopoverPresentationController popover = alert.getPopoverPresentationController();
+			UIView view = getController().getView();
+			popover.setSourceView(view);
+			popover.setSourceRect(view.getFrame());
+		}
 
 		alert.addAction(new UIAlertAction("Camera", UIAlertActionStyle.Default, action -> {
 			requestPermissionAndShowImagePickerController(Source.Camera, pixmapDelegate, permissionExceptionDelegate);
@@ -119,7 +124,7 @@ public class IosImagePickerService extends ImagePickerService {
 		alert.addAction(new UIAlertAction("Cancel", UIAlertActionStyle.Cancel, action -> {
 			alert.dismissViewController(true, null);
 		}));
-		
+
 		getController().presentViewController(alert, true, null);
 	}
 
