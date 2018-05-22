@@ -14,7 +14,6 @@ import org.robovm.apple.uikit.UIAlertAction;
 import org.robovm.apple.uikit.UIAlertActionStyle;
 import org.robovm.apple.uikit.UIAlertController;
 import org.robovm.apple.uikit.UIAlertControllerStyle;
-import org.robovm.apple.uikit.UIDevice;
 import org.robovm.apple.uikit.UIImage;
 import org.robovm.apple.uikit.UIImagePickerController;
 import org.robovm.apple.uikit.UIImagePickerControllerDelegateAdapter;
@@ -22,7 +21,6 @@ import org.robovm.apple.uikit.UIImagePickerControllerEditingInfo;
 import org.robovm.apple.uikit.UIImagePickerControllerSourceType;
 import org.robovm.apple.uikit.UIPopoverArrowDirection;
 import org.robovm.apple.uikit.UIPopoverPresentationController;
-import org.robovm.apple.uikit.UIUserInterfaceIdiom;
 import org.robovm.apple.uikit.UIView;
 import org.robovm.apple.uikit.UIViewController;
 
@@ -112,16 +110,14 @@ public class IosImagePickerService extends ImagePickerService {
 	@Override
 	public void getPixmapViaImagePicker(@Nonnull Action1<Pixmap> pixmapDelegate, @Nonnull Action1<PermissionException> permissionExceptionDelegate) {
 		UIAlertController alert = new UIAlertController(null, null, UIAlertControllerStyle.ActionSheet);
-		if (UIDevice.getCurrentDevice().getUserInterfaceIdiom() == UIUserInterfaceIdiom.Pad) {
-			UIPopoverPresentationController popover = alert.getPopoverPresentationController();
-			UIView view = getController().getView();
-			popover.setSourceView(view);
-			popover.setSourceRect(new CGRect(
-					new CGPoint(view.getBounds().getMidX(), view.getBounds().getMidY()),
-					new CGSize(0, 0)
-			));
-			popover.setPermittedArrowDirections(UIPopoverArrowDirection.None);
-		}
+		UIPopoverPresentationController popover = alert.getPopoverPresentationController();
+		UIView view = getController().getView();
+		popover.setSourceView(view);
+		popover.setSourceRect(new CGRect(
+				new CGPoint(view.getBounds().getMidX(), view.getBounds().getMidY()),
+				new CGSize(0, 0)
+		));
+		popover.setPermittedArrowDirections(UIPopoverArrowDirection.None);
 
 		alert.addAction(new UIAlertAction("Camera", UIAlertActionStyle.Default, action -> {
 			requestPermissionAndShowImagePickerController(Source.Camera, pixmapDelegate, permissionExceptionDelegate);
