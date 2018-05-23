@@ -1,5 +1,7 @@
 package pl.shockah.godwit.test.desktop;
 
+import com.badlogic.gdx.Application;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 
@@ -21,6 +23,7 @@ public final class TestStarter {
 			@Override
 			public void create() {
 				super.create();
+				Gdx.app.setLogLevel(Application.LOG_DEBUG);
 
 				Godwit godwit = Godwit.getInstance();
 				godwit.waitForDeltaToStabilize = false;

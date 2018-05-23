@@ -17,11 +17,15 @@ import javax.annotation.Nonnull;
 import pl.shockah.godwit.CameraGroup;
 import pl.shockah.godwit.Entity;
 import pl.shockah.godwit.Godwit;
+import pl.shockah.godwit.GodwitLogger;
 import pl.shockah.godwit.RenderGroup;
 import pl.shockah.godwit.geom.Shape;
 import pl.shockah.godwit.geom.Vec2;
 
 public class GestureManager extends InputAdapter {
+	@Nonnull
+	public final GodwitLogger logger = new GodwitLogger(getClass());
+
 	@Nonnull public final Map<Integer, Touch> touches = new HashMap<>();
 	@Nonnull public final Set<GestureRecognizer> recognizers = new LinkedHashSet<>();
 	@Nonnull protected final Set<ContinuousGestureRecognizer> currentContinuousRecognizers = new LinkedHashSet<>();

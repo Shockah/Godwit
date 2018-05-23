@@ -5,8 +5,11 @@ import java.util.Set;
 
 import javax.annotation.Nonnull;
 
+import java8.util.stream.Collectors;
+import java8.util.stream.StreamSupport;
 import lombok.Getter;
 import pl.shockah.godwit.Godwit;
+import pl.shockah.godwit.GodwitLogger;
 import pl.shockah.godwit.geom.Vec2;
 
 public abstract class GestureRecognizer {
@@ -23,11 +26,15 @@ public abstract class GestureRecognizer {
 	}
 
 	public void register() {
-		Godwit.getInstance().inputManager.gestureManager.recognizers.add(this);
+		GestureManager manager = Godwit.getInstance().inputManager.gestureManager;
+		manager.recognizers.add(this);
+		manager.logger.info("[+] Registering %s for %s", this, handler);
 	}
 
 	public void unregister() {
-		Godwit.getInstance().inputManager.gestureManager.recognizers.remove(this);
+		GestureManager manager = Godwit.getInstance().inputManager.gestureManager;
+		manager.recognizers.remove(this);
+		manager.logger.info("[-] Unregistering %s for %s", this, handler);
 	}
 
 	public final boolean isRegistered() {
@@ -54,13 +61,18 @@ public abstract class GestureRecognizer {
 		if (state == this.state)
 			return;
 
-		//System.out.println(String.format("%s for %s state change %s -> %s", toString(), handler.toString(), this.state.name(), state.name()));
+		Godwit.getInstance().inputManager.gestureManager.logger.debug(
+				"%s for %s state change: %s -> %s",
+				this, handler, this.state, state
+		);
 		this.state = state;
 
-//		Gdx.app.log("GestureRecognizer", new Date().getTime() + " | " + StreamSupport.stream(Godwit.getInstance().inputManager.gestureManager.recognizers)
-//				.map(recognizer -> String.format("%s %s", recognizer.toString(), recognizer.getState().name()))
-//				.map(text -> String.format("%1$-40s", text))
-//				.collect(Collectors.joining("")));
+		Godwit.getInstance().inputManager.gestureManager.logger.debug((GodwitLogger.MessageLogger logger) -> {
+			logger.log(StreamSupport.stream(Godwit.getInstance().inputManager.gestureManager.recognizers)
+					.map(recognizer -> String.format("%s %s", recognizer.toString(), recognizer.getState().name()))
+					.map(text -> String.format("%1$-40s", text))
+					.collect(Collectors.joining("")));
+		});
 
 		if (state == State.Ended) {
 			for (GestureRecognizer recognizer : failListeners) {

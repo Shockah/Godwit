@@ -6,6 +6,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import pl.shockah.godwit.Godwit;
+import pl.shockah.godwit.GodwitLogger;
 import pl.shockah.godwit.State;
 import pl.shockah.godwit.geom.Circle;
 import pl.shockah.godwit.geom.IVec2;
@@ -25,6 +26,8 @@ public class GestureRecognizerTest extends State implements GestureHandler {
 	@Override
 	public void onAddedToHierarchy() {
 		super.onAddedToHierarchy();
+
+		Godwit.getInstance().inputManager.gestureManager.logger.level = GodwitLogger.Level.Debug;
 
 		TestEntity entity = new TestEntity();
 		game.addChild(entity);
