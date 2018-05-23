@@ -61,10 +61,10 @@ public abstract class GestureRecognizer {
 		if (state == this.state)
 			return;
 
-		Godwit.getInstance().inputManager.gestureManager.logger.debug(
-				"%s for %s state change: %s -> %s",
-				this, handler, this.state, state
-		);
+//		Godwit.getInstance().inputManager.gestureManager.logger.debug(
+//				"%s for %s state change: %s -> %s",
+//				this, handler, this.state, state
+//		);
 		this.state = state;
 
 		Godwit.getInstance().inputManager.gestureManager.logger.debug((GodwitLogger.MessageLogger logger) -> {
