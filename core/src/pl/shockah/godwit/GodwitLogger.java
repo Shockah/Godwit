@@ -261,5 +261,9 @@ public final class GodwitLogger {
 		Level(int gdxLevel) {
 			this.gdxLevel = gdxLevel;
 		}
+
+		public void setGdxLevel() {
+			Gdx.app.setLogLevel(gdxLevel);
+		}
 	}
 }
