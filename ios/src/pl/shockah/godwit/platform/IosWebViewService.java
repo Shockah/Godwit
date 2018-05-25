@@ -6,6 +6,7 @@ import org.robovm.apple.foundation.NSURLRequest;
 import org.robovm.apple.uikit.NSLayoutAttribute;
 import org.robovm.apple.uikit.NSLayoutConstraint;
 import org.robovm.apple.uikit.NSLayoutRelation;
+import org.robovm.apple.uikit.UIApplication;
 import org.robovm.apple.uikit.UIBarButtonItem;
 import org.robovm.apple.uikit.UIBarButtonSystemItem;
 import org.robovm.apple.uikit.UINavigationController;
@@ -72,5 +73,15 @@ public class IosWebViewService implements WebViewService {
 
 			getController().presentViewController(navigation, true, null);
 		});
+	}
+
+	@Override
+	public void openFacebook(@Nonnull String pageId, @Nonnull String pageUniqueUrl) {
+		UIApplication app = UIApplication.getSharedApplication();
+		if (app.canOpenURL(new NSURL("fb://"))) {
+			app.openURL(new NSURL(String.format("fb://page/%s", pageId)));
+		} else {
+			app.openURL(new NSURL(String.format("https://facebook.com/%s", pageUniqueUrl)));
+		}
 	}
 }

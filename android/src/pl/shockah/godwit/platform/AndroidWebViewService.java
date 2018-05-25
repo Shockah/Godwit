@@ -2,6 +2,9 @@ package pl.shockah.godwit.platform;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Window;
@@ -35,6 +38,19 @@ public class AndroidWebViewService implements WebViewService {
 		b.putString("url", url);
 		intent.putExtras(b);
 		getActivity().startActivity(intent);
+	}
+
+	@Override
+	public void openFacebook(@Nonnull String pageId, @Nonnull String pageUniqueUrl) {
+		String url = String.format("https://facebook.com/%s", pageUniqueUrl);
+		Uri uri = Uri.parse(url);
+		try {
+			ApplicationInfo applicationInfo = getActivity().getPackageManager().getApplicationInfo("com.facebook.katana", 0);
+			if (applicationInfo.enabled)
+				uri = Uri.parse(String.format("fb://facewebmodal/f?href=%s", url));
+		} catch (PackageManager.NameNotFoundException ignored) {
+		}
+		getActivity().startActivity(new Intent(Intent.ACTION_VIEW, uri));
 	}
 
 	public static class WebViewActivity extends Activity {

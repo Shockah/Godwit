@@ -9,4 +9,9 @@ public class DesktopWebViewService implements WebViewService {
 	public void show(@Nonnull String url) {
 		Gdx.net.openURI(url);
 	}
+
+	@Override
+	public void openFacebook(@Nonnull String pageId, @Nonnull String pageUniqueUrl) {
+		Gdx.net.openURI(String.format("https://facebook.com/%s", pageUniqueUrl));
+	}
 }
