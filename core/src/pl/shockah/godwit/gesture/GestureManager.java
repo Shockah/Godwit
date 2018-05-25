@@ -110,7 +110,7 @@ public class GestureManager extends InputAdapter {
 			CameraGroup cameraGroup = entity.getCameraGroup();
 			if (!unprojected.contains(cameraGroup)) {
 				Vector3 unproject = cameraGroup.getCamera().unproject(new Vector3(point.x, point.y, 0f));
-				point = new Vec2(unproject.x, unproject.y);
+				point = new Vec2(unproject.x, unproject.y - 1);
 				unprojected = new HashSet<>(unprojected);
 				unprojected.add(cameraGroup);
 			}

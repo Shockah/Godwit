@@ -40,7 +40,8 @@ public final class Touch {
 	public void addPoint(@Nonnull Vec2 position) {
 		if (finished)
 			return;
-		points.add(new Point(position));
+		if (points.isEmpty() || !points.get(points.size() - 1).position.equals(position))
+			points.add(new Point(position));
 	}
 
 	public void finish() {
