@@ -79,7 +79,7 @@ public class IosWebViewService implements WebViewService {
 	public void openFacebook(@Nonnull String pageId, @Nonnull String pageUniqueUrl) {
 		UIApplication app = UIApplication.getSharedApplication();
 		if (app.canOpenURL(new NSURL("fb://"))) {
-			app.openURL(new NSURL(String.format("fb://page/%s", pageId)));
+			app.openURL(new NSURL(String.format("fb://profile/%s", pageId)));
 		} else {
 			app.openURL(new NSURL(String.format("https://facebook.com/%s", pageUniqueUrl)));
 		}
