@@ -43,7 +43,7 @@ public class GestureManager extends InputAdapter {
 		if (touches.isEmpty()) {
 			boolean inProgress = false;
 			for (GestureRecognizer recognizer : recognizers) {
-				if (recognizer.isInProgress()) {
+				if (recognizer.isInProgress() && !(recognizer instanceof ContinuousGestureRecognizer)) {
 					inProgress = true;
 					break;
 				}
@@ -51,6 +51,8 @@ public class GestureManager extends InputAdapter {
 
 			if (!inProgress) {
 				for (GestureRecognizer recognizer : recognizers) {
+					if (recognizer.isInProgress() || recognizer.getState() == GestureRecognizer.State.Detecting)
+						recognizer.setState(GestureRecognizer.State.Ended);
 					if (recognizer.isFinished())
 						recognizer.setState(GestureRecognizer.State.Possible);
 				}

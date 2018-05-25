@@ -41,8 +41,11 @@ public class PanGestureRecognizer extends ContinuousGestureRecognizer {
 	@Override
 	public void setState(@Nonnull State state) {
 		super.setState(state);
-		if (isFinished())
+		if (isFinished()) {
+			if (touch != null && touch.points.size() >= 2)
+				delegate.onPan(this, touch, touch.points.get(0).position, touch.points.get(touch.points.size() - 1).position, touch.points.get(touch.points.size() - 1).position.subtract(touch.points.get(touch.points.size() - 2).position));
 			touch = null;
+		}
 	}
 
 	@Override
@@ -93,7 +96,6 @@ public class PanGestureRecognizer extends ContinuousGestureRecognizer {
 			setState(State.Failed);
 		} else if (isInProgress()) {
 			setState(State.Ended);
-			delegate.onPan(this, touch, touch.points.get(0).position, point, point.subtract(touch.points.get(touch.points.size() - 2).position));
 		}
 	}
 
