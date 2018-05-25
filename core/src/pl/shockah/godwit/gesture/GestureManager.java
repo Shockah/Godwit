@@ -51,8 +51,11 @@ public class GestureManager extends InputAdapter {
 
 			if (!inProgress) {
 				for (GestureRecognizer recognizer : recognizers) {
-					if (recognizer.isInProgress() || recognizer.getState() == GestureRecognizer.State.Detecting)
+					if (recognizer.getState() == GestureRecognizer.State.Detecting)
+						recognizer.setState(GestureRecognizer.State.Failed);
+					else if (recognizer.isInProgress())
 						recognizer.setState(GestureRecognizer.State.Ended);
+
 					if (recognizer.isFinished())
 						recognizer.setState(GestureRecognizer.State.Possible);
 				}
