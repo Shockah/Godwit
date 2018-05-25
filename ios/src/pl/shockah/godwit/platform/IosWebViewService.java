@@ -84,4 +84,14 @@ public class IosWebViewService implements WebViewService {
 			app.openURL(new NSURL(String.format("https://facebook.com/%s", pageUniqueUrl)));
 		}
 	}
+
+	@Override
+	public void openInstagram(@Nonnull String pageUniqueUrl) {
+		UIApplication app = UIApplication.getSharedApplication();
+		if (app.canOpenURL(new NSURL("instagram://"))) {
+			app.openURL(new NSURL(String.format("instagram://user?username=%s", pageUniqueUrl)));
+		} else {
+			app.openURL(new NSURL(String.format("https://instagram.com/%s", pageUniqueUrl)));
+		}
+	}
 }

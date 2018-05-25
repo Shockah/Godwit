@@ -14,4 +14,9 @@ public class DesktopWebViewService implements WebViewService {
 	public void openFacebook(@Nonnull String pageId, @Nonnull String pageUniqueUrl) {
 		Gdx.net.openURI(String.format("https://facebook.com/%s", pageUniqueUrl));
 	}
+
+	@Override
+	public void openInstagram(@Nonnull String pageUniqueUrl) {
+		Gdx.net.openURI(String.format("https://instagram.com/%s", pageUniqueUrl));
+	}
 }

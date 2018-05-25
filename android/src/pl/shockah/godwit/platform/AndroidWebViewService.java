@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -12,6 +13,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import java.lang.ref.WeakReference;
+import java.util.List;
 
 import javax.annotation.Nonnull;
 
@@ -51,6 +53,26 @@ public class AndroidWebViewService implements WebViewService {
 		} catch (PackageManager.NameNotFoundException ignored) {
 		}
 		getActivity().startActivity(new Intent(Intent.ACTION_VIEW, uri));
+	}
+
+	@Override
+	public void openInstagram(@Nonnull String pageUniqueUrl) {
+		String url = String.format("http://instagram.com/_u/%s", pageUniqueUrl);
+		Uri uri = Uri.parse(url);
+
+		Intent insta = new Intent(Intent.ACTION_VIEW, uri);
+		insta.setPackage("com.instagram.android");
+
+		if (isIntentAvailable(insta))
+			getActivity().startActivity(insta);
+		else
+			getActivity().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(String.format("http://instagram.com/%s", pageUniqueUrl))));
+	}
+
+	private boolean isIntentAvailable(@Nonnull Intent intent) {
+		final PackageManager packageManager = getActivity().getPackageManager();
+		List<ResolveInfo> list = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+		return list.size() > 0;
 	}
 
 	public static class WebViewActivity extends Activity {
