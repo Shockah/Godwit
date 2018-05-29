@@ -15,6 +15,14 @@ import pl.shockah.godwit.geom.Vec2;
 public abstract class GestureRecognizer {
 	public enum State {
 		Possible, Detecting, Began, Changed, Failed, Cancelled, Ended;
+
+		public boolean isInProgress() {
+			return this == State.Began || this == State.Changed;
+		}
+
+		public boolean isFinished() {
+			return this == State.Ended || this == State.Failed || this == State.Cancelled;
+		}
 	}
 
 	@Nonnull public final GestureHandler handler;
@@ -102,11 +110,11 @@ public abstract class GestureRecognizer {
 	}
 
 	public final boolean isInProgress() {
-		return state == State.Began || state == State.Changed;
+		return state.isInProgress();
 	}
 
 	public final boolean isFinished() {
-		return state == State.Ended || state == State.Failed || state == State.Cancelled;
+		return state.isFinished();
 	}
 
 	public void requireToFail(@Nonnull GestureRecognizer recognizer) {
