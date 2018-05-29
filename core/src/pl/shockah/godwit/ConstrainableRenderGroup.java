@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
+import lombok.Getter;
 import pl.shockah.godwit.constraint.Constrainable;
 import pl.shockah.godwit.constraint.Constraint;
 import pl.shockah.godwit.geom.MutableVec2;
@@ -16,25 +17,20 @@ public class ConstrainableRenderGroup extends RenderGroup implements Constrainab
 	public MutableVec2 size = new MutableVec2();
 
 	@Nonnull
-	private final List<Constraint> constraints = new ArrayList<>();
+	private final List<Constraint> modifiableConstraints = new ArrayList<>();
 
 	@Nonnull
-	private final List<Constraint> unmodifiableConstraints = Collections.unmodifiableList(constraints);
-
-	@Override
-	@Nonnull
-	public List<Constraint> getConstraints() {
-		return unmodifiableConstraints;
-	}
+	@Getter
+	private final List<Constraint> constraints = Collections.unmodifiableList(modifiableConstraints);
 
 	@Override
 	public void addConstraint(@Nonnull Constraint constraint) {
-		constraints.add(constraint);
+		modifiableConstraints.add(constraint);
 	}
 
 	@Override
 	public void removeConstraint(@Nonnull Constraint constraint) {
-		constraints.remove(constraint);
+		modifiableConstraints.remove(constraint);
 	}
 
 	@Override

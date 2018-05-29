@@ -1,4 +1,4 @@
-package pl.shockah.godwit.ui;
+package pl.shockah.godwit.ui.unused;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -9,6 +9,7 @@ import pl.shockah.godwit.geom.Vec2;
 import pl.shockah.godwit.geom.MutableVec2;
 import pl.shockah.godwit.gl.Gfx;
 import pl.shockah.godwit.gl.GfxSlice;
+import pl.shockah.godwit.ui.Padding;
 
 public class FillView extends ViewHolder<Void> {
 	@Getter

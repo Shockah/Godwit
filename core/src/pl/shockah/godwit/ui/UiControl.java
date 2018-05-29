@@ -1,4 +1,4 @@
-package pl.shockah.godwit.gesture;
+package pl.shockah.godwit.ui;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -7,14 +7,18 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import lombok.Getter;
-import pl.shockah.godwit.Entity;
+import pl.shockah.godwit.ConstrainableRenderGroup;
 import pl.shockah.godwit.geom.Shape;
+import pl.shockah.godwit.gesture.GestureHandler;
+import pl.shockah.godwit.gesture.GestureRecognizer;
 
-public class GestureHandlerEntity<T extends Shape.Filled> extends Entity implements GestureHandler {
-	@Nonnull protected final Set<GestureRecognizer> gestureRecognizers = new HashSet<>();
+public class UiControl<T extends Shape.Filled> extends ConstrainableRenderGroup implements GestureHandler {
+	@Nonnull
+	protected final Set<GestureRecognizer> gestureRecognizers = new HashSet<>();
 
+	@Nullable
 	@Getter
-	@Nullable public T gestureShape;
+	public T gestureShape;
 
 	@Override
 	public void onAddedToHierarchy() {

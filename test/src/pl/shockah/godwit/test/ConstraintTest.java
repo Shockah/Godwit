@@ -11,6 +11,7 @@ import pl.shockah.godwit.constraint.Constrainable;
 import pl.shockah.godwit.constraint.Constraint;
 import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.gl.Gfx;
+import pl.shockah.godwit.ui.Unit;
 
 public class ConstraintTest extends State {
 	public ConstraintTest() {
@@ -22,8 +23,8 @@ public class ConstraintTest extends State {
 						super.onAddedToParent();
 						addConstraint(new BasicConstraint(this, Constraint.Attribute.Width, (Constrainable)getParent(), 0.5f));
 						addConstraint(new BasicConstraint(this, Constraint.Attribute.Height, (Constrainable)getParent(), 0.5f));
-						addConstraint(new BasicConstraint(this, Constraint.Attribute.Top, (Constrainable)getParent(), new BasicConstraint.Pixels(32f)));
-						addConstraint(new BasicConstraint(this, Constraint.Attribute.Left, (Constrainable)getParent(), new BasicConstraint.Pixels(32f)));
+						addConstraint(new BasicConstraint(this, Constraint.Attribute.Top, (Constrainable)getParent(), new Unit.Pixels(32f)));
+						addConstraint(new BasicConstraint(this, Constraint.Attribute.Left, (Constrainable)getParent(), new Unit.Pixels(32f)));
 					}
 
 					@Override

@@ -1,4 +1,4 @@
-package pl.shockah.godwit.ui;
+package pl.shockah.godwit.ui.unused;
 
 import java.util.ArrayList;
 import java.util.Collections;

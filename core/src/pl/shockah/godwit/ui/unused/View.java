@@ -1,4 +1,4 @@
-package pl.shockah.godwit.ui;
+package pl.shockah.godwit.ui.unused;
 
 import com.badlogic.gdx.graphics.Color;
 

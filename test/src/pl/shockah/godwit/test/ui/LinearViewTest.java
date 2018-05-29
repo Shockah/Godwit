@@ -4,12 +4,12 @@ import com.badlogic.gdx.graphics.Color;
 
 import pl.shockah.godwit.State;
 import pl.shockah.godwit.ui.Alignment;
-import pl.shockah.godwit.ui.BaseLinearView;
-import pl.shockah.godwit.ui.FillView;
-import pl.shockah.godwit.ui.LinearView;
+import pl.shockah.godwit.ui.unused.BaseLinearView;
+import pl.shockah.godwit.ui.unused.FillView;
+import pl.shockah.godwit.ui.unused.LinearView;
 import pl.shockah.godwit.ui.Orientation;
 import pl.shockah.godwit.ui.Padding;
-import pl.shockah.godwit.ui.ViewEntity;
+import pl.shockah.godwit.ui.unused.ViewEntity;
 
 public class LinearViewTest extends State {
 	@Override

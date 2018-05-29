@@ -1,8 +1,10 @@
-package pl.shockah.godwit.ui;
+package pl.shockah.godwit.ui.unused;
 
 import javax.annotation.Nonnull;
 
 import pl.shockah.godwit.geom.Vec2;
+import pl.shockah.godwit.ui.Alignment;
+import pl.shockah.godwit.ui.Orientation;
 
 public class BaseLinearView<T extends BaseLinearView.Attributes> extends ViewGroup<T> {
 	@Nonnull public final Orientation orientation;

@@ -15,25 +15,37 @@ public abstract class AbstractConstrainable implements Constrainable {
 	protected Rectangle bounds = new Rectangle(0f, 0f);
 
 	@Nonnull
-	private final List<Constraint> constraints = new ArrayList<>();
+	private final List<Constraint> modifiableConstraints = new ArrayList<>();
 
 	@Nonnull
-	private final List<Constraint> unmodifiableConstraints = Collections.unmodifiableList(constraints);
-
-	@Override
-	@Nonnull
-	public List<Constraint> getConstraints() {
-		return unmodifiableConstraints;
-	}
+	@Getter
+	private final List<Constraint> constraints = Collections.unmodifiableList(modifiableConstraints);
 
 	@Override
 	public void addConstraint(@Nonnull Constraint constraint) {
-		constraints.add(constraint);
+		modifiableConstraints.add(constraint);
 	}
 
 	@Override
 	public void removeConstraint(@Nonnull Constraint constraint) {
-		constraints.remove(constraint);
+		modifiableConstraints.remove(constraint);
+	}
+
+	@Override
+	public float getAttribute(@Nonnull Constraint.Attribute attribute) {
+		return getAttributeForBounds(bounds, attribute);
+	}
+
+	@Override
+	public void setAttribute(@Nonnull Constraint.Attribute attribute, float value) {
+		setAttributeForBounds(bounds, attribute, value);
+	}
+
+	@Override
+	public void applyConstraints() {
+		for (Constraint constraint : constraints) {
+			constraint.apply();
+		}
 	}
 
 	public static float getAttributeForBounds(@Nonnull Rectangle bounds, @Nonnull Constraint.Attribute attribute) {
@@ -57,11 +69,6 @@ public abstract class AbstractConstrainable implements Constrainable {
 			default:
 				throw new IllegalArgumentException();
 		}
-	}
-
-	@Override
-	public float getAttribute(@Nonnull Constraint.Attribute attribute) {
-		return getAttributeForBounds(bounds, attribute);
 	}
 
 	public static void setAttributeForBounds(@Nonnull Rectangle bounds, @Nonnull Constraint.Attribute attribute, float value) {
@@ -92,18 +99,6 @@ public abstract class AbstractConstrainable implements Constrainable {
 				return;
 			default:
 				throw new IllegalArgumentException();
-		}
-	}
-
-	@Override
-	public void setAttribute(@Nonnull Constraint.Attribute attribute, float value) {
-		setAttributeForBounds(bounds, attribute, value);
-	}
-
-	@Override
-	public void applyConstraints() {
-		for (Constraint constraint : constraints) {
-			constraint.apply();
 		}
 	}
 }
