@@ -82,10 +82,12 @@ public class PanGestureRecognizer extends ContinuousGestureRecognizer {
 			if (!new Circle(touch.points.get(0).position, getStationaryRadius()).contains(point)) {
 				touch.setRecognizer(this);
 				setState(State.Began);
+				System.out.println(touch.points.size());
 				delegate.onPan(this, touch, touch.points.get(0).position, point, point.subtract(touch.points.get(touch.points.size() - 2).position));
 			}
 		} else if (isInProgress()) {
 			setState(State.Changed);
+			System.out.println(touch.points.size());
 			delegate.onPan(this, touch, touch.points.get(0).position, point, point.subtract(touch.points.get(touch.points.size() - 2).position));
 		}
 	}
