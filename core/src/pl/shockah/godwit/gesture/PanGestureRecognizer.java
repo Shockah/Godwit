@@ -42,7 +42,7 @@ public class PanGestureRecognizer extends ContinuousGestureRecognizer {
 	public void setState(@Nonnull State state) {
 		super.setState(state);
 		if (isFinished()) {
-			if (touch != null && touch.points.size() >= 2) {
+			if (touch != null && touch.points.size() >= 2 && touch.getRecognizer() == this) {
 				Vec2 first = touch.points.get(0).position;
 				Vec2 last = touch.points.get(touch.points.size() - 1).position;
 				Vec2 preLast = touch.points.get(touch.points.size() - 2).position;
