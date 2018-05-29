@@ -1,17 +1,42 @@
 package pl.shockah.godwit.ui;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.geom.Shape;
+import pl.shockah.godwit.gesture.GestureRecognizer;
+import pl.shockah.godwit.gesture.TapGestureRecognizer;
 import pl.shockah.godwit.gl.Gfx;
 
 public abstract class UiButton<T extends Shape.Filled> extends UiControl<T> {
+	@Nullable
+	public final Listener listener;
+
+	protected boolean isPressed = false;
+
+	public UiButton(@Nullable Listener listener) {
+		this.listener = listener;
+
+		TapGestureRecognizer tapGesture = new TapGestureRecognizer(this, recognizer -> {
+			if (listener != null)
+				listener.onButtonPressed(this);
+		});
+		tapGesture.stateListeners.add((recognizer, state) -> {
+			isPressed = state == GestureRecognizer.State.Began;
+		});
+		gestureRecognizers.add(tapGesture);
+	}
+
 	public abstract void updateGestureShape();
 
 	public static abstract class Rectangle extends UiButton<pl.shockah.godwit.geom.Rectangle> {
 		@Nonnull
 		public Padding padding = new Padding();
+
+		public Rectangle(@Nullable Listener listener) {
+			super(listener);
+		}
 
 		@Nonnull
 		public Rectangle setPadding(@Nonnull Padding padding) {
@@ -33,15 +58,22 @@ public abstract class UiButton<T extends Shape.Filled> extends UiControl<T> {
 
 	public static class NinePatch extends Rectangle {
 		@Nonnull
-		public final pl.shockah.godwit.gl.NinePatch ninePatch;
+		public final pl.shockah.godwit.gl.NinePatch normal;
 
-		public NinePatch(@Nonnull pl.shockah.godwit.gl.NinePatch ninePatch) {
-			this.ninePatch = ninePatch;
+		@Nonnull
+		public final pl.shockah.godwit.gl.NinePatch pressed;
+
+		public NinePatch(@Nonnull pl.shockah.godwit.gl.NinePatch normal, @Nonnull pl.shockah.godwit.gl.NinePatch pressed, @Nonnull Listener listener) {
+			super(listener);
+			this.normal = normal;
+			this.pressed = pressed;
 		}
 
 		@Override
 		public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
 			super.render(gfx, v);
+
+			pl.shockah.godwit.gl.NinePatch ninePatch = isPressed ? pressed : normal;
 			ninePatch.rectangle = getBounds();
 			ninePatch.render(gfx, v);
 		}
@@ -49,6 +81,10 @@ public abstract class UiButton<T extends Shape.Filled> extends UiControl<T> {
 
 	public static abstract class Circle extends UiButton<pl.shockah.godwit.geom.Circle> {
 		public float padding = 0f;
+
+		public Circle(@Nullable Listener listener) {
+			super(listener);
+		}
 
 		@Nonnull
 		public Circle setPadding(float padding) {
@@ -64,5 +100,9 @@ public abstract class UiButton<T extends Shape.Filled> extends UiControl<T> {
 					Math.max(bounds.size.x, bounds.size.y) + padding * 2f
 			);
 		}
+	}
+
+	public interface Listener {
+		void onButtonPressed(@Nonnull UiButton<? extends Shape.Filled> button);
 	}
 }

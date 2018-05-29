@@ -13,6 +13,10 @@ import pl.shockah.godwit.GodwitLogger;
 import pl.shockah.godwit.geom.Vec2;
 
 public abstract class GestureRecognizer {
+	public enum State {
+		Possible, Detecting, Began, Changed, Failed, Cancelled, Ended;
+	}
+
 	@Nonnull public final GestureHandler handler;
 
 	@Getter
@@ -20,6 +24,9 @@ public abstract class GestureRecognizer {
 
 	@Nonnull protected final Set<GestureRecognizer> requireToFail = new HashSet<>();
 	@Nonnull protected final Set<GestureRecognizer> failListeners = new HashSet<>();
+
+	@Nonnull
+	public final Set<StateListener> stateListeners = new HashSet<>();
 
 	protected GestureRecognizer(@Nonnull GestureHandler handler) {
 		this.handler = handler;
@@ -73,6 +80,10 @@ public abstract class GestureRecognizer {
 					.map(text -> String.format("%1$-40s", text))
 					.collect(Collectors.joining("")));
 		});
+
+		for (StateListener listener : stateListeners) {
+			listener.onStateChanged(this, state);
+		}
 
 		if (state == State.Ended) {
 			for (GestureRecognizer recognizer : failListeners) {
@@ -132,7 +143,7 @@ public abstract class GestureRecognizer {
 	protected void handleTouchUp(@Nonnull Touch touch, @Nonnull Vec2 point) {
 	}
 
-	public enum State {
-		Possible, Detecting, Began, Changed, Failed, Cancelled, Ended;
+	public interface StateListener {
+		void onStateChanged(@Nonnull GestureRecognizer recognizer, @Nonnull State state);
 	}
 }
