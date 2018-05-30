@@ -112,12 +112,14 @@ public class IosImagePickerService extends ImagePickerService {
 		UIAlertController alert = new UIAlertController(null, null, UIAlertControllerStyle.ActionSheet);
 		UIPopoverPresentationController popover = alert.getPopoverPresentationController();
 		UIView view = getController().getView();
-		popover.setSourceView(view);
-		popover.setSourceRect(new CGRect(
-				new CGPoint(view.getBounds().getMidX(), view.getBounds().getMidY()),
-				new CGSize(0, 0)
-		));
-		popover.setPermittedArrowDirections(UIPopoverArrowDirection.None);
+		if (popover != null) {
+			popover.setSourceView(view);
+			popover.setSourceRect(new CGRect(
+					new CGPoint(view.getBounds().getMidX(), view.getBounds().getMidY()),
+					new CGSize(0, 0)
+			));
+			popover.setPermittedArrowDirections(UIPopoverArrowDirection.None);
+		}
 
 		alert.addAction(new UIAlertAction("Camera", UIAlertActionStyle.Default, action -> {
 			requestPermissionAndShowImagePickerController(Source.Camera, pixmapDelegate, permissionExceptionDelegate);
