@@ -12,13 +12,13 @@ import pl.shockah.godwit.geom.Shape;
 import pl.shockah.godwit.gesture.GestureHandler;
 import pl.shockah.godwit.gesture.GestureRecognizer;
 
-public class UiControl<T extends Shape.Filled> extends ConstrainableRenderGroup implements GestureHandler {
+public class UiControl<S extends Shape.Filled> extends ConstrainableRenderGroup implements GestureHandler {
 	@Nonnull
 	protected final Set<GestureRecognizer> gestureRecognizers = new HashSet<>();
 
 	@Nullable
 	@Getter
-	public T gestureShape;
+	public S gestureShape;
 
 	@Override
 	public void onAddedToHierarchy() {

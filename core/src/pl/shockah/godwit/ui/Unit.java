@@ -6,7 +6,12 @@ import pl.shockah.godwit.Godwit;
 
 public abstract class Unit {
 	@Nonnull
-	public static final Unit Zero = new Pixels(0f);
+	public static final Unit Zero = new Unit() {
+		@Override
+		public float getPixels() {
+			return 0;
+		}
+	};
 
 	public abstract float getPixels();
 

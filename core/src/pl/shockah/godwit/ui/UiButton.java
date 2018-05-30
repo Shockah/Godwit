@@ -9,7 +9,7 @@ import pl.shockah.godwit.gesture.GestureRecognizer;
 import pl.shockah.godwit.gesture.TapGestureRecognizer;
 import pl.shockah.godwit.gl.Gfx;
 
-public abstract class UiButton<T extends Shape.Filled> extends UiControl<T> {
+public abstract class UiButton<S extends Shape.Filled> extends UiControl<S> {
 	@Nullable
 	public final Listener listener;
 
@@ -76,6 +76,13 @@ public abstract class UiButton<T extends Shape.Filled> extends UiControl<T> {
 			pl.shockah.godwit.gl.NinePatch ninePatch = isPressed ? pressed : normal;
 			ninePatch.rectangle = getBounds();
 			ninePatch.render(gfx, v);
+		}
+
+		@Nonnull
+		@Override
+		public NinePatch setPadding(@Nonnull Padding padding) {
+			super.setPadding(padding);
+			return this;
 		}
 	}
 
