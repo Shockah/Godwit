@@ -12,7 +12,8 @@ import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.geom.Vec2;
 
 public class MaskEntity extends RenderGroup {
-	@Nullable public Entity mask;
+	@Nullable
+	public Entity mask;
 
 	@Override
 	public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {

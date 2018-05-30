@@ -34,7 +34,8 @@ public class ScalableBitmapFontCache {
 	private IntArray[] pageGlyphIndices;
 	private int[] tempGlyphCount;
 
-	@Nonnull public MutableVec2 scale = new MutableVec2(1f, 1f);
+	@Nonnull
+	public MutableVec2 scale = new MutableVec2(1f, 1f);
 
 	public ScalableBitmapFontCache (BitmapFont font) {
 		this(font, font.usesIntegerPositions());

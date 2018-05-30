@@ -8,15 +8,18 @@ import lombok.Getter;
 import pl.shockah.godwit.geom.Vec2;
 
 public interface Alignment {
-	@Nonnull Vec2 getVector();
+	@Nonnull
+	Vec2 getVector();
 
 	int getGdxAlignment();
 
-	@Nonnull default Vec2 getNonNanVector() {
+	@Nonnull
+	default Vec2 getNonNanVector() {
 		return getNonNanVector(1f);
 	}
 
-	@Nonnull default Vec2 getNonNanVector(float nanValue) {
+	@Nonnull
+	default Vec2 getNonNanVector(float nanValue) {
 		Vec2 v = getVector();
 		return new Vec2(Float.isNaN(v.x) ? nanValue : v.x, Float.isNaN(v.y) ? nanValue : v.y);
 	}
@@ -35,13 +38,15 @@ public interface Alignment {
 		Right(new Vec2(1f, Float.NaN));
 
 		@Getter
-		@Nonnull private final Vec2 vector;
+		@Nonnull
+		private final Vec2 vector;
 
 		Horizontal(@Nonnull Vec2 vector) {
 			this.vector = vector;
 		}
 
-		@Nonnull public Plane and(@Nonnull Vertical vertical) {
+		@Nonnull
+		public Plane and(@Nonnull Vertical vertical) {
 			return new Plane(this, vertical);
 		}
 
@@ -62,13 +67,15 @@ public interface Alignment {
 		Bottom(new Vec2(Float.NaN, 1f));
 
 		@Getter
-		@Nonnull private final Vec2 vector;
+		@Nonnull
+		private final Vec2 vector;
 
 		Vertical(@Nonnull Vec2 vector) {
 			this.vector = vector;
 		}
 
-		@Nonnull public Plane and(@Nonnull Horizontal horizontal) {
+		@Nonnull
+		public Plane and(@Nonnull Horizontal horizontal) {
 			return new Plane(horizontal, this);
 		}
 
@@ -84,18 +91,23 @@ public interface Alignment {
 	}
 
 	class Plane implements Alignment {
-		@Nonnull public final Horizontal horizontal;
-		@Nonnull public final Vertical vertical;
+		@Nonnull
+		public final Horizontal horizontal;
+
+		@Nonnull
+		public final Vertical vertical;
 
 		@Getter(lazy = true)
-		@Nonnull private final Vec2 vector = calculateVector(horizontal, vertical);
+		@Nonnull
+		private final Vec2 vector = calculateVector(horizontal, vertical);
 
 		private Plane(@Nonnull Horizontal horizontal, @Nonnull Vertical vertical) {
 			this.horizontal = horizontal;
 			this.vertical = vertical;
 		}
 
-		@Nonnull private Vec2 calculateVector(@Nonnull Horizontal horizontal, @Nonnull Vertical vertical) {
+		@Nonnull
+		private Vec2 calculateVector(@Nonnull Horizontal horizontal, @Nonnull Vertical vertical) {
 			return new Vec2(horizontal.vector.x, vertical.vector.y);
 		}
 

@@ -9,14 +9,16 @@ import pl.shockah.godwit.geom.Shape;
 import pl.shockah.godwit.gl.Gfx;
 
 public abstract class ShapeView<T extends Shape> extends View {
-	@Nullable public T shape;
+	@Nullable
+	public T shape;
 
 	public ShapeView(@Nullable T shape) {
 		this.shape = shape;
 	}
 
 	@Override
-	@Nonnull public Vec2 getIntrinsicSize(@Nonnull IVec2 availableSize) {
+	@Nonnull
+	public Vec2 getIntrinsicSize(@Nonnull IVec2 availableSize) {
 		return shape != null ? shape.getBoundingBox().size.asImmutable() : Vec2.zero;
 	}
 

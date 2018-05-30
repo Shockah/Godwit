@@ -13,9 +13,14 @@ import pl.shockah.unicorn.ease.Easable;
 
 @EqualsAndHashCode(callSuper = false)
 public class Triangle extends AbstractShape implements Polygonable, Shape.Filled, Shape.Outline, Easable<Triangle> {
-	@Nonnull public MutableVec2 point1;
-	@Nonnull public MutableVec2 point2;
-	@Nonnull public MutableVec2 point3;
+	@Nonnull
+	public MutableVec2 point1;
+
+	@Nonnull
+	public MutableVec2 point2;
+
+	@Nonnull
+	public MutableVec2 point3;
 
 	public Triangle(float x1, float y1, float x2, float y2, float x3, float y3) {
 		this(new MutableVec2(x1, y1), new MutableVec2(x2, y2), new MutableVec2(x3, y3));
@@ -52,7 +57,8 @@ public class Triangle extends AbstractShape implements Polygonable, Shape.Filled
 	}
 
 	@Override
-	@Nonnull public Triangle copy() {
+	@Nonnull
+	public Triangle copy() {
 		return new Triangle(point1, point2, point3);
 	}
 
@@ -62,7 +68,8 @@ public class Triangle extends AbstractShape implements Polygonable, Shape.Filled
 	}
 
 	@Override
-	@Nonnull public Rectangle getBoundingBox() {
+	@Nonnull
+	public Rectangle getBoundingBox() {
 		float minX = Math2.min(point1.x, point2.x, point3.x);
 		float minY = Math2.min(point1.y, point2.y, point3.y);
 		float maxX = Math2.max(point1.x, point2.x, point3.x);
@@ -146,7 +153,8 @@ public class Triangle extends AbstractShape implements Polygonable, Shape.Filled
 	}
 
 	@Override
-	@Nonnull public Polygon asPolygon() {
+	@Nonnull
+	public Polygon asPolygon() {
 		Polygon p = new Polygon.NoHoles();
 		p.addPoint(point1);
 		p.addPoint(point2);
@@ -167,7 +175,8 @@ public class Triangle extends AbstractShape implements Polygonable, Shape.Filled
 	}
 
 	@Override
-	@Nonnull public Triangle ease(@Nonnull Triangle other, float f) {
+	@Nonnull
+	public Triangle ease(@Nonnull Triangle other, float f) {
 		return new Triangle(
 				point1.ease(other.point1, f),
 				point2.ease(other.point2, f),

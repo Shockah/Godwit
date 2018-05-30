@@ -7,7 +7,8 @@ import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.gl.Gfx;
 
 public class ViewEntity extends Entity {
-	@Nonnull public final View view;
+	@Nonnull
+	public final View view;
 
 	public ViewEntity(@Nonnull View view) {
 		this.view = view;

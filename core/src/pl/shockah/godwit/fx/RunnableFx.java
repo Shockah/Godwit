@@ -3,7 +3,8 @@ package pl.shockah.godwit.fx;
 import javax.annotation.Nonnull;
 
 public class RunnableFx extends FxImpl {
-	@Nonnull protected final Runnable action;
+	@Nonnull
+	protected final Runnable action;
 
 	public RunnableFx(@Nonnull Runnable action) {
 		super(0f);

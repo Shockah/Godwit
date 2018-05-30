@@ -15,12 +15,15 @@ import pl.shockah.godwit.platform.BackButtonService;
 import pl.shockah.unicorn.collection.SortedLinkedList;
 
 public class InputManager extends BaseInputManager<InputManager.Processor> {
-	@Nonnull protected static final Comparator<Processor> orderComparator = (o1, o2) -> -Float.compare(o1.order, o2.order);
+	@Nonnull
+	protected static final Comparator<Processor> orderComparator = (o1, o2) -> -Float.compare(o1.order, o2.order);
 
-	@Nonnull public final GestureManager gestureManager = new GestureManager();
+	@Nonnull
+	public final GestureManager gestureManager = new GestureManager();
 
 	@Getter
-	@Nonnull private final List<Processor> processors = new SortedLinkedList<>(orderComparator);
+	@Nonnull
+	private final List<Processor> processors = new SortedLinkedList<>(orderComparator);
 
 	public InputManager() {
 		addProcessor(new Adapter(0f) {
@@ -103,7 +106,8 @@ public class InputManager extends BaseInputManager<InputManager.Processor> {
 
 	public static class Delegated extends Processor {
 		@Delegate
-		@Nonnull public final InputProcessor delegate;
+		@Nonnull
+		public final InputProcessor delegate;
 
 		public Delegated(float order, @Nonnull InputProcessor delegate) {
 			super(order);

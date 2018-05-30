@@ -23,10 +23,17 @@ import pl.shockah.unicorn.color.HSVColorSpace;
 import pl.shockah.unicorn.operation.AsyncOperation;
 
 public class TravellingSalesmanTest extends State {
-	@Nonnull public final Set<IVec2> nodes = new HashSet<>();
-	@Nullable public TravellingSalesmanSolver<IVec2>.Route route;
-	@Nullable private AsyncOperation<Set<IVec2>, TravellingSalesmanSolver<IVec2>.Route> async;
-	@Nullable public Polygon polygon;
+	@Nonnull
+	public final Set<IVec2> nodes = new HashSet<>();
+
+	@Nullable
+	public TravellingSalesmanSolver<IVec2>.Route route;
+
+	@Nullable
+	private AsyncOperation<Set<IVec2>, TravellingSalesmanSolver<IVec2>.Route> async;
+
+	@Nullable
+	public Polygon polygon;
 
 	public void addNode(@Nonnull IVec2 v) {
 		nodes.add(v);

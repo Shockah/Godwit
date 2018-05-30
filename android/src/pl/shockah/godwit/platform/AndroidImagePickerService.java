@@ -18,20 +18,23 @@ import pl.shockah.godwit.GodwitFragmentActivity;
 import pl.shockah.unicorn.func.Action1;
 
 public class AndroidImagePickerService extends ImagePickerService {
-	@Nonnull private final WeakReference<GodwitFragmentActivity> activityRef;
+	@Nonnull
+	private final WeakReference<GodwitFragmentActivity> activityRef;
 
 	public AndroidImagePickerService(@Nonnull GodwitFragmentActivity activity) {
 		this.activityRef = new WeakReference<>(activity);
 	}
 
-	@Nonnull private GodwitFragmentActivity getActivity() {
+	@Nonnull
+	private GodwitFragmentActivity getActivity() {
 		GodwitFragmentActivity activity = activityRef.get();
 		if (activity == null)
 			throw new IllegalStateException("Lost context.");
 		return activity;
 	}
 
-	@Nonnull private PermissionState mapNativeState(int state) {
+	@Nonnull
+	private PermissionState mapNativeState(int state) {
 		switch (state) {
 			case PackageManager.PERMISSION_GRANTED:
 				return PermissionState.Authorized;
@@ -43,7 +46,8 @@ public class AndroidImagePickerService extends ImagePickerService {
 	}
 
 	@Override
-	@Nonnull public PermissionState getPermissionState(@Nonnull Source source) {
+	@Nonnull
+	public PermissionState getPermissionState(@Nonnull Source source) {
 		switch (source) {
 			case Library:
 				return mapNativeState(ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE));

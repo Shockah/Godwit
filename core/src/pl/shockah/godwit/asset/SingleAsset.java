@@ -17,10 +17,17 @@ public class SingleAsset<T> extends Asset<T> {
 	@Getter(lazy = true)
 	private static final Field loadQueueField = getLoadQueueFieldLazy();
 
-	@Nonnull public final String fileName;
-	@Nonnull public final Class<T> clazz;
-	@Nullable public final AssetLoaderParameters<T> parameters;
-	@Nonnull public final AssetDescriptor<T> descriptor;
+	@Nonnull
+	public final String fileName;
+
+	@Nonnull
+	public final Class<T> clazz;
+
+	@Nullable
+	public final AssetLoaderParameters<T> parameters;
+
+	@Nonnull
+	public final AssetDescriptor<T> descriptor;
 
 	public SingleAsset(@Nonnull String fileName, @Nonnull Class<T> clazz) {
 		this(fileName, clazz, null);
@@ -79,6 +86,7 @@ public class SingleAsset<T> extends Asset<T> {
 		throw new IllegalStateException(String.format("SingleAsset %s is not queued for loading.", descriptor));
 	}
 
+	@Nonnull
 	@Override
 	public T get() {
 		finishLoading();

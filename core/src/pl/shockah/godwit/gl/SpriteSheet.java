@@ -11,8 +11,12 @@ import pl.shockah.godwit.geom.Vec2;
 import pl.shockah.jay.JSONObject;
 
 public class SpriteSheet {
-	@Nonnull public final Texture texture;
-	@Nullable public final JSONObject json;
+	@Nonnull
+	public final Texture texture;
+
+	@Nullable
+	public final JSONObject json;
+
 	public final int columns;
 	public final int rows;
 	public final int spacing;
@@ -22,7 +26,8 @@ public class SpriteSheet {
 	@Getter(lazy = true)
 	private final Vec2 frameSize = calculateFrameSize(texture);
 
-	@Nonnull private final TextureRegion[][] cache;
+	@Nonnull
+	private final TextureRegion[][] cache;
 
 	public SpriteSheet(@Nonnull Texture texture, int columns, int rows) {
 		this(texture, columns, rows, 0, 0);
@@ -47,17 +52,20 @@ public class SpriteSheet {
 		cache = new TextureRegion[columns][rows];
 	}
 
-	@Nonnull private Vec2 calculateFrameSize(@Nonnull Texture texture) {
+	@Nonnull
+	private Vec2 calculateFrameSize(@Nonnull Texture texture) {
 		Vec2 textureSize = new Vec2(texture.getWidth(), texture.getHeight());
 		Vec2 blankSpace = new Vec2(margin * 2).add(new Vec2(spacing).multiply(columns - 1, rows - 1));
 		return textureSize.subtract(blankSpace).divide(columns, rows);
 	}
 
-	@Nonnull public TextureRegion get(int frameIndex) {
+	@Nonnull
+	public TextureRegion get(int frameIndex) {
 		return get(frameIndex % columns, frameIndex / columns);
 	}
 
-	@Nonnull public TextureRegion get(int column, int row) {
+	@Nonnull
+	public TextureRegion get(int column, int row) {
 		if (column < 0 || column >= columns)
 			throw new ArrayIndexOutOfBoundsException(String.format("Column argument out of the 0-%d bounds.", columns - 1));
 		if (row < 0 || row >= rows)

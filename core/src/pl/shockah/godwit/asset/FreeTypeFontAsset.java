@@ -11,6 +11,7 @@ public class FreeTypeFontAsset extends SingleAsset<BitmapFont> {
 		super(fileName, BitmapFont.class, parameter);
 	}
 
+	@Nonnull
 	@Delegate
 	@Override
 	public BitmapFont get() {

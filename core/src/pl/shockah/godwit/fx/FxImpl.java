@@ -10,8 +10,10 @@ public abstract class FxImpl extends AbstractFx {
 	@Getter
 	private final float duration;
 
-	@Getter @Setter
-	@Nonnull private Easing method = Easing.linear;
+	@Getter
+	@Setter
+	@Nonnull
+	private Easing method = Easing.linear;
 
 	public FxImpl(float duration) {
 		this.duration = duration;

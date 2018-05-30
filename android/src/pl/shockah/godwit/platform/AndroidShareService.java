@@ -15,13 +15,15 @@ import javax.annotation.Nonnull;
 import pl.shockah.godwit.GodwitFragmentActivity;
 
 public class AndroidShareService implements ShareService {
-	@Nonnull private final WeakReference<GodwitFragmentActivity> activityRef;
+	@Nonnull
+	private final WeakReference<GodwitFragmentActivity> activityRef;
 
 	public AndroidShareService(@Nonnull GodwitFragmentActivity activity) {
 		this.activityRef = new WeakReference<>(activity);
 	}
 
-	@Nonnull private GodwitFragmentActivity getActivity() {
+	@Nonnull
+	private GodwitFragmentActivity getActivity() {
 		GodwitFragmentActivity activity = activityRef.get();
 		if (activity == null)
 			throw new IllegalStateException("Lost context.");

@@ -8,9 +8,13 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public abstract class ComplexAsset<T> extends Asset<T> {
-	@Nonnull protected final Set<Asset<?>> dependencies = new HashSet<>();
+	@Nonnull
+	protected final Set<Asset<?>> dependencies = new HashSet<>();
+
 	private int referenceCount = 0;
-	@Nullable private T asset = null;
+
+	@Nullable
+	private T asset = null;
 
 	public ComplexAsset(Asset<?>... assets) {
 		dependencies.addAll(Arrays.asList(assets));
@@ -40,6 +44,7 @@ public abstract class ComplexAsset<T> extends Asset<T> {
 		}
 	}
 
+	@Nonnull
 	@Override
 	public T get() {
 		if (asset == null)
@@ -47,5 +52,6 @@ public abstract class ComplexAsset<T> extends Asset<T> {
 		return asset;
 	}
 
+	@Nonnull
 	public abstract T create();
 }

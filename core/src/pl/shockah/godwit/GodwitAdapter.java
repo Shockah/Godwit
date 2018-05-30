@@ -7,7 +7,8 @@ import javax.annotation.Nonnull;
 import pl.shockah.unicorn.func.Func0;
 
 public class GodwitAdapter extends ApplicationAdapter {
-	@Nonnull public final Func0<State> initialState;
+	@Nonnull
+	public final Func0<State> initialState;
 
 	GodwitAdapter(@Nonnull State initialState) {
 		this(() -> initialState);

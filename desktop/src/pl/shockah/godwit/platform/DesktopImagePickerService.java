@@ -16,7 +16,8 @@ import pl.shockah.unicorn.func.Action1;
 
 public class DesktopImagePickerService extends ImagePickerService {
 	@Override
-	@Nonnull public PermissionState getPermissionState(@Nonnull Source source) {
+	@Nonnull
+	public PermissionState getPermissionState(@Nonnull Source source) {
 		if (System.getProperty("os.name").toLowerCase().contains("mac os x"))
 			return PermissionState.Denied;
 		else

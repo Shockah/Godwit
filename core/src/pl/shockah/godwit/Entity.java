@@ -17,8 +17,11 @@ import pl.shockah.godwit.gl.Renderable;
 import pl.shockah.unicorn.collection.SafeList;
 
 public class Entity extends AbstractAnimatable implements Renderable {
-	@Nonnull public final SafeList<Entity> children = new SafeList<>(new ArrayList<>());
-	@Nonnull public MutableVec2 position = new MutableVec2();
+	@Nonnull
+	public final SafeList<Entity> children = new SafeList<>(new ArrayList<>());
+
+	@Nonnull
+	public MutableVec2 position = new MutableVec2();
 
 	@Getter
 	private Entity parent;
@@ -49,7 +52,8 @@ public class Entity extends AbstractAnimatable implements Renderable {
 		return false;
 	}
 
-	@Nonnull public final RenderGroup getRenderGroup() {
+	@Nonnull
+	public final RenderGroup getRenderGroup() {
 		Entity entity = this;
 		while (entity != null) {
 			if (entity instanceof RenderGroup && entity != this)
@@ -69,7 +73,8 @@ public class Entity extends AbstractAnimatable implements Renderable {
 		return false;
 	}
 
-	@Nonnull public final CameraGroup getCameraGroup() {
+	@Nonnull
+	public final CameraGroup getCameraGroup() {
 		Entity entity = this;
 		while (entity != null) {
 			if (entity instanceof CameraGroup && entity != this)
@@ -209,11 +214,13 @@ public class Entity extends AbstractAnimatable implements Renderable {
 	public void onRemovedFromHierarchy(@Nonnull Entity indirectChild) {
 	}
 
-	@Nonnull public final Vec2 getAbsolutePoint() {
+	@Nonnull
+	public final Vec2 getAbsolutePoint() {
 		return getAbsolutePoint(Vec2.zero);
 	}
 
-	@Nonnull public final Vec2 getAbsolutePoint(@Nonnull IVec2 point) {
+	@Nonnull
+	public final Vec2 getAbsolutePoint(@Nonnull IVec2 point) {
 		Vec2 currentPoint = point.asImmutable();
 		Entity entity = this;
 		while (entity != null) {
@@ -223,13 +230,15 @@ public class Entity extends AbstractAnimatable implements Renderable {
 		return currentPoint;
 	}
 
-	@Nonnull public final MutableVec2 getPointInEntity(@Nonnull Entity entity) {
+	@Nonnull
+	public final MutableVec2 getPointInEntity(@Nonnull Entity entity) {
 		MutableVec2 mutable = new MutableVec2();
 		calculatePointInEntity(entity, mutable);
 		return mutable;
 	}
 
-	@Nonnull public final MutableVec2 getPointInEntity(@Nonnull Entity entity, @Nonnull IVec2 point) {
+	@Nonnull
+	public final MutableVec2 getPointInEntity(@Nonnull Entity entity, @Nonnull IVec2 point) {
 		MutableVec2 mutable = point.mutableCopy();
 		calculatePointInEntity(entity, mutable);
 		return mutable;
@@ -246,7 +255,8 @@ public class Entity extends AbstractAnimatable implements Renderable {
 		throw new IllegalStateException(String.format("Entity %s is not in the tree of %s.", entity, this));
 	}
 
-	@Nonnull public final Entity[] getParentTree() {
+	@Nonnull
+	public final Entity[] getParentTree() {
 		List<Entity> tree = new LinkedList<>();
 		Entity entity = this;
 		while (entity != null) {
@@ -259,7 +269,8 @@ public class Entity extends AbstractAnimatable implements Renderable {
 		return tree.toArray(new Entity[tree.size()]);
 	}
 
-	@Nullable public static Entity getCommonParent(@Nonnull Entity[] parentTree1, @Nonnull Entity[] parentTree2, @Nonnull Entity entity1, @Nonnull Entity entity2) {
+	@Nullable
+	public static Entity getCommonParent(@Nonnull Entity[] parentTree1, @Nonnull Entity[] parentTree2, @Nonnull Entity entity1, @Nonnull Entity entity2) {
 		if (parentTree1[0] != parentTree2[0])
 			return null;
 		for (int i = 1; i < Math.min(parentTree1.length, parentTree2.length); i++) {
@@ -269,7 +280,8 @@ public class Entity extends AbstractAnimatable implements Renderable {
 		return parentTree1[Math.min(parentTree1.length, parentTree2.length) - 1];
 	}
 
-	@Nullable public final Entity getCommonParent(@Nonnull Entity entity) {
+	@Nullable
+	public final Entity getCommonParent(@Nonnull Entity entity) {
 		return getCommonParent(getParentTree(), entity.getParentTree(), this, entity);
 	}
 
@@ -278,7 +290,8 @@ public class Entity extends AbstractAnimatable implements Renderable {
 		point.y += position.y;
 	}
 
-	@Nonnull protected Vec2 getTranslatedPoint(@Nonnull IVec2 point) {
+	@Nonnull
+	protected Vec2 getTranslatedPoint(@Nonnull IVec2 point) {
 		return point.add(position);
 	}
 }

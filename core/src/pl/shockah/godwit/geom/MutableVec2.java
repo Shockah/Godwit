@@ -31,7 +31,8 @@ public final class MutableVec2 extends IVec2 {
 		this(vec.x, vec.y);
 	}
 
-	@Nonnull public static MutableVec2 angled(float dist, float angle) {
+	@Nonnull
+	public static MutableVec2 angled(float dist, float angle) {
 		return new MutableVec2(Math2.ldirX(dist, angle), Math2.ldirY(dist, angle));
 	}
 
@@ -55,37 +56,44 @@ public final class MutableVec2 extends IVec2 {
 	}
 
 	@Override
-	@Nonnull public Vec2 add(float x, float y) {
+	@Nonnull
+	public Vec2 add(float x, float y) {
 		return new Vec2(x() + x, y() + y);
 	}
 
 	@Override
-	@Nonnull public Vec2 subtract(float x, float y) {
+	@Nonnull
+	public Vec2 subtract(float x, float y) {
 		return new Vec2(x() - x, y() - y);
 	}
 
 	@Override
-	@Nonnull public Vec2 multiply(float x, float y) {
+	@Nonnull
+	public Vec2 multiply(float x, float y) {
 		return new Vec2(x() * x, y() * y);
 	}
 
 	@Override
-	@Nonnull public Vec2 divide(float x, float y) {
+	@Nonnull
+	public Vec2 divide(float x, float y) {
 		return new Vec2(x() / x, y() / y);
 	}
 
 	@Override
-	@Nonnull public Vec2 negate() {
+	@Nonnull
+	public Vec2 negate() {
 		return new Vec2(-x(), -y());
 	}
 
 	@Override
-	@Nonnull public Vec2 withX(float x) {
+	@Nonnull
+	public Vec2 withX(float x) {
 		return new Vec2(x, y());
 	}
 
 	@Override
-	@Nonnull public Vec2 withY(float y) {
+	@Nonnull
+	public Vec2 withY(float y) {
 		return new Vec2(x(), y);
 	}
 
@@ -95,7 +103,8 @@ public final class MutableVec2 extends IVec2 {
 	}
 
 	@Override
-	@Nonnull public MutableVec2 getCopy() {
+	@Nonnull
+	public MutableVec2 getCopy() {
 		return new MutableVec2(this);
 	}
 }

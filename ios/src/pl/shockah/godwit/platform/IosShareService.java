@@ -24,13 +24,15 @@ import javax.annotation.Nonnull;
 import pl.shockah.godwit.MemoryFileHandle;
 
 public class IosShareService implements ShareService {
-	@Nonnull private final WeakReference<UIViewController> controllerRef;
+	@Nonnull
+	private final WeakReference<UIViewController> controllerRef;
 
 	public IosShareService(@Nonnull UIViewController controller) {
 		this.controllerRef = new WeakReference<>(controller);
 	}
 
-	@Nonnull private UIViewController getController() {
+	@Nonnull
+	private UIViewController getController() {
 		UIViewController controller = controllerRef.get();
 		if (controller == null)
 			throw new IllegalStateException("Lost controller.");

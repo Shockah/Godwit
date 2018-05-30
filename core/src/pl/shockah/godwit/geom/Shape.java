@@ -7,9 +7,11 @@ import javax.annotation.Nonnull;
 import pl.shockah.godwit.gl.Gfx;
 
 public interface Shape {
-	@Nonnull Shape copy();
+	@Nonnull
+	Shape copy();
 
-	@Nonnull Rectangle getBoundingBox();
+	@Nonnull
+	Rectangle getBoundingBox();
 
 	void translate(float x, float y);
 
@@ -24,8 +26,11 @@ public interface Shape {
 	boolean collides(@Nonnull Shape shape, boolean secondTry);
 
 	abstract class Entity<S extends Shape> extends pl.shockah.godwit.Entity {
-		@Nonnull public final S shape;
-		@Nonnull public Color color = Color.WHITE;
+		@Nonnull
+		public final S shape;
+
+		@Nonnull
+		public Color color = Color.WHITE;
 
 		public Entity(@Nonnull S shape) {
 			this.shape = shape;
@@ -40,7 +45,8 @@ public interface Shape {
 
 		protected abstract void drawShape(@Nonnull Gfx gfx, @Nonnull IVec2 v);
 
-		@Nonnull public Entity<S> withColor(@Nonnull Color color) {
+		@Nonnull
+		public Entity<S> withColor(@Nonnull Color color) {
 			this.color = color;
 			return this;
 		}
@@ -64,7 +70,8 @@ public interface Shape {
 		}
 
 		@SuppressWarnings("unchecked")
-		@Nonnull default Entity asFilledEntity() {
+		@Nonnull
+		default Entity asFilledEntity() {
 			return new Entity(this);
 		}
 
@@ -92,7 +99,8 @@ public interface Shape {
 		}
 
 		@SuppressWarnings("unchecked")
-		@Nonnull default Entity asOutlineEntity() {
+		@Nonnull
+		default Entity asOutlineEntity() {
 			return new Entity(this);
 		}
 

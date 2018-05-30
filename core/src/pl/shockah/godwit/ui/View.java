@@ -12,9 +12,14 @@ import pl.shockah.godwit.gl.AbstractRenderable;
 import pl.shockah.godwit.gl.Gfx;
 
 public class View extends AbstractRenderable {
-	@Nullable public ViewHolder parent = null;
-	@Nullable public Color backgroundColor = null;
-	@Nonnull public Rectangle bounds = new Rectangle(0, 0);
+	@Nullable
+	public ViewHolder parent = null;
+
+	@Nullable
+	public Color backgroundColor = null;
+
+	@Nonnull
+	public Rectangle bounds = new Rectangle(0, 0);
 
 	public void onUpdate() {
 	}

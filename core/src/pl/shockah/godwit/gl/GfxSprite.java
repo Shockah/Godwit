@@ -28,9 +28,11 @@ public class GfxSprite extends AbstractAnimatable implements Renderable {
 	}
 
 	@Delegate(excludes = DelegateExclusions.class)
-	@Nonnull public final Sprite sprite;
+	@Nonnull
+	public final Sprite sprite;
 
-	@Nonnull public MutableVec2 offset = new MutableVec2();
+	@Nonnull
+	public MutableVec2 offset = new MutableVec2();
 
 	public GfxSprite(@Nonnull Sprite sprite) {
 		this.sprite = sprite;
@@ -72,7 +74,8 @@ public class GfxSprite extends AbstractAnimatable implements Renderable {
 		offset = getSize().multiply(0.5f).mutableCopy();
 	}
 
-	public @Nonnull IVec2 getOrigin() {
+	@Nonnull
+	public IVec2 getOrigin() {
 		return new Vec2(sprite.getOriginX(), sprite.getOriginY());
 	}
 
@@ -147,7 +150,8 @@ public class GfxSprite extends AbstractAnimatable implements Renderable {
 		return sprite.getScaleX();
 	}
 
-	@Nonnull public Vec2 getSize() {
+	@Nonnull
+	public Vec2 getSize() {
 		return new Vec2(sprite.getWidth(), sprite.getHeight());
 	}
 
@@ -155,7 +159,8 @@ public class GfxSprite extends AbstractAnimatable implements Renderable {
 		setSize(size.x(), size.y());
 	}
 
-	@Nonnull public Vec2 getRegionSize() {
+	@Nonnull
+	public Vec2 getRegionSize() {
 		return new Vec2(sprite.getRegionWidth(), sprite.getRegionHeight());
 	}
 
@@ -167,11 +172,13 @@ public class GfxSprite extends AbstractAnimatable implements Renderable {
 		return getHeight() * getScaleY();
 	}
 
-	@Nonnull public IVec2 getScaledSize() {
+	@Nonnull
+	public Vec2 getScaledSize() {
 		return getSize().multiply(getScaleVector());
 	}
 
-	@Nonnull public Vec2 getScaleVector() {
+	@Nonnull
+	public Vec2 getScaleVector() {
 		return new Vec2(sprite.getScaleX(), sprite.getScaleY());
 	}
 
@@ -187,12 +194,14 @@ public class GfxSprite extends AbstractAnimatable implements Renderable {
 		setPosition(position.x(), position.y());
 	}
 
-	@Nonnull public Entity asEntity() {
+	@Nonnull
+	public Entity asEntity() {
 		return new Entity(this);
 	}
 
 	public static class Entity extends pl.shockah.godwit.Entity {
-		@Nonnull public final GfxSprite sprite;
+		@Nonnull
+		public final GfxSprite sprite;
 
 		public Entity(@Nonnull Sprite sprite) {
 			this(new GfxSprite(sprite));

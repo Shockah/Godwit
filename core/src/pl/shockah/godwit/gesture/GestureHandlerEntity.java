@@ -11,10 +11,12 @@ import pl.shockah.godwit.Entity;
 import pl.shockah.godwit.geom.Shape;
 
 public class GestureHandlerEntity<T extends Shape & Shape.Filled> extends Entity implements GestureHandler {
-	@Nonnull protected final Set<GestureRecognizer> gestureRecognizers = new HashSet<>();
+	@Nonnull
+	protected final Set<GestureRecognizer> gestureRecognizers = new HashSet<>();
 
 	@Getter
-	@Nullable public T gestureShape;
+	@Nullable
+	public T gestureShape;
 
 	@Override
 	public void onAddedToHierarchy() {

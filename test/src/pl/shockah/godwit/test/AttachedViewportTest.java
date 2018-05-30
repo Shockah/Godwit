@@ -50,7 +50,8 @@ public class AttachedViewportTest extends State {
 	}
 
 	public class AttachmentEntity extends Entity {
-		@Nonnull Circle circle = new Circle(24f);
+		@Nonnull
+		Circle circle = new Circle(24f);
 
 		@Override
 		public void updateSelf() {

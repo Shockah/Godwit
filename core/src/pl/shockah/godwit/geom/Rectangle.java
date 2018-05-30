@@ -18,8 +18,11 @@ import pl.shockah.godwit.gl.GfxSprite;
 
 @EqualsAndHashCode(callSuper = false)
 public class Rectangle extends AbstractShape implements Shape.Filled, Shape.Outline, Polygonable {
-	@Nonnull public MutableVec2 position;
-	@Nonnull public MutableVec2 size;
+	@Nonnull
+	public MutableVec2 position;
+
+	@Nonnull
+	public MutableVec2 size;
 
 	@Getter(lazy = true)
 	private final GfxSprite sprite = new GfxSprite(new Sprite(Godwit.getInstance().getPixelTexture()));
@@ -90,7 +93,8 @@ public class Rectangle extends AbstractShape implements Shape.Filled, Shape.Outl
 	}
 
 	@Override
-	@Nonnull public Rectangle copy() {
+	@Nonnull
+	public Rectangle copy() {
 		return new Rectangle(position, size);
 	}
 
@@ -100,11 +104,13 @@ public class Rectangle extends AbstractShape implements Shape.Filled, Shape.Outl
 	}
 
 	@Override
-	@Nonnull public Rectangle getBoundingBox() {
+	@Nonnull
+	public Rectangle getBoundingBox() {
 		return copy();
 	}
 
-	@Nonnull public Vec2 getCenter() {
+	@Nonnull
+	public Vec2 getCenter() {
 		return position.add(size.multiply(0.5f));
 	}
 
@@ -163,7 +169,8 @@ public class Rectangle extends AbstractShape implements Shape.Filled, Shape.Outl
 		return false;
 	}
 
-	@Nonnull public List<Line> getLines() {
+	@Nonnull
+	public List<Line> getLines() {
 		List<Line> lines = new ArrayList<>();
 		lines.add(new Line(position.x, position.y, position.x + size.x, position.y));
 		lines.add(new Line(position.x + size.x, position.y, position.x + size.x, position.y + size.y));
@@ -173,7 +180,8 @@ public class Rectangle extends AbstractShape implements Shape.Filled, Shape.Outl
 	}
 
 	@Override
-	@Nonnull public Polygon asPolygon() {
+	@Nonnull
+	public Polygon asPolygon() {
 		Polygon p = new Polygon.NoHoles();
 		p.addPoint(position);
 		p.addPoint(position.add(size.withY(0f)));

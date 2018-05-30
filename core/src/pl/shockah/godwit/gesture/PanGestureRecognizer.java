@@ -18,9 +18,11 @@ public class PanGestureRecognizer extends ContinuousGestureRecognizer {
 		return average * 0.1f;
 	}
 
-	@Nonnull public final Delegate delegate;
+	@Nonnull
+	public final Delegate delegate;
 
-	@Nullable public Touch touch = null;
+	@Nullable
+	public Touch touch = null;
 
 	public PanGestureRecognizer(@Nonnull GestureHandler handler, @Nonnull SimpleDelegate delegate) {
 		this(handler, (recognizer, touch, initialPoint, currentPoint, delta) -> delegate.onPan(recognizer, initialPoint, currentPoint, delta));
@@ -102,15 +104,18 @@ public class PanGestureRecognizer extends ContinuousGestureRecognizer {
 		}
 	}
 
-	@Nonnull public static Vec2 getFlingVelocityForDuration(@Nonnull Touch touch, float duration) {
+	@Nonnull
+	public static Vec2 getFlingVelocityForDuration(@Nonnull Touch touch, float duration) {
 		return getFlingVelocity(touch, duration, null);
 	}
 
-	@Nonnull public static Vec2 getFlingVelocityForSamples(@Nonnull Touch touch, int samples) {
+	@Nonnull
+	public static Vec2 getFlingVelocityForSamples(@Nonnull Touch touch, int samples) {
 		return getFlingVelocity(touch, null, samples);
 	}
 
-	@Nonnull public static Vec2 getFlingVelocity(@Nonnull Touch touch, @Nullable Float duration, @Nullable Integer samples) {
+	@Nonnull
+	public static Vec2 getFlingVelocity(@Nonnull Touch touch, @Nullable Float duration, @Nullable Integer samples) {
 		MutableVec2 v = new MutableVec2();
 		Vec2 firstPoint = null;
 		int currentSamples = 0;

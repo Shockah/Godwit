@@ -22,7 +22,8 @@ public class AndroidBackButtonService extends BackButtonService {
 		Gdx.input.setCatchBackKey(true);
 	}
 
-	@Nonnull private GodwitFragmentActivity getActivity() {
+	@Nonnull
+	private GodwitFragmentActivity getActivity() {
 		GodwitFragmentActivity activity = activityRef.get();
 		if (activity == null)
 			throw new IllegalStateException("Lost context.");

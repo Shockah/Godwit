@@ -43,7 +43,8 @@ public class BasicTriangulator implements Triangulator {
 	}
 
 	@Override
-	@Nonnull public IVec2 getTrianglePoint(int tri, int i) {
+	@Nonnull
+	public IVec2 getTrianglePoint(int tri, int i) {
 		if (!tried)
 			triangulate();
 		return tris.get(tri * 3 + i);

@@ -14,17 +14,22 @@ import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.geom.Vec2;
 
 public class Surface extends GfxImpl implements Renderable, Disposable {
-	@Nonnull public final FrameBuffer fbo;
-	@Nonnull public final TextureRegion region;
+	@Nonnull
+	public final FrameBuffer fbo;
+
+	@Nonnull
+	public final TextureRegion region;
 
 	@Getter
 	private boolean disposed = false;
 
-	@Nonnull public static Surface create(int width, int height) {
+	@Nonnull
+	public static Surface create(int width, int height) {
 		return create(width, height, false);
 	}
 
-	@Nonnull public static Surface create(int width, int height, boolean depth) {
+	@Nonnull
+	public static Surface create(int width, int height, boolean depth) {
 		GfxContextManager.bindSurface(null);
 		return new Surface(width, height, depth);
 	}

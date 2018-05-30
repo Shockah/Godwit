@@ -91,7 +91,8 @@ public class GestureRecognizerTest extends State implements GestureHandler {
 	}
 
 	@Override
-	@Nullable public Shape.Filled getGestureShape() {
+	@Nullable
+	public Shape.Filled getGestureShape() {
 		return new Rectangle(Godwit.getInstance().gfx.getSize());
 	}
 
@@ -103,7 +104,8 @@ public class GestureRecognizerTest extends State implements GestureHandler {
 		}
 
 		@Override
-		@Nullable public Shape.Filled getGestureShape() {
+		@Nullable
+		public Shape.Filled getGestureShape() {
 			Circle shape = this.shape.copy();
 			shape.translate(lastRenderPosition);
 			return shape;

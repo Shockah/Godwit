@@ -26,9 +26,14 @@ public class GestureManager extends InputAdapter {
 	@Nonnull
 	public final GodwitLogger logger = new GodwitLogger(getClass());
 
-	@Nonnull public final Map<Integer, Touch> touches = new HashMap<>();
-	@Nonnull public final Set<GestureRecognizer> recognizers = new LinkedHashSet<>();
-	@Nonnull protected final Set<ContinuousGestureRecognizer> currentContinuousRecognizers = new LinkedHashSet<>();
+	@Nonnull
+	public final Map<Integer, Touch> touches = new HashMap<>();
+
+	@Nonnull
+	public final Set<GestureRecognizer> recognizers = new LinkedHashSet<>();
+
+	@Nonnull
+	protected final Set<ContinuousGestureRecognizer> currentContinuousRecognizers = new LinkedHashSet<>();
 
 	public boolean passThroughWithoutShape = false;
 

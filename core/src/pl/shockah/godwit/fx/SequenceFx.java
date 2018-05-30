@@ -12,7 +12,8 @@ import lombok.Getter;
 import pl.shockah.unicorn.ease.Easing;
 
 public class SequenceFx extends AbstractFx {
-	@Nonnull protected final List<Fx> fxes;
+	@Nonnull
+	protected final List<Fx> fxes;
 
 	@Getter(lazy = true)
 	private final float duration = calculateDuration(fxes);
@@ -30,7 +31,8 @@ public class SequenceFx extends AbstractFx {
 	}
 
 	@Override
-	@Nonnull public final Easing getMethod() {
+	@Nonnull
+	public final Easing getMethod() {
 		return Easing.linear;
 	}
 
@@ -39,7 +41,8 @@ public class SequenceFx extends AbstractFx {
 		throw new UnsupportedOperationException("Cannot set an Easing method on a SequenceFx.");
 	}
 
-	@Nonnull protected FxResult getFx(float f, boolean includingEqual) {
+	@Nonnull
+	protected FxResult getFx(float f, boolean includingEqual) {
 		float fStart = 0f;
 		for (int i = 0; i < fxes.size(); i++) {
 			Fx fx = fxes.get(i);
@@ -58,7 +61,8 @@ public class SequenceFx extends AbstractFx {
 		return new FxResult(last, lastIndex, fStart - last.getDuration(), fStart);
 	}
 
-	@Nonnull protected List<Fx> getFxesToFinish(float f, float previous) {
+	@Nonnull
+	protected List<Fx> getFxesToFinish(float f, float previous) {
 		FxResult resultPrevious = getFx(previous, true);
 		FxResult result = getFx(f, false);
 

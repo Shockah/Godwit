@@ -9,7 +9,8 @@ import javax.annotation.Nonnull;
 import pl.shockah.unicorn.func.Action1;
 
 public abstract class ImagePickerService implements PlatformService {
-	@Nonnull public abstract PermissionState getPermissionState(@Nonnull Source source);
+	@Nonnull
+	public abstract PermissionState getPermissionState(@Nonnull Source source);
 
 	public abstract boolean isCameraAvailable();
 
@@ -36,7 +37,8 @@ public abstract class ImagePickerService implements PlatformService {
 	}
 
 	public class PermissionException extends Exception {
-		@Nonnull public final Source source;
+		@Nonnull
+		public final Source source;
 
 		public PermissionException(@Nonnull Source source) {
 			this.source = source;
