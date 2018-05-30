@@ -49,12 +49,14 @@ public class IosShareService implements ShareService {
 		UIActivityViewController controller = new UIActivityViewController(activityItems, new NSArray<>());
 		UIPopoverPresentationController popover = controller.getPopoverPresentationController();
 		UIView view = getController().getView();
-		popover.setSourceView(view);
-		popover.setSourceRect(new CGRect(
-				new CGPoint(view.getBounds().getMidX(), view.getBounds().getMidY()),
-				new CGSize(0, 0)
-		));
-		popover.setPermittedArrowDirections(UIPopoverArrowDirection.None);
+		if (popover != null) {
+			popover.setSourceView(view);
+			popover.setSourceRect(new CGRect(
+					new CGPoint(view.getBounds().getMidX(), view.getBounds().getMidY()),
+					new CGSize(0, 0)
+			));
+			popover.setPermittedArrowDirections(UIPopoverArrowDirection.None);
+		}
 		getController().presentViewController(controller, true, null);
 	}
 }
