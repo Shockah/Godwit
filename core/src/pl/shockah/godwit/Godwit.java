@@ -30,37 +30,55 @@ import pl.shockah.unicorn.func.Func0;
 import pl.shockah.unicorn.rand.Randomizer;
 
 public final class Godwit {
-	@Nullable private static Godwit instance;
+	@Nullable
+	private static Godwit instance;
 
 	@Getter
-	@Nullable private State state;
+	@Nullable
+	private State state;
 
 	@Getter
-	@Nullable private Func0<State> movingToState;
+	@Nullable
+	private Func0<State> movingToState;
 
 	@Getter
-	@Nonnull private AssetManager assetManager = new AssetManager();
+	@Nonnull
+	private AssetManager assetManager = new AssetManager();
 
-	@Nonnull public final PlatformServiceProvider platformServiceProvider = new PlatformServiceProvider();
+	@Nonnull
+	public final PlatformServiceProvider platformServiceProvider = new PlatformServiceProvider();
 
-	@Nonnull public final ScreenGfx gfx = new ScreenGfx();
-	@Nonnull public final InputManager inputManager = new InputManager();
-	@Nonnull public final Randomizer random = new Randomizer();
+	@Nonnull
+	public final ScreenGfx gfx = new ScreenGfx();
+
+	@Nonnull
+	public final InputManager inputManager = new InputManager();
+
+	@Nonnull
+	public final Randomizer random = new Randomizer();
+
 	public boolean waitForDeltaToStabilize = true;
 	public boolean renderFirstTickWhenWaitingForDeltaToStabilize = false;
 	public boolean yPointingDown = true;
 
-	@Nullable public Action1<AssetManager> assetManagerSetupCallback;
+	@Nullable
+	public Action1<AssetManager> assetManagerSetupCallback;
 
-	@Nonnull private final List<Float> deltas = new ArrayList<>();
-	@Nonnull private Vec2 ppi = new Vec2(1f, 1f);
+	@Nonnull
+	private final List<Float> deltas = new ArrayList<>();
+
+	@Nonnull
+	private Vec2 ppi = new Vec2(1f, 1f);
+
 	private boolean isFirstTick = true;
 
 	@Getter
-	@Nonnull private final Entity rootEntity = new RenderGroup();
+	@Nonnull
+	private final Entity rootEntity = new RenderGroup();
 
 	@Getter
-	@Nonnull private Func0<AssetManager> assetManagerFactory = AssetManager::new;
+	@Nonnull
+	private Func0<AssetManager> assetManagerFactory = AssetManager::new;
 
 	@Getter
 	private float deltaTime = 0f;
@@ -80,7 +98,8 @@ public final class Godwit {
 		instance = new Godwit();
 	}
 
-	@Nonnull public static synchronized Godwit getInstance() {
+	@Nonnull
+	public static synchronized Godwit getInstance() {
 		if (instance == null)
 			setupNewInstance();
 		return instance;
@@ -112,7 +131,8 @@ public final class Godwit {
 		setAssetManager(assetManagerFactory.call());
 	}
 
-	@Nonnull public Vec2 getPpi() {
+	@Nonnull
+	public Vec2 getPpi() {
 		return ppi;
 	}
 
@@ -156,7 +176,8 @@ public final class Godwit {
 		runRender();
 	}
 
-	@Nonnull private Texture getInitialPixelTexture() {
+	@Nonnull
+	private Texture getInitialPixelTexture() {
 		Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGB888);
 		pixmap.drawPixel(0, 0, Color.WHITE.toIntBits());
 		Texture texture = new Texture(pixmap);
@@ -165,7 +186,8 @@ public final class Godwit {
 		return texture;
 	}
 
-	@Nonnull private GfxSprite getInitialPixelSprite() {
+	@Nonnull
+	private GfxSprite getInitialPixelSprite() {
 		return new GfxSprite(new Sprite(getPixelTexture()));
 	}
 

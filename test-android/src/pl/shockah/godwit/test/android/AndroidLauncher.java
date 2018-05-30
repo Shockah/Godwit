@@ -53,7 +53,7 @@ public class AndroidLauncher extends GodwitFragmentActivity implements AndroidFr
 	public static class CustomListFragment extends ListFragment {
 		@Override
 		public void onListItemClick(ListView l, View v, int position, long id) {
-			String testName = getListAdapter().getItem(position);
+			String testName = (String)getListAdapter().getItem(position);
 			String className = String.format("pl.shockah.godwit.test.%sTest", testName);
 
 			FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();

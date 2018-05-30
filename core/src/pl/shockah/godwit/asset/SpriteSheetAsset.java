@@ -12,8 +12,11 @@ import pl.shockah.jay.JSONList;
 import pl.shockah.jay.JSONObject;
 
 public class SpriteSheetAsset extends ComplexAsset<SpriteSheet> {
-	@Nonnull protected final Asset<Texture> textureAsset;
-	@Nonnull protected final Asset<JSONObject> jsonAsset;
+	@Nonnull
+	protected final Asset<Texture> textureAsset;
+
+	@Nonnull
+	protected final Asset<JSONObject> jsonAsset;
 
 	public SpriteSheetAsset(@Nonnull String textureFileName) {
 		this(
@@ -28,17 +31,20 @@ public class SpriteSheetAsset extends ComplexAsset<SpriteSheet> {
 		this.jsonAsset = jsonAsset;
 	}
 
-	@Nonnull private static String getBaseFileName(@Nonnull String fileName) {
+	@Nonnull
+	private static String getBaseFileName(@Nonnull String fileName) {
 		String[] split = fileName.split("\\.");
 		return RefStreams.of(split).limit(split.length - 1).collect(Collectors.joining("."));
 	}
 
+	@Nonnull
 	@Delegate
 	@Override
 	public SpriteSheet get() {
 		return super.get();
 	}
 
+	@Nonnull
 	@Override
 	public SpriteSheet create() {
 		Texture texture = textureAsset.get();

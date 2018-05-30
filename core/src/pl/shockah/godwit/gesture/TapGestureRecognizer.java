@@ -11,10 +11,15 @@ import pl.shockah.godwit.geom.Vec2;
 public class TapGestureRecognizer extends GestureRecognizer {
 	public final int tapsRequired;
 	public final float delay;
-	@Nonnull public final Delegate delegate;
 
-	@Nullable public Touch touch = null;
+	@Nonnull
+	public final Delegate delegate;
+
+	@Nullable
+	public Touch touch = null;
+
 	private Timer.Task task = null;
+
 	private int taps = 0;
 
 	public TapGestureRecognizer(@Nonnull GestureHandler group, @Nonnull SimpleDelegate delegate) {

@@ -9,7 +9,8 @@ public final class GfxContextManager {
 	@Nullable
 	private static Surface boundSurface;
 
-	@Nonnull public static Gfx getCurrentGfx() {
+	@Nonnull
+	public static Gfx getCurrentGfx() {
 		return boundSurface != null ? boundSurface : Godwit.getInstance().gfx;
 	}
 

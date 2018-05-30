@@ -5,7 +5,8 @@ import javax.annotation.Nonnull;
 import pl.shockah.unicorn.ease.Easing;
 
 public abstract class ModifierFx extends AbstractFx {
-	@Nonnull public final Fx fx;
+	@Nonnull
+	public final Fx fx;
 
 	public ModifierFx(@Nonnull Fx fx) {
 		this.fx = fx;
@@ -17,7 +18,8 @@ public abstract class ModifierFx extends AbstractFx {
 	}
 
 	@Override
-	@Nonnull public Easing getMethod() {
+	@Nonnull
+	public Easing getMethod() {
 		return fx.getMethod();
 	}
 

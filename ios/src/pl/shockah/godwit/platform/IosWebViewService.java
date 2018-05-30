@@ -18,13 +18,15 @@ import java.lang.ref.WeakReference;
 import javax.annotation.Nonnull;
 
 public class IosWebViewService implements WebViewService {
-	@Nonnull private final WeakReference<UIViewController> controllerRef;
+	@Nonnull
+	private final WeakReference<UIViewController> controllerRef;
 
 	public IosWebViewService(@Nonnull UIViewController controller) {
 		this.controllerRef = new WeakReference<>(controller);
 	}
 
-	@Nonnull private UIViewController getController() {
+	@Nonnull
+	private UIViewController getController() {
 		UIViewController controller = controllerRef.get();
 		if (controller == null)
 			throw new IllegalStateException("Lost controller.");

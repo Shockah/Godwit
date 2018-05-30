@@ -13,10 +13,14 @@ import pl.shockah.godwit.ui.Padding;
 
 public class FillView extends ViewHolder<Void> {
 	@Getter
-	@Nullable private View innerView = null;
+	@Nullable
+	private View innerView = null;
 
-	@Nullable private MutableVec2 cachedSize = null;
-	@Nonnull public Padding padding = new Padding();
+	@Nullable
+	private MutableVec2 cachedSize = null;
+
+	@Nonnull
+	public Padding padding = new Padding();
 
 	public FillView() {
 		this(null);
@@ -74,7 +78,8 @@ public class FillView extends ViewHolder<Void> {
 	}
 
 	@Override
-	@Nonnull public Vec2 getIntrinsicSize(@Nonnull IVec2 availableSize) {
+	@Nonnull
+	public Vec2 getIntrinsicSize(@Nonnull IVec2 availableSize) {
 		return (innerView != null ? innerView.getIntrinsicSize(availableSize.subtract(padding.getVector())) : Vec2.zero).add(padding.getVector());
 	}
 }

@@ -12,12 +12,18 @@ import pl.shockah.unicorn.ease.Easable;
 import pl.shockah.unicorn.ease.Easing;
 
 public class Circle extends AbstractShape implements Polygonable, Shape.Filled, Shape.Outline, Easable<Circle> {
-	@Nonnull public MutableVec2 position;
+	@Nonnull
+	public MutableVec2 position;
+
 	public float radius;
 
-	@Nullable protected MutableVec2 lastPos = null;
+	@Nullable
+	protected MutableVec2 lastPos = null;
+
 	protected int lastPrecision = -1;
-	@Nullable protected Polygon lastPoly = null;
+
+	@Nullable
+	protected Polygon lastPoly = null;
 
 	public Circle(float x, float y, float radius) {
 		this(new MutableVec2(x, y), radius);
@@ -33,7 +39,8 @@ public class Circle extends AbstractShape implements Polygonable, Shape.Filled, 
 	}
 
 	@Override
-	@Nonnull public Circle copy() {
+	@Nonnull
+	public Circle copy() {
 		return new Circle(position, radius);
 	}
 
@@ -56,7 +63,8 @@ public class Circle extends AbstractShape implements Polygonable, Shape.Filled, 
 	}
 
 	@Override
-	@Nonnull public Rectangle getBoundingBox() {
+	@Nonnull
+	public Rectangle getBoundingBox() {
 		return Rectangle.centered(position, radius * 2f);
 	}
 
@@ -119,7 +127,8 @@ public class Circle extends AbstractShape implements Polygonable, Shape.Filled, 
 		return false;
 	}
 
-	@Nonnull public Vec2[] intersect(@Nonnull Line line) {
+	@Nonnull
+	public Vec2[] intersect(@Nonnull Line line) {
 		float baX = line.point2.x - line.point1.x;
 		float baY = line.point2.y - line.point1.y;
 		float caX = position.x - line.point1.x;
@@ -153,11 +162,13 @@ public class Circle extends AbstractShape implements Polygonable, Shape.Filled, 
 	}
 
 	@Override
-	@Nonnull public Polygon asPolygon() {
+	@Nonnull
+	public Polygon asPolygon() {
 		return asPolygon(calculateSegmentCount());
 	}
 
-	@Nonnull public Polygon asPolygon(int precision) {
+	@Nonnull
+	public Polygon asPolygon(int precision) {
 		if (lastPoly != null && lastPoly.getPointCount() == precision && lastPrecision == precision) {
 			if (!position.equals(lastPos)) {
 				lastPoly.translate(position.subtract(lastPos));
@@ -193,7 +204,8 @@ public class Circle extends AbstractShape implements Polygonable, Shape.Filled, 
 	}
 
 	@Override
-	@Nonnull public Circle ease(@Nonnull Circle other, float f) {
+	@Nonnull
+	public Circle ease(@Nonnull Circle other, float f) {
 		return new Circle(position.ease(other.position, f), Easing.linear.ease(radius, other.radius, f));
 	}
 }

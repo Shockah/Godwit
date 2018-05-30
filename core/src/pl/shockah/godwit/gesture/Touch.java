@@ -14,10 +14,13 @@ import pl.shockah.godwit.geom.Vec2;
 
 public final class Touch {
 	public final int pointer;
-	@Nonnull public final List<Point> points = new ArrayList<>();
+
+	@Nonnull
+	public final List<Point> points = new ArrayList<>();
 
 	@Getter
-	@Nullable private GestureRecognizer recognizer = null;
+	@Nullable
+	private GestureRecognizer recognizer = null;
 
 	@Getter
 	private boolean finished = false;
@@ -60,8 +63,11 @@ public final class Touch {
 	}
 
 	public static final class Point {
-		@Nonnull public final Vec2 position;
-		@Nonnull public final Date date;
+		@Nonnull
+		public final Vec2 position;
+
+		@Nonnull
+		public final Date date;
 
 		public Point(@Nonnull Vec2 position) {
 			this(position, new Date());

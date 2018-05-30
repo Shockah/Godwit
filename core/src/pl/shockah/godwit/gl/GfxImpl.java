@@ -14,10 +14,13 @@ import pl.shockah.godwit.geom.IVec2;
 
 public class GfxImpl extends Gfx {
 	private boolean spritesMode = false;
-	@Nullable private ShapeRenderer.ShapeType shapesMode = null;
+
+	@Nullable
+	private ShapeRenderer.ShapeType shapesMode = null;
 
 	@Getter
-	@Nonnull private final SpriteBatch spriteBatch = new SpriteBatch(8191) {
+	@Nonnull
+	private final SpriteBatch spriteBatch = new SpriteBatch(8191) {
 		{
 			setBlendFunction(-1, -1);
 		}
@@ -39,13 +42,16 @@ public class GfxImpl extends Gfx {
 	};
 
 	@Getter
-	@Nonnull private final ShapeRenderer shapeRenderer = new ShapeRenderer();
+	@Nonnull
+	private final ShapeRenderer shapeRenderer = new ShapeRenderer();
 
 	@Getter
-	@Nullable private BlendMode blendMode = null;
+	@Nullable
+	private BlendMode blendMode = null;
 
 	@Getter
-	@Nonnull private Color color = Color.BLACK;
+	@Nonnull
+	private Color color = Color.BLACK;
 
 	@Override
 	public int getWidth() {

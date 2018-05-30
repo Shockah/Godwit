@@ -12,21 +12,29 @@ import pl.shockah.godwit.geom.Shape;
 import pl.shockah.godwit.geom.Vec2;
 
 public abstract class Gfx {
-	@Nonnull public abstract SpriteBatch getSpriteBatch();
+	@Nonnull
+	public abstract SpriteBatch getSpriteBatch();
 
-	@Nonnull public abstract ShapeRenderer getShapeRenderer();
+	@Nonnull
+	public abstract ShapeRenderer getShapeRenderer();
 
 	public abstract int getWidth();
+
 	public abstract int getHeight();
 
-	@Nonnull public final Vec2 getSize() {
+	@Nonnull
+	public final Vec2 getSize() {
 		return new Vec2(getWidth(), getHeight());
 	}
 
-	@Nullable public abstract BlendMode getBlendMode();
+	@Nullable
+	public abstract BlendMode getBlendMode();
+
 	public abstract void setBlendMode(@Nullable BlendMode blendMode);
 
-	@Nonnull public abstract Color getColor();
+	@Nonnull
+	public abstract Color getColor();
+
 	public abstract void setColor(@Nonnull Color color);
 
 	public final void setColor(float r, float g, float b, float a) {

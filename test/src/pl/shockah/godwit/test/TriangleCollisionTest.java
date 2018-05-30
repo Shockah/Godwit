@@ -14,9 +14,13 @@ import pl.shockah.godwit.gl.Gfx;
 
 public class TriangleCollisionTest extends State {
 	private static final float length = 32f;
-	@Nonnull private static final MutableVec2 staticTrianglePosition = new MutableVec2(128, 128);
 
-	@Nonnull private MutableVec2 trianglePosition = new MutableVec2(64, 64);
+	@Nonnull
+	private static final MutableVec2 staticTrianglePosition = new MutableVec2(128, 128);
+
+	@Nonnull
+	private MutableVec2 trianglePosition = new MutableVec2(64, 64);
+
 	private float rotation = 0f;
 
 	@Override

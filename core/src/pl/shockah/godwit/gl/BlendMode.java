@@ -6,7 +6,8 @@ import com.badlogic.gdx.graphics.GL20;
 import javax.annotation.Nonnull;
 
 public abstract class BlendMode {
-	@Nonnull public static final BlendMode normal = new BlendMode() {
+	@Nonnull
+	public static final BlendMode normal = new BlendMode() {
 		@Override
 		void begin() {
 			Gdx.gl.glEnable(GL20.GL_BLEND);
@@ -19,7 +20,8 @@ public abstract class BlendMode {
 		}
 	};
 
-	@Nonnull public static final BlendMode add = new BlendMode() {
+	@Nonnull
+	public static final BlendMode add = new BlendMode() {
 		@Override
 		void begin() {
 			Gdx.gl.glEnable(GL20.GL_BLEND);

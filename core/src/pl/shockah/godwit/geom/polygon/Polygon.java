@@ -19,13 +19,18 @@ import pl.shockah.godwit.gl.Gfx;
 import pl.shockah.unicorn.Math2;
 
 public class Polygon extends AbstractShape implements Polygonable, Shape.Filled, Shape.Outline {
-	@Nonnull protected final List<IVec2> points = new ArrayList<>();
-	@Nonnull protected final List<Triangle> triangulated = new ArrayList<>();
+	@Nonnull
+	protected final List<IVec2> points = new ArrayList<>();
+
+	@Nonnull
+	protected final List<Triangle> triangulated = new ArrayList<>();
+
 	protected boolean dirty = true;
 	public boolean closed = true;
 
 	@Override
-	@Nonnull public Polygon copy() {
+	@Nonnull
+	public Polygon copy() {
 		Polygon p = new Polygon();
 		p.closed = closed;
 		p.points.addAll(points);
@@ -63,7 +68,8 @@ public class Polygon extends AbstractShape implements Polygonable, Shape.Filled,
 	}
 
 	@Override
-	@Nonnull public Rectangle getBoundingBox() {
+	@Nonnull
+	public Rectangle getBoundingBox() {
 		float[] x = new float[points.size()];
 		float[] y = new float[points.size()];
 		for (int i = 0; i < points.size(); i++) {
@@ -115,7 +121,8 @@ public class Polygon extends AbstractShape implements Polygonable, Shape.Filled,
 		}
 	}
 
-	@Nonnull protected Triangulator triangulator() {
+	@Nonnull
+	protected Triangulator triangulator() {
 		return new NeatTriangulator();
 	}
 
@@ -196,11 +203,13 @@ public class Polygon extends AbstractShape implements Polygonable, Shape.Filled,
 	}
 
 	@Override
-	@Nonnull public Polygon asPolygon() {
+	@Nonnull
+	public Polygon asPolygon() {
 		return this;
 	}
 
-	@Nonnull public IVec2 get(int index) {
+	@Nonnull
+	public IVec2 get(int index) {
 		return points.get(index);
 	}
 
@@ -210,7 +219,8 @@ public class Polygon extends AbstractShape implements Polygonable, Shape.Filled,
 		triangulated.clear();
 	}
 
-	@Nonnull public List<Line> getLines() {
+	@Nonnull
+	public List<Line> getLines() {
 		List<Line> lines = new ArrayList<>();
 		for (int i = 1; i < points.size(); i++) {
 			lines.add(new Line(points.get(i - 1), points.get(i)));
@@ -220,7 +230,8 @@ public class Polygon extends AbstractShape implements Polygonable, Shape.Filled,
 		return lines;
 	}
 
-	@Nonnull public List<Triangle> getTriangles() {
+	@Nonnull
+	public List<Triangle> getTriangles() {
 		triangulate();
 		return new ArrayList<>(triangulated);
 	}
@@ -249,7 +260,8 @@ public class Polygon extends AbstractShape implements Polygonable, Shape.Filled,
 
 	public static class NoHoles extends Polygon {
 		@Override
-		@Nonnull protected Triangulator triangulator() {
+		@Nonnull
+		protected Triangulator triangulator() {
 			return new BasicTriangulator();
 		}
 	}

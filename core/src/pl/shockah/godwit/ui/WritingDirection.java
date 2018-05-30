@@ -15,15 +15,19 @@ public enum WritingDirection {
 	TopToBottomAndRightToLeft(new Vec2(0, 1), new Vec2(-1, 0)),
 	BottomToTopAndRightToLeft(new Vec2(0, -1), new Vec2(-1, 0));
 
-	@Nonnull public final Vec2 rowVector;
-	@Nonnull public final Vec2 columnVector;
+	@Nonnull
+	public final Vec2 rowVector;
+
+	@Nonnull
+	public final Vec2 columnVector;
 
 	WritingDirection(@Nonnull Vec2 rowVector, @Nonnull Vec2 columnVector) {
 		this.rowVector = rowVector;
 		this.columnVector = columnVector;
 	}
 
-	@Nonnull public Vec2 getCorner() {
+	@Nonnull
+	public Vec2 getCorner() {
 		return new Vec2(isLeftToRight() ? 0 : 1, isTopToBottom() ? 0 : 1);
 	}
 
@@ -60,7 +64,8 @@ public enum WritingDirection {
 		return !isHorizontalFirst();
 	}
 
-	@Nonnull public WritingDirection getHorizontallyMirrored() {
+	@Nonnull
+	public WritingDirection getHorizontallyMirrored() {
 		switch (this) {
 			case LeftToRightAndTopToBottom:
 				return RightToLeftAndTopToBottom;
@@ -82,7 +87,8 @@ public enum WritingDirection {
 		throw new IllegalStateException();
 	}
 
-	@Nonnull public WritingDirection getVerticallyMirrored() {
+	@Nonnull
+	public WritingDirection getVerticallyMirrored() {
 		switch (this) {
 			case LeftToRightAndTopToBottom:
 				return LeftToRightAndBottomToTop;
@@ -104,7 +110,8 @@ public enum WritingDirection {
 		throw new IllegalStateException();
 	}
 
-	@Nonnull public WritingDirection getMirrored() {
+	@Nonnull
+	public WritingDirection getMirrored() {
 		return getHorizontallyMirrored().getVerticallyMirrored();
 	}
 }

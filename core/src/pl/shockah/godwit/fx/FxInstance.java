@@ -12,8 +12,12 @@ public class FxInstance {
 		ReverseLoop
 	}
 
-	@Nonnull public final Fx fx;
-	@Nonnull public final EndAction endAction;
+	@Nonnull
+	public final Fx fx;
+
+	@Nonnull
+	public final EndAction endAction;
+
 	public float speed = 1f;
 
 	private boolean stopped = false;

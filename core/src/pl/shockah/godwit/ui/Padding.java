@@ -50,15 +50,18 @@ public final class Padding {
 		this.bottom = bottom;
 	}
 
-	@Nonnull public Vec2 getTopLeftVector() {
+	@Nonnull
+	public Vec2 getTopLeftVector() {
 		return new Vec2(left.getPixels(), top.getPixels());
 	}
 
-	@Nonnull public Vec2 getBottomRightVector() {
+	@Nonnull
+	public Vec2 getBottomRightVector() {
 		return new Vec2(right.getPixels(), bottom.getPixels());
 	}
 
-	@Nonnull public Vec2 getVector() {
+	@Nonnull
+	public Vec2 getVector() {
 		return getTopLeftVector().add(getBottomRightVector());
 	}
 }

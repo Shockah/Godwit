@@ -15,7 +15,8 @@ public class GestureHandlerRenderGroup<T extends Shape & Shape.Filled> extends R
 	protected final Set<GestureRecognizer> gestureRecognizers = new HashSet<>();
 
 	@Getter
-	@Nullable public T gestureShape;
+	@Nullable
+	public T gestureShape;
 
 	@Override
 	public void onAddedToHierarchy() {

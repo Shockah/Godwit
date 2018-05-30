@@ -7,7 +7,9 @@ import pl.shockah.godwit.ui.Alignment;
 import pl.shockah.godwit.ui.Orientation;
 
 public class BaseLinearView<T extends BaseLinearView.Attributes> extends ViewGroup<T> {
-	@Nonnull public final Orientation orientation;
+	@Nonnull
+	public final Orientation orientation;
+
 	public float spacing = 0f;
 
 	public BaseLinearView(@Nonnull Orientation orientation) {
@@ -40,7 +42,8 @@ public class BaseLinearView<T extends BaseLinearView.Attributes> extends ViewGro
 	}
 
 	public static class Attributes {
-		@Nonnull public Alignment alignment;
+		@Nonnull
+		public Alignment alignment;
 
 		public Attributes(@Nonnull Alignment alignment) {
 			this.alignment = alignment;

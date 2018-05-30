@@ -30,14 +30,23 @@ public class GfxFont extends AbstractRenderable {
 	}
 
 	@Delegate(excludes = DelegateExclusions.class)
-	@Nonnull public final BitmapFont font;
+	@Nonnull
+	public final BitmapFont font;
 
-	@Nullable public final AssetLoaderParameters<BitmapFont> parameters;
+	@Nullable
+	public final AssetLoaderParameters<BitmapFont> parameters;
 
-	@Nullable private GlyphLayout cachedLayout;
-	@Nullable private ScalableBitmapFontCache cache;
-	@Nullable private Vec2 cachedSize;
-	@Nullable private Vec2 cachedOffset;
+	@Nullable
+	private GlyphLayout cachedLayout;
+
+	@Nullable
+	private ScalableBitmapFontCache cache;
+
+	@Nullable
+	private Vec2 cachedSize;
+
+	@Nullable
+	private Vec2 cachedOffset;
 
 	@Getter
 	private float scaleX = 1f;
@@ -46,22 +55,28 @@ public class GfxFont extends AbstractRenderable {
 	private float scaleY = 1f;
 
 	@Getter
-	@Nullable private String text;
+	@Nullable
+	private String text;
 
 	@Getter
-	@Nullable private Float maxWidth = null;
+	@Nullable
+	private Float maxWidth = null;
 
 	@Getter
-	@Nonnull private Alignment.Plane alignment = Alignment.Horizontal.Left.and(Alignment.Vertical.Top);
+	@Nonnull
+	private Alignment.Plane alignment = Alignment.Horizontal.Left.and(Alignment.Vertical.Top);
 
 	@Getter
-	@Nonnull private LineBreakMode lineBreakMode = LineBreakMode.Wrap;
+	@Nonnull
+	private LineBreakMode lineBreakMode = LineBreakMode.Wrap;
 
 	@Getter
-	@Nonnull private IVec2 position = Vec2.zero;
+	@Nonnull
+	private IVec2 position = Vec2.zero;
 
 	@Getter
-	@Nonnull private Color color = Color.WHITE;
+	@Nonnull
+	private Color color = Color.WHITE;
 
 	public GfxFont(@Nonnull SingleAsset<BitmapFont> asset) {
 		this(asset.get(), asset.parameters);
@@ -83,7 +98,8 @@ public class GfxFont extends AbstractRenderable {
 		cachedOffset = null;
 	}
 
-	@Nonnull protected GlyphLayout getGlyphLayout() {
+	@Nonnull
+	protected GlyphLayout getGlyphLayout() {
 		if (text == null || text.isEmpty())
 			throw new IllegalStateException("Cannot get a GlyphLayout for an empty text.");
 		if (cachedLayout == null) {
@@ -100,7 +116,8 @@ public class GfxFont extends AbstractRenderable {
 		return cachedLayout;
 	}
 
-	@Nonnull protected ScalableBitmapFontCache getCache() {
+	@Nonnull
+	protected ScalableBitmapFontCache getCache() {
 		if (cache == null) {
 			cache = new ScalableBitmapFontCache(font);
 			if (scaleX != 0f && scaleY != 0f) {
@@ -113,7 +130,8 @@ public class GfxFont extends AbstractRenderable {
 		return cache;
 	}
 
-	@Nonnull protected Vec2 getOffset() {
+	@Nonnull
+	protected Vec2 getOffset() {
 		if (cachedOffset == null) {
 			getGlyphLayout();
 			Vec2 offset = Vec2.zero;
@@ -128,7 +146,8 @@ public class GfxFont extends AbstractRenderable {
 		return cachedOffset;
 	}
 
-	@Nonnull public Vec2 getSize() {
+	@Nonnull
+	public Vec2 getSize() {
 		if (cachedSize == null) {
 			if (text == null || text.isEmpty())
 				return Vec2.zero;
@@ -180,7 +199,8 @@ public class GfxFont extends AbstractRenderable {
 		markDirty();
 	}
 
-	@Nonnull public Vec2 getScaleVector() {
+	@Nonnull
+	public Vec2 getScaleVector() {
 		BitmapFont.BitmapFontData data = font.getData();
 		return new Vec2(data.scaleX, data.scaleY);
 	}
@@ -263,12 +283,14 @@ public class GfxFont extends AbstractRenderable {
 		cache.setPosition(oldX, oldY);
 	}
 
-	@Nonnull public Entity asEntity() {
+	@Nonnull
+	public Entity asEntity() {
 		return new Entity(this);
 	}
 
 	public static class Entity extends pl.shockah.godwit.Entity {
-		@Nonnull public final GfxFont font;
+		@Nonnull
+		public final GfxFont font;
 
 		public Entity(@Nonnull SingleAsset<BitmapFont> asset) {
 			this(new GfxFont(asset));

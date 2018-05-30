@@ -8,13 +8,15 @@ public enum Orientation {
 	Horizontal(new Vec2(1, 0)),
 	Vertical(new Vec2(0, 1));
 
-	@Nonnull public final Vec2 vector;
+	@Nonnull
+	public final Vec2 vector;
 
 	Orientation(@Nonnull Vec2 vector) {
 		this.vector = vector;
 	}
 
-	@Nonnull public Orientation getPerpendicular() {
+	@Nonnull
+	public Orientation getPerpendicular() {
 		switch (this) {
 			case Horizontal:
 				return Vertical;

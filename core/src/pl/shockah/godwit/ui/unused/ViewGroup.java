@@ -14,14 +14,19 @@ import pl.shockah.godwit.gl.Gfx;
 import pl.shockah.godwit.gl.GfxSlice;
 
 public abstract class ViewGroup<T> extends ViewHolder<T> {
-	@Nonnull private final List<View> views = new ArrayList<>();
-	@Nonnull protected final Map<View, T> attributes = new HashMap<>();
+	@Nonnull
+	private final List<View> views = new ArrayList<>();
 
-	@Nonnull public List<View> getViews() {
+	@Nonnull
+	protected final Map<View, T> attributes = new HashMap<>();
+
+	@Nonnull
+	public List<View> getViews() {
 		return Collections.unmodifiableList(views);
 	}
 
-	@Nullable public T getAttributesForView(@Nonnull View view) {
+	@Nullable
+	public T getAttributesForView(@Nonnull View view) {
 		if (!views.contains(view))
 			throw new IllegalStateException(String.format("ViewGroup %s does not contain view %s.", this, view));
 		return attributes.get(view);

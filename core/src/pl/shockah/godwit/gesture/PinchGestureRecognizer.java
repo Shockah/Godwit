@@ -7,9 +7,11 @@ import pl.shockah.godwit.geom.Vec2;
 import pl.shockah.unicorn.collection.UnorderedPair;
 
 public class PinchGestureRecognizer extends ContinuousGestureRecognizer {
-	@Nonnull public final Delegate delegate;
+	@Nonnull
+	public final Delegate delegate;
 
-	@Nonnull private UnorderedPair<Touch> touches = new UnorderedPair<>(null, null);
+	@Nonnull
+	private UnorderedPair<Touch> touches = new UnorderedPair<>(null, null);
 
 	public PinchGestureRecognizer(@Nonnull GestureHandler handler, @Nonnull Delegate delegate) {
 		super(handler);
@@ -105,8 +107,12 @@ public class PinchGestureRecognizer extends ContinuousGestureRecognizer {
 
 	@EqualsAndHashCode
 	public static final class PinchInfo {
-		@Nonnull public final Vec2 point1;
-		@Nonnull public final Vec2 point2;
+		@Nonnull
+		public final Vec2 point1;
+
+		@Nonnull
+		public final Vec2 point2;
+
 		public final float distance;
 
 		public PinchInfo(@Nonnull Vec2 point1, @Nonnull Vec2 point2, float distance) {

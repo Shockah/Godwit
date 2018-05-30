@@ -11,7 +11,8 @@ import java8.util.stream.StreamSupport;
 import pl.shockah.godwit.gl.Gfx;
 
 public class ComplexShape<T extends Shape> extends AbstractShape {
-	@Nonnull protected final Set<T> shapes = new HashSet<>();
+	@Nonnull
+	protected final Set<T> shapes = new HashSet<>();
 
 	public void add(@Nonnull T shape) {
 		shapes.add(shape);
@@ -23,7 +24,8 @@ public class ComplexShape<T extends Shape> extends AbstractShape {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	@Nonnull public ComplexShape<T> copy() {
+	@Nonnull
+	public ComplexShape<T> copy() {
 		ComplexShape<T> complexShape = new ComplexShape<>();
 		for (T shape : shapes) {
 			complexShape.add((T)shape.copy());
@@ -32,7 +34,8 @@ public class ComplexShape<T extends Shape> extends AbstractShape {
 	}
 
 	@Override
-	@Nonnull public Rectangle getBoundingBox() {
+	@Nonnull
+	public Rectangle getBoundingBox() {
 		if (shapes.isEmpty())
 			return new Rectangle(0f, 0f);
 		List<Rectangle> boundingBoxes = StreamSupport.stream(shapes).map(Shape::getBoundingBox).collect(Collectors.toList());
@@ -91,7 +94,8 @@ public class ComplexShape<T extends Shape> extends AbstractShape {
 	public static class Filled<T extends Shape.Filled> extends ComplexShape<T> implements Shape.Filled {
 		@SuppressWarnings("unchecked")
 		@Override
-		@Nonnull public ComplexShape.Filled<T> copy() {
+		@Nonnull
+		public ComplexShape.Filled<T> copy() {
 			ComplexShape.Filled<T> complexShape = new ComplexShape.Filled<>();
 			for (T shape : shapes) {
 				complexShape.add((T)shape.copy());
@@ -119,7 +123,8 @@ public class ComplexShape<T extends Shape> extends AbstractShape {
 	public static class Outline<T extends Shape.Outline> extends ComplexShape<T> implements Shape.Outline {
 		@SuppressWarnings("unchecked")
 		@Override
-		@Nonnull public ComplexShape.Outline<T> copy() {
+		@Nonnull
+		public ComplexShape.Outline<T> copy() {
 			ComplexShape.Outline<T> complexShape = new ComplexShape.Outline<>();
 			for (T shape : shapes) {
 				complexShape.add((T)shape.copy());
@@ -138,7 +143,8 @@ public class ComplexShape<T extends Shape> extends AbstractShape {
 	public static class FilledOutline<T extends Shape.Filled & Shape.Outline> extends ComplexShape.Filled<T> implements Shape.Outline {
 		@SuppressWarnings("unchecked")
 		@Override
-		@Nonnull public FilledOutline<T> copy() {
+		@Nonnull
+		public FilledOutline<T> copy() {
 			FilledOutline<T> complexShape = new FilledOutline<>();
 			for (T shape : shapes) {
 				complexShape.add((T)shape.copy());

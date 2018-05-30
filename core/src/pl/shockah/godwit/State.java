@@ -8,10 +8,14 @@ import javax.annotation.Nonnull;
 import pl.shockah.godwit.asset.Asset;
 
 public class State extends RenderGroup {
-	@Nonnull public final CameraGroup game = new CameraGroup();
-	@Nonnull public final CameraGroup ui = new CameraGroup();
+	@Nonnull
+	public final CameraGroup game = new CameraGroup();
 
-	@Nonnull private final List<Asset<?>> retainedAssets = new ArrayList<>();
+	@Nonnull
+	public final CameraGroup ui = new CameraGroup();
+
+	@Nonnull
+	private final List<Asset<?>> retainedAssets = new ArrayList<>();
 
 	public State() {
 		addChild(game);

@@ -37,8 +37,12 @@ public class GfxSlice extends Gfx {
 		void clear();
 	}
 
-	@Nonnull @Delegate(excludes = DelegateExlusions.class) public final Gfx wrapped;
-	@Nonnull public final Rectangle bounds;
+	@Nonnull
+	@Delegate(excludes = DelegateExlusions.class)
+	public final Gfx wrapped;
+
+	@Nonnull
+	public final Rectangle bounds;
 
 	public GfxSlice(@Nonnull Gfx wrapped, @Nonnull Rectangle bounds) {
 		this.wrapped = wrapped;

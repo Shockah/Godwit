@@ -11,7 +11,8 @@ import lombok.experimental.UtilityClass;
 public class TextureAsset extends SingleAsset<Texture> {
 	@UtilityClass
 	public static final class Defaults {
-		@Nonnull public static Texture.TextureFilter filter = Texture.TextureFilter.Nearest;
+		@Nonnull
+		public static Texture.TextureFilter filter = Texture.TextureFilter.Nearest;
 	}
 
 	public TextureAsset(@Nonnull String fileName) {
@@ -25,6 +26,7 @@ public class TextureAsset extends SingleAsset<Texture> {
 		}});
 	}
 
+	@Nonnull
 	@Delegate
 	@Override
 	public Texture get() {

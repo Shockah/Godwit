@@ -7,7 +7,8 @@ import com.badlogic.gdx.files.FileHandle;
 import javax.annotation.Nullable;
 
 public class LocalOrInternalFileHandleResolver implements FileHandleResolver {
-	@Nullable public final String assetDirectory;
+	@Nullable
+	public final String assetDirectory;
 
 	public LocalOrInternalFileHandleResolver() {
 		this(null);

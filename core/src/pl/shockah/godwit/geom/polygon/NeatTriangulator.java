@@ -269,7 +269,8 @@ public class NeatTriangulator implements Triangulator {
 	}
 
 	@Override
-	@Nonnull public IVec2 getTrianglePoint(int tri, int i) {
+	@Nonnull
+	public IVec2 getTrianglePoint(int tri, int i) {
 		float xp = pointsX[triangles[tri].v[i]];
 		float yp = pointsY[triangles[tri].v[i]];
 		return new MutableVec2(xp, yp);

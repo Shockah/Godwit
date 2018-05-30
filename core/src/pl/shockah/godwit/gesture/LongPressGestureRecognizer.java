@@ -19,10 +19,15 @@ public class LongPressGestureRecognizer extends GestureRecognizer {
 	}
 
 	public final float delay;
-	@Nonnull public final Delegate delegate;
 
-	@Nullable public Touch touch = null;
+	@Nonnull
+	public final Delegate delegate;
+
+	@Nullable
+	public Touch touch = null;
+
 	private Timer.Task task = null;
+
 	private boolean shouldEnd = false;
 
 	public LongPressGestureRecognizer(@Nonnull GestureHandler group, float delay, @Nonnull SimpleDelegate delegate) {

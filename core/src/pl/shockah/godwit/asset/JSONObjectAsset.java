@@ -16,6 +16,7 @@ public class JSONObjectAsset extends SingleAsset<JSONObject> {
 		super(fileName, JSONObject.class);
 	}
 
+	@Nonnull
 	@Delegate(excludes = DelegateExclusions.class)
 	@Override
 	public JSONObject get() {

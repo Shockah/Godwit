@@ -31,20 +31,23 @@ import javax.annotation.Nonnull;
 import pl.shockah.unicorn.func.Action1;
 
 public class IosImagePickerService extends ImagePickerService {
-	@Nonnull private final WeakReference<UIViewController> controllerRef;
+	@Nonnull
+	private final WeakReference<UIViewController> controllerRef;
 
 	public IosImagePickerService(@Nonnull UIViewController controller) {
 		this.controllerRef = new WeakReference<>(controller);
 	}
 
-	@Nonnull private UIViewController getController() {
+	@Nonnull
+	private UIViewController getController() {
 		UIViewController controller = controllerRef.get();
 		if (controller == null)
 			throw new IllegalStateException("Lost controller.");
 		return controller;
 	}
 
-	@Nonnull private static PermissionState mapNativeState(@Nonnull PHAuthorizationStatus status) {
+	@Nonnull
+	private static PermissionState mapNativeState(@Nonnull PHAuthorizationStatus status) {
 		switch (status) {
 			case NotDetermined:
 				return PermissionState.Unknown;
@@ -56,7 +59,8 @@ public class IosImagePickerService extends ImagePickerService {
 		throw new IllegalArgumentException("Status shouldn't be null.");
 	}
 
-	@Nonnull private static PermissionState mapNativeState(@Nonnull AVAuthorizationStatus status) {
+	@Nonnull
+	private static PermissionState mapNativeState(@Nonnull AVAuthorizationStatus status) {
 		switch (status) {
 			case NotDetermined:
 				return PermissionState.Unknown;
@@ -69,7 +73,8 @@ public class IosImagePickerService extends ImagePickerService {
 	}
 
 	@Override
-	@Nonnull public PermissionState getPermissionState(@Nonnull Source source) {
+	@Nonnull
+	public PermissionState getPermissionState(@Nonnull Source source) {
 		switch (source) {
 			case Library:
 				return mapNativeState(PHPhotoLibrary.getAuthorizationStatus());

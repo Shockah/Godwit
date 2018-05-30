@@ -13,8 +13,11 @@ import java.util.List;
 import javax.annotation.Nonnull;
 
 public class GodwitFragmentActivity extends FragmentActivity {
-	@Nonnull private final List<Object> cachedResultCodes = new ArrayList<>();
-	@Nonnull private final SparseArray<PermissionResponseDelegate> awaiting = new SparseArray<>();
+	@Nonnull
+	private final List<Object> cachedResultCodes = new ArrayList<>();
+
+	@Nonnull
+	private final SparseArray<PermissionResponseDelegate> awaiting = new SparseArray<>();
 
 	public int getResultCode(@Nonnull Object obj) {
 		if (!cachedResultCodes.contains(obj))

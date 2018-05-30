@@ -18,19 +18,24 @@ import pl.shockah.godwit.gl.Gfx;
 
 public class CameraGroup extends ConstrainableRenderGroup {
 	@Getter
-	@Nonnull private Camera camera = new OrthographicCamera();
+	@Nonnull
+	private Camera camera = new OrthographicCamera();
 
 	@Getter
-	@Nonnull private Viewport viewport = new ScreenViewport(camera);
+	@Nonnull
+	private Viewport viewport = new ScreenViewport(camera);
 
 	public boolean centerViewport = false;
 
 	private int lastWidth = 0;
 	private int lastHeight = 0;
 	private boolean lastCenterViewport = centerViewport;
-	@Nullable private Rectangle cachedBoundingBox;
 
-	@Nonnull public Rectangle getBoundingBox() {
+	@Nullable
+	private Rectangle cachedBoundingBox;
+
+	@Nonnull
+	public Rectangle getBoundingBox() {
 		if (cachedBoundingBox == null) {
 			Vector3 vec = new Vector3(viewport.getScreenX(), viewport.getScreenY(), 0);
 			camera.unproject(vec);
@@ -107,7 +112,8 @@ public class CameraGroup extends ConstrainableRenderGroup {
 		cachedBoundingBox = null;
 	}
 
-	@Nonnull public Vec2 getCameraPosition() {
+	@Nonnull
+	public Vec2 getCameraPosition() {
 		return new Vec2(camera.position.x, camera.position.y);
 	}
 

@@ -25,13 +25,18 @@ public abstract class GestureRecognizer {
 		}
 	}
 
-	@Nonnull public final GestureHandler handler;
+	@Nonnull
+	public final GestureHandler handler;
 
 	@Getter
-	@Nonnull private State state = State.Possible;
+	@Nonnull
+	private State state = State.Possible;
 
-	@Nonnull protected final Set<GestureRecognizer> requireToFail = new HashSet<>();
-	@Nonnull protected final Set<GestureRecognizer> failListeners = new HashSet<>();
+	@Nonnull
+	protected final Set<GestureRecognizer> requireToFail = new HashSet<>();
+
+	@Nonnull
+	protected final Set<GestureRecognizer> failListeners = new HashSet<>();
 
 	@Nonnull
 	public final Set<StateListener> stateListeners = new HashSet<>();

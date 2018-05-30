@@ -22,7 +22,8 @@ import pl.shockah.unicorn.ease.PennerEasing;
 import pl.shockah.unicorn.ease.SmoothstepEasing;
 
 public class EasingTest extends State {
-	@Nonnull private final List<Easing> methods = Lists.of(
+	@Nonnull
+	private final List<Easing> methods = Lists.of(
 			Easing.linear,
 			SmoothstepEasing.smoothstep, SmoothstepEasing.smoothstep2, SmoothstepEasing.smoothstep3,
 			PennerEasing.sineIn, PennerEasing.cubicIn, PennerEasing.quadIn, PennerEasing.quarticIn, PennerEasing.quinticIn,

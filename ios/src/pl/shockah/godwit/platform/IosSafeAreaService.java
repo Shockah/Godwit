@@ -13,7 +13,8 @@ import pl.shockah.godwit.ui.Padding;
 
 public class IosSafeAreaService extends SafeAreaService {
 	@Override
-	@Nonnull public Padding getSafeAreaPadding() {
+	@Nonnull
+	public Padding getSafeAreaPadding() {
 		int[] version = RefStreams.of(UIDevice.getCurrentDevice().getSystemVersion().split("\\."))
 				.mapToInt(Integer::parseInt)
 				.toArray();

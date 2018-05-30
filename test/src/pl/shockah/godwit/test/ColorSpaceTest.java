@@ -20,7 +20,9 @@ import pl.shockah.unicorn.ease.Easing;
 import pl.shockah.unicorn.func.Func3;
 
 public class ColorSpaceTest extends State {
+	@Nonnull
 	public static ColorSpaceType type = ColorSpaceType.RGB;
+
 	public static int rotate = 0;
 	private static final int X = 256;
 	private static final int Y = 256;

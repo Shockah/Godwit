@@ -22,8 +22,11 @@ import pl.shockah.unicorn.algo.tsp.NearestNeighborTravellingSalesmanSolver;
 import pl.shockah.unicorn.color.HSVColorSpace;
 
 public class ClusteringTest extends State {
-	@Nonnull public final Set<IVec2> nodes = new HashSet<>();
-	@Nullable public List<IVec2>[] clusters;
+	@Nonnull
+	public final Set<IVec2> nodes = new HashSet<>();
+
+	@Nullable
+	public List<IVec2>[] clusters;
 
 	@Override
 	public void updateSelf() {
