@@ -29,7 +29,10 @@ public class Ui1Test extends State {
 
 		List<UiButton> buttons = new ArrayList<>();
 		for (int i = 0; i < 50; i++) {
-			UiButton.Rectangle button = new UiButton.Rectangle(self -> {}) {
+			final int fi = i;
+			UiButton.Rectangle button = new UiButton.Rectangle(self -> {
+				System.out.println(String.format("Clicked #%d", fi));
+			}) {
 				@Override
 				public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
 					super.render(gfx, v);
