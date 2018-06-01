@@ -6,13 +6,36 @@ import java.util.List;
 import javax.annotation.Nonnull;
 
 import pl.shockah.godwit.asset.Asset;
+import pl.shockah.godwit.constraint.AbstractConstrainable;
+import pl.shockah.godwit.constraint.Constrainable;
+import pl.shockah.godwit.constraint.Constraint;
+import pl.shockah.godwit.gl.Gfx;
+import pl.shockah.godwit.platform.SafeAreaService;
+import pl.shockah.godwit.ui.Padding;
+import pl.shockah.unicorn.UnexpectedException;
 
 public class State extends RenderGroup {
+	@Nonnull
+	public final Constrainable safeArea = new AbstractConstrainable();
+
 	@Nonnull
 	public final CameraGroup game = new CameraGroup();
 
 	@Nonnull
-	public final CameraGroup ui = new CameraGroup();
+	public final CameraGroup ui = new CameraGroup() {
+		@Override
+		protected void updateViewportIfNeeded(@Nonnull Gfx gfx) {
+			super.updateViewportIfNeeded(gfx);
+
+			SafeAreaService service = Godwit.getInstance().platformServiceProvider.get(SafeAreaService.class);
+			if (service == null)
+				throw new UnexpectedException("SafeAreaService should always be available.");
+
+			Padding padding = service.getSafeAreaPadding();
+			safeArea.setAttribute(Constraint.Attribute.Width, size.x - padding.left.getPixels() - padding.right.getPixels());
+			safeArea.setAttribute(Constraint.Attribute.Height, size.y - padding.top.getPixels() - padding.bottom.getPixels());
+		}
+	};
 
 	@Nonnull
 	private final List<Asset<?>> retainedAssets = new ArrayList<>();
@@ -20,6 +43,11 @@ public class State extends RenderGroup {
 	public State() {
 		addChild(game);
 		addChild(ui);
+	}
+
+	@Override
+	public void updateSelf() {
+		super.updateSelf();
 	}
 
 	@Override

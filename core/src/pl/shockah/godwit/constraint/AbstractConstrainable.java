@@ -9,7 +9,7 @@ import javax.annotation.Nonnull;
 import lombok.Getter;
 import pl.shockah.godwit.geom.Rectangle;
 
-public abstract class AbstractConstrainable implements Constrainable {
+public class AbstractConstrainable implements Constrainable {
 	@Nonnull
 	@Getter
 	protected Rectangle bounds = new Rectangle(0f, 0f);

@@ -13,6 +13,7 @@ import pl.shockah.godwit.constraint.AxisConstraint;
 import pl.shockah.godwit.constraint.BasicConstraint;
 import pl.shockah.godwit.constraint.ChainConstraint;
 import pl.shockah.godwit.constraint.Constraint;
+import pl.shockah.godwit.constraint.PinConstraint;
 import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.gl.Gfx;
 import pl.shockah.godwit.ui.UiButton;
@@ -24,10 +25,7 @@ public class Ui1Test extends State {
 		UiScroll scroll;
 		ui.addChild(scroll = new UiScroll(UiScroll.Direction.Vertical));
 
-		scroll.addConstraint(new BasicConstraint(scroll, Constraint.Attribute.Width, ui));
-		scroll.addConstraint(new BasicConstraint(scroll, Constraint.Attribute.Height, ui));
-		scroll.addConstraint(new BasicConstraint(scroll, Constraint.Attribute.CenterX, ui));
-		scroll.addConstraint(new BasicConstraint(scroll, Constraint.Attribute.CenterY, ui));
+		scroll.addConstraint(new PinConstraint(scroll, safeArea));
 
 		List<UiButton> buttons = new ArrayList<>();
 		for (int i = 0; i < 50; i++) {
