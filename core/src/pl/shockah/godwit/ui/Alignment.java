@@ -4,6 +4,7 @@ import com.badlogic.gdx.utils.Align;
 
 import javax.annotation.Nonnull;
 
+import java8.util.Objects;
 import lombok.Getter;
 import pl.shockah.godwit.geom.Vec2;
 
@@ -109,6 +110,19 @@ public interface Alignment {
 		@Nonnull
 		private Vec2 calculateVector(@Nonnull Horizontal horizontal, @Nonnull Vertical vertical) {
 			return new Vec2(horizontal.vector.x, vertical.vector.y);
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (!(obj instanceof Plane))
+				return false;
+			Plane plane = (Plane)obj;
+			return Objects.equals(horizontal, plane.horizontal) && Objects.equals(vertical, plane.vertical);
+		}
+
+		@Override
+		public int hashCode() {
+			return Objects.hash(horizontal, vertical);
 		}
 
 		@Override

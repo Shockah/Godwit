@@ -24,7 +24,7 @@ public class ChainConstraint extends AxisConstraint {
 		this(containerItem, axis, bias, Arrays.asList(items));
 	}
 
-	public ChainConstraint(@Nonnull Constrainable containerItem, @Nonnull Axis axis, float bias, @Nonnull List<Constrainable> items) {
+	public ChainConstraint(@Nonnull Constrainable containerItem, @Nonnull Axis axis, float bias, @Nonnull List<? extends Constrainable> items) {
 		super(axis);
 		this.containerItem = containerItem;
 		this.style = Style.Packed;
@@ -32,11 +32,19 @@ public class ChainConstraint extends AxisConstraint {
 		this.bias = bias;
 	}
 
+	public ChainConstraint(@Nonnull Constrainable containerItem, @Nonnull Axis axis, @Nonnull Constrainable... items) {
+		this(containerItem, axis, Arrays.asList(items));
+	}
+
+	public ChainConstraint(@Nonnull Constrainable containerItem, @Nonnull Axis axis, @Nonnull List<? extends Constrainable> items) {
+		this(containerItem, axis, Style.SpreadInside, items);
+	}
+
 	public ChainConstraint(@Nonnull Constrainable containerItem, @Nonnull Axis axis, @Nonnull Style style, @Nonnull Constrainable... items) {
 		this(containerItem, axis, style, Arrays.asList(items));
 	}
 
-	public ChainConstraint(@Nonnull Constrainable containerItem, @Nonnull Axis axis, @Nonnull Style style, @Nonnull List<Constrainable> items) {
+	public ChainConstraint(@Nonnull Constrainable containerItem, @Nonnull Axis axis, @Nonnull Style style, @Nonnull List<? extends Constrainable> items) {
 		super(axis);
 		this.containerItem = containerItem;
 		this.style = style;

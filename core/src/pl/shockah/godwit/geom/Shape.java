@@ -13,13 +13,17 @@ public interface Shape {
 	@Nonnull
 	Rectangle getBoundingBox();
 
-	void translate(float x, float y);
+	@Nonnull
+	Shape translate(float x, float y);
 
-	void translate(@Nonnull IVec2 v);
+	@Nonnull
+	Shape translate(@Nonnull IVec2 v);
 
-	void mirror(boolean horizontally, boolean vertically);
+	@Nonnull
+	Shape mirror(boolean horizontally, boolean vertically);
 
-	void scale(float scale);
+	@Nonnull
+	Shape scale(float scale);
 
 	boolean collides(@Nonnull Shape shape);
 

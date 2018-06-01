@@ -84,8 +84,9 @@ public class Polygon extends AbstractShape implements Polygonable, Shape.Filled,
 		return new Rectangle(minX, minY, maxX - minX, maxY - minY);
 	}
 
+	@Nonnull
 	@Override
-	public void translate(@Nonnull IVec2 v) {
+	public Polygon translate(@Nonnull IVec2 v) {
 		for (int i = 0; i < points.size(); i++) {
 			points.set(i, points.get(i).add(v));
 		}
@@ -94,10 +95,12 @@ public class Polygon extends AbstractShape implements Polygonable, Shape.Filled,
 				triangle.translate(v);
 			}
 		}
+		return this;
 	}
 
+	@Nonnull
 	@Override
-	public void mirror(boolean horizontally, boolean vertically) {
+	public Polygon mirror(boolean horizontally, boolean vertically) {
 		IVec2 modifier = new Vec2(horizontally ? -1 : 1, vertically ? -1 : 1);
 		for (int i = 0; i < points.size(); i++) {
 			points.set(i, points.get(i).multiply(modifier));
@@ -107,10 +110,12 @@ public class Polygon extends AbstractShape implements Polygonable, Shape.Filled,
 				triangle.mirror(horizontally, vertically);
 			}
 		}
+		return this;
 	}
 
+	@Nonnull
 	@Override
-	public void scale(float scale) {
+	public Polygon scale(float scale) {
 		for (int i = 0; i < points.size(); i++) {
 			points.set(i, points.get(i).multiply(scale));
 		}
@@ -119,6 +124,7 @@ public class Polygon extends AbstractShape implements Polygonable, Shape.Filled,
 				triangle.scale(scale);
 			}
 		}
+		return this;
 	}
 
 	@Nonnull

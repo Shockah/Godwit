@@ -3,6 +3,7 @@ package pl.shockah.godwit.ui;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import lombok.Getter;
 import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.geom.Shape;
 import pl.shockah.godwit.gesture.GestureRecognizer;
@@ -17,6 +18,10 @@ public abstract class UiToggle<S extends Shape.Filled, T> extends UiControl<S> {
 	public T value;
 
 	protected boolean isPressed = false;
+
+	@Nullable
+	@Getter
+	public S gestureShape;
 
 	public UiToggle(@Nullable Listener<T> listener, @Nonnull T value) {
 		this.listener = listener;

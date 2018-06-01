@@ -2,6 +2,7 @@ package pl.shockah.godwit.ui;
 
 import javax.annotation.Nonnull;
 
+import lombok.EqualsAndHashCode;
 import pl.shockah.godwit.Godwit;
 
 public abstract class Unit {
@@ -20,6 +21,7 @@ public abstract class Unit {
 		return new Compound(this, unit);
 	}
 
+	@EqualsAndHashCode(callSuper = false)
 	public static final class Pixels extends Unit {
 		public final float pixels;
 
@@ -38,6 +40,7 @@ public abstract class Unit {
 		}
 	}
 
+	@EqualsAndHashCode(callSuper = false)
 	public static final class Inches extends Unit {
 		public final float inches;
 
@@ -56,6 +59,7 @@ public abstract class Unit {
 		}
 	}
 
+	@EqualsAndHashCode(callSuper = false)
 	public static final class ScreenWidths extends Unit {
 		public final float widths;
 
@@ -74,6 +78,7 @@ public abstract class Unit {
 		}
 	}
 
+	@EqualsAndHashCode(callSuper = false)
 	public static final class ScreenHeights extends Unit {
 		public final float heights;
 
@@ -92,6 +97,7 @@ public abstract class Unit {
 		}
 	}
 
+	@EqualsAndHashCode(callSuper = false)
 	public static final class Compound extends Unit {
 		@Nonnull
 		public final Unit first;

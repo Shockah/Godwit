@@ -60,16 +60,19 @@ public class Line extends AbstractShape implements Shape.Outline, Easable<Line> 
 		return point1.add(point2).multiply(0.5f);
 	}
 
+	@Nonnull
 	@Override
-	public void translate(@Nonnull IVec2 v) {
+	public Line translate(@Nonnull IVec2 v) {
 		point1.x += v.x();
 		point1.y += v.y();
 		point2.x += v.x();
 		point2.y += v.y();
+		return this;
 	}
 
+	@Nonnull
 	@Override
-	public void mirror(boolean horizontally, boolean vertically) {
+	public Line mirror(boolean horizontally, boolean vertically) {
 		if (horizontally) {
 			point1.x *= -1;
 			point2.x *= -1;
@@ -78,12 +81,15 @@ public class Line extends AbstractShape implements Shape.Outline, Easable<Line> 
 			point1.y *= -1;
 			point2.y *= -1;
 		}
+		return this;
 	}
 
+	@Nonnull
 	@Override
-	public void scale(float scale) {
+	public Line scale(float scale) {
 		point1.set(point1.multiply(scale));
 		point2.set(point2.multiply(scale));
+		return this;
 	}
 
 	@Override

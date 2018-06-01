@@ -68,24 +68,30 @@ public class Circle extends AbstractShape implements Polygonable, Shape.Filled, 
 		return Rectangle.centered(position, radius * 2f);
 	}
 
+	@Nonnull
 	@Override
-	public void translate(@Nonnull IVec2 v) {
+	public Circle translate(@Nonnull IVec2 v) {
 		position.x += v.x();
 		position.y += v.y();
+		return this;
 	}
 
+	@Nonnull
 	@Override
-	public void mirror(boolean horizontally, boolean vertically) {
+	public Circle mirror(boolean horizontally, boolean vertically) {
 		if (horizontally)
 			position.x *= -1;
 		if (vertically)
 			position.y *= -1;
+		return this;
 	}
 
+	@Nonnull
 	@Override
-	public void scale(float scale) {
+	public Circle scale(float scale) {
 		position.set(position.multiply(scale));
 		radius *= scale;
+		return this;
 	}
 
 	@Override

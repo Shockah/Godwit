@@ -77,18 +77,21 @@ public class Triangle extends AbstractShape implements Polygonable, Shape.Filled
 		return new Rectangle(minX, minY, maxX - minX, maxY - minY);
 	}
 
+	@Nonnull
 	@Override
-	public void translate(@Nonnull IVec2 v) {
+	public Triangle translate(@Nonnull IVec2 v) {
 		point1.x += v.x();
 		point1.y += v.y();
 		point2.x += v.x();
 		point2.y += v.y();
 		point3.x += v.x();
 		point3.y += v.y();
+		return this;
 	}
 
+	@Nonnull
 	@Override
-	public void mirror(boolean horizontally, boolean vertically) {
+	public Triangle mirror(boolean horizontally, boolean vertically) {
 		if (horizontally) {
 			point1.x *= -1;
 			point2.x *= -1;
@@ -99,13 +102,16 @@ public class Triangle extends AbstractShape implements Polygonable, Shape.Filled
 			point2.y *= -1;
 			point3.y *= -1;
 		}
+		return this;
 	}
 
+	@Nonnull
 	@Override
-	public void scale(float scale) {
+	public Triangle scale(float scale) {
 		point1.set(point1.multiply(scale));
 		point2.set(point2.multiply(scale));
 		point3.set(point3.multiply(scale));
+		return this;
 	}
 
 	private static float sign(float x1, float y1, float x2, float y2, float x3, float y3) {

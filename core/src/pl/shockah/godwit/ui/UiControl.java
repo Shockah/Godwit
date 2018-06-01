@@ -6,7 +6,6 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import lombok.Getter;
 import pl.shockah.godwit.ConstrainableRenderGroup;
 import pl.shockah.godwit.geom.Shape;
 import pl.shockah.godwit.gesture.GestureHandler;
@@ -17,8 +16,10 @@ public class UiControl<S extends Shape.Filled> extends ConstrainableRenderGroup 
 	protected final Set<GestureRecognizer> gestureRecognizers = new HashSet<>();
 
 	@Nullable
-	@Getter
-	public S gestureShape;
+	@Override
+	public Shape.Filled getGestureShape() {
+		return getBounds();
+	}
 
 	@Override
 	public void onAddedToHierarchy() {

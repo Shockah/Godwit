@@ -216,18 +216,25 @@ public class Entity extends AbstractAnimatable implements Renderable {
 
 	@Nonnull
 	public final Vec2 getAbsolutePoint() {
-		return getAbsolutePoint(Vec2.zero);
+		Entity[] tree = getParentTree();
+		MutableVec2 point = new MutableVec2();
+
+		for (int i = tree.length - 2; i >= 0; i--) {
+			Vec2 relativePoint = tree[i].getRelativePositionOfChild(tree[i + 1]);
+			point.x += relativePoint.x;
+			point.y += relativePoint.y;
+		}
+		return point.asImmutable();
 	}
 
 	@Nonnull
-	public final Vec2 getAbsolutePoint(@Nonnull IVec2 point) {
-		Vec2 currentPoint = point.asImmutable();
-		Entity entity = this;
-		while (entity != null) {
-			currentPoint = entity.getTranslatedPoint(currentPoint);
-			entity = entity.parent;
+	public Vec2 getRelativePositionOfChild(@Nonnull Entity child) {
+		try {
+			if (child.getParent() == this)
+				return child.position.asImmutable();
+		} catch (Exception ignored) {
 		}
-		return currentPoint;
+		throw new IllegalArgumentException(String.format("%s is not a child of %s.", child, this));
 	}
 
 	@Nonnull
@@ -253,6 +260,16 @@ public class Entity extends AbstractAnimatable implements Renderable {
 			current = current.parent;
 		}
 		throw new IllegalStateException(String.format("Entity %s is not in the tree of %s.", entity, this));
+	}
+
+	protected void calculateTranslatedPoint(@Nonnull MutableVec2 point) {
+		point.x += position.x;
+		point.y += position.y;
+	}
+
+	@Nonnull
+	protected Vec2 getTranslatedPoint(@Nonnull IVec2 point) {
+		return point.add(position);
 	}
 
 	@Nonnull
@@ -283,15 +300,5 @@ public class Entity extends AbstractAnimatable implements Renderable {
 	@Nullable
 	public final Entity getCommonParent(@Nonnull Entity entity) {
 		return getCommonParent(getParentTree(), entity.getParentTree(), this, entity);
-	}
-
-	protected void calculateTranslatedPoint(@Nonnull MutableVec2 point) {
-		point.x += position.x;
-		point.y += position.y;
-	}
-
-	@Nonnull
-	protected Vec2 getTranslatedPoint(@Nonnull IVec2 point) {
-		return point.add(position);
 	}
 }

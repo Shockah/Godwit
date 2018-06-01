@@ -22,12 +22,24 @@ public class BasicConstraint extends Constraint {
 
 	public float ratio;
 
+	public BasicConstraint(@Nonnull Constrainable targetItem, @Nonnull Attribute attribute, @Nonnull Unit value) {
+		this(targetItem, attribute, targetItem, attribute, value, 0f);
+	}
+
+	public BasicConstraint(@Nonnull Constrainable targetItem, @Nonnull Attribute attribute, float ratio) {
+		this(targetItem, attribute, targetItem, attribute, Unit.Zero, ratio);
+	}
+
+	public BasicConstraint(@Nonnull Constrainable targetItem, @Nonnull Attribute attribute, @Nonnull Unit value, float ratio) {
+		this(targetItem, attribute, targetItem, attribute, value, ratio);
+	}
+
 	public BasicConstraint(@Nonnull Constrainable targetItem, @Nonnull Attribute attribute, @Nonnull Constrainable sourceItem) {
 		this(targetItem, attribute, sourceItem, attribute, Unit.Zero, 1f);
 	}
 
 	public BasicConstraint(@Nonnull Constrainable targetItem, @Nonnull Attribute attribute, @Nonnull Constrainable sourceItem, @Nonnull Unit value) {
-		this(targetItem, attribute, sourceItem, attribute, value, 1f);
+		this(targetItem, attribute, sourceItem, attribute, value, 0f);
 	}
 
 	public BasicConstraint(@Nonnull Constrainable targetItem, @Nonnull Attribute attribute, @Nonnull Constrainable sourceItem, float ratio) {

@@ -3,6 +3,7 @@ package pl.shockah.godwit.ui;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import lombok.Getter;
 import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.geom.Shape;
 import pl.shockah.godwit.gesture.GestureRecognizer;
@@ -15,6 +16,10 @@ public abstract class UiButton<S extends Shape.Filled> extends UiControl<S> {
 
 	protected boolean isPressed = false;
 
+	@Nullable
+	@Getter
+	public S gestureShape;
+
 	public UiButton(@Nullable Listener listener) {
 		this.listener = listener;
 
@@ -26,6 +31,12 @@ public abstract class UiButton<S extends Shape.Filled> extends UiControl<S> {
 			isPressed = state == GestureRecognizer.State.Began;
 		});
 		gestureRecognizers.add(tapGesture);
+	}
+
+	@Override
+	public void updateSelf() {
+		super.updateSelf();
+		updateGestureShape();
 	}
 
 	public abstract void updateGestureShape();

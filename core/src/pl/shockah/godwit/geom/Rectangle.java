@@ -92,6 +92,10 @@ public class Rectangle extends AbstractShape implements Shape.Filled, Shape.Outl
 		this(Vec2.zero, size);
 	}
 
+	public Rectangle() {
+		this(0f, 0f);
+	}
+
 	@Override
 	@Nonnull
 	public Rectangle copy() {
@@ -114,24 +118,30 @@ public class Rectangle extends AbstractShape implements Shape.Filled, Shape.Outl
 		return position.add(size.multiply(0.5f));
 	}
 
+	@Nonnull
 	@Override
-	public void translate(@Nonnull IVec2 v) {
+	public Rectangle translate(@Nonnull IVec2 v) {
 		position.x += v.x();
 		position.y += v.y();
+		return this;
 	}
 
+	@Nonnull
 	@Override
-	public void mirror(boolean horizontally, boolean vertically) {
+	public Rectangle mirror(boolean horizontally, boolean vertically) {
 		if (horizontally)
 			position.x = -position.x - size.x;
 		if (vertically)
 			position.y = -position.y - size.y;
+		return this;
 	}
 
+	@Nonnull
 	@Override
-	public void scale(float scale) {
+	public Rectangle scale(float scale) {
 		position.set(position.multiply(scale));
 		size.set(size.multiply(scale));
+		return this;
 	}
 
 	@Override

@@ -46,25 +46,31 @@ public class ComplexShape<T extends Shape> extends AbstractShape {
 		return new Rectangle(minX, minY, maxX - minX, maxY - minY);
 	}
 
+	@Nonnull
 	@Override
-	public void translate(@Nonnull IVec2 v) {
+	public ComplexShape<T> translate(@Nonnull IVec2 v) {
 		for (T shape : shapes) {
 			shape.translate(v);
 		}
+		return this;
 	}
 
+	@Nonnull
 	@Override
-	public void mirror(boolean horizontally, boolean vertically) {
+	public ComplexShape<T> mirror(boolean horizontally, boolean vertically) {
 		for (T shape : shapes) {
 			shape.mirror(horizontally, vertically);
 		}
+		return this;
 	}
 
+	@Nonnull
 	@Override
-	public void scale(float scale) {
+	public ComplexShape<T> scale(float scale) {
 		for (T shape : shapes) {
 			shape.scale(scale);
 		}
+		return this;
 	}
 
 	@SuppressWarnings("unchecked")

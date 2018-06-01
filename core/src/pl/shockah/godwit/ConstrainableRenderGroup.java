@@ -37,21 +37,21 @@ public class ConstrainableRenderGroup extends RenderGroup implements Constrainab
 	public float getAttribute(@Nonnull Constraint.Attribute attribute) {
 		switch (attribute) {
 			case Left:
-				return position.x;
+				return position.x + getParent().getAbsolutePoint().x;
 			case Right:
-				return position.x + size.x;
+				return position.x + getParent().getAbsolutePoint().x + size.x;
 			case Top:
-				return position.y;
+				return position.y + getParent().getAbsolutePoint().y;
 			case Bottom:
-				return position.y + size.y;
+				return position.y + getParent().getAbsolutePoint().y + size.y;
 			case Width:
 				return size.x;
 			case Height:
 				return size.y;
 			case CenterX:
-				return position.x + size.x * 0.5f;
+				return position.x + getParent().getAbsolutePoint().x + size.x * 0.5f;
 			case CenterY:
-				return position.y + size.y * 0.5f;
+				return position.y + getParent().getAbsolutePoint().y + size.y * 0.5f;
 			default:
 				throw new IllegalArgumentException();
 		}
@@ -61,16 +61,16 @@ public class ConstrainableRenderGroup extends RenderGroup implements Constrainab
 	public void setAttribute(@Nonnull Constraint.Attribute attribute, float value) {
 		switch (attribute) {
 			case Left:
-				position.x = value;
+				position.x = value - getParent().getAbsolutePoint().x;
 				return;
 			case Right:
-				position.x = value - size.x;
+				position.x = value - getParent().getAbsolutePoint().x - size.x;
 				return;
 			case Top:
-				position.y = value;
+				position.y = value - getParent().getAbsolutePoint().y;
 				return;
 			case Bottom:
-				position.y = value - size.y;
+				position.y = value - getParent().getAbsolutePoint().y - size.y;
 				return;
 			case Width:
 				size.x = value;
@@ -79,10 +79,10 @@ public class ConstrainableRenderGroup extends RenderGroup implements Constrainab
 				size.y = value;
 				return;
 			case CenterX:
-				position.x = value - size.x * 0.5f;
+				position.x = value - getParent().getAbsolutePoint().x - size.x * 0.5f;
 				return;
 			case CenterY:
-				position.y = value - size.y * 0.5f;
+				position.y = value - getParent().getAbsolutePoint().y - size.y * 0.5f;
 				return;
 			default:
 				throw new IllegalArgumentException();
@@ -92,7 +92,7 @@ public class ConstrainableRenderGroup extends RenderGroup implements Constrainab
 	@Nonnull
 	@Override
 	public Rectangle getBounds() {
-		return new Rectangle(position, size);
+		return new Rectangle(getAbsolutePoint(), size);
 	}
 
 	@Override
