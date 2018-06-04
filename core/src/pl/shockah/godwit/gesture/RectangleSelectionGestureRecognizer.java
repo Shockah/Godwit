@@ -8,6 +8,10 @@ public class RectangleSelectionGestureRecognizer extends PanGestureRecognizer {
 	@Nonnull
 	public final Delegate delegate;
 
+	public RectangleSelectionGestureRecognizer(@Nonnull GestureHandler handler, @Nonnull SimpleDelegate delegate) {
+		this(handler, (recognizer, touch, rectangle) -> delegate.onRectangleSelection(recognizer, rectangle));
+	}
+
 	public RectangleSelectionGestureRecognizer(@Nonnull GestureHandler handler, @Nonnull Delegate delegate) {
 		super(handler, (recognizer, touch, initialPoint, currentPoint, delta) -> {
 			float xMin = Math.min(initialPoint.x, currentPoint.x);
@@ -23,5 +27,9 @@ public class RectangleSelectionGestureRecognizer extends PanGestureRecognizer {
 
 	public interface Delegate {
 		void onRectangleSelection(@Nonnull RectangleSelectionGestureRecognizer recognizer, @Nonnull Touch touch, @Nonnull Rectangle rectangle);
+	}
+
+	public interface SimpleDelegate {
+		void onRectangleSelection(@Nonnull RectangleSelectionGestureRecognizer recognizer, @Nonnull Rectangle rectangle);
 	}
 }
