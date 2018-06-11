@@ -16,7 +16,7 @@ import pl.shockah.godwit.constraint.Constraint;
 import pl.shockah.godwit.constraint.PinConstraint;
 import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.gl.Gfx;
-import pl.shockah.godwit.ui.AbstractUiButton;
+import pl.shockah.godwit.ui.UiButton;
 import pl.shockah.godwit.ui.UiScroll;
 import pl.shockah.godwit.ui.Unit;
 
@@ -27,10 +27,10 @@ public class Ui1Test extends State {
 
 		scroll.addConstraint(new PinConstraint(scroll, safeArea));
 
-		List<AbstractUiButton> buttons = new ArrayList<>();
+		List<UiButton> buttons = new ArrayList<>();
 		for (int i = 0; i < 50; i++) {
 			final int fi = i;
-			AbstractUiButton.Rectangle button = new AbstractUiButton.Rectangle(self -> {
+			UiButton button = new UiButton(self -> {
 				System.out.println(String.format("Clicked #%d", fi));
 			}) {
 				@Override
