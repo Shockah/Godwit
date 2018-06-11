@@ -71,4 +71,10 @@ public class State extends RenderGroup {
 		asset.load();
 		retainedAssets.add(asset);
 	}
+
+	@Nonnull
+	public <T> T requestAsset(@Nonnull Asset<T> asset) {
+		loadAsset(asset);
+		return asset.get();
+	}
 }
