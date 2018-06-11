@@ -7,12 +7,13 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import java8.util.stream.StreamSupport;
 import pl.shockah.godwit.State;
 import pl.shockah.godwit.constraint.AxisConstraint;
 import pl.shockah.godwit.constraint.BasicConstraint;
+import pl.shockah.godwit.constraint.ChainChildrenConstraint;
 import pl.shockah.godwit.constraint.ChainConstraint;
 import pl.shockah.godwit.constraint.Constraint;
+import pl.shockah.godwit.constraint.FitChildrenConstraint;
 import pl.shockah.godwit.constraint.PinConstraint;
 import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.gl.Gfx;
@@ -47,12 +48,7 @@ public class Ui1Test extends State {
 			button.addConstraint(new BasicConstraint(button, Constraint.Attribute.Height, new Unit.ScreenHeights(0.1f)));
 		}
 
-		scroll.content.addConstraint(new Constraint() {
-			@Override
-			public void apply() {
-				scroll.content.size.y = (float)StreamSupport.stream(buttons).mapToDouble(button -> button.size.y).sum() + (buttons.size() + 1) * 4f;
-			}
-		});
-		scroll.content.addConstraint(new ChainConstraint(scroll.content, AxisConstraint.Axis.Vertical, ChainConstraint.Style.Spread, buttons));
+		scroll.content.addConstraint(new FitChildrenConstraint<>(scroll.content, AxisConstraint.Axis.Vertical, new Unit.Pixels(4f), new Unit.Pixels(8f)));
+		scroll.content.addConstraint(new ChainChildrenConstraint<>(scroll.content, AxisConstraint.Axis.Vertical, ChainConstraint.Style.Spread));
 	}
 }

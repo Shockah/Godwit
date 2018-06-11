@@ -6,18 +6,11 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import java8.util.stream.StreamSupport;
+import lombok.Getter;
 
-public class ChainConstraint extends AxisConstraint {
+public class ChainConstraint extends AbstractChainConstraint {
 	@Nonnull
-	public final Constrainable containerItem;
-
-	@Nonnull
-	public final Style style;
-
-	public final float bias;
-
-	@Nonnull
+	@Getter
 	public final List<Constrainable> items;
 
 	public ChainConstraint(@Nonnull Constrainable containerItem, @Nonnull Axis axis, float bias, @Nonnull Constrainable... items) {
@@ -25,11 +18,8 @@ public class ChainConstraint extends AxisConstraint {
 	}
 
 	public ChainConstraint(@Nonnull Constrainable containerItem, @Nonnull Axis axis, float bias, @Nonnull List<? extends Constrainable> items) {
-		super(axis);
-		this.containerItem = containerItem;
-		this.style = Style.Packed;
+		super(containerItem, axis, bias);
 		this.items = new ArrayList<>(items);
-		this.bias = bias;
 	}
 
 	public ChainConstraint(@Nonnull Constrainable containerItem, @Nonnull Axis axis, @Nonnull Constrainable... items) {
@@ -45,55 +35,7 @@ public class ChainConstraint extends AxisConstraint {
 	}
 
 	public ChainConstraint(@Nonnull Constrainable containerItem, @Nonnull Axis axis, @Nonnull Style style, @Nonnull List<? extends Constrainable> items) {
-		super(axis);
-		this.containerItem = containerItem;
-		this.style = style;
+		super(containerItem, axis, style);
 		this.items = new ArrayList<>(items);
-		bias = 0f;
-	}
-
-	@Override
-	public void apply() {
-		float containerLength = containerItem.getAttribute(getLengthAttribute());
-		float totalLength = (float)StreamSupport.stream(items)
-				.mapToDouble(item -> item.getAttribute(getLengthAttribute()))
-				.sum();
-		float totalSeparatorLength = containerLength - totalLength;
-
-		switch (style) {
-			case Spread: {
-				float separatorLength = totalSeparatorLength / (items.size() + 1);
-				float currentOffset = 0f;
-				for (Constrainable item : items) {
-					currentOffset += separatorLength;
-					item.setAttribute(getLeadingAttribute(), currentOffset);
-					currentOffset += item.getAttribute(getLengthAttribute());
-				}
-				break;
-			}
-			case SpreadInside: {
-				float separatorLength = totalSeparatorLength / (items.size() - 1);
-				float currentOffset = 0f;
-				for (Constrainable item : items) {
-					item.setAttribute(getLeadingAttribute(), currentOffset);
-					currentOffset += item.getAttribute(getLengthAttribute()) + separatorLength;
-				}
-				break;
-			}
-			case Packed: {
-				float currentOffset = totalSeparatorLength * bias;
-				for (Constrainable item : items) {
-					item.setAttribute(getLeadingAttribute(), currentOffset);
-					currentOffset += item.getAttribute(getLengthAttribute());
-				}
-				break;
-			}
-			default:
-				throw new IllegalArgumentException();
-		}
-	}
-
-	public enum Style {
-		Spread, SpreadInside, Packed
 	}
 }
