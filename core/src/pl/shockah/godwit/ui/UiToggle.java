@@ -130,7 +130,7 @@ public abstract class UiToggle<S extends Shape.Filled, T> extends UiControl<S> {
 
 				pl.shockah.godwit.gl.NinePatch ninePatch = isPressed ? (value ? pressedChecked : pressedUnchecked) : (value ? normalChecked : normalUnchecked);
 				ninePatch.rectangle = getBounds();
-				ninePatch.render(gfx, v);
+				ninePatch.render(gfx);
 			}
 
 			@Nonnull

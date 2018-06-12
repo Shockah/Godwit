@@ -52,7 +52,7 @@ public abstract class UiButton extends AbstractUiButton<Rectangle> {
 
 			pl.shockah.godwit.gl.NinePatch ninePatch = isPressed ? pressed : normal;
 			ninePatch.rectangle = getBounds();
-			ninePatch.render(gfx, v);
+			ninePatch.render(gfx);
 		}
 
 		@Nonnull
