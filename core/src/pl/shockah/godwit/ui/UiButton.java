@@ -5,6 +5,7 @@ import javax.annotation.Nullable;
 
 import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.geom.Rectangle;
+import pl.shockah.godwit.geom.Vec2;
 import pl.shockah.godwit.gl.Gfx;
 import pl.shockah.godwit.gl.NinePatch;
 
@@ -52,7 +53,7 @@ public abstract class UiButton extends AbstractUiButton<Rectangle> {
 
 			pl.shockah.godwit.gl.NinePatch ninePatch = isPressed ? pressed : normal;
 			ninePatch.rectangle = getBounds();
-			ninePatch.render(gfx);
+			ninePatch.render(gfx, Vec2.zero);
 		}
 
 		@Nonnull

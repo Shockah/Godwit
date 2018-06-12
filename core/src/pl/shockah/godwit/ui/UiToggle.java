@@ -6,6 +6,7 @@ import javax.annotation.Nullable;
 import lombok.Getter;
 import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.geom.Shape;
+import pl.shockah.godwit.geom.Vec2;
 import pl.shockah.godwit.gesture.GestureRecognizer;
 import pl.shockah.godwit.gesture.TapGestureRecognizer;
 import pl.shockah.godwit.gl.Gfx;
@@ -130,7 +131,7 @@ public abstract class UiToggle<S extends Shape.Filled, T> extends UiControl<S> {
 
 				pl.shockah.godwit.gl.NinePatch ninePatch = isPressed ? (value ? pressedChecked : pressedUnchecked) : (value ? normalChecked : normalUnchecked);
 				ninePatch.rectangle = getBounds();
-				ninePatch.render(gfx);
+				ninePatch.render(gfx, Vec2.zero);
 			}
 
 			@Nonnull
