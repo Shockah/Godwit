@@ -44,8 +44,8 @@ public class Ui1Test extends State {
 
 			buttons.add(button);
 			scroll.content.addChild(button);
-			button.addConstraint(BasicConstraint.create(button, Constraint.Attribute.Width));
-			button.addConstraint(BasicConstraint.create(button, Constraint.Attribute.Height, new Unit.ScreenHeights(0.1f)));
+			button.addConstraint(BasicConstraint.withParent(button, Constraint.Attribute.Width));
+			button.addConstraint(new BasicConstraint(button, Constraint.Attribute.Height, new Unit.ScreenHeights(0.1f)));
 		}
 
 		scroll.content.addConstraint(new FitChildrenConstraint<>(scroll.content, AxisConstraint.Axis.Vertical, new Unit.Pixels(4f), new Unit.Pixels(8f)));

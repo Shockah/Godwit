@@ -36,7 +36,7 @@ public class BasicConstraint extends Constraint {
 	}
 
 	@Nonnull
-	public static <T extends Entity & Constrainable> BasicConstraint create(@Nonnull T targetItem, @Nonnull Attribute attribute) {
+	public static <T extends Entity & Constrainable> BasicConstraint withParent(@Nonnull T targetItem, @Nonnull Attribute attribute) {
 		return new BasicConstraint(targetItem, attribute, (Constrainable)targetItem.getParent());
 	}
 
@@ -45,16 +45,16 @@ public class BasicConstraint extends Constraint {
 	}
 
 	@Nonnull
-	public static <T extends Entity & Constrainable> BasicConstraint create(@Nonnull T targetItem, @Nonnull Attribute attribute, @Nonnull Unit length) {
+	public static <T extends Entity & Constrainable> BasicConstraint withParent(@Nonnull T targetItem, @Nonnull Attribute attribute, @Nonnull Unit length) {
 		return new BasicConstraint(targetItem, attribute, (Constrainable)targetItem.getParent(), length);
 	}
 
 	public BasicConstraint(@Nonnull Constrainable targetItem, @Nonnull Attribute attribute, @Nonnull Constrainable sourceItem, @Nonnull Unit length) {
-		this(targetItem, attribute, sourceItem, attribute, length, 0f);
+		this(targetItem, attribute, sourceItem, attribute, length, 1f);
 	}
 
 	@Nonnull
-	public static <T extends Entity & Constrainable> BasicConstraint create(@Nonnull T targetItem, @Nonnull Attribute attribute, float ratio) {
+	public static <T extends Entity & Constrainable> BasicConstraint withParent(@Nonnull T targetItem, @Nonnull Attribute attribute, float ratio) {
 		return new BasicConstraint(targetItem, attribute, (Constrainable)targetItem.getParent(), ratio);
 	}
 
@@ -63,7 +63,7 @@ public class BasicConstraint extends Constraint {
 	}
 
 	@Nonnull
-	public static <T extends Entity & Constrainable> BasicConstraint create(@Nonnull T targetItem, @Nonnull Attribute attribute, @Nonnull Unit length, float ratio) {
+	public static <T extends Entity & Constrainable> BasicConstraint withParent(@Nonnull T targetItem, @Nonnull Attribute attribute, @Nonnull Unit length, float ratio) {
 		return new BasicConstraint(targetItem, attribute, (Constrainable)targetItem.getParent(), length, ratio);
 	}
 
@@ -72,11 +72,11 @@ public class BasicConstraint extends Constraint {
 	}
 
 	public BasicConstraint(@Nonnull Constrainable targetItem, @Nonnull Attribute targetAttribute, @Nonnull Attribute sourceAttribute) {
-		this(targetItem, targetAttribute, targetItem, sourceAttribute, Unit.Zero, 1f);
+		this(targetItem, targetAttribute, targetItem, sourceAttribute, Unit.Zero, 0f);
 	}
 
 	public BasicConstraint(@Nonnull Constrainable targetItem, @Nonnull Attribute targetAttribute, @Nonnull Attribute sourceAttribute, @Nonnull Unit length) {
-		this(targetItem, targetAttribute, targetItem, sourceAttribute, length, 1f);
+		this(targetItem, targetAttribute, targetItem, sourceAttribute, length, 0f);
 	}
 
 	public BasicConstraint(@Nonnull Constrainable targetItem, @Nonnull Attribute targetAttribute, @Nonnull Attribute sourceAttribute, float ratio) {
@@ -88,7 +88,7 @@ public class BasicConstraint extends Constraint {
 	}
 
 	@Nonnull
-	public static <T extends Entity & Constrainable> BasicConstraint create(@Nonnull T targetItem, @Nonnull Attribute targetAttribute, @Nonnull Attribute sourceAttribute) {
+	public static <T extends Entity & Constrainable> BasicConstraint withParent(@Nonnull T targetItem, @Nonnull Attribute targetAttribute, @Nonnull Attribute sourceAttribute) {
 		return new BasicConstraint(targetItem, targetAttribute, (Constrainable)targetItem.getParent(), sourceAttribute);
 	}
 
@@ -97,7 +97,7 @@ public class BasicConstraint extends Constraint {
 	}
 
 	@Nonnull
-	public static <T extends Entity & Constrainable> BasicConstraint create(@Nonnull T targetItem, @Nonnull Attribute targetAttribute, @Nonnull Attribute sourceAttribute, @Nonnull Unit length) {
+	public static <T extends Entity & Constrainable> BasicConstraint withParent(@Nonnull T targetItem, @Nonnull Attribute targetAttribute, @Nonnull Attribute sourceAttribute, @Nonnull Unit length) {
 		return new BasicConstraint(targetItem, targetAttribute, (Constrainable)targetItem.getParent(), sourceAttribute, length);
 	}
 
@@ -106,7 +106,7 @@ public class BasicConstraint extends Constraint {
 	}
 
 	@Nonnull
-	public static <T extends Entity & Constrainable> BasicConstraint create(@Nonnull T targetItem, @Nonnull Attribute targetAttribute, @Nonnull Attribute sourceAttribute, float ratio) {
+	public static <T extends Entity & Constrainable> BasicConstraint withParent(@Nonnull T targetItem, @Nonnull Attribute targetAttribute, @Nonnull Attribute sourceAttribute, float ratio) {
 		return new BasicConstraint(targetItem, targetAttribute, (Constrainable)targetItem.getParent(), sourceAttribute, ratio);
 	}
 
@@ -115,7 +115,7 @@ public class BasicConstraint extends Constraint {
 	}
 
 	@Nonnull
-	public static <T extends Entity & Constrainable> BasicConstraint create(@Nonnull T targetItem, @Nonnull Attribute targetAttribute, @Nonnull Attribute sourceAttribute, @Nonnull Unit length, float ratio) {
+	public static <T extends Entity & Constrainable> BasicConstraint withParent(@Nonnull T targetItem, @Nonnull Attribute targetAttribute, @Nonnull Attribute sourceAttribute, @Nonnull Unit length, float ratio) {
 		return new BasicConstraint(targetItem, targetAttribute, (Constrainable)targetItem.getParent(), sourceAttribute, length, ratio);
 	}
 
