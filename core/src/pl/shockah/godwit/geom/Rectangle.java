@@ -15,6 +15,7 @@ import pl.shockah.godwit.geom.polygon.Polygon;
 import pl.shockah.godwit.geom.polygon.Polygonable;
 import pl.shockah.godwit.gl.Gfx;
 import pl.shockah.godwit.gl.GfxSprite;
+import pl.shockah.godwit.ui.Padding;
 
 @EqualsAndHashCode(callSuper = false)
 public class Rectangle extends AbstractShape implements Shape.Filled, Shape.Outline, Polygonable {
@@ -198,6 +199,26 @@ public class Rectangle extends AbstractShape implements Shape.Filled, Shape.Outl
 		p.addPoint(position.add(size));
 		p.addPoint(position.add(size.withX(0f)));
 		return p;
+	}
+
+	@Nonnull
+	public Rectangle withPadding(@Nonnull Padding padding) {
+		return new Rectangle(
+				position.x - padding.left.getPixels(),
+				position.y - padding.top.getPixels(),
+				size.x + padding.left.getPixels() + padding.right.getPixels(),
+				size.y + padding.top.getPixels() + padding.bottom.getPixels()
+		);
+	}
+
+	@Nonnull
+	public Rectangle withoutPadding(@Nonnull Padding padding) {
+		return new Rectangle(
+				position.x + padding.left.getPixels(),
+				position.y + padding.top.getPixels(),
+				size.x - padding.left.getPixels() - padding.right.getPixels(),
+				size.y - padding.top.getPixels() - padding.bottom.getPixels()
+		);
 	}
 
 	@Override
