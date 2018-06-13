@@ -7,32 +7,18 @@ import pl.shockah.godwit.ui.Unit;
 
 public class BasicConstraint extends Constraint {
 	@Nonnull
-	public final Constrainable targetItem;
+	public final Constraint.InstancedAttribute target;
 
 	@Nonnull
-	public final Constrainable sourceItem;
-
-	@Nonnull
-	public final Attribute targetAttribute;
-
-	@Nonnull
-	public final Attribute sourceAttribute;
+	public final Constraint.InstancedAttribute source;
 
 	@Nonnull
 	public Unit length;
 
 	public float ratio;
 
-	public BasicConstraint(@Nonnull Constrainable targetItem, @Nonnull Attribute attribute, @Nonnull Unit length) {
-		this(targetItem, attribute, targetItem, attribute, length, 0f);
-	}
-
-	public BasicConstraint(@Nonnull Constrainable targetItem, @Nonnull Attribute attribute, float ratio) {
-		this(targetItem, attribute, targetItem, attribute, Unit.Zero, ratio);
-	}
-
-	public BasicConstraint(@Nonnull Constrainable targetItem, @Nonnull Attribute attribute, @Nonnull Unit length, float ratio) {
-		this(targetItem, attribute, targetItem, attribute, length, ratio);
+	public BasicConstraint(@Nonnull Constraint.InstancedAttribute target, @Nonnull Unit length) {
+		this(target, target, length, 0f);
 	}
 
 	@Nonnull
@@ -41,7 +27,7 @@ public class BasicConstraint extends Constraint {
 	}
 
 	public BasicConstraint(@Nonnull Constrainable targetItem, @Nonnull Attribute attribute, @Nonnull Constrainable sourceItem) {
-		this(targetItem, attribute, sourceItem, attribute, Unit.Zero, 1f);
+		this(targetItem.getAttributes().get(attribute), sourceItem.getAttributes().get(attribute), Unit.Zero, 1f);
 	}
 
 	@Nonnull
@@ -50,7 +36,7 @@ public class BasicConstraint extends Constraint {
 	}
 
 	public BasicConstraint(@Nonnull Constrainable targetItem, @Nonnull Attribute attribute, @Nonnull Constrainable sourceItem, @Nonnull Unit length) {
-		this(targetItem, attribute, sourceItem, attribute, length, 1f);
+		this(targetItem.getAttributes().get(attribute), sourceItem.getAttributes().get(attribute), length, 1f);
 	}
 
 	@Nonnull
@@ -59,7 +45,7 @@ public class BasicConstraint extends Constraint {
 	}
 
 	public BasicConstraint(@Nonnull Constrainable targetItem, @Nonnull Attribute attribute, @Nonnull Constrainable sourceItem, float ratio) {
-		this(targetItem, attribute, sourceItem, attribute, Unit.Zero, ratio);
+		this(targetItem.getAttributes().get(attribute), sourceItem.getAttributes().get(attribute), Unit.Zero, ratio);
 	}
 
 	@Nonnull
@@ -68,62 +54,60 @@ public class BasicConstraint extends Constraint {
 	}
 
 	public BasicConstraint(@Nonnull Constrainable targetItem, @Nonnull Attribute attribute, @Nonnull Constrainable sourceItem, @Nonnull Unit length, float ratio) {
-		this(targetItem, attribute, sourceItem, attribute, length, ratio);
+		this(targetItem.getAttributes().get(attribute), sourceItem.getAttributes().get(attribute), length, ratio);
 	}
 
 	public BasicConstraint(@Nonnull Constrainable targetItem, @Nonnull Attribute targetAttribute, @Nonnull Attribute sourceAttribute) {
-		this(targetItem, targetAttribute, targetItem, sourceAttribute, Unit.Zero, 0f);
+		this(targetItem.getAttributes().get(targetAttribute), targetItem.getAttributes().get(sourceAttribute), Unit.Zero, 0f);
 	}
 
 	public BasicConstraint(@Nonnull Constrainable targetItem, @Nonnull Attribute targetAttribute, @Nonnull Attribute sourceAttribute, @Nonnull Unit length) {
-		this(targetItem, targetAttribute, targetItem, sourceAttribute, length, 0f);
+		this(targetItem.getAttributes().get(targetAttribute), targetItem.getAttributes().get(sourceAttribute), length, 0f);
 	}
 
 	public BasicConstraint(@Nonnull Constrainable targetItem, @Nonnull Attribute targetAttribute, @Nonnull Attribute sourceAttribute, float ratio) {
-		this(targetItem, targetAttribute, targetItem, sourceAttribute, Unit.Zero, ratio);
+		this(targetItem.getAttributes().get(targetAttribute), targetItem.getAttributes().get(sourceAttribute), Unit.Zero, ratio);
 	}
 
 	public BasicConstraint(@Nonnull Constrainable targetItem, @Nonnull Attribute targetAttribute, @Nonnull Attribute sourceAttribute, @Nonnull Unit length, float ratio) {
-		this(targetItem, targetAttribute, targetItem, sourceAttribute, length, ratio);
+		this(targetItem.getAttributes().get(targetAttribute), targetItem.getAttributes().get(sourceAttribute), length, ratio);
 	}
 
 	@Nonnull
 	public static <T extends Entity & Constrainable> BasicConstraint withParent(@Nonnull T targetItem, @Nonnull Attribute targetAttribute, @Nonnull Attribute sourceAttribute) {
-		return new BasicConstraint(targetItem, targetAttribute, (Constrainable)targetItem.getParent(), sourceAttribute);
+		return new BasicConstraint(targetItem.getAttributes().get(targetAttribute), ((Constrainable)targetItem.getParent()).getAttributes().get(sourceAttribute));
 	}
 
-	public BasicConstraint(@Nonnull Constrainable targetItem, @Nonnull Attribute targetAttribute, @Nonnull Constrainable sourceItem, @Nonnull Attribute sourceAttribute) {
-		this(targetItem, targetAttribute, sourceItem, sourceAttribute, Unit.Zero, 1f);
+	public BasicConstraint(@Nonnull Constraint.InstancedAttribute target, @Nonnull Constraint.InstancedAttribute source) {
+		this(target, source, Unit.Zero, 1f);
 	}
 
 	@Nonnull
 	public static <T extends Entity & Constrainable> BasicConstraint withParent(@Nonnull T targetItem, @Nonnull Attribute targetAttribute, @Nonnull Attribute sourceAttribute, @Nonnull Unit length) {
-		return new BasicConstraint(targetItem, targetAttribute, (Constrainable)targetItem.getParent(), sourceAttribute, length);
+		return new BasicConstraint(targetItem.getAttributes().get(targetAttribute), ((Constrainable)targetItem.getParent()).getAttributes().get(sourceAttribute), length);
 	}
 
-	public BasicConstraint(@Nonnull Constrainable targetItem, @Nonnull Attribute targetAttribute, @Nonnull Constrainable sourceItem, @Nonnull Attribute sourceAttribute, @Nonnull Unit length) {
-		this(targetItem, targetAttribute, sourceItem, sourceAttribute, length, 1f);
+	public BasicConstraint(@Nonnull Constraint.InstancedAttribute target, @Nonnull Constraint.InstancedAttribute source, @Nonnull Unit length) {
+		this(target, source, length, 1f);
 	}
 
 	@Nonnull
 	public static <T extends Entity & Constrainable> BasicConstraint withParent(@Nonnull T targetItem, @Nonnull Attribute targetAttribute, @Nonnull Attribute sourceAttribute, float ratio) {
-		return new BasicConstraint(targetItem, targetAttribute, (Constrainable)targetItem.getParent(), sourceAttribute, ratio);
+		return new BasicConstraint(targetItem.getAttributes().get(targetAttribute), ((Constrainable)targetItem.getParent()).getAttributes().get(sourceAttribute), ratio);
 	}
 
-	public BasicConstraint(@Nonnull Constrainable targetItem, @Nonnull Attribute targetAttribute, @Nonnull Constrainable sourceItem, @Nonnull Attribute sourceAttribute, float ratio) {
-		this(targetItem, targetAttribute, sourceItem, sourceAttribute, Unit.Zero, ratio);
+	public BasicConstraint(@Nonnull Constraint.InstancedAttribute target, @Nonnull Constraint.InstancedAttribute source, float ratio) {
+		this(target, source, Unit.Zero, ratio);
 	}
 
 	@Nonnull
 	public static <T extends Entity & Constrainable> BasicConstraint withParent(@Nonnull T targetItem, @Nonnull Attribute targetAttribute, @Nonnull Attribute sourceAttribute, @Nonnull Unit length, float ratio) {
-		return new BasicConstraint(targetItem, targetAttribute, (Constrainable)targetItem.getParent(), sourceAttribute, length, ratio);
+		return new BasicConstraint(targetItem.getAttributes().get(targetAttribute), ((Constrainable)targetItem.getParent()).getAttributes().get(sourceAttribute), length, ratio);
 	}
 
-	public BasicConstraint(@Nonnull Constrainable targetItem, @Nonnull Attribute targetAttribute, @Nonnull Constrainable sourceItem, @Nonnull Attribute sourceAttribute, @Nonnull Unit length, float ratio) {
-		this.targetItem = targetItem;
-		this.sourceItem = sourceItem;
-		this.targetAttribute = targetAttribute;
-		this.sourceAttribute = sourceAttribute;
+	public BasicConstraint(@Nonnull Constraint.InstancedAttribute target, @Nonnull Constraint.InstancedAttribute source, @Nonnull Unit length, float ratio) {
+		this.target = target;
+		this.source = source;
 		this.length = length;
 		this.ratio = ratio;
 	}
@@ -131,10 +115,10 @@ public class BasicConstraint extends Constraint {
 	@Override
 	public void apply() {
 		float value = length.getPixels();
-		if (sourceAttribute == Attribute.Width || sourceAttribute == Attribute.Height)
-			value += sourceItem.getAttribute(sourceAttribute) * ratio;
+		if (source.attribute.isDimensional())
+			value += source.get() * ratio;
 		else
-			value += sourceItem.getAttribute(sourceAttribute);
-		targetItem.setAttribute(targetAttribute, value);
+			value += source.get();
+		target.set(value);
 	}
 }

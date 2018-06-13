@@ -21,6 +21,15 @@ public class AbstractConstrainable implements Constrainable {
 	@Getter
 	private final List<Constraint> constraints = Collections.unmodifiableList(modifiableConstraints);
 
+	@Nonnull
+	@Getter(lazy = true)
+	private final Constraint.InstancedAttributes attributes = getLazyAttributes();
+
+	@Nonnull
+	private Constraint.InstancedAttributes getLazyAttributes() {
+		return new Constraint.InstancedAttributes(this);
+	}
+
 	@Override
 	public void addConstraint(@Nonnull Constraint constraint) {
 		modifiableConstraints.add(constraint);

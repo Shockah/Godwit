@@ -19,6 +19,9 @@ public interface Constrainable {
 	void setAttribute(@Nonnull Constraint.Attribute attribute, float value);
 
 	@Nonnull
+	Constraint.InstancedAttributes getAttributes();
+
+	@Nonnull
 	Rectangle getBounds();
 
 	void applyConstraints();
