@@ -59,17 +59,6 @@ public abstract class AxisConstraint extends Constraint {
 	}
 
 	public enum Axis {
-		Horizontal, Vertical;
-
-		public boolean matches(@Nonnull Attribute attribute) {
-			switch (this) {
-				case Horizontal:
-					return attribute.isHorizontal();
-				case Vertical:
-					return attribute.isVertical();
-				default:
-					throw new IllegalArgumentException();
-			}
-		}
+		Horizontal, Vertical
 	}
 }

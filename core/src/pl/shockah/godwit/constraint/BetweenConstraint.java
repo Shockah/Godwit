@@ -21,29 +21,29 @@ public class BetweenConstraint extends AxisConstraint {
 
 	public float bias;
 
-	public BetweenConstraint(@Nonnull Constrainable targetItem, @Nonnull Axis axis, @Nonnull Constraint.InstancedAttribute leadingAttribute, @Nonnull Constraint.InstancedAttribute trailingAttribute) {
-		this(targetItem, axis, leadingAttribute, trailingAttribute, Unit.Zero, 1f, 0.5f);
+	public BetweenConstraint(@Nonnull Constrainable targetItem, @Nonnull Constraint.InstancedAttribute leadingAttribute, @Nonnull Constraint.InstancedAttribute trailingAttribute) {
+		this(targetItem, leadingAttribute, trailingAttribute, Unit.Zero, 1f, 0.5f);
 	}
 
-	public BetweenConstraint(@Nonnull Constrainable targetItem, @Nonnull Axis axis, @Nonnull Constraint.InstancedAttribute leadingAttribute, @Nonnull Constraint.InstancedAttribute trailingAttribute, float ratio) {
-		this(targetItem, axis, leadingAttribute, trailingAttribute, Unit.Zero, ratio, 0.5f);
+	public BetweenConstraint(@Nonnull Constrainable targetItem, @Nonnull Constraint.InstancedAttribute leadingAttribute, @Nonnull Constraint.InstancedAttribute trailingAttribute, float ratio) {
+		this(targetItem, leadingAttribute, trailingAttribute, Unit.Zero, ratio, 0.5f);
 	}
 
-	public BetweenConstraint(@Nonnull Constrainable targetItem, @Nonnull Axis axis, @Nonnull Constraint.InstancedAttribute leadingAttribute, @Nonnull Constraint.InstancedAttribute trailingAttribute, float ratio, float bias) {
-		this(targetItem, axis, leadingAttribute, trailingAttribute, Unit.Zero, ratio, bias);
+	public BetweenConstraint(@Nonnull Constrainable targetItem, @Nonnull Constraint.InstancedAttribute leadingAttribute, @Nonnull Constraint.InstancedAttribute trailingAttribute, float ratio, float bias) {
+		this(targetItem, leadingAttribute, trailingAttribute, Unit.Zero, ratio, bias);
 	}
 
-	public BetweenConstraint(@Nonnull Constrainable targetItem, @Nonnull Axis axis, @Nonnull Constraint.InstancedAttribute leadingAttribute, @Nonnull Constraint.InstancedAttribute trailingAttribute, @Nonnull Unit length) {
-		this(targetItem, axis, leadingAttribute, trailingAttribute, length, 0f, 0.5f);
+	public BetweenConstraint(@Nonnull Constrainable targetItem, @Nonnull Constraint.InstancedAttribute leadingAttribute, @Nonnull Constraint.InstancedAttribute trailingAttribute, @Nonnull Unit length) {
+		this(targetItem, leadingAttribute, trailingAttribute, length, 0f, 0.5f);
 	}
 
-	public BetweenConstraint(@Nonnull Constrainable targetItem, @Nonnull Axis axis, @Nonnull Constraint.InstancedAttribute leadingAttribute, @Nonnull Constraint.InstancedAttribute trailingAttribute, @Nonnull Unit length, float ratio) {
-		this(targetItem, axis, leadingAttribute, trailingAttribute, length, ratio, 0.5f);
+	public BetweenConstraint(@Nonnull Constrainable targetItem, @Nonnull Constraint.InstancedAttribute leadingAttribute, @Nonnull Constraint.InstancedAttribute trailingAttribute, @Nonnull Unit length, float ratio) {
+		this(targetItem, leadingAttribute, trailingAttribute, length, ratio, 0.5f);
 	}
 
-	public BetweenConstraint(@Nonnull Constrainable targetItem, @Nonnull Axis axis, @Nonnull Constraint.InstancedAttribute leadingAttribute, @Nonnull Constraint.InstancedAttribute trailingAttribute, @Nonnull Unit length, float ratio, float bias) {
-		super(axis);
-		if (!axis.matches(leadingAttribute.attribute) || !axis.matches(trailingAttribute.attribute))
+	public BetweenConstraint(@Nonnull Constrainable targetItem, @Nonnull Constraint.InstancedAttribute leadingAttribute, @Nonnull Constraint.InstancedAttribute trailingAttribute, @Nonnull Unit length, float ratio, float bias) {
+		super(leadingAttribute.attribute.getAxis());
+		if (leadingAttribute.attribute.getAxis() != trailingAttribute.attribute.getAxis())
 			throw new IllegalArgumentException();
 
 		this.targetItem = targetItem;

@@ -16,12 +16,9 @@ public abstract class Constraint {
 			return !isPositional();
 		}
 
-		public boolean isHorizontal() {
-			return this == Left || this == Right || this == Width || this == CenterX;
-		}
-
-		public boolean isVertical() {
-			return !isHorizontal();
+		@Nonnull
+		public AxisConstraint.Axis getAxis() {
+			return this == Left || this == Right || this == Width || this == CenterX ? AxisConstraint.Axis.Horizontal : AxisConstraint.Axis.Vertical;
 		}
 	}
 
