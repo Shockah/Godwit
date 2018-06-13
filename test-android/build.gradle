@@ -37,7 +37,7 @@ android {
 		exclude "META-INF/robovm/ios/robovm.xml"
 	}
 	defaultConfig {
-		applicationId "com.bypositivestudio.pixelmaker.test"
+		applicationId "pl.shockah.godwit.test"
 		minSdkVersion 16
 		targetSdkVersion 25
 	}

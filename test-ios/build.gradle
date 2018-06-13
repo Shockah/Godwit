@@ -1,0 +1,140 @@
+buildscript {
+	repositories {
+		mavenLocal()
+		mavenCentral()
+		maven {
+			url "https://oss.sonatype.org/content/repositories/snapshots/"
+		}
+		jcenter()
+	}
+	dependencies {
+		classpath 'com.mobidevelop.robovm:robovm-gradle-plugin:2.3.3'
+	}
+}
+
+apply plugin: "java"
+apply plugin: "robovm"
+
+dependencies {
+	compile project(':test')
+	compile project(':ios')
+	compile "com.mobidevelop.robovm:robovm-rt:$roboVMVersion"
+	compile "com.mobidevelop.robovm:robovm-cocoatouch:$roboVMVersion"
+	compile "com.badlogicgames.gdx:gdx-backend-robovm:$gdxVersion"
+	compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-ios"
+	compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-ios"
+}
+
+sourceSets.main {
+	java.srcDirs = ["src"]
+}
+
+targetCompatibility = '1.8'
+sourceCompatibility = '1.8'
+
+ext {
+	mainClassName = "pl.shockah.godwit.test.ios.IOSLauncher"
+	executableName = "Godwit Test"
+
+	// security find-identity -v -p codesigning
+	// ~/Library/MobileDevice/Provisioning Profiles/
+
+//	signIdentity = "D23A368C48EACDA5A38BF348EDCE5CBB303DC4F1"
+//	provisioningProfile = "cc850224-dfc6-413e-b9b0-c523c4879d09"
+}
+
+task cleanRobovmBuild {
+	group "mobivm"
+
+	doLast {
+		new File("$project.name/build/robovm").deleteDir()
+	}
+}
+
+robovm {
+	arch = "arm64"
+	archs = "arm64"
+	iosSkipSigning = false
+}
+
+task configureDevelopment {
+	doLast {
+		robovm {
+			iosSignIdentity = "iPhone Developer: Michael Dolas (3QHLV6Y589)"
+			iosProvisioningProfile = "84ab522b-346d-410f-83a9-b436752b7dd4"
+		}
+
+		copy {
+			from "development"
+			into "."
+			include "**"
+		}
+	}
+}
+
+task configureAdhoc {
+	doLast {
+		robovm {
+			iosSignIdentity = "D23A368C48EACDA5A38BF348EDCE5CBB303DC4F1"
+			iosProvisioningProfile = "e4baed11-37e5-4ba1-aab8-57a3f279f7a9"
+		}
+
+		copy {
+			from "production"
+			into "."
+			include "**"
+		}
+	}
+}
+
+task configureProduction {
+	doLast {
+		robovm {
+			iosSignIdentity = "D23A368C48EACDA5A38BF348EDCE5CBB303DC4F1"
+			iosProvisioningProfile = "cc850224-dfc6-413e-b9b0-c523c4879d09"
+		}
+
+		copy {
+			from "production"
+			into "."
+			include "**"
+		}
+	}
+}
+
+task installIDevice {
+	group "mobivm"
+	dependsOn createIPA
+
+	doLast {
+		exec {
+			executable "ideviceinstaller"
+			args("-i", "${project.buildDir}/robovm/${executableName}.ipa")
+		}
+	}
+}
+
+launchIPhoneSimulator.dependsOn(cleanRobovmBuild, configureDevelopment, build)
+launchIPadSimulator.dependsOn(cleanRobovmBuild, configureDevelopment, build)
+launchIOSDevice.dependsOn(cleanRobovmBuild, configureDevelopment, build)
+createIPA.dependsOn(cleanRobovmBuild, build)
+
+task launchAdhocIOSDevice {
+	group "mobivm"
+	dependsOn(configureAdhoc, launchIOSDevice)
+}
+
+task createDevIPA {
+	group "mobivm"
+	dependsOn(configureDevelopment, createIPA)
+}
+
+task createAdhocIPA {
+	group "mobivm"
+	dependsOn(configureAdhoc, createIPA)
+}
+
+task createProductionIPA {
+	group "mobivm"
+	dependsOn(configureProduction, createIPA)
+}

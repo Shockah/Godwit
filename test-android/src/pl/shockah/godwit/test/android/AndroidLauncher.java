@@ -18,7 +18,7 @@ import pl.shockah.godwit.State;
 
 public class AndroidLauncher extends GodwitFragmentActivity implements AndroidFragmentApplication.Callbacks {
 	@Override
-	protected void onCreate (Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		String[] testNames = new String[] {
@@ -26,6 +26,7 @@ public class AndroidLauncher extends GodwitFragmentActivity implements AndroidFr
 				"Clustering",
 				"ColorSpace",
 				"ColorSpaceEase",
+				"Constraint",
 				"Easing",
 				"GestureRecognizer",
 				"GfxFont",
@@ -39,7 +40,7 @@ public class AndroidLauncher extends GodwitFragmentActivity implements AndroidFr
 				"Sprite",
 				"TravellingSalesman",
 				"TriangleCollision",
-				"ui.LinearView"
+				"Ui1"
 		};
 
 		ListFragment listFragment = new CustomListFragment();
