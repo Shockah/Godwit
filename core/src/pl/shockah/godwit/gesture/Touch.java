@@ -15,6 +15,8 @@ import pl.shockah.godwit.geom.Vec2;
 public final class Touch {
 	public final int pointer;
 
+	public final int button;
+
 	@Nonnull
 	public final List<Point> points = new ArrayList<>();
 
@@ -25,8 +27,9 @@ public final class Touch {
 	@Getter
 	private boolean finished = false;
 
-	public Touch(int pointer) {
+	public Touch(int pointer, int button) {
 		this.pointer = pointer;
+		this.button = button;
 	}
 
 	public void addPoint(float x, float y) {

@@ -4,12 +4,10 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.math.Vector3;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.Nonnull;
@@ -27,7 +25,7 @@ public class GestureManager extends InputAdapter {
 	public final GodwitLogger logger = new GodwitLogger(getClass());
 
 	@Nonnull
-	public final Map<Integer, Touch> touches = new HashMap<>();
+	public final List<Touch> touches = new ArrayList<>();
 
 	@Nonnull
 	public final Set<GestureRecognizer> recognizers = new LinkedHashSet<>();
@@ -70,38 +68,50 @@ public class GestureManager extends InputAdapter {
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		Touch touch = new Touch(pointer);
+		Touch touch = new Touch(pointer, button);
 		Vec2 point = new Vec2(screenX, screenY);
 		touch.addPoint(point);
-		touches.put(pointer, touch);
+		for (int i = 0; i < touches.size(); i++) {
+			Touch previousTouch = touches.get(i);
+			if (previousTouch.pointer == pointer && previousTouch.button == button) {
+				touches.remove(i);
+				break;
+			}
+		}
+		touches.add(touch);
 		handle(GestureRecognizer::handleTouchDown, true, touch, point, Godwit.getInstance().getRootEntity());
 		return true;
 	}
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		Touch touch = touches.get(pointer);
-		if (touch == null || touch.isFinished())
-			return false;
-
-		Vec2 point = new Vec2(screenX, screenY);
-		touch.addPoint(point);
-		handle(GestureRecognizer::handleTouchDragged, false, touch, point, Godwit.getInstance().getRootEntity());
-		return true;
+		boolean handled = false;
+		for (Touch touch : touches) {
+			if (touch.pointer == pointer) {
+				Vec2 point = new Vec2(screenX, screenY);
+				touch.addPoint(point);
+				handle(GestureRecognizer::handleTouchDragged, false, touch, point, Godwit.getInstance().getRootEntity());
+				handled = true;
+			}
+		}
+		return handled;
 	}
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		Touch touch = touches.get(pointer);
-		if (touch == null || touch.isFinished())
-			return false;
-
-		Vec2 point = new Vec2(screenX, screenY);
-		touch.addPoint(point);
-		touch.finish();
-		touches.remove(pointer);
-		handle(GestureRecognizer::handleTouchUp, false, touch, point, Godwit.getInstance().getRootEntity());
-		return true;
+		boolean handled = false;
+		for (int i = 0; i < touches.size(); i++) {
+			Touch touch = touches.get(i);
+			if (touch.pointer == pointer && touch.button == button && !touch.isFinished()) {
+				Vec2 point = new Vec2(screenX, screenY);
+				touch.addPoint(point);
+				touch.finish();
+				touches.remove(i--);
+				handle(GestureRecognizer::handleTouchUp, false, touch, point, Godwit.getInstance().getRootEntity());
+				handled = true;
+			}
+		}
+		return handled;
 	}
 
 	private void handle(@Nonnull GestureHandleMethod method, boolean checkShape, @Nonnull Touch touch, @Nonnull Vec2 point, @Nonnull Entity entity) {
