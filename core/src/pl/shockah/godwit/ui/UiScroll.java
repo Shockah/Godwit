@@ -42,7 +42,7 @@ public class UiScroll extends UiPanel {
 			public float getAttribute(@Nonnull Constraint.Attribute attribute) {
 				float baseValue = super.getAttribute(attribute);
 				if (attribute.isPositional()) {
-					if (attribute.isHorizontal())
+					if (attribute.getAxis() == AxisConstraint.Axis.Horizontal)
 						baseValue -= position.x;
 					else
 						baseValue -= position.y;
