@@ -14,10 +14,6 @@ public class ChainChildrenConstraint<T extends Entity & Constrainable> extends A
 		super(containerItem, axis, bias);
 	}
 
-	public ChainChildrenConstraint(@Nonnull T containerItem, @Nonnull Axis axis, @Nonnull Unit gap) {
-		super(containerItem, axis, gap);
-	}
-
 	public ChainChildrenConstraint(@Nonnull T containerItem, @Nonnull Axis axis, @Nonnull Unit gap, float bias) {
 		super(containerItem, axis, gap, bias);
 	}
@@ -28,6 +24,14 @@ public class ChainChildrenConstraint<T extends Entity & Constrainable> extends A
 
 	public ChainChildrenConstraint(@Nonnull T containerItem, @Nonnull Axis axis, @Nonnull Style style) {
 		super(containerItem, axis, style);
+	}
+
+	public ChainChildrenConstraint(@Nonnull T containerItem, @Nonnull Axis axis, @Nonnull Unit gap) {
+		this(containerItem, axis, Style.SpreadInside, gap);
+	}
+
+	public ChainChildrenConstraint(@Nonnull T containerItem, @Nonnull Axis axis, @Nonnull Style style, @Nonnull Unit gap) {
+		super(containerItem, axis, style, gap);
 	}
 
 	@Nonnull

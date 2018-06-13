@@ -23,10 +23,6 @@ public abstract class AbstractChainConstraint extends AxisConstraint {
 		this(containerItem, axis, Unit.Zero, bias);
 	}
 
-	public AbstractChainConstraint(@Nonnull Constrainable containerItem, @Nonnull Axis axis, @Nonnull Unit gap) {
-		this(containerItem, axis, gap, 0f);
-	}
-
 	public AbstractChainConstraint(@Nonnull Constrainable containerItem, @Nonnull Axis axis, @Nonnull Unit gap, float bias) {
 		super(axis);
 		this.containerItem = containerItem;
@@ -36,14 +32,22 @@ public abstract class AbstractChainConstraint extends AxisConstraint {
 	}
 
 	public AbstractChainConstraint(@Nonnull Constrainable containerItem, @Nonnull Axis axis) {
-		this(containerItem, axis, Style.SpreadInside);
+		this(containerItem, axis, Style.SpreadInside, Unit.Zero);
+	}
+
+	public AbstractChainConstraint(@Nonnull Constrainable containerItem, @Nonnull Axis axis, @Nonnull Unit gap) {
+		this(containerItem, axis, Style.SpreadInside, gap);
 	}
 
 	public AbstractChainConstraint(@Nonnull Constrainable containerItem, @Nonnull Axis axis, @Nonnull Style style) {
+		this(containerItem, axis, style, Unit.Zero);
+	}
+
+	public AbstractChainConstraint(@Nonnull Constrainable containerItem, @Nonnull Axis axis, @Nonnull Style style, @Nonnull Unit gap) {
 		super(axis);
 		this.containerItem = containerItem;
 		this.style = style;
-		gap = Unit.Zero;
+		this.gap = gap;
 		bias = 0f;
 	}
 
@@ -58,6 +62,7 @@ public abstract class AbstractChainConstraint extends AxisConstraint {
 		float totalLength = (float)StreamSupport.stream(items)
 				.mapToDouble(item -> item.getAttribute(getLengthAttribute()))
 				.sum();
+		totalLength += items.isEmpty() ? 0f : (items.size() - 1) * gap.getPixels();
 		float totalSeparatorLength = containerLength - totalLength;
 
 		float currentOffset = containerItem.getAttribute(getLeadingAttribute());
@@ -67,7 +72,7 @@ public abstract class AbstractChainConstraint extends AxisConstraint {
 				for (Constrainable item : items) {
 					currentOffset += separatorLength;
 					item.setAttribute(getLeadingAttribute(), currentOffset);
-					currentOffset += item.getAttribute(getLengthAttribute());
+					currentOffset += item.getAttribute(getLengthAttribute()) + gap.getPixels();
 				}
 				break;
 			}
@@ -75,7 +80,7 @@ public abstract class AbstractChainConstraint extends AxisConstraint {
 				float separatorLength = totalSeparatorLength / (items.size() - 1);
 				for (Constrainable item : items) {
 					item.setAttribute(getLeadingAttribute(), currentOffset);
-					currentOffset += item.getAttribute(getLengthAttribute()) + separatorLength;
+					currentOffset += item.getAttribute(getLengthAttribute()) + separatorLength + gap.getPixels();
 				}
 				break;
 			}

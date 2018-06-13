@@ -22,14 +22,6 @@ public class ChainConstraint extends AbstractChainConstraint {
 		this(containerItem, axis, Unit.Zero, bias, items);
 	}
 
-	public ChainConstraint(@Nonnull Constrainable containerItem, @Nonnull Axis axis, @Nonnull Unit gap, @Nonnull Constrainable... items) {
-		this(containerItem, axis, gap, Arrays.asList(items));
-	}
-
-	public ChainConstraint(@Nonnull Constrainable containerItem, @Nonnull Axis axis, @Nonnull Unit gap, @Nonnull List<? extends Constrainable> items) {
-		this(containerItem, axis, gap, 0f, items);
-	}
-
 	public ChainConstraint(@Nonnull Constrainable containerItem, @Nonnull Axis axis, @Nonnull Unit gap, float bias, @Nonnull Constrainable... items) {
 		this(containerItem, axis, gap, bias, Arrays.asList(items));
 	}
@@ -44,7 +36,7 @@ public class ChainConstraint extends AbstractChainConstraint {
 	}
 
 	public ChainConstraint(@Nonnull Constrainable containerItem, @Nonnull Axis axis, @Nonnull List<? extends Constrainable> items) {
-		this(containerItem, axis, Style.SpreadInside, items);
+		this(containerItem, axis, Style.SpreadInside, Unit.Zero, items);
 	}
 
 	public ChainConstraint(@Nonnull Constrainable containerItem, @Nonnull Axis axis, @Nonnull Style style, @Nonnull Constrainable... items) {
@@ -52,7 +44,23 @@ public class ChainConstraint extends AbstractChainConstraint {
 	}
 
 	public ChainConstraint(@Nonnull Constrainable containerItem, @Nonnull Axis axis, @Nonnull Style style, @Nonnull List<? extends Constrainable> items) {
-		super(containerItem, axis, style);
+		this(containerItem, axis, style, Unit.Zero, items);
+	}
+
+	public ChainConstraint(@Nonnull Constrainable containerItem, @Nonnull Axis axis, @Nonnull Unit gap, @Nonnull Constrainable... items) {
+		this(containerItem, axis, gap, Arrays.asList(items));
+	}
+
+	public ChainConstraint(@Nonnull Constrainable containerItem, @Nonnull Axis axis, @Nonnull Unit gap, @Nonnull List<? extends Constrainable> items) {
+		this(containerItem, axis, Style.SpreadInside, gap, items);
+	}
+
+	public ChainConstraint(@Nonnull Constrainable containerItem, @Nonnull Axis axis, @Nonnull Style style, @Nonnull Unit gap, @Nonnull Constrainable... items) {
+		this(containerItem, axis, style, gap, Arrays.asList(items));
+	}
+
+	public ChainConstraint(@Nonnull Constrainable containerItem, @Nonnull Axis axis, @Nonnull Style style, @Nonnull Unit gap, @Nonnull List<? extends Constrainable> items) {
+		super(containerItem, axis, style, gap);
 		this.items = new ArrayList<>(items);
 	}
 }
