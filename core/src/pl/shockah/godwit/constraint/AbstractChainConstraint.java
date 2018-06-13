@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Nonnull;
 
 import java8.util.stream.StreamSupport;
+import pl.shockah.godwit.ui.Unit;
 
 public abstract class AbstractChainConstraint extends AxisConstraint {
 	@Nonnull
@@ -13,12 +14,24 @@ public abstract class AbstractChainConstraint extends AxisConstraint {
 	@Nonnull
 	public final Style style;
 
+	@Nonnull
+	public final Unit gap;
+
 	public final float bias;
 
 	public AbstractChainConstraint(@Nonnull Constrainable containerItem, @Nonnull Axis axis, float bias) {
+		this(containerItem, axis, Unit.Zero, bias);
+	}
+
+	public AbstractChainConstraint(@Nonnull Constrainable containerItem, @Nonnull Axis axis, @Nonnull Unit gap) {
+		this(containerItem, axis, gap, 0f);
+	}
+
+	public AbstractChainConstraint(@Nonnull Constrainable containerItem, @Nonnull Axis axis, @Nonnull Unit gap, float bias) {
 		super(axis);
 		this.containerItem = containerItem;
 		this.style = Style.Packed;
+		this.gap = gap;
 		this.bias = bias;
 	}
 
@@ -30,6 +43,7 @@ public abstract class AbstractChainConstraint extends AxisConstraint {
 		super(axis);
 		this.containerItem = containerItem;
 		this.style = style;
+		gap = Unit.Zero;
 		bias = 0f;
 	}
 
@@ -69,7 +83,7 @@ public abstract class AbstractChainConstraint extends AxisConstraint {
 				currentOffset += totalSeparatorLength * bias;
 				for (Constrainable item : items) {
 					item.setAttribute(getLeadingAttribute(), currentOffset);
-					currentOffset += item.getAttribute(getLengthAttribute());
+					currentOffset += item.getAttribute(getLengthAttribute()) + gap.getPixels();
 				}
 				break;
 			}

@@ -7,6 +7,7 @@ import java.util.List;
 import javax.annotation.Nonnull;
 
 import lombok.Getter;
+import pl.shockah.godwit.ui.Unit;
 
 public class ChainConstraint extends AbstractChainConstraint {
 	@Nonnull
@@ -18,7 +19,23 @@ public class ChainConstraint extends AbstractChainConstraint {
 	}
 
 	public ChainConstraint(@Nonnull Constrainable containerItem, @Nonnull Axis axis, float bias, @Nonnull List<? extends Constrainable> items) {
-		super(containerItem, axis, bias);
+		this(containerItem, axis, Unit.Zero, bias, items);
+	}
+
+	public ChainConstraint(@Nonnull Constrainable containerItem, @Nonnull Axis axis, @Nonnull Unit gap, @Nonnull Constrainable... items) {
+		this(containerItem, axis, gap, Arrays.asList(items));
+	}
+
+	public ChainConstraint(@Nonnull Constrainable containerItem, @Nonnull Axis axis, @Nonnull Unit gap, @Nonnull List<? extends Constrainable> items) {
+		this(containerItem, axis, gap, 0f, items);
+	}
+
+	public ChainConstraint(@Nonnull Constrainable containerItem, @Nonnull Axis axis, @Nonnull Unit gap, float bias, @Nonnull Constrainable... items) {
+		this(containerItem, axis, gap, bias, Arrays.asList(items));
+	}
+
+	public ChainConstraint(@Nonnull Constrainable containerItem, @Nonnull Axis axis, @Nonnull Unit gap, float bias, @Nonnull List<? extends Constrainable> items) {
+		super(containerItem, axis, gap, bias);
 		this.items = new ArrayList<>(items);
 	}
 
