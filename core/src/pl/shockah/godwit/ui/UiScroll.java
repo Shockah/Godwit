@@ -37,6 +37,18 @@ public class UiScroll extends UiPanel {
 				}
 				throw new IllegalArgumentException(String.format("%s is not a child of %s.", child, this));
 			}
+
+			@Override
+			public float getAttribute(@Nonnull Constraint.Attribute attribute) {
+				float baseValue = super.getAttribute(attribute);
+				if (attribute.isPositional()) {
+					if (attribute.isHorizontal())
+						baseValue -= position.x;
+					else
+						baseValue -= position.y;
+				}
+				return baseValue;
+			}
 		});
 
 		switch (direction) {
@@ -92,6 +104,6 @@ public class UiScroll extends UiPanel {
 	}
 
 	public enum Direction {
-		Vertical, Horizontal, Both;
+		Vertical, Horizontal, Both
 	}
 }

@@ -46,10 +46,10 @@ public abstract class AbstractChainConstraint extends AxisConstraint {
 				.sum();
 		float totalSeparatorLength = containerLength - totalLength;
 
+		float currentOffset = containerItem.getAttribute(getLeadingAttribute());
 		switch (style) {
 			case Spread: {
 				float separatorLength = totalSeparatorLength / (items.size() + 1);
-				float currentOffset = 0f;
 				for (Constrainable item : items) {
 					currentOffset += separatorLength;
 					item.setAttribute(getLeadingAttribute(), currentOffset);
@@ -59,7 +59,6 @@ public abstract class AbstractChainConstraint extends AxisConstraint {
 			}
 			case SpreadInside: {
 				float separatorLength = totalSeparatorLength / (items.size() - 1);
-				float currentOffset = 0f;
 				for (Constrainable item : items) {
 					item.setAttribute(getLeadingAttribute(), currentOffset);
 					currentOffset += item.getAttribute(getLengthAttribute()) + separatorLength;
@@ -67,7 +66,7 @@ public abstract class AbstractChainConstraint extends AxisConstraint {
 				break;
 			}
 			case Packed: {
-				float currentOffset = totalSeparatorLength * bias;
+				currentOffset += totalSeparatorLength * bias;
 				for (Constrainable item : items) {
 					item.setAttribute(getLeadingAttribute(), currentOffset);
 					currentOffset += item.getAttribute(getLengthAttribute());
