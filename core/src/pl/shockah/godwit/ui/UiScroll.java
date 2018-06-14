@@ -8,11 +8,13 @@ import pl.shockah.godwit.constraint.AxisConstraint;
 import pl.shockah.godwit.constraint.BasicConstraint;
 import pl.shockah.godwit.constraint.ChainConstraint;
 import pl.shockah.godwit.constraint.Constraint;
+import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.geom.MutableVec2;
 import pl.shockah.godwit.geom.Rectangle;
 import pl.shockah.godwit.geom.Vec2;
 import pl.shockah.godwit.gesture.GestureRecognizer;
 import pl.shockah.godwit.gesture.PanGestureRecognizer;
+import pl.shockah.godwit.gl.Gfx;
 
 public class UiScroll extends UiPanel {
 	@Nonnull
@@ -48,6 +50,11 @@ public class UiScroll extends UiPanel {
 						baseValue -= position.y;
 				}
 				return baseValue;
+			}
+
+			@Override
+			public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
+				renderChildren(gfx, v);
 			}
 		});
 

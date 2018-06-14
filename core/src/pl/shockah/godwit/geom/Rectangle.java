@@ -97,6 +97,15 @@ public class Rectangle extends AbstractShape implements Shape.Filled, Shape.Outl
 		this(0f, 0f);
 	}
 
+	public Rectangle(@Nonnull com.badlogic.gdx.math.Rectangle gdxRectangle) {
+		this(gdxRectangle.x, gdxRectangle.y, gdxRectangle.width, gdxRectangle.height);
+	}
+
+	@Nonnull
+	public com.badlogic.gdx.math.Rectangle toGdx() {
+		return new com.badlogic.gdx.math.Rectangle(position.x, position.y, size.x, size.y);
+	}
+
 	@Override
 	@Nonnull
 	public Rectangle copy() {

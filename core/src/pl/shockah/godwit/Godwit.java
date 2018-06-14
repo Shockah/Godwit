@@ -216,7 +216,7 @@ public final class Godwit {
 		gfx.clear(Color.CLEAR);
 		gfx.setBlendMode(BlendMode.normal);
 		rootEntity.render(gfx);
-		gfx.endTick();
+		gfx.flush();
 		GfxContextManager.bindSurface(null);
 	}
 }

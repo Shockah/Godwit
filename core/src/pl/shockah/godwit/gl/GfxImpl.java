@@ -46,12 +46,20 @@ public class GfxImpl extends Gfx {
 	private final ShapeRenderer shapeRenderer = new ShapeRenderer();
 
 	@Getter
+	@Nonnull
+	private final Scissors scissors;
+
+	@Getter
 	@Nullable
 	private BlendMode blendMode = null;
 
 	@Getter
 	@Nonnull
 	private Color color = Color.BLACK;
+
+	public GfxImpl() {
+		scissors = new Scissors(this);
+	}
 
 	@Override
 	public int getWidth() {
@@ -68,7 +76,7 @@ public class GfxImpl extends Gfx {
 		prepareContext();
 		if (this.blendMode == blendMode)
 			return;
-		internalEndTick();
+		flush();
 		if (this.blendMode != null)
 			this.blendMode.end();
 		this.blendMode = blendMode;
@@ -85,7 +93,8 @@ public class GfxImpl extends Gfx {
 	}
 
 	@Override
-	protected void internalEndTick() {
+	public void flush() {
+		prepareContext();
 		if (spritesMode) {
 			spriteBatch.end();
 			spritesMode = false;
@@ -127,11 +136,6 @@ public class GfxImpl extends Gfx {
 			shapeRenderer.end();
 		shapeRenderer.begin(type);
 		shapesMode = type;
-	}
-
-	public void endTick() {
-		prepareContext();
-		internalEndTick();
 	}
 
 	@Override
