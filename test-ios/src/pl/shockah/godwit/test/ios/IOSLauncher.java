@@ -92,6 +92,8 @@ public class IOSLauncher extends IOSApplication.Delegate {
 						}
 					}
 				};
+
+				navigationController.pushViewController(tableViewController, false);
 			}
 		}, config);
 	}
