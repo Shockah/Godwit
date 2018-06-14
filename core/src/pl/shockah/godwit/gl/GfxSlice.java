@@ -26,6 +26,7 @@ public class GfxSlice extends Gfx {
 		void drawOutline(Shape.Outline shape);
 		void drawPoint(IVec2 v);
 		void drawPoint(float x, float y);
+		void flush();
 
 		IVec2 getSize();
 		void setColor(float r, float g, float b, float a);
@@ -60,8 +61,8 @@ public class GfxSlice extends Gfx {
 	}
 
 	@Override
-	protected void internalEndTick() {
-		wrapped.internalEndTick();
+	public void flush() {
+		wrapped.flush();
 	}
 
 	@Override

@@ -18,6 +18,9 @@ public abstract class Gfx {
 	@Nonnull
 	public abstract ShapeRenderer getShapeRenderer();
 
+	@Nonnull
+	public abstract Scissors getScissors();
+
 	public abstract int getWidth();
 
 	public abstract int getHeight();
@@ -45,7 +48,7 @@ public abstract class Gfx {
 		setColor(new Color(r, g, b, 1f));
 	}
 
-	protected abstract void internalEndTick();
+	public abstract void flush();
 
 	protected abstract void prepareContext();
 

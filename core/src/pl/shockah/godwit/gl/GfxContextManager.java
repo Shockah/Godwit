@@ -18,7 +18,7 @@ public final class GfxContextManager {
 		if (boundSurface == surface)
 			return;
 
-		getCurrentGfx().internalEndTick();
+		getCurrentGfx().flush();
 
 		if (surface == null) {
 			if (boundSurface != null)

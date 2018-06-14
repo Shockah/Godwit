@@ -9,8 +9,10 @@ import javax.annotation.Nonnull;
 import lombok.Getter;
 import pl.shockah.godwit.constraint.Constrainable;
 import pl.shockah.godwit.constraint.Constraint;
+import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.geom.MutableVec2;
 import pl.shockah.godwit.geom.Rectangle;
+import pl.shockah.godwit.gl.Gfx;
 
 public class ConstrainableRenderGroup extends RenderGroup implements Constrainable {
 	@Nonnull
@@ -118,5 +120,12 @@ public class ConstrainableRenderGroup extends RenderGroup implements Constrainab
 		updateFx();
 		applyConstraints();
 		updateChildren();
+	}
+
+	@Override
+	public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
+		gfx.getScissors().push(getBounds());
+		renderChildren(gfx, v);
+		gfx.getScissors().pop();
 	}
 }

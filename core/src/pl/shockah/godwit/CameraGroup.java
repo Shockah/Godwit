@@ -129,7 +129,10 @@ public class CameraGroup extends ConstrainableRenderGroup {
 		viewport.apply();
 		gfx.getSpriteBatch().setProjectionMatrix(camera.combined);
 		gfx.getShapeRenderer().setProjectionMatrix(camera.combined);
-		super.render(gfx, v);
+
+		gfx.getScissors().push(getBounds());
+		renderChildren(gfx, v);
+		gfx.getScissors().pop();
 	}
 
 	@Override
