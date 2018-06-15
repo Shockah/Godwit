@@ -103,7 +103,11 @@ public class ConstrainableRenderGroup extends RenderGroup implements Constrainab
 	@Nonnull
 	@Override
 	public Rectangle getBounds() {
-		return new Rectangle(getAbsolutePoint(), size);
+		return new Rectangle(
+				getAttribute(Constraint.Attribute.Left),
+				getAttribute(Constraint.Attribute.Top),
+				size
+		);
 	}
 
 	@Override

@@ -41,18 +41,6 @@ public class UiScroll extends UiPanel {
 			}
 
 			@Override
-			public float getAttribute(@Nonnull Constraint.Attribute attribute) {
-				float baseValue = super.getAttribute(attribute);
-				if (attribute.isPositional()) {
-					if (attribute.getAxis() == AxisConstraint.Axis.Horizontal)
-						baseValue -= position.x;
-					else
-						baseValue -= position.y;
-				}
-				return baseValue;
-			}
-
-			@Override
 			public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
 				renderChildren(gfx, v);
 			}
