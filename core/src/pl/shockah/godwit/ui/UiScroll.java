@@ -2,7 +2,6 @@ package pl.shockah.godwit.ui;
 
 import javax.annotation.Nonnull;
 
-import pl.shockah.godwit.Entity;
 import pl.shockah.godwit.Scroller;
 import pl.shockah.godwit.constraint.BasicConstraint;
 import pl.shockah.godwit.constraint.Constraint;
@@ -28,17 +27,6 @@ public class UiScroll extends UiPanel {
 	public UiScroll(@Nonnull Direction direction) {
 		this.direction = direction;
 		addChild(content = new UiPanel() {
-			@Nonnull
-			@Override
-			public Vec2 getRelativePositionOfChild(@Nonnull Entity child) {
-				try {
-					if (child.getParent() == this)
-						return child.position.add(position);
-				} catch (Exception ignored) {
-				}
-				throw new IllegalArgumentException(String.format("%s is not a child of %s.", child, this));
-			}
-
 			@Override
 			public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
 				renderChildren(gfx, v);
