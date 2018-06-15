@@ -4,10 +4,9 @@ import javax.annotation.Nonnull;
 
 import pl.shockah.godwit.Entity;
 import pl.shockah.godwit.Scroller;
-import pl.shockah.godwit.constraint.AxisConstraint;
 import pl.shockah.godwit.constraint.BasicConstraint;
-import pl.shockah.godwit.constraint.ChainConstraint;
 import pl.shockah.godwit.constraint.Constraint;
+import pl.shockah.godwit.constraint.PinConstraint;
 import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.geom.MutableVec2;
 import pl.shockah.godwit.geom.Rectangle;
@@ -49,11 +48,11 @@ public class UiScroll extends UiPanel {
 		switch (direction) {
 			case Vertical:
 				content.addConstraint(new BasicConstraint(content, Constraint.Attribute.Width, this));
-				content.addConstraint(new ChainConstraint(this, AxisConstraint.Axis.Horizontal));
+				content.addConstraint(PinConstraint.create(content, PinConstraint.Sides.Horizontal));
 				break;
 			case Horizontal:
 				content.addConstraint(new BasicConstraint(content, Constraint.Attribute.Height, this));
-				content.addConstraint(new ChainConstraint(this, AxisConstraint.Axis.Vertical));
+				content.addConstraint(PinConstraint.create(content, PinConstraint.Sides.Vertical));
 				break;
 			default:
 				break;
