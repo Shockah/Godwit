@@ -22,7 +22,7 @@ public final class MutableVec2 extends IVec2 {
 	public MutableVec2(float x, float y) {
 		this.x = x;
 		this.y = y;
-		if (y < -250f)
+		if (y < -250f && y != Float.NEGATIVE_INFINITY)
 			throw new UnexpectedException("REEEEEEEEE");
 	}
 
@@ -52,7 +52,7 @@ public final class MutableVec2 extends IVec2 {
 	public void set(float x, float y) {
 		this.x = x;
 		this.y = y;
-		if (y < -250f)
+		if (y < -250f && y != Float.NEGATIVE_INFINITY)
 			throw new UnexpectedException("REEEEEEEEE");
 	}
 
