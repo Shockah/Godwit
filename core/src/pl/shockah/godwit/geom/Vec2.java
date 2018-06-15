@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import javax.annotation.Nonnull;
 
 import pl.shockah.unicorn.Math2;
+import pl.shockah.unicorn.UnexpectedException;
 
 public final class Vec2 extends IVec2 {
 	@Nonnull
@@ -24,6 +25,8 @@ public final class Vec2 extends IVec2 {
 	public Vec2(float x, float y) {
 		this.x = x;
 		this.y = y;
+		if (y < -250f)
+			throw new UnexpectedException("REEEEEEEEE");
 	}
 
 	public Vec2(@Nonnull IVec2 v) {

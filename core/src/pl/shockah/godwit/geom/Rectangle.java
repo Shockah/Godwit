@@ -16,6 +16,7 @@ import pl.shockah.godwit.geom.polygon.Polygonable;
 import pl.shockah.godwit.gl.Gfx;
 import pl.shockah.godwit.gl.GfxSprite;
 import pl.shockah.godwit.ui.Padding;
+import pl.shockah.unicorn.UnexpectedException;
 
 @EqualsAndHashCode(callSuper = false)
 public class Rectangle extends AbstractShape implements Shape.Filled, Shape.Outline, Polygonable {
@@ -133,6 +134,8 @@ public class Rectangle extends AbstractShape implements Shape.Filled, Shape.Outl
 	public Rectangle translate(@Nonnull IVec2 v) {
 		position.x += v.x();
 		position.y += v.y();
+		if (position.y < -250f)
+			throw new UnexpectedException("REEEEEEEEE");
 		return this;
 	}
 
@@ -143,6 +146,8 @@ public class Rectangle extends AbstractShape implements Shape.Filled, Shape.Outl
 			position.x = -position.x - size.x;
 		if (vertically)
 			position.y = -position.y - size.y;
+		if (position.y < -250f)
+			throw new UnexpectedException("REEEEEEEEE");
 		return this;
 	}
 

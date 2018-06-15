@@ -79,14 +79,14 @@ public class ConstrainableRenderGroup extends RenderGroup implements Constrainab
 				position.x = value - getParent().getAbsolutePoint().x - size.x;
 				return;
 			case Top:
-				if (value - getParent().getAbsolutePoint().y < 0f)
-					throw new UnexpectedException("REEEEEEEEE");
 				position.y = value - getParent().getAbsolutePoint().y;
+				if (position.y < -250f)
+					throw new UnexpectedException("REEEEEEEEE");
 				return;
 			case Bottom:
-				if (value - getParent().getAbsolutePoint().y - size.y < 0f)
-					throw new UnexpectedException("REEEEEEEEE");
 				position.y = value - getParent().getAbsolutePoint().y - size.y;
+				if (position.y < -250f)
+					throw new UnexpectedException("REEEEEEEEE");
 				return;
 			case Width:
 				size.x = value;
@@ -98,9 +98,9 @@ public class ConstrainableRenderGroup extends RenderGroup implements Constrainab
 				position.x = value - getParent().getAbsolutePoint().x - size.x * 0.5f;
 				return;
 			case CenterY:
-				if (value - getParent().getAbsolutePoint().y - size.y * 0.5f < 0f)
-					throw new UnexpectedException("REEEEEEEEE");
 				position.y = value - getParent().getAbsolutePoint().y - size.y * 0.5f;
+				if (position.y < -250f)
+					throw new UnexpectedException("REEEEEEEEE");
 				return;
 			default:
 				throw new IllegalArgumentException();
