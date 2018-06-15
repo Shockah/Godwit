@@ -70,11 +70,14 @@ public class UiScroll extends UiPanel {
 				Vec2 velocity = PanGestureRecognizer.getFlingVelocity(touch, 0.15f, 10).multiply(2.5f);
 				//velocity = velocity.getNormalized().multiply(Math.min(velocity.getLength(), 400f * 60f));
 				if (direction != Direction.Vertical)
-					scroller.velocity.x -= velocity.x;
+					scroller.velocity.x -= velocity.x * (scroller.rectangle.size.x > 0f ? 1f : 0f);
 				if (direction != Direction.Horizontal)
-					scroller.velocity.y -= velocity.y;
+					scroller.velocity.y -= velocity.y * (scroller.rectangle.size.y > 0f ? 1f : 0f);
 			} else {
-				scroller.set(newScrollValue);
+				scroller.set(newScrollValue.multiply(
+						scroller.rectangle.size.x > 0f ? 1f : 0f,
+						scroller.rectangle.size.y > 0f ? 1f : 0f
+				));
 			}
 		}));
 	}
