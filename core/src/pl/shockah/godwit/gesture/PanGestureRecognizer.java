@@ -118,15 +118,15 @@ public class PanGestureRecognizer extends ContinuousGestureRecognizer {
 	public static Vec2 getFlingVelocity(@Nonnull Touch touch, @Nullable Float duration, @Nullable Integer samples) {
 		MutableVec2 v = new MutableVec2();
 		Vec2 firstPoint = null;
-		int currentSamples = 0;
-		Date lastDate = touch.points.get(touch.points.size() - 1).date;
 		Date firstDate = null;
+		Date now = new Date();
+		int currentSamples = 0;
 
 		for (int i = touch.points.size() - 1; i >= 0; i--) {
 			if (samples != null && currentSamples >= samples)
 				break;
 			Touch.Point point = touch.points.get(i);
-			if (duration != null && lastDate.getTime() - point.date.getTime() > duration * 1000)
+			if (duration != null && now.getTime() - point.date.getTime() > duration * 1000)
 				break;
 			v.x += point.position.x;
 			v.y += point.position.y;
@@ -135,12 +135,12 @@ public class PanGestureRecognizer extends ContinuousGestureRecognizer {
 			firstDate = point.date;
 		}
 
-		if (firstPoint == null)
+		if (currentSamples <= 1)
 			return Vec2.zero;
-		if (lastDate.getTime() <= firstDate.getTime())
+		if (now.getTime() <= firstDate.getTime())
 			return Vec2.zero;
 
-		return ((v.divide(currentSamples)).subtract(firstPoint)).multiply((lastDate.getTime() - firstDate.getTime()) / 1000f);
+		return ((v.divide(currentSamples)).subtract(firstPoint)).multiply((now.getTime() - firstDate.getTime()) / 1000f);
 	}
 
 	public interface Delegate {

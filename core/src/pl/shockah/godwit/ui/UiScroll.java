@@ -63,7 +63,6 @@ public class UiScroll extends UiPanel {
 				newScrollValue.x -= delta.x;
 			if (direction != Direction.Horizontal)
 				newScrollValue.y -= delta.y;
-			scroller.set(newScrollValue);
 
 			if (recognizer.isFinished()) {
 				scroller.panning = false;
@@ -74,6 +73,8 @@ public class UiScroll extends UiPanel {
 					scroller.velocity.x -= velocity.x;
 				if (direction != Direction.Horizontal)
 					scroller.velocity.y -= velocity.y;
+			} else {
+				scroller.set(newScrollValue);
 			}
 		}));
 	}
