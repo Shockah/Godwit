@@ -25,7 +25,7 @@ public final class Vec2 extends IVec2 {
 	public Vec2(float x, float y) {
 		this.x = x;
 		this.y = y;
-		if (y < -250f)
+		if (y < -250f && y != Float.NEGATIVE_INFINITY)
 			throw new UnexpectedException("REEEEEEEEE");
 	}
 
