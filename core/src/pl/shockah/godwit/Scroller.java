@@ -95,7 +95,7 @@ public abstract class Scroller {
 			}
 		}
 
-		if (!MathUtils.isEqual(current.x, newPosition.x, 0.01f) || !MathUtils.isEqual(current.y, newPosition.y, 0.001f))
+		if (!MathUtils.isEqual(current.x, newPosition.x, 0.001f) || !MathUtils.isEqual(current.y, newPosition.y, 0.001f))
 			set(newPosition);
 	}
 
