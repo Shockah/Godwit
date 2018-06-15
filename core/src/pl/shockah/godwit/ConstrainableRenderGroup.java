@@ -48,21 +48,21 @@ public class ConstrainableRenderGroup extends RenderGroup implements Constrainab
 	public float getAttribute(@Nonnull Constraint.Attribute attribute) {
 		switch (attribute) {
 			case Left:
-				return position.x + getParent().getAbsolutePoint().x;
+				return getAbsolutePoint().x;
 			case Right:
-				return position.x + getParent().getAbsolutePoint().x + size.x;
+				return getAbsolutePoint().x + size.x;
 			case Top:
-				return position.y + getParent().getAbsolutePoint().y;
+				return getAbsolutePoint().y;
 			case Bottom:
-				return position.y + getParent().getAbsolutePoint().y + size.y;
+				return getAbsolutePoint().y + size.y;
 			case Width:
 				return size.x;
 			case Height:
 				return size.y;
 			case CenterX:
-				return position.x + getParent().getAbsolutePoint().x + size.x * 0.5f;
+				return getAbsolutePoint().x + size.x * 0.5f;
 			case CenterY:
-				return position.y + getParent().getAbsolutePoint().y + size.y * 0.5f;
+				return getAbsolutePoint().y + size.y * 0.5f;
 			default:
 				throw new IllegalArgumentException();
 		}

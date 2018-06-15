@@ -77,7 +77,7 @@ public abstract class AbstractChainConstraint extends AxisConstraint {
 				break;
 			}
 			case SpreadInside: {
-				float separatorLength = totalSeparatorLength / (items.size() - 1);
+				float separatorLength = items.size() >= 2 ? totalSeparatorLength / (items.size() - 1) : 0f;
 				for (Constrainable item : items) {
 					item.setAttribute(getLeadingAttribute(), currentOffset);
 					currentOffset += item.getAttribute(getLengthAttribute()) + separatorLength + gap.getPixels();
