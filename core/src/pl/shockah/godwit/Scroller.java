@@ -25,6 +25,8 @@ public abstract class Scroller {
 
 	public boolean panning = false;
 
+	public boolean forceCenterSmallContent = true;
+
 	@Nonnull
 	public static Scroller forCamera(@Nonnull Entity entity) {
 		return new Scroller.Lambda(
@@ -59,7 +61,8 @@ public abstract class Scroller {
 
 		if (rectangle != null) {
 			if (rectangle.size.x < 0) {
-				newPosition.x = -rectangle.size.x * 0.5f;
+				if (forceCenterSmallContent)
+					newPosition.x = -rectangle.size.x * 0.5f;
 			} else {
 				if (bounceMultiplier == null) {
 					newPosition.x = MathUtils.clamp(newPosition.x, rectangle.position.x, rectangle.position.x + rectangle.size.x);
@@ -77,7 +80,8 @@ public abstract class Scroller {
 			}
 
 			if (rectangle.size.y < 0) {
-				newPosition.y = -rectangle.size.y * 0.5f;
+				if (forceCenterSmallContent)
+					newPosition.y = -rectangle.size.y * 0.5f;
 			} else {
 				if (bounceMultiplier == null) {
 					newPosition.y = MathUtils.clamp(newPosition.y, rectangle.position.y, rectangle.position.y + rectangle.size.y);

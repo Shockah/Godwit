@@ -51,6 +51,7 @@ public class UiScroll extends UiPanel {
 				newValue -> content.position.set(newValue.negate())
 		);
 		scroller.rectangle = new Rectangle();
+		scroller.forceCenterSmallContent = false;
 
 		gestureRecognizers.add(new PanGestureRecognizer(this, (recognizer, touch, initialPoint, currentPoint, delta) -> {
 			if (recognizer.getState() == GestureRecognizer.State.Began) {
