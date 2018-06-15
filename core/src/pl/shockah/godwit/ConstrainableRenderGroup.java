@@ -13,6 +13,7 @@ import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.geom.MutableVec2;
 import pl.shockah.godwit.geom.Rectangle;
 import pl.shockah.godwit.gl.Gfx;
+import pl.shockah.unicorn.UnexpectedException;
 
 public class ConstrainableRenderGroup extends RenderGroup implements Constrainable {
 	@Nonnull
@@ -78,9 +79,13 @@ public class ConstrainableRenderGroup extends RenderGroup implements Constrainab
 				position.x = value - getParent().getAbsolutePoint().x - size.x;
 				return;
 			case Top:
+				if (value - getParent().getAbsolutePoint().y == -338f)
+					throw new UnexpectedException("REEEEEEEEE");
 				position.y = value - getParent().getAbsolutePoint().y;
 				return;
 			case Bottom:
+				if (value - getParent().getAbsolutePoint().y - size.y == -338f)
+					throw new UnexpectedException("REEEEEEEEE");
 				position.y = value - getParent().getAbsolutePoint().y - size.y;
 				return;
 			case Width:
@@ -93,6 +98,8 @@ public class ConstrainableRenderGroup extends RenderGroup implements Constrainab
 				position.x = value - getParent().getAbsolutePoint().x - size.x * 0.5f;
 				return;
 			case CenterY:
+				if (value - getParent().getAbsolutePoint().y - size.y * 0.5f == -338f)
+					throw new UnexpectedException("REEEEEEEEE");
 				position.y = value - getParent().getAbsolutePoint().y - size.y * 0.5f;
 				return;
 			default:
