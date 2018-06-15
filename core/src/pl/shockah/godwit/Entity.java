@@ -14,7 +14,6 @@ import pl.shockah.godwit.geom.MutableVec2;
 import pl.shockah.godwit.geom.Vec2;
 import pl.shockah.godwit.gl.Gfx;
 import pl.shockah.godwit.gl.Renderable;
-import pl.shockah.unicorn.UnexpectedException;
 import pl.shockah.unicorn.collection.SafeList;
 
 public class Entity extends AbstractAnimatable implements Renderable {
@@ -224,8 +223,6 @@ public class Entity extends AbstractAnimatable implements Renderable {
 			Vec2 relativePoint = tree[i].getRelativePositionOfChild(tree[i + 1]);
 			point.x += relativePoint.x;
 			point.y += relativePoint.y;
-			if (point.y < -250f)
-				throw new UnexpectedException("REEEEEEEEE");
 		}
 		return point.asImmutable();
 	}
@@ -268,8 +265,6 @@ public class Entity extends AbstractAnimatable implements Renderable {
 	protected void calculateTranslatedPoint(@Nonnull MutableVec2 point) {
 		point.x += position.x;
 		point.y += position.y;
-		if (point.y < -250f)
-			throw new UnexpectedException("REEEEEEEEE");
 	}
 
 	@Nonnull

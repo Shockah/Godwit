@@ -8,7 +8,6 @@ import javax.annotation.Nonnull;
 
 import lombok.Getter;
 import pl.shockah.godwit.geom.Rectangle;
-import pl.shockah.unicorn.UnexpectedException;
 
 public class AbstractConstrainable implements Constrainable {
 	@Nonnull
@@ -91,13 +90,9 @@ public class AbstractConstrainable implements Constrainable {
 				return;
 			case Top:
 				bounds.position.y = value;
-				if (bounds.position.y < -250f)
-					throw new UnexpectedException("REEEEEEEEE");
 				return;
 			case Bottom:
 				bounds.position.y = value - bounds.size.y;
-				if (bounds.position.y < -250f)
-					throw new UnexpectedException("REEEEEEEEE");
 				return;
 			case Width:
 				bounds.size.x = value;
@@ -110,8 +105,6 @@ public class AbstractConstrainable implements Constrainable {
 				return;
 			case CenterY:
 				bounds.position.y = value - bounds.size.y * 0.5f;
-				if (bounds.position.y < -250f)
-					throw new UnexpectedException("REEEEEEEEE");
 				return;
 			default:
 				throw new IllegalArgumentException();
