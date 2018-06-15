@@ -61,8 +61,7 @@ public abstract class Scroller {
 
 		if (rectangle != null) {
 			if (rectangle.size.x < 0) {
-				if (forceCenterSmallContent)
-					newPosition.x = -rectangle.size.x * 0.5f;
+				newPosition.x = forceCenterSmallContent ? -rectangle.size.x * 0.5f : current.x;
 			} else {
 				if (bounceMultiplier == null) {
 					newPosition.x = MathUtils.clamp(newPosition.x, rectangle.position.x, rectangle.position.x + rectangle.size.x);
@@ -80,8 +79,7 @@ public abstract class Scroller {
 			}
 
 			if (rectangle.size.y < 0) {
-				if (forceCenterSmallContent)
-					newPosition.y = -rectangle.size.y * 0.5f;
+				newPosition.y = forceCenterSmallContent ? -rectangle.size.y * 0.5f : current.y;
 			} else {
 				if (bounceMultiplier == null) {
 					newPosition.y = MathUtils.clamp(newPosition.y, rectangle.position.y, rectangle.position.y + rectangle.size.y);
