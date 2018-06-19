@@ -128,7 +128,7 @@ public class ConstrainableRenderGroup extends RenderGroup implements Constrainab
 
 	@Override
 	public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
-		gfx.getScissors().push(getBounds());
+		gfx.getScissors().push(getBounds(), getCameraGroup().getCamera());
 		renderChildren(gfx, v);
 		gfx.getScissors().pop();
 	}

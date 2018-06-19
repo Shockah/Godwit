@@ -1,8 +1,10 @@
 package pl.shockah.godwit.gl;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.HdpiUtils;
+import com.badlogic.gdx.math.Vector3;
 
 import java.util.Deque;
 import java.util.LinkedList;
@@ -42,6 +44,18 @@ public final class Scissors {
 		return result;
 	}
 
+	public void push(@Nonnull Rectangle scissor, @Nonnull Camera camera) {
+		Vector3 project;
+		Rectangle projected = new Rectangle();
+
+		project = camera.project(new Vector3(scissor.position.x, scissor.position.y, 0f));
+		projected.position.set(project.x, project.y + 1);
+		project = camera.project(new Vector3(scissor.position.x + scissor.size.x, scissor.position.y + scissor.size.y, 0f));
+		projected.size.set(project.x - projected.position.x, project.y - projected.position.y + 1);
+
+		push(projected);
+	}
+
 	public void push(@Nonnull Rectangle scissor) {
 		scissors.push(fix(scissor));
 		recalculate();
@@ -75,6 +89,7 @@ public final class Scissors {
 				}
 			}
 			HdpiUtils.glScissor((int)calculated.position.x, (int)calculated.position.y, (int)calculated.size.x, (int)calculated.size.y);
+			System.out.println(calculated);
 			Gdx.gl.glEnable(GL20.GL_SCISSOR_TEST);
 		}
 	}
