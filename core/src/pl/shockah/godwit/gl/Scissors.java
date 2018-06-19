@@ -89,7 +89,6 @@ public final class Scissors {
 				}
 			}
 			HdpiUtils.glScissor((int)calculated.position.x, (int)calculated.position.y, (int)calculated.size.x, (int)calculated.size.y);
-			System.out.println(calculated);
 			Gdx.gl.glEnable(GL20.GL_SCISSOR_TEST);
 		}
 	}
