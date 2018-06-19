@@ -25,6 +25,8 @@ public class ConstrainableRenderGroup extends RenderGroup implements Constrainab
 	@Getter
 	private final List<Constraint> constraints = Collections.unmodifiableList(modifiableConstraints);
 
+	public boolean clipToBounds = true;
+
 	@Nonnull
 	@Getter(lazy = true)
 	private final Constraint.InstancedAttributes attributes = getLazyAttributes();
@@ -128,8 +130,12 @@ public class ConstrainableRenderGroup extends RenderGroup implements Constrainab
 
 	@Override
 	public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
-		gfx.getScissors().push(getBounds(), getCameraGroup().getCamera());
+		boolean clipping = clipToBounds;
+
+		if (clipping)
+			gfx.getScissors().push(getBounds(), getCameraGroup().getCamera());
 		renderChildren(gfx, v);
-		gfx.getScissors().pop();
+		if (clipping)
+			gfx.getScissors().pop();
 	}
 }
