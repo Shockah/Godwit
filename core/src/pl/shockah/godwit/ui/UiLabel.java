@@ -31,7 +31,7 @@ public class UiLabel extends UiControl<Rectangle> {
 			gfx.getScissors().push(getBounds(), getCameraGroup().getCamera());
 			font.setText(text);
 			font.setMaxWidth(size.x);
-			font.render(gfx, v.add(size.multiply(font.getAlignment().getVector())));
+			font.render(gfx, getBounds().position.add(size.multiply(font.getAlignment().getVector())));
 			gfx.getScissors().pop();
 		}
 	}

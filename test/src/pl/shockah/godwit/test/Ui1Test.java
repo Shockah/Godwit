@@ -38,7 +38,7 @@ public class Ui1Test extends State {
 		UiLabel label;
 		ui.addChild(label = new UiLabel(new GfxFont(fontAsset)));
 		label.addConstraint(new BasicConstraint(label, Constraint.Attribute.Width, safeArea));
-		label.addConstraint(new BasicConstraint(label.getAttributes().height, new Unit.Pixels(96f)));
+		label.addConstraint(new BasicConstraint(label.getAttributes().height, new Unit.Pixels(120f)));
 		label.addConstraint(new CenterConstraint(label, safeArea, AxisConstraint.Axis.Horizontal));
 		label.addConstraint(new BasicConstraint(label, Constraint.Attribute.Top, safeArea));
 		label.font.setAlignment(Alignment.Horizontal.Center.and(Alignment.Vertical.Middle));
