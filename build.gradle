@@ -20,7 +20,7 @@ allprojects {
 		gdxVersion = "1.9.8"
 		roboVMVersion = "2.3.+"
 		lombokVersion = "1.16.20"
-		unicornVersion = "2.2.1"
+		unicornVersion = "2.5.1"
 	}
 
 	repositories {
