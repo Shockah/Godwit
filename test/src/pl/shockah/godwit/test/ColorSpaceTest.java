@@ -11,6 +11,7 @@ import pl.shockah.godwit.geom.Rectangle;
 import pl.shockah.godwit.gl.ColorUtil;
 import pl.shockah.godwit.gl.Gfx;
 import pl.shockah.unicorn.color.HSLColorSpace;
+import pl.shockah.unicorn.color.HSLuvColorSpace;
 import pl.shockah.unicorn.color.HSVColorSpace;
 import pl.shockah.unicorn.color.LCHColorSpace;
 import pl.shockah.unicorn.color.LabColorSpace;
@@ -45,7 +46,8 @@ public class ColorSpaceTest extends State {
 				f1 * 100f,
 				f2 * 133.4178f,
 				f3
-		).toRGB());
+		).toRGB()),
+		HSLuv((f1, f2, f3) -> new HSLuvColorSpace(f1, f2, f3).toRGB());
 
 		public final Func3<Float, Float, Float, RGBColorSpace> func;
 

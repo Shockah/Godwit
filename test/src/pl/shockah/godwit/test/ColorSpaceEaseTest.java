@@ -10,6 +10,7 @@ import pl.shockah.godwit.geom.Rectangle;
 import pl.shockah.godwit.gl.ColorUtil;
 import pl.shockah.godwit.gl.Gfx;
 import pl.shockah.unicorn.color.HSLColorSpace;
+import pl.shockah.unicorn.color.HSLuvColorSpace;
 import pl.shockah.unicorn.color.HSVColorSpace;
 import pl.shockah.unicorn.color.LCHColorSpace;
 import pl.shockah.unicorn.color.LabColorSpace;
@@ -51,6 +52,11 @@ public class ColorSpaceEaseTest extends State {
 		LCH((c1, c2, f) -> {
 			LCHColorSpace space1 = LCHColorSpace.from(LabColorSpace.from(ColorUtil.toXYZ(c1)));
 			LCHColorSpace space2 = LCHColorSpace.from(LabColorSpace.from(ColorUtil.toXYZ(c2)));
+			return ColorUtil.toGdx(space1.ease(space2, f));
+		}),
+		HSLuv((c1, c2, f) -> {
+			HSLuvColorSpace space1 = HSLuvColorSpace.from(LCHColorSpace.from(LabColorSpace.from(ColorUtil.toXYZ(c1))));
+			HSLuvColorSpace space2 = HSLuvColorSpace.from(LCHColorSpace.from(LabColorSpace.from(ColorUtil.toXYZ(c2))));
 			return ColorUtil.toGdx(space1.ease(space2, f));
 		});
 
