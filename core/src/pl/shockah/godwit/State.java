@@ -4,13 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
+import lombok.Getter;
 import pl.shockah.godwit.asset.Asset;
 import pl.shockah.godwit.constraint.AbstractConstrainable;
 import pl.shockah.godwit.constraint.Constrainable;
 import pl.shockah.godwit.constraint.Constraint;
 import pl.shockah.godwit.gl.Gfx;
 import pl.shockah.godwit.platform.SafeAreaService;
+import pl.shockah.godwit.ui.Focusable;
 import pl.shockah.godwit.ui.Padding;
 import pl.shockah.unicorn.UnexpectedException;
 
@@ -37,12 +40,26 @@ public class State extends RenderGroup {
 		}
 	};
 
+	@Nullable
+	@Getter
+	private Focusable focus;
+
 	@Nonnull
 	private final List<Asset<?>> retainedAssets = new ArrayList<>();
 
 	public State() {
 		addChild(game);
 		addChild(ui);
+	}
+
+	public void setFocus(@Nullable Focusable focus) {
+		if (this.focus == focus)
+			return;
+		if (this.focus != null)
+			this.focus.onBlur();
+		this.focus = focus;
+		if (focus != null)
+			focus.onFocus();
 	}
 
 	@Override
