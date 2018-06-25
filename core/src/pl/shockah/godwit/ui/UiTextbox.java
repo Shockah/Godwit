@@ -47,6 +47,8 @@ public abstract class UiTextbox extends UiButton implements Focusable {
 
 			@Override
 			public boolean keyDown(int keycode) {
+				System.out.println(String.format("down %d", keycode));
+
 				if (keycode == Input.Keys.BACKSPACE) {
 					backspaceDown = true;
 					text = text.substring(0, text.length() - 1);
@@ -59,6 +61,8 @@ public abstract class UiTextbox extends UiButton implements Focusable {
 
 			@Override
 			public boolean keyUp(int keycode) {
+				System.out.println(String.format("up %d", keycode));
+
 				if (keycode == Input.Keys.BACKSPACE) {
 					backspaceDown = false;
 					return true;
