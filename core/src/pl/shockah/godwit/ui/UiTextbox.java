@@ -68,7 +68,7 @@ public abstract class UiTextbox extends UiButton implements Focusable {
 
 			@Override
 			public boolean keyTyped(char character) {
-				System.out.println(character);
+				System.out.println(String.format("'%s' (%d)", character, (int)character));
 				text += character;
 				return true;
 			}
