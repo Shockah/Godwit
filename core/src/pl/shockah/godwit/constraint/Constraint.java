@@ -2,6 +2,8 @@ package pl.shockah.godwit.constraint;
 
 import javax.annotation.Nonnull;
 
+import pl.shockah.godwit.ui.Unit;
+
 public abstract class Constraint {
 	public abstract void apply();
 
@@ -40,6 +42,51 @@ public abstract class Constraint {
 
 		public void set(float value) {
 			item.setAttribute(attribute, value);
+		}
+
+		@Nonnull
+		public BasicConstraint constraint(@Nonnull Constrainable source) {
+			return new BasicConstraint(this, source.getAttributes().get(attribute));
+		}
+
+		@Nonnull
+		public BasicConstraint constraint(@Nonnull InstancedAttribute source) {
+			return new BasicConstraint(this, source);
+		}
+
+		@Nonnull
+		public BasicConstraint constraint(@Nonnull Constrainable source, @Nonnull Unit length) {
+			return new BasicConstraint(this, source.getAttributes().get(attribute), length);
+		}
+
+		@Nonnull
+		public BasicConstraint constraint(@Nonnull InstancedAttribute source, @Nonnull Unit length) {
+			return new BasicConstraint(this, source, length);
+		}
+
+		@Nonnull
+		public BasicConstraint constraint(@Nonnull Constrainable source, float ratio) {
+			return new BasicConstraint(this, source.getAttributes().get(attribute), ratio);
+		}
+
+		@Nonnull
+		public BasicConstraint constraint(@Nonnull InstancedAttribute source, float ratio) {
+			return new BasicConstraint(this, source, ratio);
+		}
+
+		@Nonnull
+		public BasicConstraint constraint(@Nonnull Constrainable source, @Nonnull Unit length, float ratio) {
+			return new BasicConstraint(this, source.getAttributes().get(attribute), length, ratio);
+		}
+
+		@Nonnull
+		public BasicConstraint constraint(@Nonnull InstancedAttribute source, @Nonnull Unit length, float ratio) {
+			return new BasicConstraint(this, source, length, ratio);
+		}
+
+		@Nonnull
+		public BasicConstraint constraint(@Nonnull Unit length) {
+			return new BasicConstraint(this, length);
 		}
 	}
 

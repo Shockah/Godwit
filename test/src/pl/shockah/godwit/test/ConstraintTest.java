@@ -6,9 +6,7 @@ import javax.annotation.Nonnull;
 
 import pl.shockah.godwit.ConstrainableRenderGroup;
 import pl.shockah.godwit.State;
-import pl.shockah.godwit.constraint.BasicConstraint;
 import pl.shockah.godwit.constraint.Constrainable;
-import pl.shockah.godwit.constraint.Constraint;
 import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.gl.Gfx;
 import pl.shockah.godwit.ui.Unit;
@@ -21,10 +19,10 @@ public class ConstraintTest extends State {
 					@Override
 					public void onAddedToParent() {
 						super.onAddedToParent();
-						addConstraint(new BasicConstraint(this, Constraint.Attribute.Width, (Constrainable)getParent(), 0.5f));
-						addConstraint(new BasicConstraint(this, Constraint.Attribute.Height, (Constrainable)getParent(), 0.5f));
-						addConstraint(new BasicConstraint(this, Constraint.Attribute.Top, (Constrainable)getParent(), new Unit.Pixels(32f)));
-						addConstraint(new BasicConstraint(this, Constraint.Attribute.Left, (Constrainable)getParent(), new Unit.Pixels(32f)));
+						addConstraint(getAttributes().width.constraint((Constrainable)getParent(), 0.5f));
+						addConstraint(getAttributes().height.constraint((Constrainable)getParent(), 0.5f));
+						addConstraint(getAttributes().top.constraint((Constrainable)getParent(), new Unit.Pixels(32f)));
+						addConstraint(getAttributes().left.constraint((Constrainable)getParent(), new Unit.Pixels(32f)));
 					}
 
 					@Override
@@ -39,10 +37,10 @@ public class ConstraintTest extends State {
 			@Override
 			public void onAddedToParent() {
 				super.onAddedToParent();
-				addConstraint(new BasicConstraint(this, Constraint.Attribute.Width, getCameraGroup(), 0.8f));
-				addConstraint(new BasicConstraint(this, Constraint.Attribute.Height, getCameraGroup(), 0.8f));
-				addConstraint(new BasicConstraint(this, Constraint.Attribute.CenterX, getCameraGroup()));
-				addConstraint(new BasicConstraint(this, Constraint.Attribute.Top, getCameraGroup()));
+				addConstraint(getAttributes().width.constraint(getCameraGroup(), 0.8f));
+				addConstraint(getAttributes().height.constraint(getCameraGroup(), 0.8f));
+				addConstraint(getAttributes().centerX.constraint(getCameraGroup()));
+				addConstraint(getAttributes().top.constraint(getCameraGroup()));
 			}
 
 			@Override
