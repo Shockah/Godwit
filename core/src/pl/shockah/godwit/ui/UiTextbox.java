@@ -1,7 +1,5 @@
 package pl.shockah.godwit.ui;
 
-import com.badlogic.gdx.Input;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -42,34 +40,13 @@ public abstract class UiTextbox extends UiButton implements Focusable {
 		}, recognizer -> blur());
 
 		textInputProcessor = new InputManager.Adapter(0f) {
-			//TODO: handle held key repeat
-			private boolean backspaceDown = false;
-
-			@Override
-			public boolean keyDown(int keycode) {
-				if (keycode == Input.Keys.BACKSPACE) {
-					backspaceDown = true;
-					text = text.substring(0, text.length() - 1);
-					return true;
-				} else {
-					backspaceDown = false;
-				}
-				return false;
-			}
-
-			@Override
-			public boolean keyUp(int keycode) {
-				if (keycode == Input.Keys.BACKSPACE) {
-					backspaceDown = false;
-					return true;
-				}
-				return false;
-			}
-
 			@Override
 			public boolean keyTyped(char character) {
-				System.out.println(String.format("'%s' (%d)", character, (int)character));
-				text += character;
+				if (character == 8) {
+					text = text.substring(0, text.length() - 1);
+				} else {
+					text += character;
+				}
 				return true;
 			}
 		};
