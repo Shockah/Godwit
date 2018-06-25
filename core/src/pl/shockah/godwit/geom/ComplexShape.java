@@ -6,7 +6,7 @@ import pl.shockah.godwit.gl.Gfx;
 
 public class ComplexShape<S extends Shape> extends AbstractShape {
 	public enum Operation {
-		Union, Intersection, Difference;
+		Union, Intersection, Difference
 	}
 
 	@Nonnull
