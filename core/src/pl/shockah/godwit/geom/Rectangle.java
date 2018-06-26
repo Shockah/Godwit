@@ -8,7 +8,7 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import lombok.EqualsAndHashCode;
+import java8.util.Objects;
 import lombok.Getter;
 import pl.shockah.godwit.Godwit;
 import pl.shockah.godwit.geom.polygon.Polygon;
@@ -17,7 +17,6 @@ import pl.shockah.godwit.gl.Gfx;
 import pl.shockah.godwit.gl.GfxSprite;
 import pl.shockah.godwit.ui.Padding;
 
-@EqualsAndHashCode(callSuper = false)
 public class Rectangle extends AbstractShape implements Shape.Filled, Shape.Outline, Polygonable {
 	@Nonnull
 	public MutableVec2 position;
@@ -110,6 +109,19 @@ public class Rectangle extends AbstractShape implements Shape.Filled, Shape.Outl
 	@Nonnull
 	public Rectangle copy() {
 		return new Rectangle(position, size);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof Rectangle))
+			return false;
+		Rectangle rectangle = (Rectangle)obj;
+		return Objects.equals(position, rectangle.position) && Objects.equals(size, rectangle.size);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(position, size);
 	}
 
 	@Override

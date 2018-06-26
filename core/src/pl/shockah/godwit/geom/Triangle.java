@@ -4,14 +4,13 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import javax.annotation.Nonnull;
 
-import lombok.EqualsAndHashCode;
+import java8.util.Objects;
 import pl.shockah.godwit.geom.polygon.Polygon;
 import pl.shockah.godwit.geom.polygon.Polygonable;
 import pl.shockah.godwit.gl.Gfx;
 import pl.shockah.unicorn.Math2;
 import pl.shockah.unicorn.ease.Easable;
 
-@EqualsAndHashCode(callSuper = false)
 public class Triangle extends AbstractShape implements Polygonable, Shape.Filled, Shape.Outline, Easable<Triangle> {
 	@Nonnull
 	public MutableVec2 point1;
@@ -60,6 +59,19 @@ public class Triangle extends AbstractShape implements Polygonable, Shape.Filled
 	@Nonnull
 	public Triangle copy() {
 		return new Triangle(point1, point2, point3);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof Triangle))
+			return false;
+		Triangle triangle = (Triangle)obj;
+		return Objects.equals(point1, triangle.point1) && Objects.equals(point2, triangle.point2) && Objects.equals(point3, triangle.point3);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(point1, point2, point3);
 	}
 
 	@Override

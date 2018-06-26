@@ -11,6 +11,7 @@ import pl.shockah.godwit.asset.Asset;
 import pl.shockah.godwit.constraint.AbstractConstrainable;
 import pl.shockah.godwit.constraint.Constrainable;
 import pl.shockah.godwit.constraint.Constraint;
+import pl.shockah.godwit.constraint.ConstraintSolver;
 import pl.shockah.godwit.gl.Gfx;
 import pl.shockah.godwit.platform.SafeAreaService;
 import pl.shockah.godwit.ui.Focusable;
@@ -20,6 +21,9 @@ import pl.shockah.unicorn.UnexpectedException;
 public class State extends RenderGroup {
 	@Nonnull
 	public final Constrainable safeArea = new AbstractConstrainable();
+
+	@Nonnull
+	public final ConstraintSolver constraintSolver = new ConstraintSolver();
 
 	@Nonnull
 	public final CameraGroup game = new CameraGroup();
@@ -60,6 +64,12 @@ public class State extends RenderGroup {
 		this.focus = focus;
 		if (focus != null)
 			focus.onFocus();
+	}
+
+	@Override
+	public void update() {
+		constraintSolver.solve(this);
+		super.update();
 	}
 
 	@Override

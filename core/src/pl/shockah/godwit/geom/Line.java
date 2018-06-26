@@ -5,11 +5,10 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import lombok.EqualsAndHashCode;
+import java8.util.Objects;
 import pl.shockah.godwit.gl.Gfx;
 import pl.shockah.unicorn.ease.Easable;
 
-@EqualsAndHashCode(callSuper = false)
 public class Line extends AbstractShape implements Shape.Outline, Easable<Line> {
 	@Nonnull
 	public MutableVec2 point1;
@@ -38,6 +37,19 @@ public class Line extends AbstractShape implements Shape.Outline, Easable<Line> 
 	@Nonnull
 	public Line copy() {
 		return new Line(point1, point2);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof Line))
+			return false;
+		Line line = (Line)obj;
+		return Objects.equals(point1, line.point1) && Objects.equals(point2, line.point2);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(point1, point2);
 	}
 
 	@Override

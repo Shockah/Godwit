@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import java8.util.Objects;
 import pl.shockah.godwit.geom.polygon.Polygon;
 import pl.shockah.godwit.geom.polygon.Polygonable;
 import pl.shockah.godwit.gl.Gfx;
@@ -54,7 +55,7 @@ public class Circle extends AbstractShape implements Polygonable, Shape.Filled, 
 
 	@Override
 	public int hashCode() {
-		return position.hashCode() * 31 + Float.floatToIntBits(radius);
+		return Objects.hash(position, radius);
 	}
 
 	@Override

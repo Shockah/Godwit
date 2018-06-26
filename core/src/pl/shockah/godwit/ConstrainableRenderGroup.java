@@ -155,7 +155,6 @@ public class ConstrainableRenderGroup extends RenderGroup implements Constrainab
 		children.update();
 		updateSelf();
 		updateFx();
-		applyConstraints();
 		updateChildren();
 	}
 
