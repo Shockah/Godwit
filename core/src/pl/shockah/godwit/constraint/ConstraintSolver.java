@@ -56,6 +56,7 @@ public class ConstraintSolver {
 			constrainableList.add(constrainable);
 			constraints.addAll(constrainable.getConstraints());
 		}
+		entity.children.update();
 		for (Entity child : entity.children.get()) {
 			fillLists(child, constraints, constrainableList);
 		}
