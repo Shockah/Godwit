@@ -3,6 +3,10 @@ package pl.shockah.godwit.constraint;
 import javax.annotation.Nonnull;
 
 public abstract class AxisConstraint extends Constraint {
+	public enum Axis {
+		Horizontal, Vertical
+	}
+
 	@Nonnull
 	public final Axis axis;
 
@@ -11,7 +15,7 @@ public abstract class AxisConstraint extends Constraint {
 	}
 
 	@Nonnull
-	protected final Attribute getCenterAttribute() {
+	public static Attribute getCenterAttribute(@Nonnull Axis axis) {
 		switch (axis) {
 			case Horizontal:
 				return Attribute.CenterX;
@@ -23,7 +27,12 @@ public abstract class AxisConstraint extends Constraint {
 	}
 
 	@Nonnull
-	protected final Attribute getLeadingAttribute() {
+	public final Attribute getCenterAttribute() {
+		return getCenterAttribute(axis);
+	}
+
+	@Nonnull
+	public static Attribute getLeadingAttribute(@Nonnull Axis axis) {
 		switch (axis) {
 			case Horizontal:
 				return Attribute.Left;
@@ -35,7 +44,12 @@ public abstract class AxisConstraint extends Constraint {
 	}
 
 	@Nonnull
-	protected final Attribute getTrailingAttribute() {
+	public final Attribute getLeadingAttribute() {
+		return getLeadingAttribute(axis);
+	}
+
+	@Nonnull
+	public static Attribute getTrailingAttribute(@Nonnull Axis axis) {
 		switch (axis) {
 			case Horizontal:
 				return Attribute.Right;
@@ -47,7 +61,12 @@ public abstract class AxisConstraint extends Constraint {
 	}
 
 	@Nonnull
-	protected final Attribute getLengthAttribute() {
+	public final Attribute getTrailingAttribute() {
+		return getTrailingAttribute(axis);
+	}
+
+	@Nonnull
+	public static Attribute getLengthAttribute(@Nonnull Axis axis) {
 		switch (axis) {
 			case Horizontal:
 				return Attribute.Width;
@@ -58,7 +77,8 @@ public abstract class AxisConstraint extends Constraint {
 		}
 	}
 
-	public enum Axis {
-		Horizontal, Vertical
+	@Nonnull
+	public final Attribute getLengthAttribute() {
+		return getLengthAttribute(axis);
 	}
 }

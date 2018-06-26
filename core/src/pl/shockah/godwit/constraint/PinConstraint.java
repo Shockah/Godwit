@@ -6,7 +6,7 @@ import pl.shockah.godwit.Entity;
 
 public class PinConstraint extends Constraint {
 	public enum Sides {
-		Horizontal, Vertical, All;
+		Horizontal, Vertical, All
 	}
 
 	@Nonnull
