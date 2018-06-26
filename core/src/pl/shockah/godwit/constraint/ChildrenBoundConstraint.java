@@ -52,6 +52,6 @@ public class ChildrenBoundConstraint<T extends Entity & Constrainable> extends C
 				.map(child -> (Constrainable)child)
 				.mapToDouble(child -> child.getAttribute(AxisConstraint.getTrailingAttribute(axis)))
 				.max().orElse(0f);
-		container.setAttribute(AxisConstraint.getLengthAttribute(axis), max);
+		container.setAttribute(AxisConstraint.getLengthAttribute(axis), max - container.getAttribute(AxisConstraint.getLeadingAttribute(axis)));
 	}
 }
