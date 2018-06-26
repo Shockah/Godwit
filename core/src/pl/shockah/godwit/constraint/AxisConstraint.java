@@ -2,6 +2,8 @@ package pl.shockah.godwit.constraint;
 
 import javax.annotation.Nonnull;
 
+import pl.shockah.godwit.geom.IVec2;
+
 public abstract class AxisConstraint extends Constraint {
 	public enum Axis {
 		Horizontal, Vertical
@@ -12,6 +14,21 @@ public abstract class AxisConstraint extends Constraint {
 
 	public AxisConstraint(@Nonnull Axis axis) {
 		this.axis = axis;
+	}
+
+	public static float getVectorValue(@Nonnull Axis axis, @Nonnull IVec2 v) {
+		switch (axis) {
+			case Horizontal:
+				return v.x();
+			case Vertical:
+				return v.y();
+			default:
+				throw new IllegalArgumentException();
+		}
+	}
+
+	public final float getVectorValue(@Nonnull IVec2 v) {
+		return getVectorValue(axis, v);
 	}
 
 	@Nonnull

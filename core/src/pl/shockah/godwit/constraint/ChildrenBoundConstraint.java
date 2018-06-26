@@ -49,9 +49,9 @@ public class ChildrenBoundConstraint<T extends Entity & Constrainable> extends C
 	private void applySide(@Nonnull AxisConstraint.Axis axis) {
 		float max = (float)StreamSupport.stream(container.children.get())
 				.filter(child -> child instanceof Constrainable)
-				.map(child -> (Constrainable)child)
-				.mapToDouble(child -> child.getAttribute(AxisConstraint.getTrailingAttribute(axis)))
+				.map(child -> (Entity & Constrainable)child)
+				.mapToDouble(child -> AxisConstraint.getVectorValue(axis, child.position.add(child.getBounds().size)))
 				.max().orElse(0f);
-		container.setAttribute(AxisConstraint.getLengthAttribute(axis), max - container.getAttribute(AxisConstraint.getLeadingAttribute(axis)));
+		container.setAttribute(AxisConstraint.getLengthAttribute(axis), max);
 	}
 }
