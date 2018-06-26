@@ -50,9 +50,11 @@ public abstract class UiTextbox extends UiButton implements Focusable {
 			public boolean keyTyped(char character) {
 				String oldText = text;
 				if (character == 8) {
-					text = text.substring(0, text.length() - 1);
-					if (textChangeListener != null)
-						textChangeListener.onTextChanged(UiTextbox.this, oldText, text);
+					if (!text.isEmpty()) {
+						text = text.substring(0, text.length() - 1);
+						if (textChangeListener != null)
+							textChangeListener.onTextChanged(UiTextbox.this, oldText, text);
+					}
 				} else if (character >= 32) {
 					text += character;
 					if (textChangeListener != null)
