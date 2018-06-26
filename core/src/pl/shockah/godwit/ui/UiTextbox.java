@@ -23,6 +23,12 @@ public abstract class UiTextbox extends UiButton implements Focusable {
 	@Nonnull
 	public String text = "";
 
+	@Nullable
+	public TextChangeListener textChangeListener;
+
+	@Nullable
+	public EnterListener enterListener;
+
 	public UiTextbox() {
 		super(button -> {
 			UiTextbox textbox = (UiTextbox)button;
@@ -42,10 +48,19 @@ public abstract class UiTextbox extends UiButton implements Focusable {
 		textInputProcessor = new InputManager.Adapter(0f) {
 			@Override
 			public boolean keyTyped(char character) {
+				String oldText = text;
 				if (character == 8) {
 					text = text.substring(0, text.length() - 1);
-				} else {
+					if (textChangeListener != null)
+						textChangeListener.onTextChanged(UiTextbox.this, oldText, text);
+				} else if (character >= 32) {
 					text += character;
+					if (textChangeListener != null)
+						textChangeListener.onTextChanged(UiTextbox.this, oldText, text);
+				} else if (character == '\n') {
+					blur();
+					if (enterListener != null)
+						enterListener.onEnterPressed(UiTextbox.this);
 				}
 				return true;
 			}
@@ -97,5 +112,13 @@ public abstract class UiTextbox extends UiButton implements Focusable {
 	public void onBlur() {
 		outsideTap.unregister();
 		Godwit.getInstance().inputManager.removeProcessor(textInputProcessor);
+	}
+
+	public interface TextChangeListener {
+		void onTextChanged(@Nonnull UiTextbox textbox, @Nonnull String oldText, @Nonnull String newText);
+	}
+
+	public interface EnterListener {
+		void onEnterPressed(@Nonnull UiTextbox textbox);
 	}
 }
