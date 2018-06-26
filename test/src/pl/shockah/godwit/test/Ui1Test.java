@@ -37,20 +37,20 @@ public class Ui1Test extends State {
 
 		UiLabel label;
 		ui.addChild(label = new UiLabel(new GfxFont(fontAsset)));
-		label.addConstraint(label.getAttributes().width.constraint(safeArea));
-		label.addConstraint(label.getAttributes().height.constraint(new Unit.Pixels(120f)));
+		label.addConstraint(label.width.constraint(safeArea));
+		label.addConstraint(label.height.constraint(new Unit.Pixels(120f)));
 		label.addConstraint(new CenterConstraint(label, safeArea, AxisConstraint.Axis.Horizontal));
-		label.addConstraint(label.getAttributes().top.constraint(safeArea));
+		label.addConstraint(label.top.constraint(safeArea));
 		label.font.setAlignment(Alignment.Horizontal.Center.and(Alignment.Vertical.Middle));
 		label.text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
 
 		UiScroll scroll;
 		ui.addChild(scroll = new UiScroll(UiScroll.Direction.Vertical));
 
-		scroll.addConstraint(scroll.getAttributes().width.constraint(safeArea, new Unit.Pixels(-32f)));
-		scroll.addConstraint(scroll.getAttributes().height.constraint(safeArea, new Unit.Pixels(-128f)));
+		scroll.addConstraint(scroll.width.constraint(safeArea, new Unit.Pixels(-32f)));
+		scroll.addConstraint(scroll.height.constraint(safeArea, new Unit.Pixels(-128f)));
 		scroll.addConstraint(new CenterConstraint(scroll, safeArea, AxisConstraint.Axis.Horizontal));
-		scroll.addConstraint(scroll.getAttributes().bottom.constraint(safeArea));
+		scroll.addConstraint(scroll.bottom.constraint(safeArea));
 
 		List<UiButton> buttons = new ArrayList<>();
 		for (int i = 0; i < 50; i++) {
@@ -69,7 +69,7 @@ public class Ui1Test extends State {
 			buttons.add(button);
 			scroll.content.addChild(button);
 			button.addConstraint(BasicConstraint.withParent(button, Constraint.Attribute.Width));
-			button.addConstraint(button.getAttributes().height.constraint(new Unit.ScreenHeights(0.1f)));
+			button.addConstraint(button.height.constraint(new Unit.ScreenHeights(0.1f)));
 		}
 
 		scroll.content.addConstraint(new FitChildrenConstraint<>(scroll.content, AxisConstraint.Axis.Vertical, new Unit.Pixels(4f), new Unit.Pixels(8f)));

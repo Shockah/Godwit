@@ -19,10 +19,10 @@ public class ConstraintTest extends State {
 					@Override
 					public void onAddedToParent() {
 						super.onAddedToParent();
-						addConstraint(getAttributes().width.constraint((Constrainable)getParent(), 0.5f));
-						addConstraint(getAttributes().height.constraint((Constrainable)getParent(), 0.5f));
-						addConstraint(getAttributes().top.constraint((Constrainable)getParent(), new Unit.Pixels(32f)));
-						addConstraint(getAttributes().left.constraint((Constrainable)getParent(), new Unit.Pixels(32f)));
+						addConstraint(width.constraint((Constrainable)getParent(), 0.5f));
+						addConstraint(height.constraint((Constrainable)getParent(), 0.5f));
+						addConstraint(top.constraint((Constrainable)getParent(), new Unit.Pixels(32f)));
+						addConstraint(left.constraint((Constrainable)getParent(), new Unit.Pixels(32f)));
 					}
 
 					@Override
@@ -37,10 +37,10 @@ public class ConstraintTest extends State {
 			@Override
 			public void onAddedToParent() {
 				super.onAddedToParent();
-				addConstraint(getAttributes().width.constraint(getCameraGroup(), 0.8f));
-				addConstraint(getAttributes().height.constraint(getCameraGroup(), 0.8f));
-				addConstraint(getAttributes().centerX.constraint(getCameraGroup()));
-				addConstraint(getAttributes().top.constraint(getCameraGroup()));
+				addConstraint(width.constraint(getCameraGroup(), 0.8f));
+				addConstraint(height.constraint(getCameraGroup(), 0.8f));
+				addConstraint(centerX.constraint(getCameraGroup()));
+				addConstraint(top.constraint(getCameraGroup()));
 			}
 
 			@Override

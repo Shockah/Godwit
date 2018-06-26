@@ -28,12 +28,43 @@ public class ConstrainableRenderGroup extends RenderGroup implements Constrainab
 	public boolean clipToBounds = true;
 
 	@Nonnull
-	@Getter(lazy = true)
-	private final Constraint.InstancedAttributes attributes = getLazyAttributes();
+	@Getter
+	private final Constraint.InstancedAttributes attributes;
 
 	@Nonnull
-	private Constraint.InstancedAttributes getLazyAttributes() {
-		return new Constraint.InstancedAttributes(this);
+	public final Constraint.InstancedAttribute left;
+
+	@Nonnull
+	public final Constraint.InstancedAttribute right;
+
+	@Nonnull
+	public final Constraint.InstancedAttribute top;
+
+	@Nonnull
+	public final Constraint.InstancedAttribute bottom;
+
+	@Nonnull
+	public final Constraint.InstancedAttribute width;
+
+	@Nonnull
+	public final Constraint.InstancedAttribute height;
+
+	@Nonnull
+	public final Constraint.InstancedAttribute centerX;
+
+	@Nonnull
+	public final Constraint.InstancedAttribute centerY;
+
+	public ConstrainableRenderGroup() {
+		attributes = new Constraint.InstancedAttributes(this);
+		left = attributes.left;
+		right = attributes.right;
+		top = attributes.top;
+		bottom = attributes.bottom;
+		width = attributes.width;
+		height = attributes.height;
+		centerX = attributes.centerX;
+		centerY = attributes.centerY;
 	}
 
 	@Override
