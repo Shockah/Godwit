@@ -50,7 +50,7 @@ public class ChildrenBoundConstraint<T extends Entity & Constrainable> extends C
 		float max = (float)StreamSupport.stream(container.children.get())
 				.filter(child -> child instanceof Constrainable)
 				.map(child -> (Entity & Constrainable)child)
-				.mapToDouble(child -> AxisConstraint.getVectorValue(axis, child.position.add(child.getBounds().size)))
+				.mapToDouble(child -> AxisConstraint.getVectorValue(axis, child.position.add(child.getAttribute(Attribute.Width), child.getAttribute(Attribute.Height))))
 				.max().orElse(0f);
 		container.setAttribute(AxisConstraint.getLengthAttribute(axis), max);
 	}
