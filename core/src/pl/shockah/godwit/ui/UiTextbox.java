@@ -1,5 +1,7 @@
 package pl.shockah.godwit.ui;
 
+import com.badlogic.gdx.Input;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -59,12 +61,19 @@ public abstract class UiTextbox extends UiButton implements Focusable {
 					text += character;
 					if (textChangeListener != null)
 						textChangeListener.onTextChanged(UiTextbox.this, oldText, text);
-				} else if (character == '\n') {
+				}
+				return true;
+			}
+
+			@Override
+			public boolean keyUp(int keycode) {
+				if (keycode == Input.Keys.ENTER) {
 					blur();
 					if (enterListener != null)
 						enterListener.onEnterPressed(UiTextbox.this);
+					return true;
 				}
-				return true;
+				return false;
 			}
 		};
 	}
