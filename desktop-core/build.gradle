@@ -10,9 +10,8 @@ retrolambda {
 }
 
 dependencies {
-	compile project(":desktop-core")
-	compile "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
-	compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+	compile project(":core")
+	compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
 }
 
 targetCompatibility = "1.8"

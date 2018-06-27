@@ -11,7 +11,7 @@ retrolambda {
 
 dependencies {
 	compile project(":desktop-core")
-	compile "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
+	compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
 	compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
 }
 

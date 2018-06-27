@@ -1,1 +1,1 @@
-include 'core', 'desktop', 'android', 'ios', 'test', 'test-desktop', 'test-android', 'test-ios'
+include 'core', 'desktop-core', 'desktop', 'desktop-lwjgl2', 'android', 'ios', 'test', 'test-desktop', 'test-android', 'test-ios'
