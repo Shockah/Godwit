@@ -18,7 +18,7 @@ allprojects {
 	ext {
 		appName = "Godwit"
 		gdxVersion = "1.9.8"
-		roboVMVersion = "2.3.+"
+		roboVMVersion = "2.3.4"
 		lombokVersion = "1.16.20"
 		unicornVersion = "2.6"
 	}
