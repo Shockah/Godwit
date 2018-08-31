@@ -19,8 +19,8 @@ allprojects {
 		appName = "Godwit"
 		gdxVersion = "1.9.8"
 		roboVMVersion = "2.3.4"
-		lombokVersion = "1.16.20"
-		unicornVersion = "2.5.1"
+		lombokVersion = "1.18.2"
+		unicornVersion = "2.9.2"
 	}
 
 	repositories {
@@ -31,9 +31,6 @@ allprojects {
 		}
 		maven {
 			url "https://oss.sonatype.org/content/repositories/releases/"
-		}
-		maven {
-			url "http://amelentev.github.io/mvnrepo/"
 		}
 		maven {
 			url "https://jitpack.io"

@@ -25,10 +25,8 @@ configurations {
 
 dependencies {
 	compile project(':core')
-	annotationProcessor "java-oo:javac8-oo-plugin:0.5"
-	annotationProcessor "org.projectlombok:lombok:1.16.20"
-	testAnnotationProcessor "java-oo:javac8-oo-plugin:0.5"
-	testAnnotationProcessor "org.projectlombok:lombok:1.16.20"
+	annotationProcessor "org.projectlombok:lombok:$lombokVersion"
+	testAnnotationProcessor "org.projectlombok:lombok:$lombokVersion"
 	compile "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
 	compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
 	compile "com.github.jrvansuita:PickImage:2.1.6"

@@ -8,8 +8,7 @@ dependencies {
 	compile project(':test')
 	compile project(':android')
 	compile "com.android.support:support-v4:25.2.0"
-	annotationProcessor "java-oo:javac8-oo-plugin:0.5"
-	annotationProcessor "org.projectlombok:lombok:1.16.20"
+	annotationProcessor "org.projectlombok:lombok:$lombokVersion"
 	natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi"
 	natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi-v7a"
 	natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-arm64-v8a"
