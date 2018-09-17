@@ -7,7 +7,8 @@ import javax.annotation.Nullable;
 
 import pl.shockah.godwit.Godwit;
 import pl.shockah.godwit.GodwitLogger;
-import pl.shockah.godwit.State;
+import pl.shockah.godwit.entity.ShapeEntity;
+import pl.shockah.godwit.entity.State;
 import pl.shockah.godwit.geom.Circle;
 import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.geom.Rectangle;
@@ -96,7 +97,7 @@ public class GestureRecognizerTest extends State implements GestureHandler {
 		return new Rectangle(Godwit.getInstance().gfx.getSize());
 	}
 
-	public static class TestEntity extends Shape.Filled.Entity<Circle> implements GestureHandler {
+	public static class TestEntity extends ShapeEntity.Filled<Circle> implements GestureHandler {
 		private IVec2 lastRenderPosition = Vec2.zero;
 
 		public TestEntity() {

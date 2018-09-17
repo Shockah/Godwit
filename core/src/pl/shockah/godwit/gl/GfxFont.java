@@ -13,10 +13,10 @@ import javax.annotation.Nullable;
 import java8.util.Objects;
 import lombok.Getter;
 import lombok.experimental.Delegate;
-import pl.shockah.godwit.CameraGroup;
 import pl.shockah.godwit.asset.FreeTypeFontLoader;
 import pl.shockah.godwit.asset.SingleAsset;
 import pl.shockah.godwit.geom.IVec2;
+import pl.shockah.godwit.geom.Rectangle;
 import pl.shockah.godwit.geom.Vec2;
 import pl.shockah.godwit.ui.Alignment;
 
@@ -250,7 +250,7 @@ public class GfxFont extends AbstractRenderable {
 		render(gfx, v, null);
 	}
 
-	public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v, @Nullable CameraGroup camera) {
+	public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v, @Nullable Rectangle cameraBoundingBox) {
 		if (scaleX == 0f || scaleY == 0f)
 			return;
 		if (text == null || text.isEmpty())
@@ -262,7 +262,7 @@ public class GfxFont extends AbstractRenderable {
 		IVec2 alignmentVector = alignment.getVector();
 
 		BitmapFont.BitmapFontData data = getData();
-		if (camera != null && !camera.getBoundingBox().collides(
+		if (cameraBoundingBox != null && !cameraBoundingBox.collides(
 				v.x() - alignmentVector.x() * layoutW - 4f,
 				v.y() - (scaleY - 1f) * data.ascent - alignmentVector.y() * layoutH - 4f,
 				layoutW + 8f,
@@ -281,37 +281,6 @@ public class GfxFont extends AbstractRenderable {
 		cache.draw(gfx.getSpriteBatch());
 
 		cache.setPosition(oldX, oldY);
-	}
-
-	@Nonnull
-	public Entity asEntity() {
-		return new Entity(this);
-	}
-
-	public static class Entity extends pl.shockah.godwit.Entity {
-		@Nonnull
-		public final GfxFont font;
-
-		public Entity(@Nonnull SingleAsset<BitmapFont> asset) {
-			this(new GfxFont(asset));
-		}
-
-		public Entity(@Nonnull BitmapFont font) {
-			this(new GfxFont(font));
-		}
-
-		public Entity(@Nonnull BitmapFont font, @Nullable AssetLoaderParameters<BitmapFont> parameters) {
-			this(new GfxFont(font, parameters));
-		}
-
-		public Entity(@Nonnull GfxFont font) {
-			this.font = font;
-		}
-
-		@Override
-		public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
-			font.render(gfx, v, getCameraGroup());
-		}
 	}
 
 	public enum LineBreakMode {

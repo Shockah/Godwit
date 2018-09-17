@@ -6,8 +6,8 @@ import com.badlogic.gdx.graphics.GL20;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import pl.shockah.godwit.Entity;
-import pl.shockah.godwit.RenderGroup;
+import pl.shockah.godwit.entity.Entity;
+import pl.shockah.godwit.entity.RenderGroup;
 import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.geom.Vec2;
 

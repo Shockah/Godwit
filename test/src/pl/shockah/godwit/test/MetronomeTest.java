@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 
 import javax.annotation.Nonnull;
 
-import pl.shockah.godwit.State;
+import pl.shockah.godwit.entity.State;
 import pl.shockah.godwit.fx.FxInstance;
 import pl.shockah.godwit.fx.RunnableFx;
 import pl.shockah.godwit.fx.SequenceFx;

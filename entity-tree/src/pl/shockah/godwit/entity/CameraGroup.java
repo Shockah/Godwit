@@ -1,4 +1,4 @@
-package pl.shockah.godwit;
+package pl.shockah.godwit.entity;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -10,6 +10,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import lombok.Getter;
+import pl.shockah.godwit.Godwit;
 import pl.shockah.godwit.constraint.Constraint;
 import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.geom.Rectangle;

@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import javax.annotation.Nonnull;
 
 import pl.shockah.godwit.Godwit;
-import pl.shockah.godwit.State;
+import pl.shockah.godwit.entity.State;
 import pl.shockah.godwit.fx.FuncFx;
 import pl.shockah.godwit.fx.FxInstance;
 import pl.shockah.godwit.fx.RunnableFx;

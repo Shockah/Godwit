@@ -4,8 +4,8 @@ import com.badlogic.gdx.graphics.Color;
 
 import javax.annotation.Nonnull;
 
-import pl.shockah.godwit.ConstrainableRenderGroup;
-import pl.shockah.godwit.State;
+import pl.shockah.godwit.entity.ConstrainableRenderGroup;
+import pl.shockah.godwit.entity.State;
 import pl.shockah.godwit.constraint.BasicConstraint;
 import pl.shockah.godwit.constraint.Constrainable;
 import pl.shockah.godwit.constraint.Constraint;

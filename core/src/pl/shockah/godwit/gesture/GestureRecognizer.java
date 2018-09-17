@@ -128,13 +128,13 @@ public abstract class GestureRecognizer {
 	protected void onRequiredFailFailed(@Nonnull GestureRecognizer recognizer) {
 	}
 
-	protected void handleTouchDown(@Nonnull Touch touch, @Nonnull Vec2 point) {
+	public void handleTouchDown(@Nonnull Touch touch, @Nonnull Vec2 point) {
 	}
 
-	protected void handleTouchDragged(@Nonnull Touch touch, @Nonnull Vec2 point) {
+	public void handleTouchDragged(@Nonnull Touch touch, @Nonnull Vec2 point) {
 	}
 
-	protected void handleTouchUp(@Nonnull Touch touch, @Nonnull Vec2 point) {
+	public void handleTouchUp(@Nonnull Touch touch, @Nonnull Vec2 point) {
 	}
 
 	public enum State {

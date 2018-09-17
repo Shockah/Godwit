@@ -39,7 +39,7 @@ public class PinchGestureRecognizer extends ContinuousGestureRecognizer {
 	}
 
 	@Override
-	protected void handleTouchDown(@Nonnull Touch touch, @Nonnull Vec2 point) {
+	public void handleTouchDown(@Nonnull Touch touch, @Nonnull Vec2 point) {
 		if (getState() == State.Possible && touch.getRecognizer() == null) {
 			for (int i = 0; i < 2; i++) {
 				if (touches.first != null && touches.first.getRecognizer() != null)
@@ -60,7 +60,7 @@ public class PinchGestureRecognizer extends ContinuousGestureRecognizer {
 	}
 
 	@Override
-	protected void handleTouchDragged(@Nonnull Touch touch, @Nonnull Vec2 point) {
+	public void handleTouchDragged(@Nonnull Touch touch, @Nonnull Vec2 point) {
 		if (isInProgress()) {
 			if (!touches.contains(touch))
 				return;
@@ -70,7 +70,7 @@ public class PinchGestureRecognizer extends ContinuousGestureRecognizer {
 	}
 
 	@Override
-	protected void handleTouchUp(@Nonnull Touch touch, @Nonnull Vec2 point) {
+	public void handleTouchUp(@Nonnull Touch touch, @Nonnull Vec2 point) {
 		if (isInProgress()) {
 			UnorderedPair<Touch> touches = this.touches;
 			setState(State.Ended);

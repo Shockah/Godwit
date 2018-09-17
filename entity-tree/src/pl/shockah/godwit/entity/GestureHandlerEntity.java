@@ -1,4 +1,4 @@
-package pl.shockah.godwit.gesture;
+package pl.shockah.godwit.entity;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -7,8 +7,9 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import lombok.Getter;
-import pl.shockah.godwit.Entity;
 import pl.shockah.godwit.geom.Shape;
+import pl.shockah.godwit.gesture.GestureHandler;
+import pl.shockah.godwit.gesture.GestureRecognizer;
 
 public class GestureHandlerEntity<T extends Shape & Shape.Filled> extends Entity implements GestureHandler {
 	@Nonnull

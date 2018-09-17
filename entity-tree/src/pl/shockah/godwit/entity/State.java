@@ -1,4 +1,4 @@
-package pl.shockah.godwit;
+package pl.shockah.godwit.entity;
 
 import java.util.ArrayList;
 import java.util.List;

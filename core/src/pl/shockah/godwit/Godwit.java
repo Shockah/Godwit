@@ -19,8 +19,6 @@ import lombok.Getter;
 import pl.shockah.godwit.asset.FreeTypeFontLoader;
 import pl.shockah.godwit.asset.JSONObjectLoader;
 import pl.shockah.godwit.geom.Vec2;
-import pl.shockah.godwit.gl.BlendMode;
-import pl.shockah.godwit.gl.GfxContextManager;
 import pl.shockah.godwit.gl.GfxSprite;
 import pl.shockah.godwit.gl.ScreenGfx;
 import pl.shockah.godwit.platform.PlatformServiceProvider;
@@ -33,13 +31,8 @@ public final class Godwit {
 	@Nullable
 	private static Godwit instance;
 
-	@Getter
-	@Nullable
-	private State state;
-
-	@Getter
-	@Nullable
-	private Func0<State> movingToState;
+	@Nonnull
+	public final EntityManager manager;
 
 	@Getter
 	@Nonnull
@@ -52,13 +45,13 @@ public final class Godwit {
 	public final ScreenGfx gfx = new ScreenGfx();
 
 	@Nonnull
-	public final InputManager inputManager = new InputManager();
+	public final InputManager inputManager;
 
 	@Nonnull
 	public final Randomizer random = new Randomizer();
 
 	public boolean waitForDeltaToStabilize = true;
-	public boolean renderFirstTickWhenWaitingForDeltaToStabilize = false;
+
 	public boolean yPointingDown = true;
 
 	@Nullable
@@ -74,10 +67,6 @@ public final class Godwit {
 
 	@Getter
 	@Nonnull
-	private final Entity rootEntity = new RenderGroup();
-
-	@Getter
-	@Nonnull
 	private Func0<AssetManager> assetManagerFactory = AssetManager::new;
 
 	@Getter
@@ -89,28 +78,22 @@ public final class Godwit {
 	@Getter(lazy = true)
 	private final GfxSprite pixelSprite = getInitialPixelSprite();
 
-	private Godwit() {
+	private Godwit(@Nonnull EntityManager manager) {
+		this.manager = manager;
+		inputManager = new InputManager(manager.gestureManager);
 		setupAssetManager();
-		Gdx.input.setInputProcessor(inputManager.multiplexer);
 	}
 
-	static synchronized void setupNewInstance() {
-		instance = new Godwit();
+	public static synchronized void setup(@Nonnull EntityManager manager) {
+		instance = new Godwit(manager);
+		Gdx.input.setInputProcessor(instance.inputManager.multiplexer);
 	}
 
 	@Nonnull
 	public static synchronized Godwit getInstance() {
 		if (instance == null)
-			setupNewInstance();
+			throw new IllegalStateException("Godwit.setup() has to be ran first.");
 		return instance;
-	}
-
-	public void moveToState(@Nullable State state) {
-		moveToState(() -> state);
-	}
-
-	public void moveToState(@Nullable Func0<State> state) {
-		movingToState = state;
 	}
 
 	public void setAssetManager(@Nonnull AssetManager assetManager) {
@@ -142,38 +125,31 @@ public final class Godwit {
 
 		if (waitForDeltaToStabilize) {
 			deltas.add(deltaTime);
-			if (isFirstTick) {
-				isFirstTick = false;
-				if (renderFirstTickWhenWaitingForDeltaToStabilize) {
-					runStateCreation();
-					runRender();
-				}
-				return;
-			} else {
-				runRender();
-				if (deltas.size() >= 5) {
-					float min = (float)StreamSupport.stream(deltas).mapToDouble(v -> v).min().getAsDouble();
-					float max = (float)StreamSupport.stream(deltas).mapToDouble(v -> v).max().getAsDouble();
-					float average = (float)StreamSupport.stream(deltas).mapToDouble(v -> v).sum() / deltas.size();
-					deltas.remove(0);
-					if (min == 0f)
-						return;
-
-					float difference = max - min;
-					float min2 = Math.min(difference, average);
-					float max2 = Math.max(difference, average);
-					if (min2 / max2 > 0.2f)
-						return;
-					waitForDeltaToStabilize = false;
-				} else {
+			if (deltas.size() >= 5) {
+				float min = (float)StreamSupport.stream(deltas).mapToDouble(v -> v).min().getAsDouble();
+				float max = (float)StreamSupport.stream(deltas).mapToDouble(v -> v).max().getAsDouble();
+				float average = (float)StreamSupport.stream(deltas).mapToDouble(v -> v).sum() / deltas.size();
+				deltas.remove(0);
+				if (min == 0f)
 					return;
-				}
+
+				float difference = max - min;
+				float min2 = Math.min(difference, average);
+				float max2 = Math.max(difference, average);
+				if (min2 / max2 > 0.2f)
+					return;
+				waitForDeltaToStabilize = false;
+			} else {
+				return;
 			}
 		}
 
-		runStateCreation();
-		runUpdate();
-		runRender();
+		if (isFirstTick) {
+			isFirstTick = false;
+			manager.initialize();
+		}
+		manager.update();
+		manager.render();
 	}
 
 	@Nonnull
@@ -189,34 +165,5 @@ public final class Godwit {
 	@Nonnull
 	private GfxSprite getInitialPixelSprite() {
 		return new GfxSprite(new Sprite(getPixelTexture()));
-	}
-
-	private void runStateCreation() {
-		if (movingToState != null) {
-			State newState = movingToState.call();
-			movingToState = null;
-
-			if (newState != null) {
-				if (state != null)
-					state.removeFromParent();
-				state = newState;
-				movingToState = null;
-				rootEntity.addChild(state);
-			}
-		}
-	}
-
-	private void runUpdate() {
-		rootEntity.update();
-		inputManager.gestureManager.update();
-	}
-
-	private void runRender() {
-		GfxContextManager.bindSurface(null);
-		gfx.clear(Color.CLEAR);
-		gfx.setBlendMode(BlendMode.normal);
-		rootEntity.render(gfx);
-		gfx.endTick();
-		GfxContextManager.bindSurface(null);
 	}
 }

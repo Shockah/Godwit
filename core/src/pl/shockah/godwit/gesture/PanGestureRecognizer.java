@@ -63,7 +63,7 @@ public class PanGestureRecognizer extends ContinuousGestureRecognizer {
 	}
 
 	@Override
-	protected void handleTouchDown(@Nonnull Touch touch, @Nonnull Vec2 point) {
+	public void handleTouchDown(@Nonnull Touch touch, @Nonnull Vec2 point) {
 		if ((getState() == State.Possible || getState() == State.Failed) && this.touch == null && touch.getRecognizer() == null) {
 			this.touch = touch;
 			setState(State.Detecting);
@@ -71,7 +71,7 @@ public class PanGestureRecognizer extends ContinuousGestureRecognizer {
 	}
 
 	@Override
-	protected void handleTouchDragged(@Nonnull Touch touch, @Nonnull Vec2 point) {
+	public void handleTouchDragged(@Nonnull Touch touch, @Nonnull Vec2 point) {
 		if (touch != this.touch)
 			return;
 
@@ -93,7 +93,7 @@ public class PanGestureRecognizer extends ContinuousGestureRecognizer {
 	}
 
 	@Override
-	protected void handleTouchUp(@Nonnull Touch touch, @Nonnull Vec2 point) {
+	public void handleTouchUp(@Nonnull Touch touch, @Nonnull Vec2 point) {
 		if (touch != this.touch)
 			return;
 

@@ -14,7 +14,8 @@ import com.badlogic.gdx.backends.android.AndroidFragmentApplication;
 
 import pl.shockah.godwit.GodwitFragmentActivity;
 import pl.shockah.godwit.PlatformGodwitAdapter;
-import pl.shockah.godwit.State;
+import pl.shockah.godwit.entity.EntityTreeManager;
+import pl.shockah.godwit.entity.State;
 
 public class AndroidLauncher extends GodwitFragmentActivity implements AndroidFragmentApplication.Callbacks {
 	@Override
@@ -83,7 +84,7 @@ public class AndroidLauncher extends GodwitFragmentActivity implements AndroidFr
 				config.useCompass = false;
 				config.useGyroscope = false;
 				config.useRotationVectorSensor = false;
-				return initializeForView(new PlatformGodwitAdapter(state), config);
+				return initializeForView(new PlatformGodwitAdapter(new EntityTreeManager(state)), config);
 			} catch (Exception e) {
 				throw new RuntimeException("Cannot start a test.", e);
 			}

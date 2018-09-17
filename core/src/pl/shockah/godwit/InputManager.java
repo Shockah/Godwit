@@ -19,13 +19,14 @@ public class InputManager extends BaseInputManager<InputManager.Processor> {
 	protected static final Comparator<Processor> orderComparator = (o1, o2) -> -Float.compare(o1.order, o2.order);
 
 	@Nonnull
-	public final GestureManager gestureManager = new GestureManager();
+	public final GestureManager gestureManager;
 
 	@Getter
 	@Nonnull
 	private final List<Processor> processors = new SortedLinkedList<>(orderComparator);
 
-	public InputManager() {
+	public InputManager(@Nonnull GestureManager gestureManager) {
+		this.gestureManager = gestureManager;
 		addProcessor(new Adapter(0f) {
 			@Override
 			public boolean keyDown(int keycode) {

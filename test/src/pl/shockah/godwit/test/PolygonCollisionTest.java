@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 
 import javax.annotation.Nonnull;
 
-import pl.shockah.godwit.State;
+import pl.shockah.godwit.entity.State;
 import pl.shockah.godwit.geom.Circle;
 import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.geom.Triangle;

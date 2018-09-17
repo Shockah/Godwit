@@ -5,7 +5,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 
 import javax.annotation.Nonnull;
 
-import pl.shockah.godwit.State;
+import pl.shockah.godwit.entity.State;
 import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.geom.Rectangle;
 import pl.shockah.godwit.gl.ColorUtil;

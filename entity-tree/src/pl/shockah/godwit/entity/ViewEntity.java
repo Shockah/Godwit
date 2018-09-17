@@ -1,10 +1,10 @@
-package pl.shockah.godwit.ui;
+package pl.shockah.godwit.entity;
 
 import javax.annotation.Nonnull;
 
-import pl.shockah.godwit.Entity;
 import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.gl.Gfx;
+import pl.shockah.godwit.ui.View;
 
 public class ViewEntity extends Entity {
 	@Nonnull

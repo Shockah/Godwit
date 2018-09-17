@@ -11,11 +11,12 @@ import javax.annotation.Nonnull;
 
 import java8.util.Lists;
 import pl.shockah.godwit.Godwit;
-import pl.shockah.godwit.State;
-import pl.shockah.godwit.fx.FxInstance;
+import pl.shockah.godwit.entity.GfxSpriteEntity;
+import pl.shockah.godwit.entity.State;
 import pl.shockah.godwit.fx.FuncFx;
-import pl.shockah.godwit.geom.Vec2;
+import pl.shockah.godwit.fx.FxInstance;
 import pl.shockah.godwit.geom.MutableVec2;
+import pl.shockah.godwit.geom.Vec2;
 import pl.shockah.godwit.gl.GfxSprite;
 import pl.shockah.unicorn.ease.Easing;
 import pl.shockah.unicorn.ease.PennerEasing;
@@ -48,7 +49,7 @@ public class EasingTest extends State {
 			GfxSprite sprite = new GfxSprite(new Sprite(texture));
 			sprite.setSize(new Vec2(16f, 16f));
 
-			GfxSprite.Entity entity = sprite.asEntity();
+			GfxSpriteEntity entity = new GfxSpriteEntity(sprite);
 			entity.position = new MutableVec2(i * 18f + 2f, 2f);
 			sprite.run(new FuncFx(5f, f -> {
 				entity.position.y = Easing.linear.ease(2 + Gdx.graphics.getHeight() * 0.2f, Gdx.graphics.getHeight() * 0.8f - 16, f);

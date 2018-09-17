@@ -193,41 +193,4 @@ public class GfxSprite extends AbstractAnimatable implements Renderable {
 	public void setPosition(@Nonnull IVec2 position) {
 		setPosition(position.x(), position.y());
 	}
-
-	@Nonnull
-	public Entity asEntity() {
-		return new Entity(this);
-	}
-
-	public static class Entity extends pl.shockah.godwit.Entity {
-		@Nonnull
-		public final GfxSprite sprite;
-
-		public Entity(@Nonnull Sprite sprite) {
-			this(new GfxSprite(sprite));
-		}
-
-		public Entity(@Nonnull GfxSprite sprite) {
-			this.sprite = sprite;
-		}
-
-		@Override
-		public void render(@Nonnull Gfx gfx, @Nonnull IVec2 v) {
-			if (!getCameraGroup().getBoundingBox().collides(
-					v.x() - sprite.offset.x * sprite.getScaleX() + sprite.getX(),
-					v.y() - sprite.offset.y * sprite.getScaleY() + sprite.getY(),
-					sprite.getScaledWidth(),
-					sprite.getScaledHeight()
-			))
-				return;
-
-			gfx.draw(sprite, v);
-		}
-
-		@Override
-		public void updateFx() {
-			super.updateFx();
-			sprite.updateFx();
-		}
-	}
 }

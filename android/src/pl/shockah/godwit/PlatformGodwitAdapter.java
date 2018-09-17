@@ -14,15 +14,10 @@ import pl.shockah.godwit.platform.ImagePickerService;
 import pl.shockah.godwit.platform.SafeAreaService;
 import pl.shockah.godwit.platform.ShareService;
 import pl.shockah.godwit.platform.WebViewService;
-import pl.shockah.unicorn.func.Func0;
 
 public class PlatformGodwitAdapter extends GodwitAdapter {
-	public PlatformGodwitAdapter(@Nonnull State initialState) {
-		super(initialState);
-	}
-
-	public PlatformGodwitAdapter(@Nonnull Func0<State> initialState) {
-		super(initialState);
+	public PlatformGodwitAdapter(@Nonnull EntityManager manager) {
+		super(manager);
 	}
 
 	@Override

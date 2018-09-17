@@ -2,14 +2,14 @@ package pl.shockah.godwit.test.ui;
 
 import com.badlogic.gdx.graphics.Color;
 
-import pl.shockah.godwit.State;
+import pl.shockah.godwit.entity.State;
 import pl.shockah.godwit.ui.Alignment;
 import pl.shockah.godwit.ui.BaseLinearView;
 import pl.shockah.godwit.ui.FillView;
 import pl.shockah.godwit.ui.LinearView;
 import pl.shockah.godwit.ui.Orientation;
 import pl.shockah.godwit.ui.Padding;
-import pl.shockah.godwit.ui.ViewEntity;
+import pl.shockah.godwit.entity.ViewEntity;
 
 public class LinearViewTest extends State {
 	@Override
@@ -40,6 +40,6 @@ public class LinearViewTest extends State {
 		view4.backgroundColor = Color.CORAL;
 		linearView.add(view4, new BaseLinearView.Attributes(Alignment.Vertical.Bottom));
 
-		addChild(new ViewEntity(new FillView(linearView)));
+		ui.addChild(new ViewEntity(new FillView(linearView)));
 	}
 }

@@ -84,7 +84,7 @@ public class TapGestureRecognizer extends GestureRecognizer {
 	}
 
 	@Override
-	protected void handleTouchDown(@Nonnull Touch touch, @Nonnull Vec2 point) {
+	public void handleTouchDown(@Nonnull Touch touch, @Nonnull Vec2 point) {
 		if (getState() == State.Possible || isInProgress()) {
 			if (isInProgress()) {
 				setState(State.Changed);
@@ -115,7 +115,7 @@ public class TapGestureRecognizer extends GestureRecognizer {
 	}
 
 	@Override
-	protected void handleTouchUp(@Nonnull Touch touch, @Nonnull Vec2 point) {
+	public void handleTouchUp(@Nonnull Touch touch, @Nonnull Vec2 point) {
 		if (isInProgress()) {
 			if (this.touch == touch) {
 				if (taps >= tapsRequired) {

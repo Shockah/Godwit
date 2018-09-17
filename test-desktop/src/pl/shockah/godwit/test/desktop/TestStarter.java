@@ -6,19 +6,20 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import pl.shockah.godwit.Godwit;
 import pl.shockah.godwit.GodwitLogger;
 import pl.shockah.godwit.PlatformGodwitAdapter;
-import pl.shockah.godwit.State;
+import pl.shockah.godwit.entity.EntityTreeManager;
+import pl.shockah.godwit.entity.State;
 
 public final class TestStarter {
 	@SuppressWarnings("unchecked")
 	public static void main(String[] args) {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-		new Lwjgl3Application(new PlatformGodwitAdapter(() -> {
+		new Lwjgl3Application(new PlatformGodwitAdapter(new EntityTreeManager(() -> {
 			try {
 				return ((Class<? extends State>)Class.forName(args[0])).newInstance();
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
-		}) {
+		})) {
 			@Override
 			public void create() {
 				super.create();
@@ -26,7 +27,6 @@ public final class TestStarter {
 
 				Godwit godwit = Godwit.getInstance();
 				godwit.waitForDeltaToStabilize = false;
-				godwit.renderFirstTickWhenWaitingForDeltaToStabilize = true;
 			}
 		}, config);
 	}

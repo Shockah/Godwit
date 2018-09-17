@@ -7,18 +7,18 @@ import com.badlogic.gdx.graphics.Color;
 import javax.annotation.Nonnull;
 
 import java8.util.stream.StreamSupport;
-import pl.shockah.godwit.Entity;
 import pl.shockah.godwit.Godwit;
-import pl.shockah.godwit.State;
+import pl.shockah.godwit.entity.Entity;
+import pl.shockah.godwit.entity.ShapeEntity;
+import pl.shockah.godwit.entity.State;
 import pl.shockah.godwit.geom.Circle;
 import pl.shockah.godwit.geom.IVec2;
 import pl.shockah.godwit.geom.Rectangle;
-import pl.shockah.godwit.geom.Shape;
 import pl.shockah.godwit.gl.Gfx;
 
 public class AttachedViewportTest extends State {
 	public AttachedViewportTest() {
-		game.addChild(new Shape.Filled.Entity<Rectangle>(new Rectangle(0f, 0f)) {
+		game.addChild(new ShapeEntity.Filled<Rectangle>(new Rectangle(0f, 0f)) {
 			{
 				color = Color.RED;
 			}

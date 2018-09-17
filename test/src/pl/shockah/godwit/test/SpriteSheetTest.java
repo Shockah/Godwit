@@ -5,7 +5,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import javax.annotation.Nonnull;
 
 import pl.shockah.godwit.Godwit;
-import pl.shockah.godwit.State;
+import pl.shockah.godwit.entity.GfxSpriteEntity;
+import pl.shockah.godwit.entity.State;
 import pl.shockah.godwit.asset.SpriteSheetAsset;
 import pl.shockah.godwit.fx.FuncFx;
 import pl.shockah.godwit.fx.FxInstance;
@@ -29,6 +30,6 @@ public class SpriteSheetTest extends State {
 		sprite.run(new FuncFx(0.5f, f -> {
 			sprite.setRegion(sheet.get((int)(f * sheet.frameCount) % sheet.frameCount));
 		}).instance(FxInstance.EndAction.Loop));
-		game.addChild(sprite.asEntity());
+		game.addChild(new GfxSpriteEntity(sprite));
 	}
 }
