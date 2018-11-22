@@ -19,15 +19,15 @@ class MutableVec2(
 		else -> throw IllegalArgumentException()
 	}
 
-	override fun unaryMinus(): MutableVec2 = MutableVec2(-x, -y)
+	override operator fun unaryMinus(): MutableVec2 = MutableVec2(-x, -y)
 
-	override fun plus(vector: IVec2<*>): MutableVec2 = MutableVec2(x + vector.x, y + vector.y)
-	override fun minus(vector: IVec2<*>): MutableVec2 = MutableVec2(x - vector.x, y - vector.y)
-	override fun times(vector: IVec2<*>): MutableVec2 = MutableVec2(x * vector.x, y * vector.y)
-	override fun div(vector: IVec2<*>): MutableVec2 = MutableVec2(x / vector.x, y / vector.y)
+	override operator fun plus(vector: IVec2<*>): MutableVec2 = MutableVec2(x + vector.x, y + vector.y)
+	override operator fun minus(vector: IVec2<*>): MutableVec2 = MutableVec2(x - vector.x, y - vector.y)
+	override operator fun times(vector: IVec2<*>): MutableVec2 = MutableVec2(x * vector.x, y * vector.y)
+	override operator fun div(vector: IVec2<*>): MutableVec2 = MutableVec2(x / vector.x, y / vector.y)
 
-	override fun plus(scalar: Float): MutableVec2 = normalized * (length + scalar)
-	override fun minus(scalar: Float): MutableVec2 = normalized * (length - scalar)
-	override fun times(scalar: Float): MutableVec2 = MutableVec2(x * scalar, y * scalar)
-	override fun div(scalar: Float): MutableVec2 = MutableVec2(x / scalar, y / scalar)
+	override operator fun plus(scalar: Float): MutableVec2 = normalized * (length + scalar)
+	override operator fun minus(scalar: Float): MutableVec2 = normalized * (length - scalar)
+	override operator fun times(scalar: Float): MutableVec2 = MutableVec2(x * scalar, y * scalar)
+	override operator fun div(scalar: Float): MutableVec2 = MutableVec2(x / scalar, y / scalar)
 }
