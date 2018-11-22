@@ -23,8 +23,7 @@ class Triangle(
 
 	override fun translate(vector: IVec2<*>) {
 		for (point in points) {
-			point.x += vector.x
-			point.y += vector.y
+			point.xy += vector
 		}
 	}
 
@@ -43,12 +42,11 @@ class Triangle(
 
 	override fun scale(scale: Float) {
 		for (point in points) {
-			point.x *= scale
-			point.y *= scale
+			point.xy *= scale
 		}
 	}
 
-	override fun contains(point: IVec2<*>): Boolean {
+	override operator fun contains(point: IVec2<*>): Boolean {
 		fun sign(testedPoint: IVec2<*>, point1: IVec2<*>, point2: IVec2<*>): Float {
 			return (testedPoint.x - point2.x) * (point1.y - point2.y) - (point1.x - point2.x) * (testedPoint.y - point2.y)
 		}

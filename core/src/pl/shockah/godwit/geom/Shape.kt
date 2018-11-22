@@ -11,7 +11,7 @@ interface Shape {
 	fun scale(scale: Float)
 
 	interface Filled : Shape {
-		fun contains(point: IVec2<*>): Boolean
+		operator fun contains(point: IVec2<*>): Boolean
 	}
 
 	interface Outline : Shape {

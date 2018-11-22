@@ -13,11 +13,22 @@ class Rectangle(
 	override val center: IVec2<*>
 		get() = position + size * 0.5f
 
+	val left: Float
+		get() = position.x
+
+	val right: Float
+		get() = position.x + size.x
+
+	val top: Float
+		get() = position.y
+
+	val bottom: Float
+		get() = position.y + size.y
+
 	override fun copy(): Rectangle = Rectangle(position, size)
 
 	override fun translate(vector: IVec2<*>) {
-		position.x += vector.x
-		position.y += vector.y
+		position.xy += vector
 	}
 
 	override fun mirror(horizontal: Boolean, vertical: Boolean) {
@@ -28,13 +39,11 @@ class Rectangle(
 	}
 
 	override fun scale(scale: Float) {
-		position.x *= scale
-		position.y *= scale
-		size.x *= scale
-		size.y *= scale
+		position.xy *= scale
+		size.xy *= scale
 	}
 
-	override fun contains(point: IVec2<*>): Boolean {
-		return point.x in position.x..(position.x + size.x) && point.y in position.y..(position.y + size.y)
+	override operator fun contains(point: IVec2<*>): Boolean {
+		return point.x in left..right && point.y in top..bottom
 	}
 }

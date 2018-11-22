@@ -15,8 +15,7 @@ class Circle(
 	override fun copy(): Circle = Circle(position, radius)
 
 	override fun translate(vector: IVec2<*>) {
-		position.x += vector.x
-		position.y += vector.y
+		position.xy += vector
 	}
 
 	override fun mirror(horizontal: Boolean, vertical: Boolean) {
@@ -27,9 +26,9 @@ class Circle(
 	}
 
 	override fun scale(scale: Float) {
-		position.x *= scale
-		position.y *= scale
+		position.xy *= scale
+		radius *= scale
 	}
 
-	override fun contains(point: IVec2<*>): Boolean = (position - point).length <= radius
+	override operator fun contains(point: IVec2<*>): Boolean = (position - point).length <= radius
 }

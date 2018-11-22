@@ -1,5 +1,8 @@
 package pl.shockah.godwit.geom
 
+import kotlin.math.atan2
+import kotlin.math.sqrt
+
 abstract class IVec2<T : IVec2<T>> : Comparable<IVec2<T>> {
 	abstract val x: Float
 	abstract val y: Float
@@ -8,7 +11,7 @@ abstract class IVec2<T : IVec2<T>> : Comparable<IVec2<T>> {
 		get() = x * x + y * y
 
 	val length: Float
-		get() = Math.sqrt(lengthSquared.toDouble()).toFloat()
+		get() = sqrt(lengthSquared)
 
 	val angle: Degrees
 		get() = Vec2.zero.getAngle(this)
@@ -46,7 +49,7 @@ abstract class IVec2<T : IVec2<T>> : Comparable<IVec2<T>> {
 	abstract operator fun div(scalar: Float): T
 
 	fun getAngle(vector: IVec2<*>): Degrees {
-		return Degrees(Math.toDegrees(Math.atan2((y - vector.y).toDouble(), (vector.x - x).toDouble())).toFloat())
+		return Degrees(Math.toDegrees(atan2((y - vector.y).toDouble(), (vector.x - x).toDouble())).toFloat())
 	}
 
 	override fun equals(other: Any?): Boolean {

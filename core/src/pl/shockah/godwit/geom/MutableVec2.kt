@@ -13,6 +13,9 @@ class MutableVec2(
 		)
 	}
 
+	val xy: Mutator
+		get() = Mutator()
+
 	operator fun set(index: Int, value: Float) = when (index) {
 		0 -> x = value
 		1 -> y = value
@@ -30,4 +33,48 @@ class MutableVec2(
 	override operator fun minus(scalar: Float): MutableVec2 = normalized * (length - scalar)
 	override operator fun times(scalar: Float): MutableVec2 = MutableVec2(x * scalar, y * scalar)
 	override operator fun div(scalar: Float): MutableVec2 = MutableVec2(x / scalar, y / scalar)
+
+	inner class Mutator {
+		operator fun plusAssign(vector: IVec2<*>) {
+			x += vector.x
+			y += vector.y
+		}
+
+		operator fun minusAssign(vector: IVec2<*>) {
+			x -= vector.x
+			y -= vector.y
+		}
+
+		operator fun timesAssign(vector: IVec2<*>) {
+			x *= vector.x
+			y *= vector.y
+		}
+
+		operator fun divAssign(vector: IVec2<*>) {
+			x /= vector.x
+			y /= vector.y
+		}
+
+		operator fun plusAssign(scalar: Float) {
+			val result = normalized * (length + scalar)
+			x = result.x
+			y = result.y
+		}
+
+		operator fun minusAssign(scalar: Float) {
+			val result = normalized * (length - scalar)
+			x = result.x
+			y = result.y
+		}
+
+		operator fun timesAssign(scalar: Float) {
+			x *= scalar
+			y *= scalar
+		}
+
+		operator fun divAssign(scalar: Float) {
+			x /= scalar
+			y /= scalar
+		}
+	}
 }

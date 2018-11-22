@@ -25,10 +25,8 @@ class Line(
 	override fun copy(): Line = Line(point1, point2)
 
 	override fun translate(vector: IVec2<*>) {
-		point1.x += vector.x
-		point1.y += vector.y
-		point2.x += vector.x
-		point2.y += vector.y
+		point1.xy += vector
+		point2.xy += vector
 	}
 
 	override fun mirror(horizontal: Boolean, vertical: Boolean) {
@@ -43,9 +41,7 @@ class Line(
 	}
 
 	override fun scale(scale: Float) {
-		point1.x *= scale
-		point1.y *= scale
-		point2.x *= scale
-		point2.y *= scale
+		point1.xy *= scale
+		point2.xy *= scale
 	}
 }
