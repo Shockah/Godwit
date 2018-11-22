@@ -31,12 +31,8 @@ class MutableVec2(
 	override fun times(vector: IVec2<*>): MutableVec2 = MutableVec2(x * vector.x, y * vector.y)
 	override fun div(vector: IVec2<*>): MutableVec2 = MutableVec2(x / vector.x, y / vector.y)
 
-	override fun plus(scalar: Float): MutableVec2 {
-		TODO("not implemented")
-	}
-	override fun minus(scalar: Float): MutableVec2 {
-		TODO("not implemented")
-	}
+	override fun plus(scalar: Float): MutableVec2 = normalized * (length + scalar)
+	override fun minus(scalar: Float): MutableVec2 = normalized * (length - scalar)
 	override fun times(scalar: Float): MutableVec2 = MutableVec2(x * scalar, y * scalar)
 	override fun div(scalar: Float): MutableVec2 = MutableVec2(x / scalar, y / scalar)
 }

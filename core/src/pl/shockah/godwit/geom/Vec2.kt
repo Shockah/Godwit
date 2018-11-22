@@ -28,9 +28,7 @@ class Vec2(
 	override fun div(vector: IVec2<*>): Vec2 = Vec2(x / vector.x, y / vector.y)
 
 	override fun plus(scalar: Float): Vec2 = normalized * (length + scalar)
-	override fun minus(scalar: Float): Vec2 {
-		TODO("not implemented")
-	}
+	override fun minus(scalar: Float): Vec2 = normalized * (length - scalar)
 	override fun times(scalar: Float): Vec2 = Vec2(x * scalar, y * scalar)
 	override fun div(scalar: Float): Vec2 = Vec2(x / scalar, y / scalar)
 }
