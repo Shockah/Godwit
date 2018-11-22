@@ -14,7 +14,8 @@ buildscript {
 	}
 }
 
-apply plugin: "com.android.library"
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 apply plugin: "com.github.dcendents.android-maven"
 
 group = "com.github.Shockah"
@@ -25,16 +26,13 @@ configurations {
 
 dependencies {
 	compile project(':core')
-	annotationProcessor "org.projectlombok:lombok:$lombokVersion"
-	testAnnotationProcessor "org.projectlombok:lombok:$lombokVersion"
 	compile "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
 	compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
-	compile "com.github.jrvansuita:PickImage:2.1.6"
 }
 
 android {
-	buildToolsVersion '26.0.2'
-	compileSdkVersion 25
+	buildToolsVersion '26.0.3'
+	compileSdkVersion 26
 	sourceSets {
 		main {
 			manifest.srcFile 'AndroidManifest.xml'
@@ -52,8 +50,8 @@ android {
 		exclude "META-INF/robovm/ios/robovm.xml"
 	}
 	defaultConfig {
-		minSdkVersion 16
-		targetSdkVersion 25
+		minSdkVersion 19
+		targetSdkVersion 26
 	}
 	compileOptions {
 		sourceCompatibility JavaVersion.VERSION_1_8

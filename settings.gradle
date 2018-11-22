@@ -1,1 +1,5 @@
-include 'core', 'desktop', 'android', 'ios', 'test', 'test-desktop', 'test-android'
+include 'core'
+include 'tree-entities'
+include 'desktop', 'android', 'ios'
+include 'test'
+include 'test-desktop'

@@ -10,17 +10,13 @@ buildscript {
 	}
 	dependencies {
 		classpath "com.android.tools.build:gradle:3.0.1"
-		classpath "me.tatarka:gradle-retrolambda:3.7.0"
+		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
 	}
 }
 
 allprojects {
 	ext {
 		appName = "Godwit"
-		gdxVersion = "1.9.8"
-		roboVMVersion = "2.3.4"
-		lombokVersion = "1.18.2"
-		unicornVersion = "2.9.2"
 	}
 
 	repositories {
