@@ -14,6 +14,14 @@ class Circle(
 
 	override fun copy(): Circle = Circle(position, radius)
 
+	override fun equals(other: Any?): Boolean {
+		return other is Circle && position == other.position && radius == other.radius
+	}
+
+	override fun hashCode(): Int {
+		return position.hashCode() * 31 + radius.hashCode()
+	}
+
 	override fun translate(vector: IVec2<*>) {
 		position.xy += vector
 	}

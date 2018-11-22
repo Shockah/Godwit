@@ -21,6 +21,14 @@ class Triangle(
 
 	override fun copy(): Triangle = Triangle(points[0], points[1], points[2])
 
+	override fun equals(other: Any?): Boolean {
+		return other is Triangle && points == other.points
+	}
+
+	override fun hashCode(): Int {
+		return points.hashCode()
+	}
+
 	override fun translate(vector: IVec2<*>) {
 		for (point in points) {
 			point.xy += vector

@@ -24,6 +24,14 @@ class Line(
 
 	override fun copy(): Line = Line(point1, point2)
 
+	override fun equals(other: Any?): Boolean {
+		return other is Line && point1 == other.point1 && point2 == other.point2
+	}
+
+	override fun hashCode(): Int {
+		return point1.hashCode() * 31 + point2.hashCode()
+	}
+
 	override fun translate(vector: IVec2<*>) {
 		point1.xy += vector
 		point2.xy += vector

@@ -56,7 +56,9 @@ abstract class IVec2<T : IVec2<T>> : Comparable<IVec2<T>> {
 		return other is IVec2<*> && other.x == x && other.y == y
 	}
 
-	override fun hashCode(): Int = x.hashCode() * 31 + y.hashCode()
+	override fun hashCode(): Int {
+		return x.hashCode() * 31 + y.hashCode()
+	}
 
 	override fun toString(): String = "[IVec2(x: $x, y: $y)]"
 

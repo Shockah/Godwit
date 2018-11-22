@@ -27,6 +27,14 @@ class Rectangle(
 
 	override fun copy(): Rectangle = Rectangle(position, size)
 
+	override fun equals(other: Any?): Boolean {
+		return other is Rectangle && other.position == position && other.size == size
+	}
+
+	override fun hashCode(): Int {
+		return position.hashCode() * 31 + size.hashCode()
+	}
+
 	override fun translate(vector: IVec2<*>) {
 		position.xy += vector
 	}
