@@ -1,19 +1,18 @@
 package pl.shockah.godwit.geom
 
-class Rectangle(
+class Circle(
 		position: IVec2<*>,
-		size: IVec2<*>
+		var radius: Float
 ) : Shape.Filled, Shape.Outline {
 	var position: MutableVec2 = position.mutableCopy()
-	var size: MutableVec2 = size.mutableCopy()
 
 	override val boundingBox: Rectangle
-		get() = copy()
+		get() = Rectangle(position - Vec2(radius, radius), Vec2(radius * 2, radius * 2))
 
 	override val center: IVec2<*>
-		get() = position + size * 0.5f
+		get() = position
 
-	override fun copy(): Rectangle = Rectangle(position, size)
+	override fun copy(): Circle = Circle(position, radius)
 
 	override fun translate(vector: IVec2<*>) {
 		position.x += vector.x
@@ -22,19 +21,15 @@ class Rectangle(
 
 	override fun mirror(horizontal: Boolean, vertical: Boolean) {
 		if (horizontal)
-			position.x = -position.x - size.x
+			position.x = -position.x
 		if (vertical)
-			position.y = -position.y - size.y
+			position.y = -position.y
 	}
 
 	override fun scale(scale: Float) {
 		position.x *= scale
 		position.y *= scale
-		size.x *= scale
-		size.y *= scale
 	}
 
-	override fun contains(point: IVec2<*>): Boolean {
-		return point.x in position.x..(position.x + size.x) && point.y in position.y..(position.y + size.y)
-	}
+	override fun contains(point: IVec2<*>): Boolean = (position - point).length <= radius
 }

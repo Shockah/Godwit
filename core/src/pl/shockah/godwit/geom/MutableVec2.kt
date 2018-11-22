@@ -13,16 +13,11 @@ class MutableVec2(
 		)
 	}
 
-	override val mutable: MutableVec2
-		get() = this
-
 	operator fun set(index: Int, value: Float) = when (index) {
 		0 -> x = value
 		1 -> y = value
 		else -> throw IllegalArgumentException()
 	}
-
-	override fun copy(): MutableVec2 = MutableVec2(x, y)
 
 	override fun unaryMinus(): MutableVec2 = MutableVec2(-x, -y)
 

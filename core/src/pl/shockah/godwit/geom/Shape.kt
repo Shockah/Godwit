@@ -2,6 +2,7 @@ package pl.shockah.godwit.geom
 
 interface Shape {
 	val boundingBox: Rectangle
+	val center: IVec2<*>
 
 	fun copy(): Shape
 
@@ -10,6 +11,7 @@ interface Shape {
 	fun scale(scale: Float)
 
 	interface Filled : Shape {
+		fun contains(point: IVec2<*>): Boolean
 	}
 
 	interface Outline : Shape {

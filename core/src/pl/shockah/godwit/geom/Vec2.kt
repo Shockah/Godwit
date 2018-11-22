@@ -15,11 +15,6 @@ class Vec2(
 		)
 	}
 
-	override val immutable: Vec2
-		get() = this
-
-	override fun copy(): Vec2 = Vec2(x, y)
-
 	override fun unaryMinus(): Vec2 = Vec2(-x, -y)
 
 	override fun plus(vector: IVec2<*>): Vec2 = Vec2(x + vector.x, y + vector.y)

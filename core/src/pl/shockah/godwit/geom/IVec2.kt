@@ -4,12 +4,6 @@ abstract class IVec2<T : IVec2<T>> : Comparable<IVec2<T>> {
 	abstract val x: Float
 	abstract val y: Float
 
-	open val immutable: Vec2
-		get() = Vec2(x, y)
-
-	open val mutable: MutableVec2
-		get() = MutableVec2(x, y)
-
 	val lengthSquared: Float
 		get() = x * x + y * y
 
@@ -36,7 +30,8 @@ abstract class IVec2<T : IVec2<T>> : Comparable<IVec2<T>> {
 		else -> throw IllegalArgumentException()
 	}
 
-	abstract fun copy() : T
+	fun immutableCopy(): Vec2 = Vec2(x, y)
+	fun mutableCopy(): MutableVec2 = MutableVec2(x, y)
 
 	abstract operator fun unaryMinus(): T
 
