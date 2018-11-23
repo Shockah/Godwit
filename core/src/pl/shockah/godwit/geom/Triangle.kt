@@ -1,10 +1,13 @@
 package pl.shockah.godwit.geom
 
+import pl.shockah.godwit.geom.polygon.ClosedPolygon
+import pl.shockah.godwit.geom.polygon.Polygonable
+
 class Triangle(
 	point1: IVec2<*>,
 	point2: IVec2<*>,
 	point3: IVec2<*>
-) : Shape.Filled, Shape.Outline {
+) : Polygonable.Closed {
 	val points: List<MutableVec2> = listOf(point1.mutableCopy(), point2.mutableCopy(), point3.mutableCopy())
 
 	override val boundingBox: Rectangle
@@ -15,9 +18,6 @@ class Triangle(
 			val maxY = maxOf(points[0].y, points[1].y, points[2].y)
 			return Rectangle(Vec2(minX, minY), Vec2(maxX - minX, maxY - minY))
 		}
-
-	override val center: IVec2<*>
-		get() = boundingBox.center
 
 	override fun copy(): Triangle = Triangle(points[0], points[1], points[2])
 
@@ -30,28 +30,18 @@ class Triangle(
 	}
 
 	override fun translate(vector: IVec2<*>) {
-		for (point in points) {
-			point.xy += vector
-		}
+		points.forEach { it.xy += vector }
 	}
 
 	override fun mirror(horizontal: Boolean, vertical: Boolean) {
-		if (horizontal) {
-			for (point in points) {
-				point.x = -point.x
-			}
-		}
-		if (vertical) {
-			for (point in points) {
-				point.y = -point.y
-			}
-		}
+		if (horizontal)
+			points.forEach { it.x = -it.x }
+		if (vertical)
+			points.forEach { it.y = -it.y }
 	}
 
 	override fun scale(scale: Float) {
-		for (point in points) {
-			point.xy *= scale
-		}
+		points.forEach { it.xy *= scale }
 	}
 
 	override operator fun contains(point: IVec2<*>): Boolean {
@@ -63,5 +53,9 @@ class Triangle(
 		val b2 = sign(point, points[1], points[2]) < 0f
 		val b3 = sign(point, points[2], points[0]) < 0f
 		return b1 == b2 && b2 == b3
+	}
+
+	override fun asClosedPolygon(): ClosedPolygon {
+		return ClosedPolygon(points)
 	}
 }

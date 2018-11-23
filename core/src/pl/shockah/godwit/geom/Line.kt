@@ -1,12 +1,14 @@
 package pl.shockah.godwit.geom
 
+import pl.shockah.godwit.geom.polygon.Polygon
+import pl.shockah.godwit.geom.polygon.Polygonable
 import kotlin.math.max
 import kotlin.math.min
 
 class Line(
 		point1: IVec2<*>,
 		point2: IVec2<*>
-) : Shape.Outline {
+) : Polygonable.Open {
 	var point1: MutableVec2 = point1.mutableCopy()
 	var point2: MutableVec2 = point2.mutableCopy()
 
@@ -51,5 +53,41 @@ class Line(
 	override fun scale(scale: Float) {
 		point1.xy *= scale
 		point2.xy *= scale
+	}
+
+	override fun collides(other: Shape, isSecondTry: Boolean): Boolean {
+		return when (other) {
+			is Line -> collides(other)
+			else -> super.collides(other, isSecondTry)
+		}
+	}
+
+	fun collides(line: Line): Boolean {
+		return intersect(line) != null
+	}
+
+	infix fun intersect(line: Line): IVec2<*>? {
+		val dx1 = point2.x - point1.x
+		val dx2 = line.point2.x - line.point1.x
+		val dy1 = point2.y - point1.y
+		val dy2 = line.point2.y - line.point1.y
+		val denom = dy2 * dx1 - dx2 * dy1
+
+		if (denom == 0f)
+			return null
+
+		val ua = (dx2 * (point1.y - line.point1.y) - dy2 * (point1.x - line.point1.x)) / denom
+		val ub = (dx1 * (point1.y - line.point1.y) - dy1 * (point1.x - line.point1.x)) / denom
+
+		if (ua < 0 || ua > 1 || ub < 0 || ub > 1)
+			return null
+
+		val ix = point1.x + ua * (point2.x - point1.x)
+		val iy = point1.y + ua * (point2.y - point1.y)
+		return Vec2(ix, iy)
+	}
+
+	override fun asPolygon(): Polygon {
+		return Polygon(point1, point2)
 	}
 }
