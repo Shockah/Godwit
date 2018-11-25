@@ -31,14 +31,13 @@ interface Shape {
 			return collisionHandlers[Pair(first, second)] ?: collisionHandlers[Pair(second, first)] ?: findHandlerFromSupertypes(first, second)
 		}
 
-		@Suppress("UNCHECKED_CAST")
 		private fun findHandlerFromSupertypes(first: KClass<out Shape>, second: KClass<out Shape>): ((Shape, Shape) -> Boolean)? {
-			for (firstSubclass in first.superclasses.map { it as? KClass<Shape> }.filterNotNull().filter { it != Shape::class }) {
+			for (firstSubclass in first.superclasses.filterIsInstance<KClass<Shape>>().filter { it != Shape::class }) {
 				val result = findHandler(firstSubclass, second)
 				if (result != null)
 					return result
 			}
-			for (secondSubclass in second.superclasses.map { it as? KClass<Shape> }.filterNotNull().filter { it != Shape::class }) {
+			for (secondSubclass in second.superclasses.filterIsInstance<KClass<Shape>>().filter { it != Shape::class }) {
 				val result = findHandler(first, secondSubclass)
 				if (result != null)
 					return result
