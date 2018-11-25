@@ -78,29 +78,24 @@ class Rectangle(
 		return point.x in left..right && point.y in top..bottom
 	}
 
-	override fun collides(other: Shape, isSecondTry: Boolean): Boolean {
-		return when (other) {
-			is Rectangle -> collides(other)
-			is Line -> collides(other)
-			else -> super.collides(other, isSecondTry)
+	private companion object Collisions {
+		init {
+			Shape.registerCollisionHandler(Rectangle::class, Rectangle::class) { a, b ->
+				a.position.x < b.position.x + b.size.x
+						&& a.position.x + a.size.x > b.position.x
+						&& a.position.y < b.position.y + b.size.y
+						&& a.position.y + a.size.y > b.position.y
+			}
+			Shape.registerCollisionHandler(Rectangle::class, Line::class) { rectangle, line ->
+				if (line.point1 in rectangle || line.point2 in rectangle)
+					return@registerCollisionHandler true
+				for (rectangleLine in rectangle.lines) {
+					if (line collides rectangleLine)
+						return@registerCollisionHandler true
+				}
+				return@registerCollisionHandler false
+			}
 		}
-	}
-
-	infix fun collides(rectangle: Rectangle): Boolean {
-		return position.x < rectangle.position.x + rectangle.size.x
-				&& position.x + size.x > rectangle.position.x
-				&& position.y < rectangle.position.y + rectangle.size.y
-				&& position.y + size.y > rectangle.position.y
-	}
-
-	infix fun collides(line: Line): Boolean {
-		if (line.point1 in this || line.point2 in this)
-			return true
-		for (rectangleLine in lines) {
-			if (line collides rectangleLine)
-				return true
-		}
-		return false
 	}
 
 	override fun asClosedPolygon(): ClosedPolygon {

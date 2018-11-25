@@ -1,7 +1,6 @@
 package pl.shockah.godwit.geom
 
 import pl.shockah.godwit.geom.polygon.Polygon
-import pl.shockah.godwit.geom.polygon.Polygonable
 import kotlin.math.sqrt
 
 class Circle(
@@ -46,30 +45,22 @@ class Circle(
 		return (position - point).length <= radius
 	}
 
-	override fun collides(other: Shape, isSecondTry: Boolean): Boolean {
-		return when (other) {
-			is Circle -> collides(other)
-			is Line -> collides(other)
-			is Polygon -> collides(other)
-			is Polygonable.Open -> collides(other.asPolygon())
-			else -> super<Shape.Filled>.collides(other, isSecondTry)
+	private companion object Collisions {
+		init {
+			Shape.registerCollisionHandler(Circle::class, Circle::class) { a, b ->
+				(b.position - a.position).length < b.radius + a.radius
+			}
+			Shape.registerCollisionHandler(Circle::class, Line::class) { circle, line ->
+				line.point1 in circle || line.point2 in circle || !(circle intersect line).isEmpty()
+			}
+			Shape.registerCollisionHandler(Circle::class, Polygon::class) { circle, polygon ->
+				for (line in polygon.lines) {
+					if (circle collides line)
+						return@registerCollisionHandler true
+				}
+				return@registerCollisionHandler false
+			}
 		}
-	}
-
-	infix fun collides(circle: Circle): Boolean {
-		return (circle.position - position).length < radius + circle.radius
-	}
-
-	infix fun collides(line: Line): Boolean {
-		return line.point1 in this || line.point2 in this || !(this intersect line).isEmpty()
-	}
-
-	infix fun collides(polygon: Polygon): Boolean {
-		for (line in polygon.lines) {
-			if (this collides line)
-				return true
-		}
-		return false
 	}
 
 	infix fun intersect(line: Line): List<Vec2> {

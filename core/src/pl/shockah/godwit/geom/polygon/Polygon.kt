@@ -47,29 +47,24 @@ open class Polygon(
 		points.forEach { it.xy *= scale }
 	}
 
-	override fun collides(other: Shape, isSecondTry: Boolean): Boolean {
-		return when (other) {
-			is Polygon -> collides(other)
-			is Line -> collides(other)
-			else -> super.collides(other, isSecondTry)
-		}
-	}
-
-	infix fun collides(polygon: Polygon): Boolean {
-		for (myLine in lines) {
-			for (otherLine in polygon.lines) {
-				if (myLine collides otherLine)
-					return true
+	private companion object Collisions {
+		init {
+			Shape.registerCollisionHandler(Polygon::class, Polygon::class) { a, b ->
+				for (aLine in a.lines) {
+					for (bLine in b.lines) {
+						if (aLine collides bLine)
+							return@registerCollisionHandler true
+					}
+				}
+				return@registerCollisionHandler false
+			}
+			Shape.registerCollisionHandler(Polygon::class, Line::class) { polygon, line ->
+				for (polygonLine in polygon.lines) {
+					if (polygonLine collides line)
+						return@registerCollisionHandler true
+				}
+				return@registerCollisionHandler false
 			}
 		}
-		return false
-	}
-
-	open infix fun collides(line: Line): Boolean {
-		for (myLine in lines) {
-			if (myLine collides line)
-				return true
-		}
-		return false
 	}
 }

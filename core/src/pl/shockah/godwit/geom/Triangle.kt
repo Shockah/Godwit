@@ -62,36 +62,31 @@ class Triangle(
 		return b1 == b2 && b2 == b3
 	}
 
-	override fun collides(other: Shape, isSecondTry: Boolean): Boolean {
-		return when (other) {
-			is Triangle -> collides(other)
-			is Line -> collides(other)
-			else -> super.collides(other, isSecondTry)
-		}
-	}
-
-	infix fun collides(triangle: Triangle): Boolean {
-		for (point in triangle.points) {
-			if (point in this)
-				return true
-		}
-		for (myLine in lines) {
-			for (otherLine in triangle.lines) {
-				if (otherLine collides myLine)
-					return true
+	private companion object Collisions {
+		init {
+			Shape.registerCollisionHandler(Triangle::class, Triangle::class) { a, b ->
+				for (point in b.points) {
+					if (point in a)
+						return@registerCollisionHandler true
+				}
+				for (aLine in a.lines) {
+					for (bLine in b.lines) {
+						if (bLine collides aLine)
+							return@registerCollisionHandler true
+					}
+				}
+				return@registerCollisionHandler false
+			}
+			Shape.registerCollisionHandler(Triangle::class, Line::class) { triangle, line ->
+				if (line.point1 in triangle || line.point2 in triangle)
+					return@registerCollisionHandler true
+				for (triangleLine in triangle.lines) {
+					if (line collides triangleLine)
+						return@registerCollisionHandler true
+				}
+				return@registerCollisionHandler false
 			}
 		}
-		return false
-	}
-
-	infix fun collides(line: Line): Boolean {
-		if (line.point1 in this || line.point2 in this)
-			return true
-		for (myLine in lines) {
-			if (line collides myLine)
-				return true
-		}
-		return false
 	}
 
 	override fun asClosedPolygon(): ClosedPolygon {

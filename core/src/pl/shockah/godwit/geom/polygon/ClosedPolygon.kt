@@ -53,32 +53,31 @@ class ClosedPolygon(
 		return false
 	}
 
-	override fun collides(other: Shape, isSecondTry: Boolean): Boolean {
-		for (triangle in triangles) {
-			try {
-				if (triangle.collides(other, false))
-					return true
-			} catch (_: Exception) {
+	private companion object Collisions {
+		init {
+			Shape.registerCollisionHandler(ClosedPolygon::class, ClosedPolygon::class) { a, b ->
+				for (aTriangle in a.triangles) {
+					for (bTriangle in b.triangles) {
+						if (aTriangle collides bTriangle)
+							return@registerCollisionHandler true
+					}
+				}
+				return@registerCollisionHandler false
+			}
+			Shape.registerCollisionHandler(ClosedPolygon::class, Triangle::class) { polygon, triangle ->
+				for (polygonTriangle in polygon.triangles) {
+					if (triangle collides polygonTriangle)
+						return@registerCollisionHandler true
+				}
+				return@registerCollisionHandler false
+			}
+			Shape.registerCollisionHandler(ClosedPolygon::class, Line::class) { polygon, line ->
+				for (polygonTriangle in polygon.triangles) {
+					if (line collides polygonTriangle)
+						return@registerCollisionHandler true
+				}
+				return@registerCollisionHandler false
 			}
 		}
-		return super<Shape.Filled>.collides(other, isSecondTry)
-	}
-
-	infix fun collides(triangle: Triangle): Boolean {
-		triangulate()
-		for (myTriangle in triangles) {
-			if (triangle.collides(myTriangle))
-				return true
-		}
-		return false
-	}
-
-	override infix fun collides(line: Line): Boolean {
-		triangulate()
-		for (myTriangle in triangles) {
-			if (line.collides(myTriangle))
-				return true
-		}
-		return false
 	}
 }

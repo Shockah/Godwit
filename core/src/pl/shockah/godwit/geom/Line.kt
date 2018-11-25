@@ -55,15 +55,12 @@ class Line(
 		point2.xy *= scale
 	}
 
-	override fun collides(other: Shape, isSecondTry: Boolean): Boolean {
-		return when (other) {
-			is Line -> collides(other)
-			else -> super.collides(other, isSecondTry)
+	private companion object Collisions {
+		init {
+			Shape.registerCollisionHandler(Line::class, Line::class) { a, b ->
+				a intersect b != null
+			}
 		}
-	}
-
-	infix fun collides(line: Line): Boolean {
-		return intersect(line) != null
 	}
 
 	infix fun intersect(line: Line): IVec2<*>? {
