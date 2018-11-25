@@ -4,8 +4,8 @@ import pl.shockah.godwit.geom.polygon.ClosedPolygon
 import pl.shockah.godwit.geom.polygon.Polygonable
 
 class Rectangle(
-		position: IVec2<*>,
-		size: IVec2<*>
+		position: Vec2,
+		size: Vec2
 ) : Polygonable.Closed {
 	var position: MutableVec2 = position.mutableCopy()
 	var size: MutableVec2 = size.mutableCopy()
@@ -13,7 +13,7 @@ class Rectangle(
 	override val boundingBox: Rectangle
 		get() = copy()
 
-	override val center: IVec2<*>
+	override val center: Vec2
 		get() = position + size * 0.5f
 
 	val left: Float
@@ -28,16 +28,16 @@ class Rectangle(
 	val bottom: Float
 		get() = position.y + size.y
 
-	val topLeft: IVec2<*>
+	val topLeft: Vec2
 		get() = position
 
-	val topRight: IVec2<*>
-		get() = Vec2(position.x + size.x, position.y)
+	val topRight: Vec2
+		get() = ImmutableVec2(position.x + size.x, position.y)
 
-	val bottomLeft: IVec2<*>
-		get() = Vec2(position.x, position.y + size.y)
+	val bottomLeft: Vec2
+		get() = ImmutableVec2(position.x, position.y + size.y)
 
-	val bottomRight: IVec2<*>
+	val bottomRight: Vec2
 		get() = position + size
 
 	val lines: List<Line>
@@ -58,7 +58,7 @@ class Rectangle(
 		return position.hashCode() * 31 + size.hashCode()
 	}
 
-	override fun translate(vector: IVec2<*>) {
+	override fun translate(vector: Vec2) {
 		position.xy += vector
 	}
 
@@ -74,7 +74,7 @@ class Rectangle(
 		size.xy *= scale
 	}
 
-	override operator fun contains(point: IVec2<*>): Boolean {
+	override operator fun contains(point: Vec2): Boolean {
 		return point.x in left..right && point.y in top..bottom
 	}
 

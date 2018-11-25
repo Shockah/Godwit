@@ -24,10 +24,10 @@ class MutableVec2(
 
 	override operator fun unaryMinus(): MutableVec2 = MutableVec2(-x, -y)
 
-	override operator fun plus(vector: IVec2<*>): MutableVec2 = MutableVec2(x + vector.x, y + vector.y)
-	override operator fun minus(vector: IVec2<*>): MutableVec2 = MutableVec2(x - vector.x, y - vector.y)
-	override operator fun times(vector: IVec2<*>): MutableVec2 = MutableVec2(x * vector.x, y * vector.y)
-	override operator fun div(vector: IVec2<*>): MutableVec2 = MutableVec2(x / vector.x, y / vector.y)
+	override operator fun plus(vector: Vec2): MutableVec2 = MutableVec2(x + vector.x, y + vector.y)
+	override operator fun minus(vector: Vec2): MutableVec2 = MutableVec2(x - vector.x, y - vector.y)
+	override operator fun times(vector: Vec2): MutableVec2 = MutableVec2(x * vector.x, y * vector.y)
+	override operator fun div(vector: Vec2): MutableVec2 = MutableVec2(x / vector.x, y / vector.y)
 
 	override operator fun plus(scalar: Float): MutableVec2 = normalized * (length + scalar)
 	override operator fun minus(scalar: Float): MutableVec2 = normalized * (length - scalar)
@@ -35,22 +35,22 @@ class MutableVec2(
 	override operator fun div(scalar: Float): MutableVec2 = MutableVec2(x / scalar, y / scalar)
 
 	inner class Mutator {
-		operator fun plusAssign(vector: IVec2<*>) {
+		operator fun plusAssign(vector: Vec2) {
 			x += vector.x
 			y += vector.y
 		}
 
-		operator fun minusAssign(vector: IVec2<*>) {
+		operator fun minusAssign(vector: Vec2) {
 			x -= vector.x
 			y -= vector.y
 		}
 
-		operator fun timesAssign(vector: IVec2<*>) {
+		operator fun timesAssign(vector: Vec2) {
 			x *= vector.x
 			y *= vector.y
 		}
 
-		operator fun divAssign(vector: IVec2<*>) {
+		operator fun divAssign(vector: Vec2) {
 			x /= vector.x
 			y /= vector.y
 		}

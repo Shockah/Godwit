@@ -1,7 +1,7 @@
 package pl.shockah.godwit.geom.polygon
 
-import pl.shockah.godwit.geom.IVec2
 import pl.shockah.godwit.geom.Triangle
+import pl.shockah.godwit.geom.Vec2
 
 /*
  * code taken from Slick2D - http://slick.ninjacave.com/
@@ -11,13 +11,13 @@ class BasicTriangulator : Triangulator {
 		private const val EPSILON = 0.0000000001f
 	}
 
-	override fun triangulate(points: List<IVec2<*>>): List<Triangle>? {
+	override fun triangulate(points: List<Vec2>): List<Triangle>? {
 		val process = Process(points)
 		return if (process.triangulate()) process.tris else null
 	}
 
 	inner class Process(
-			val points: List<IVec2<*>>
+			val points: List<Vec2>
 	) {
 		val tris: MutableList<Triangle> = mutableListOf()
 		private var tried: Boolean = false
@@ -34,7 +34,7 @@ class BasicTriangulator : Triangulator {
 			return process(points, tris)
 		}
 
-		private fun area(contour: List<IVec2<*>>): Float {
+		private fun area(contour: List<Vec2>): Float {
 			val n = contour.size
 
 			var A = 0f
@@ -68,7 +68,7 @@ class BasicTriangulator : Triangulator {
 			return aCROSSbp >= 0f && bCROSScp >= 0f && cCROSSap >= 0f
 		}
 
-		private fun snip(contour: List<IVec2<*>>, u: Int, v: Int, w: Int, n: Int, V: IntArray): Boolean {
+		private fun snip(contour: List<Vec2>, u: Int, v: Int, w: Int, n: Int, V: IntArray): Boolean {
 			var p: Int = 0
 			val Ax: Double = contour[V[u]].x.toDouble()
 			val Ay: Double = contour[V[u]].y.toDouble()
@@ -97,7 +97,7 @@ class BasicTriangulator : Triangulator {
 			return true
 		}
 
-		private fun process(contour: List<IVec2<*>>, result: MutableList<Triangle>): Boolean {
+		private fun process(contour: List<Vec2>, result: MutableList<Triangle>): Boolean {
 			result.clear()
 
 			val n = contour.size

@@ -4,9 +4,9 @@ import pl.shockah.godwit.geom.polygon.ClosedPolygon
 import pl.shockah.godwit.geom.polygon.Polygonable
 
 class Triangle(
-	point1: IVec2<*>,
-	point2: IVec2<*>,
-	point3: IVec2<*>
+	point1: Vec2,
+	point2: Vec2,
+	point3: Vec2
 ) : Polygonable.Closed {
 	val points: List<MutableVec2> = listOf(point1.mutableCopy(), point2.mutableCopy(), point3.mutableCopy())
 
@@ -16,7 +16,7 @@ class Triangle(
 			val minY = minOf(points[0].y, points[1].y, points[2].y)
 			val maxX = maxOf(points[0].x, points[1].x, points[2].x)
 			val maxY = maxOf(points[0].y, points[1].y, points[2].y)
-			return Rectangle(Vec2(minX, minY), Vec2(maxX - minX, maxY - minY))
+			return Rectangle(ImmutableVec2(minX, minY), ImmutableVec2(maxX - minX, maxY - minY))
 		}
 
 	val lines: List<Line>
@@ -36,7 +36,7 @@ class Triangle(
 		return points.hashCode()
 	}
 
-	override fun translate(vector: IVec2<*>) {
+	override fun translate(vector: Vec2) {
 		points.forEach { it.xy += vector }
 	}
 
@@ -51,8 +51,8 @@ class Triangle(
 		points.forEach { it.xy *= scale }
 	}
 
-	override operator fun contains(point: IVec2<*>): Boolean {
-		fun sign(testedPoint: IVec2<*>, point1: IVec2<*>, point2: IVec2<*>): Float {
+	override operator fun contains(point: Vec2): Boolean {
+		fun sign(testedPoint: Vec2, point1: Vec2, point2: Vec2): Float {
 			return (testedPoint.x - point2.x) * (point1.y - point2.y) - (point1.x - point2.x) * (testedPoint.y - point2.y)
 		}
 

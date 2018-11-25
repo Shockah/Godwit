@@ -4,7 +4,7 @@ import pl.shockah.godwit.ObservableList
 import pl.shockah.godwit.geom.*
 
 class ClosedPolygon(
-		points: List<IVec2<*>>
+		points: List<Vec2>
 ) : Polygon(points), Shape.Filled {
 	var triangulator: Triangulator = BasicTriangulator()
 	private var dirty: Boolean = false
@@ -25,7 +25,7 @@ class ClosedPolygon(
 			return result
 		}
 
-	constructor(vararg points: IVec2<*>) : this(points.toList())
+	constructor(vararg points: Vec2) : this(points.toList())
 
 	init {
 		super.points += object : ObservableList.ChangeListener<MutableVec2> {
@@ -45,7 +45,7 @@ class ClosedPolygon(
 		_triangles = triangulator.triangulate(points) ?: throw IllegalStateException("Cannot triangulate polygon.")
 	}
 
-	override fun contains(point: IVec2<*>): Boolean {
+	override fun contains(point: Vec2): Boolean {
 		for (triangle in triangles) {
 			if (point in triangle)
 				return true

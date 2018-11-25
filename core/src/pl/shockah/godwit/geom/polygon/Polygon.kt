@@ -4,21 +4,21 @@ import pl.shockah.godwit.ObservableList
 import pl.shockah.godwit.geom.*
 
 open class Polygon(
-		points: List<IVec2<*>>
+		points: List<Vec2>
 ) : Shape.Outline {
 	val points: ObservableList<MutableVec2> = ObservableList(points.map { it.mutableCopy() }.toMutableList())
 
-	constructor(vararg points: IVec2<*>) : this(points.toMutableList())
+	constructor(vararg points: Vec2) : this(points.toMutableList())
 
 	override val boundingBox: Rectangle
 		get() {
 			if (points.isEmpty())
-				return Rectangle(Vec2.zero, Vec2.zero)
+				return Rectangle(ImmutableVec2.ZERO, ImmutableVec2.ZERO)
 			val minX = points.map { it.x }.min()!!
 			val minY = points.map { it.y }.min()!!
 			val maxX = points.map { it.x }.max()!!
 			val maxY = points.map { it.y }.max()!!
-			return Rectangle(Vec2(minX, minY), Vec2(maxX - minX, maxY - minY))
+			return Rectangle(ImmutableVec2(minX, minY), ImmutableVec2(maxX - minX, maxY - minY))
 		}
 
 	open val lines: List<Line>
@@ -32,7 +32,7 @@ open class Polygon(
 
 	override fun copy(): Polygon = Polygon(points)
 
-	override fun translate(vector: IVec2<*>) {
+	override fun translate(vector: Vec2) {
 		points.forEach { it.xy += vector }
 	}
 

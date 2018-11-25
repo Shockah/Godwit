@@ -48,12 +48,12 @@ interface Shape {
 
 	val boundingBox: Rectangle
 
-	val center: IVec2<*>
+	val center: Vec2
 		get() = boundingBox.center
 
 	fun copy(): Shape
 
-	fun translate(vector: IVec2<*>)
+	fun translate(vector: Vec2)
 	fun mirror(horizontal: Boolean, vertical: Boolean)
 	fun scale(scale: Float)
 
@@ -62,7 +62,7 @@ interface Shape {
 	}
 
 	interface Filled : Shape {
-		operator fun contains(point: IVec2<*>): Boolean
+		operator fun contains(point: Vec2): Boolean
 	}
 
 	interface Outline : Shape {

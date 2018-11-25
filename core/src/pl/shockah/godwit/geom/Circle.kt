@@ -4,15 +4,15 @@ import pl.shockah.godwit.geom.polygon.Polygon
 import kotlin.math.sqrt
 
 class Circle(
-		position: IVec2<*>,
+		position: Vec2,
 		var radius: Float
 ) : Shape.Filled, Shape.Outline {
 	var position: MutableVec2 = position.mutableCopy()
 
 	override val boundingBox: Rectangle
-		get() = Rectangle(position - Vec2(radius, radius), Vec2(radius * 2, radius * 2))
+		get() = Rectangle(position - ImmutableVec2(radius, radius), ImmutableVec2(radius * 2, radius * 2))
 
-	override val center: IVec2<*>
+	override val center: Vec2
 		get() = position
 
 	override fun copy(): Circle = Circle(position, radius)
@@ -25,7 +25,7 @@ class Circle(
 		return position.hashCode() * 31 + radius.hashCode()
 	}
 
-	override fun translate(vector: IVec2<*>) {
+	override fun translate(vector: Vec2) {
 		position.xy += vector
 	}
 
@@ -41,7 +41,7 @@ class Circle(
 		radius *= scale
 	}
 
-	override operator fun contains(point: IVec2<*>): Boolean {
+	override operator fun contains(point: Vec2): Boolean {
 		return (position - point).length <= radius
 	}
 
@@ -63,7 +63,7 @@ class Circle(
 		}
 	}
 
-	infix fun intersect(line: Line): List<Vec2> {
+	infix fun intersect(line: Line): List<ImmutableVec2> {
 		val baX = line.point2.x - line.point1.x
 		val baY = line.point2.y - line.point1.y
 		val caX = position.x - line.point1.x
@@ -84,11 +84,11 @@ class Circle(
 		val abScalingFactor1 = -pBy2 + tmpSqrt
 		val abScalingFactor2 = -pBy2 - tmpSqrt
 
-		val p1 = Vec2(line.point1.x - baX * abScalingFactor1, line.point1.y - baY * abScalingFactor1)
+		val p1 = ImmutableVec2(line.point1.x - baX * abScalingFactor1, line.point1.y - baY * abScalingFactor1)
 		if (disc == 0f)
 			return listOf(p1)
 
-		val p2 = Vec2(line.point1.x - baX * abScalingFactor2, line.point1.y - baY * abScalingFactor2)
+		val p2 = ImmutableVec2(line.point1.x - baX * abScalingFactor2, line.point1.y - baY * abScalingFactor2)
 		return listOf(p1, p2)
 	}
 }

@@ -6,8 +6,8 @@ import kotlin.math.max
 import kotlin.math.min
 
 class Line(
-		point1: IVec2<*>,
-		point2: IVec2<*>
+		point1: Vec2,
+		point2: Vec2
 ) : Polygonable.Open {
 	var point1: MutableVec2 = point1.mutableCopy()
 	var point2: MutableVec2 = point2.mutableCopy()
@@ -18,10 +18,10 @@ class Line(
 			val minY = min(point1.y, point2.y)
 			val maxX = max(point1.x, point2.x)
 			val maxY = max(point1.y, point2.y)
-			return Rectangle(Vec2(minX, minY), Vec2(maxX - minX, maxY - minY))
+			return Rectangle(ImmutableVec2(minX, minY), ImmutableVec2(maxX - minX, maxY - minY))
 		}
 
-	override val center: IVec2<*>
+	override val center: Vec2
 		get() = (point1 + point2) * 0.5f
 
 	override fun copy(): Line = Line(point1, point2)
@@ -34,7 +34,7 @@ class Line(
 		return point1.hashCode() * 31 + point2.hashCode()
 	}
 
-	override fun translate(vector: IVec2<*>) {
+	override fun translate(vector: Vec2) {
 		point1.xy += vector
 		point2.xy += vector
 	}
@@ -63,7 +63,7 @@ class Line(
 		}
 	}
 
-	infix fun intersect(line: Line): IVec2<*>? {
+	infix fun intersect(line: Line): Vec2? {
 		val dx1 = point2.x - point1.x
 		val dx2 = line.point2.x - line.point1.x
 		val dy1 = point2.y - point1.y
@@ -81,7 +81,7 @@ class Line(
 
 		val ix = point1.x + ua * (point2.x - point1.x)
 		val iy = point1.y + ua * (point2.y - point1.y)
-		return Vec2(ix, iy)
+		return ImmutableVec2(ix, iy)
 	}
 
 	override fun asPolygon(): Polygon {
