@@ -1,10 +1,7 @@
 package pl.shockah.godwit.geom.polygon
 
 import pl.shockah.godwit.ObservableList
-import pl.shockah.godwit.geom.IVec2
-import pl.shockah.godwit.geom.MutableVec2
-import pl.shockah.godwit.geom.Shape
-import pl.shockah.godwit.geom.Triangle
+import pl.shockah.godwit.geom.*
 
 class ClosedPolygon(
 		points: List<IVec2<*>>
@@ -17,6 +14,15 @@ class ClosedPolygon(
 		get() {
 			triangulate()
 			return _triangles
+		}
+
+	override val lines: List<Line>
+		get() {
+			val result: MutableList<Line> = mutableListOf()
+			for (i in 0 until points.size) {
+				result += Line(points[i], points[(i + 1) % points.size])
+			}
+			return result
 		}
 
 	constructor(vararg points: IVec2<*>) : this(points.toList())
@@ -58,10 +64,19 @@ class ClosedPolygon(
 		return super<Shape.Filled>.collides(other, isSecondTry)
 	}
 
-	fun collides(triangle: Triangle): Boolean {
+	infix fun collides(triangle: Triangle): Boolean {
 		triangulate()
 		for (myTriangle in triangles) {
 			if (triangle.collides(myTriangle))
+				return true
+		}
+		return false
+	}
+
+	override infix fun collides(line: Line): Boolean {
+		triangulate()
+		for (myTriangle in triangles) {
+			if (line.collides(myTriangle))
 				return true
 		}
 		return false

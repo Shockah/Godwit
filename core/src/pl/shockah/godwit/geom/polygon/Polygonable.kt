@@ -7,7 +7,12 @@ class Polygonable private constructor() {
 		fun asPolygon(): Polygon
 	}
 
-	interface Closed : Shape.Outline, Shape.Filled {
+	interface Closed : Shape.Filled, Open {
 		fun asClosedPolygon(): ClosedPolygon
+
+		override fun asPolygon(): Polygon {
+			val closedPolygon = asClosedPolygon()
+			return Polygon(listOf(*closedPolygon.points.toTypedArray(), closedPolygon.points.first()))
+		}
 	}
 }

@@ -19,6 +19,13 @@ class Triangle(
 			return Rectangle(Vec2(minX, minY), Vec2(maxX - minX, maxY - minY))
 		}
 
+	val lines: List<Line>
+		get() = listOf(
+				Line(points[0], points[1]),
+				Line(points[1], points[2]),
+				Line(points[2], points[3])
+		)
+
 	override fun copy(): Triangle = Triangle(points[0], points[1], points[2])
 
 	override fun equals(other: Any?): Boolean {
@@ -53,6 +60,38 @@ class Triangle(
 		val b2 = sign(point, points[1], points[2]) < 0f
 		val b3 = sign(point, points[2], points[0]) < 0f
 		return b1 == b2 && b2 == b3
+	}
+
+	override fun collides(other: Shape, isSecondTry: Boolean): Boolean {
+		return when (other) {
+			is Triangle -> collides(other)
+			is Line -> collides(other)
+			else -> super.collides(other, isSecondTry)
+		}
+	}
+
+	infix fun collides(triangle: Triangle): Boolean {
+		for (point in triangle.points) {
+			if (point in this)
+				return true
+		}
+		for (myLine in lines) {
+			for (otherLine in triangle.lines) {
+				if (otherLine collides myLine)
+					return true
+			}
+		}
+		return false
+	}
+
+	infix fun collides(line: Line): Boolean {
+		if (line.point1 in this || line.point2 in this)
+			return true
+		for (myLine in lines) {
+			if (line collides myLine)
+				return true
+		}
+		return false
 	}
 
 	override fun asClosedPolygon(): ClosedPolygon {

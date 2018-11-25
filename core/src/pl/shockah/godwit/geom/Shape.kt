@@ -19,6 +19,8 @@ interface Shape {
 		return if (isSecondTry) {
 			if (this is Polygonable.Closed && other is Polygonable.Closed)
 				asClosedPolygon() collides other.asClosedPolygon()
+			else if (this is Polygonable.Open && other is Polygonable.Open)
+				asPolygon() collides other.asPolygon()
 			else
 				throw UnsupportedOperationException("${this::class.simpleName} --><-- ${other::class.simpleName} collision isn't implemented.")
 		} else {

@@ -86,14 +86,14 @@ class Rectangle(
 		}
 	}
 
-	fun collides(rectangle: Rectangle): Boolean {
+	infix fun collides(rectangle: Rectangle): Boolean {
 		return position.x < rectangle.position.x + rectangle.size.x
 				&& position.x + size.x > rectangle.position.x
 				&& position.y < rectangle.position.y + rectangle.size.y
 				&& position.y + size.y > rectangle.position.y
 	}
 
-	fun collides(line: Line): Boolean {
+	infix fun collides(line: Line): Boolean {
 		if (line.point1 in this || line.point2 in this)
 			return true
 		for (rectangleLine in lines) {

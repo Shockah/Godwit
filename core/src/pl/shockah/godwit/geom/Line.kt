@@ -62,7 +62,7 @@ class Line(
 		}
 	}
 
-	fun collides(line: Line): Boolean {
+	infix fun collides(line: Line): Boolean {
 		return intersect(line) != null
 	}
 
