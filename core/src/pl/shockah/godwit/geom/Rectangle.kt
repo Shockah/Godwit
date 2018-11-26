@@ -1,12 +1,13 @@
 package pl.shockah.godwit.geom
 
+import pl.shockah.godwit.ease.Easable
 import pl.shockah.godwit.geom.polygon.ClosedPolygon
 import pl.shockah.godwit.geom.polygon.Polygonable
 
 class Rectangle(
 		position: Vec2,
 		size: Vec2
-) : Polygonable.Closed {
+) : Polygonable.Closed, Easable<Rectangle> {
 	var position: MutableVec2 = position.mutableCopy()
 	var size: MutableVec2 = size.mutableCopy()
 
@@ -48,6 +49,30 @@ class Rectangle(
 				Line(bottomLeft, topLeft)
 		)
 
+	companion object {
+		fun centered(position: Vec2, size: Vec2): Rectangle {
+			return Rectangle(position - size * 0.5f, size)
+		}
+
+		init {
+			Shape.registerCollisionHandler(Rectangle::class, Rectangle::class) { a, b ->
+				a.position.x < b.position.x + b.size.x
+						&& a.position.x + a.size.x > b.position.x
+						&& a.position.y < b.position.y + b.size.y
+						&& a.position.y + a.size.y > b.position.y
+			}
+			Shape.registerCollisionHandler(Rectangle::class, Line::class) { rectangle, line ->
+				if (line.point1 in rectangle || line.point2 in rectangle)
+					return@registerCollisionHandler true
+				for (rectangleLine in rectangle.lines) {
+					if (line collides rectangleLine)
+						return@registerCollisionHandler true
+				}
+				return@registerCollisionHandler false
+			}
+		}
+	}
+
 	override fun copy(): Rectangle = Rectangle(position, size)
 
 	override fun equals(other: Any?): Boolean {
@@ -78,27 +103,14 @@ class Rectangle(
 		return point.x in left..right && point.y in top..bottom
 	}
 
-	private companion object Collisions {
-		init {
-			Shape.registerCollisionHandler(Rectangle::class, Rectangle::class) { a, b ->
-				a.position.x < b.position.x + b.size.x
-						&& a.position.x + a.size.x > b.position.x
-						&& a.position.y < b.position.y + b.size.y
-						&& a.position.y + a.size.y > b.position.y
-			}
-			Shape.registerCollisionHandler(Rectangle::class, Line::class) { rectangle, line ->
-				if (line.point1 in rectangle || line.point2 in rectangle)
-					return@registerCollisionHandler true
-				for (rectangleLine in rectangle.lines) {
-					if (line collides rectangleLine)
-						return@registerCollisionHandler true
-				}
-				return@registerCollisionHandler false
-			}
-		}
-	}
-
 	override fun asClosedPolygon(): ClosedPolygon {
 		return ClosedPolygon(topLeft, topRight, bottomRight, bottomLeft)
+	}
+
+	override fun ease(other: Rectangle, f: Float): Rectangle {
+		return Rectangle(
+				position.ease(other.position, f),
+				size.ease(other.size, f)
+		)
 	}
 }

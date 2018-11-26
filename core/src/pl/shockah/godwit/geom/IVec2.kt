@@ -1,11 +1,13 @@
 package pl.shockah.godwit.geom
 
+import pl.shockah.godwit.ease.Easable
+import pl.shockah.godwit.ease.Easing
 import kotlin.math.atan2
 import kotlin.math.sqrt
 
 typealias Vec2 = IVec2<*>
 
-abstract class IVec2<T : IVec2<T>> : Comparable<IVec2<T>> {
+abstract class IVec2<T : IVec2<T>> : Comparable<IVec2<*>>, Easable<IVec2<*>> {
 	abstract val x: Float
 	abstract val y: Float
 
@@ -64,7 +66,14 @@ abstract class IVec2<T : IVec2<T>> : Comparable<IVec2<T>> {
 
 	override fun toString(): String = "[IVec2(x: $x, y: $y)]"
 
-	override fun compareTo(other: IVec2<T>): Int {
+	override fun compareTo(other: IVec2<*>): Int {
 		return length.compareTo(other.length)
+	}
+
+	override fun ease(other: IVec2<*>, f: Float): IVec2<*> {
+		return ImmutableVec2(
+				Easing.linear.ease(x, other.x, f),
+				Easing.linear.ease(y, other.y, f)
+		)
 	}
 }

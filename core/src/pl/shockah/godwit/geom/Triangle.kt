@@ -1,5 +1,6 @@
 package pl.shockah.godwit.geom
 
+import pl.shockah.godwit.ease.Easable
 import pl.shockah.godwit.geom.polygon.ClosedPolygon
 import pl.shockah.godwit.geom.polygon.Polygonable
 
@@ -7,7 +8,7 @@ class Triangle(
 	point1: Vec2,
 	point2: Vec2,
 	point3: Vec2
-) : Polygonable.Closed {
+) : Polygonable.Closed, Easable<Triangle> {
 	val points: List<MutableVec2> = listOf(point1.mutableCopy(), point2.mutableCopy(), point3.mutableCopy())
 
 	override val boundingBox: Rectangle
@@ -91,5 +92,13 @@ class Triangle(
 
 	override fun asClosedPolygon(): ClosedPolygon {
 		return ClosedPolygon(points)
+	}
+
+	override fun ease(other: Triangle, f: Float): Triangle {
+		return Triangle(
+				points[0].ease(other.points[0], f),
+				points[1].ease(other.points[1], f),
+				points[2].ease(other.points[2], f)
+		)
 	}
 }

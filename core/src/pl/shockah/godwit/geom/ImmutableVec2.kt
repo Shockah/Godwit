@@ -1,5 +1,8 @@
 package pl.shockah.godwit.geom
 
+import kotlin.math.cos
+import kotlin.math.sin
+
 class ImmutableVec2(
 		override val x: Float,
 		override val y: Float
@@ -10,8 +13,8 @@ class ImmutableVec2(
 		val ZERO: ImmutableVec2 = ImmutableVec2()
 
 		fun angled(degrees: Degrees, length: Float): ImmutableVec2 = ImmutableVec2(
-				(-Math.cos(Math.toRadians((degrees.value + 180f).toDouble())) * length).toFloat(),
-				(-Math.sin(Math.toRadians((degrees.value + 180f).toDouble())) * length).toFloat()
+				(-cos(Math.toRadians((degrees.value + 180f).toDouble())) * length).toFloat(),
+				(-sin(Math.toRadians((degrees.value + 180f).toDouble())) * length).toFloat()
 		)
 	}
 

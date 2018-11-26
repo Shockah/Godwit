@@ -1,5 +1,6 @@
 package pl.shockah.godwit.geom
 
+import pl.shockah.godwit.ease.Easable
 import pl.shockah.godwit.geom.polygon.Polygon
 import pl.shockah.godwit.geom.polygon.Polygonable
 import kotlin.math.max
@@ -8,7 +9,7 @@ import kotlin.math.min
 class Line(
 		point1: Vec2,
 		point2: Vec2
-) : Polygonable.Open {
+) : Polygonable.Open, Easable<Line> {
 	var point1: MutableVec2 = point1.mutableCopy()
 	var point2: MutableVec2 = point2.mutableCopy()
 
@@ -86,5 +87,12 @@ class Line(
 
 	override fun asPolygon(): Polygon {
 		return Polygon(point1, point2)
+	}
+
+	override fun ease(other: Line, f: Float): Line {
+		return Line(
+				point1.ease(other.point1, f),
+				point2.ease(other.point2, f)
+		)
 	}
 }

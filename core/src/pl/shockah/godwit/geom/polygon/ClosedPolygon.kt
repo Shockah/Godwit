@@ -80,4 +80,12 @@ class ClosedPolygon(
 			}
 		}
 	}
+
+	override fun ease(other: Polygon, f: Float): ClosedPolygon {
+		if (other !is ClosedPolygon)
+			throw IllegalArgumentException()
+		if (points.size != other.points.size)
+			throw IllegalArgumentException()
+		return ClosedPolygon(points.mapIndexed { index, point -> point.ease(other.points[index], f) })
+	}
 }

@@ -1,11 +1,12 @@
 package pl.shockah.godwit.geom.polygon
 
 import pl.shockah.godwit.ObservableList
+import pl.shockah.godwit.ease.Easable
 import pl.shockah.godwit.geom.*
 
 open class Polygon(
 		points: List<Vec2>
-) : Shape.Outline {
+) : Shape.Outline, Easable<Polygon> {
 	val points: ObservableList<MutableVec2> = ObservableList(points.map { it.mutableCopy() }.toMutableList())
 
 	constructor(vararg points: Vec2) : this(points.toMutableList())
@@ -66,5 +67,11 @@ open class Polygon(
 				return@registerCollisionHandler false
 			}
 		}
+	}
+
+	override fun ease(other: Polygon, f: Float): Polygon {
+		if (points.size != other.points.size)
+			throw IllegalArgumentException()
+		return Polygon(points.mapIndexed { index, point -> point.ease(other.points[index], f) })
 	}
 }

@@ -1,12 +1,13 @@
 package pl.shockah.godwit.geom
 
+import pl.shockah.godwit.ease.Easable
 import pl.shockah.godwit.geom.polygon.Polygon
 import kotlin.math.sqrt
 
 class Circle(
 		position: Vec2,
 		var radius: Float
-) : Shape.Filled, Shape.Outline {
+) : Shape.Filled, Shape.Outline, Easable<Circle> {
 	var position: MutableVec2 = position.mutableCopy()
 
 	override val boundingBox: Rectangle
@@ -90,5 +91,12 @@ class Circle(
 
 		val p2 = ImmutableVec2(line.point1.x - baX * abScalingFactor2, line.point1.y - baY * abScalingFactor2)
 		return listOf(p1, p2)
+	}
+
+	override fun ease(other: Circle, f: Float): Circle {
+		return Circle(
+				position.ease(other.position, f),
+				radius.ease(other.radius, f)
+		)
 	}
 }
