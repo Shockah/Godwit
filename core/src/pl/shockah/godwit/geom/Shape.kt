@@ -2,6 +2,7 @@ package pl.shockah.godwit.geom
 
 import pl.shockah.godwit.geom.polygon.Polygonable
 import kotlin.reflect.KClass
+import kotlin.reflect.full.isSubclassOf
 import kotlin.reflect.full.superclasses
 
 interface Shape {
@@ -31,13 +32,14 @@ interface Shape {
 			return collisionHandlers[Pair(first, second)] ?: collisionHandlers[Pair(second, first)] ?: findHandlerFromSupertypes(first, second)
 		}
 
+		@Suppress("UNCHECKED_CAST")
 		private fun findHandlerFromSupertypes(first: KClass<out Shape>, second: KClass<out Shape>): ((Shape, Shape) -> Boolean)? {
-			for (firstSubclass in first.superclasses.filterIsInstance<KClass<Shape>>().filter { it != Shape::class }) {
+			for (firstSubclass in first.superclasses.filter { it != Shape::class && it.isSubclassOf(Shape::class) }.map { it as KClass<out Shape> }) {
 				val result = findHandler(firstSubclass, second)
 				if (result != null)
 					return result
 			}
-			for (secondSubclass in second.superclasses.filterIsInstance<KClass<Shape>>().filter { it != Shape::class }) {
+			for (secondSubclass in second.superclasses.filter { it != Shape::class && it.isSubclassOf(Shape::class) }.map { it as KClass<out Shape> }) {
 				val result = findHandler(first, secondSubclass)
 				if (result != null)
 					return result
