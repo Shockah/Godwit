@@ -8,7 +8,7 @@ data class XYZColorSpace(
 		var y: Float,
 		var z: Float
 ) : ColorSpace<XYZColorSpace> {
-	class Reference(
+	data class Reference(
 			val x: Float,
 			val y: Float,
 			val z: Float
