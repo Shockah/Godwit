@@ -3,7 +3,6 @@ package pl.shockah.godwit.color
 import pl.shockah.godwit.geom.Degrees
 import kotlin.math.*
 
-
 data class HSLuvColorSpace(
 		var h: Float,
 		var s: Float,
@@ -22,14 +21,17 @@ data class HSLuvColorSpace(
 
 		fun from(lch: LCHColorSpace): HSLuvColorSpace {
 			if (lch.l > 99.9999999f)
-				return HSLuvColorSpace(lch.h, 0f, 1f)
+				return HSLuvColorSpace(lch.h, 0f, 1f, lch.reference)
 			if (lch.l < 0.00000001f)
-				return HSLuvColorSpace(lch.h, 0f, 0f)
+				return HSLuvColorSpace(lch.h, 0f, 0f, lch.reference)
 
 			val max = maxChromaForLH(lch.l, lch.h)
 			val s = lch.c / max
-			return HSLuvColorSpace(lch.h, s, lch.l * 0.01f)
+			return HSLuvColorSpace(lch.h, s, lch.l * 0.01f, lch.reference)
 		}
+
+		val LCHColorSpace.hsluv: HSLuvColorSpace
+			get() = from(this)
 
 		private fun maxChromaForLH(L: Float, H: Float): Float {
 			val hrad = (H / 360f) * PI * 2
@@ -74,6 +76,9 @@ data class HSLuvColorSpace(
 
 	override val rgb: RGBColorSpace
 		get() = lch.rgb
+
+	val exactRgb: RGBColorSpace
+		get() = lch.exactRgb
 
 	val lch: LCHColorSpace
 		get() {

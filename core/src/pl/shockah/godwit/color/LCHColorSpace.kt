@@ -3,7 +3,6 @@ package pl.shockah.godwit.color
 import pl.shockah.godwit.geom.Degrees
 import kotlin.math.*
 
-
 data class LCHColorSpace(
 		var l: Float,
 		var c: Float,
@@ -22,6 +21,9 @@ data class LCHColorSpace(
 					lab.reference
 			)
 		}
+
+		val LabColorSpace.lch: LCHColorSpace
+			get() = from(this)
 	}
 
 	override val rgb: RGBColorSpace

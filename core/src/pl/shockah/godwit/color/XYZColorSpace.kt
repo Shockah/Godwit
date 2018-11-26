@@ -38,6 +38,9 @@ data class XYZColorSpace(
 					r * 0.0193f + g * 0.1192f + b * 0.9505f
 			)
 		}
+
+		val RGBColorSpace.xyz: XYZColorSpace
+			get() = from(this)
 	}
 
 	override val rgb: RGBColorSpace

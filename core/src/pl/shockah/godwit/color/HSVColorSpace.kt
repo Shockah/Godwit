@@ -30,6 +30,9 @@ data class HSVColorSpace(
 
 			return HSVColorSpace(h / 360f, s, v)
 		}
+
+		val RGBColorSpace.hsv: HSVColorSpace
+			get() = from(this)
 	}
 
 	override fun copy(): HSVColorSpace = HSVColorSpace(h, s, v)
