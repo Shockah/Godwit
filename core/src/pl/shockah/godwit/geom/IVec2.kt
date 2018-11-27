@@ -14,11 +14,11 @@ abstract class IVec2<T : IVec2<T>> : Comparable<IVec2<*>>, Easable<IVec2<*>> {
 	val lengthSquared: Float
 		get() = x * x + y * y
 
-	val length: Float
+	open val length: Float
 		get() = sqrt(lengthSquared)
 
-	val angle: Degrees
-		get() = ImmutableVec2.ZERO.getAngle(this)
+	open val angle: Degrees
+		get() = ImmutableVec2.ZERO angle this
 
 	@Suppress("UNCHECKED_CAST")
 	val normalized: T
@@ -52,8 +52,16 @@ abstract class IVec2<T : IVec2<T>> : Comparable<IVec2<*>>, Easable<IVec2<*>> {
 	abstract operator fun times(scalar: Float): T
 	abstract operator fun div(scalar: Float): T
 
-	fun getAngle(vector: Vec2): Degrees {
+	infix fun angle(vector: Vec2): Degrees {
 		return Degrees(Math.toDegrees(atan2((y - vector.y).toDouble(), (vector.x - x).toDouble())).toFloat())
+	}
+
+	infix fun dot(vector: Vec2): Float {
+		return x * vector.x + y * vector.y
+	}
+
+	infix fun cross(vector: Vec2): Float {
+		return x * vector.y - y * vector.x
 	}
 
 	override fun equals(other: Any?): Boolean {

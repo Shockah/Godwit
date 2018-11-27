@@ -16,6 +16,22 @@ class MutableVec2(
 		)
 	}
 
+	override var length: Float
+		get() = super.length
+		set(value) {
+			val angle = angle
+			x = (-cos(Math.toRadians((angle.value + 180f).toDouble())) * length).toFloat()
+			y = (-sin(Math.toRadians((angle.value + 180f).toDouble())) * length).toFloat()
+		}
+
+	override var angle: Degrees
+		get() = super.angle
+		set(value) {
+			val length = length
+			x = (-cos(Math.toRadians((value.value + 180f).toDouble())) * length).toFloat()
+			y = (-sin(Math.toRadians((value.value + 180f).toDouble())) * length).toFloat()
+		}
+
 	val xy: Mutator
 		get() = Mutator()
 
