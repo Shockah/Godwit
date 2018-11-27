@@ -1,4 +1,4 @@
 package pl.shockah.godwit
 
-interface GameObject {
+interface GameEntity {
 }

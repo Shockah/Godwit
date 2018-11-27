@@ -64,6 +64,10 @@ abstract class IVec2<T : IVec2<T>> : Comparable<IVec2<*>>, Easable<IVec2<*>> {
 		return x * vector.y - y * vector.x
 	}
 
+	infix fun equals(other: Vec2): Boolean {
+		return other.x == x && other.y == y
+	}
+
 	override fun equals(other: Any?): Boolean {
 		return other is Vec2 && other.x == x && other.y == y
 	}
