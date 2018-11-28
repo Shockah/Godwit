@@ -3,12 +3,12 @@ package pl.shockah.godwit.color
 import pl.shockah.godwit.geom.Degrees
 import kotlin.math.*
 
-data class HSLuvColorSpace(
+data class HSLuvColor(
 		var h: Float,
 		var s: Float,
 		var luv: Float,
-		val reference: XYZColorSpace.Reference = XYZColorSpace.Reference.D65_2
-) : ColorSpace<HSLuvColorSpace> {
+		val reference: XYZColor.Reference = XYZColor.Reference.D65_2
+) : ColorSpace<HSLuvColor> {
 	companion object {
 		private const val kappa = 903.2962962f
 		private const val epsilon = 0.0088564516f
@@ -19,18 +19,18 @@ data class HSLuvColorSpace(
 				floatArrayOf(0.055630079696993f, -0.20397695888897f, 1.056971514242878f)
 		)
 
-		fun from(lch: LCHColorSpace): HSLuvColorSpace {
+		fun from(lch: LCHColor): HSLuvColor {
 			if (lch.l > 99.9999999f)
-				return HSLuvColorSpace(lch.h, 0f, 1f, lch.reference)
+				return HSLuvColor(lch.h, 0f, 1f, lch.reference)
 			if (lch.l < 0.00000001f)
-				return HSLuvColorSpace(lch.h, 0f, 0f, lch.reference)
+				return HSLuvColor(lch.h, 0f, 0f, lch.reference)
 
 			val max = maxChromaForLH(lch.l, lch.h)
 			val s = lch.c / max
-			return HSLuvColorSpace(lch.h, s, lch.l * 0.01f, lch.reference)
+			return HSLuvColor(lch.h, s, lch.l * 0.01f, lch.reference)
 		}
 
-		val LCHColorSpace.hsluv: HSLuvColorSpace
+		val LCHColor.hsluv: HSLuvColor
 			get() = from(this)
 
 		private fun maxChromaForLH(L: Float, H: Float): Float {
@@ -74,34 +74,34 @@ data class HSLuvColorSpace(
 		}
 	}
 
-	override val rgb: RGBColorSpace
+	override val rgb: RGBColor
 		get() = lch.rgb
 
-	val exactRgb: RGBColorSpace
+	val exactRgb: RGBColor
 		get() = lch.exactRgb
 
-	val lch: LCHColorSpace
+	val lch: LCHColor
 		get() {
 			if (luv > 0.999999999f)
-				return LCHColorSpace(1f, 0f, h)
+				return LCHColor(1f, 0f, h)
 			if (luv < 0.0000000001f)
-				return LCHColorSpace(0f, 0f, h)
+				return LCHColor(0f, 0f, h)
 
 			val max = maxChromaForLH(luv * 100f, h)
 			val c = max * s
-			return LCHColorSpace(luv * 100f, c, h, reference)
+			return LCHColor(luv * 100f, c, h, reference)
 		}
 
-	override fun copy(): HSLuvColorSpace = HSLuvColorSpace(h, s, luv, reference)
+	override fun copy(): HSLuvColor = HSLuvColor(h, s, luv, reference)
 
-	override fun getDistance(other: HSLuvColorSpace): Float {
+	override fun getDistance(other: HSLuvColor): Float {
 		var delta = Degrees(h * 360f) delta Degrees(other.h * 360f)
 		if (delta.value < 0)
 			delta = Degrees(delta.value + 360f)
 		return sqrt((delta.value / 360f).pow(2) + (s - other.s).pow(2) + (luv - other.luv).pow(2))
 	}
 
-	override fun ease(other: HSLuvColorSpace, f: Float): HSLuvColorSpace {
+	override fun ease(other: HSLuvColor, f: Float): HSLuvColor {
 		val delta = Degrees(h * 360f) delta Degrees(other.h * 360f)
 		val h2 = if (delta.value >= 0) other.h else other.h - 1f
 		var h = this.h.ease(h2, f)
@@ -110,7 +110,7 @@ data class HSLuvColorSpace(
 		if (h > 0)
 			h -= 1f
 
-		return HSLuvColorSpace(
+		return HSLuvColor(
 				h,
 				s.ease(other.s, f),
 				luv.ease(other.luv, f),

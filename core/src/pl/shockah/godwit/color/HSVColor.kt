@@ -4,13 +4,13 @@ import pl.shockah.godwit.geom.Degrees
 import kotlin.math.pow
 import kotlin.math.sqrt
 
-data class HSVColorSpace(
+data class HSVColor(
 		var h: Float,
 		var s: Float,
 		var v: Float
-) : ColorSpace<HSVColorSpace> {
+) : ColorSpace<HSVColor> {
 	companion object {
-		fun from(rgb: RGBColorSpace): HSVColorSpace {
+		fun from(rgb: RGBColor): HSVColor {
 			val max = maxOf(rgb.r, rgb.g, rgb.b)
 			val min = minOf(rgb.r, rgb.g, rgb.b)
 			val range = max - min
@@ -28,16 +28,16 @@ data class HSVColorSpace(
 			s = if (max > 0) 1 - min / max else 0f
 			v = max
 
-			return HSVColorSpace(h / 360f, s, v)
+			return HSVColor(h / 360f, s, v)
 		}
 
-		val RGBColorSpace.hsv: HSVColorSpace
+		val RGBColor.hsv: HSVColor
 			get() = from(this)
 	}
 
-	override fun copy(): HSVColorSpace = HSVColorSpace(h, s, v)
+	override fun copy(): HSVColor = HSVColor(h, s, v)
 
-	override val rgb: RGBColorSpace
+	override val rgb: RGBColor
 		get() {
 			val h = this.h * 360f
 			val x = (h / 60f + 6) % 6
@@ -47,23 +47,23 @@ data class HSVColorSpace(
 			val q = v * (1 - s * f)
 			val t = v * (1 - s * (1 - f))
 			return when (i) {
-				0 -> RGBColorSpace(v, t, p)
-				1 -> RGBColorSpace(q, v, p)
-				2 -> RGBColorSpace(p, v, t)
-				3 -> RGBColorSpace(p, q, v)
-				4 -> RGBColorSpace(t, p, v)
-				else -> RGBColorSpace(v, p, q)
+				0 -> RGBColor(v, t, p)
+				1 -> RGBColor(q, v, p)
+				2 -> RGBColor(p, v, t)
+				3 -> RGBColor(p, q, v)
+				4 -> RGBColor(t, p, v)
+				else -> RGBColor(v, p, q)
 			}
 		}
 
-	override fun getDistance(other: HSVColorSpace): Float {
+	override fun getDistance(other: HSVColor): Float {
 		var delta = Degrees(h * 360f) delta Degrees(other.h * 360f)
 		if (delta.value < 0)
 			delta = Degrees(delta.value + 360f)
 		return sqrt((delta.value / 360f).pow(2) + (s - other.s).pow(2) + (v - other.v).pow(2))
 	}
 
-	override fun ease(other: HSVColorSpace, f: Float): HSVColorSpace {
+	override fun ease(other: HSVColor, f: Float): HSVColor {
 		val delta = Degrees(h * 360f) delta Degrees(other.h * 360f)
 		val h2 = if (delta.value >= 0) other.h else other.h - 1f
 		var h = this.h.ease(h2, f)
@@ -72,7 +72,7 @@ data class HSVColorSpace(
 		if (h > 0)
 			h -= 1f
 
-		return HSVColorSpace(
+		return HSVColor(
 				h,
 				s.ease(other.s, f),
 				v.ease(other.v, f)

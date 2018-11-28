@@ -3,11 +3,11 @@ package pl.shockah.godwit.color
 import kotlin.math.pow
 import kotlin.math.sqrt
 
-data class XYZColorSpace(
+data class XYZColor(
 		var x: Float,
 		var y: Float,
 		var z: Float
-) : ColorSpace<XYZColorSpace> {
+) : ColorSpace<XYZColor> {
 	data class Reference(
 			val x: Float,
 			val y: Float,
@@ -23,7 +23,7 @@ data class XYZColorSpace(
 	}
 
 	companion object {
-		fun from(rgb: RGBColorSpace): XYZColorSpace {
+		fun from(rgb: RGBColor): XYZColor {
 			var r = if (rgb.r > 0.04045f) ((rgb.r + 0.055f) / 1.055f).pow(2.4f) else rgb.r / 12.92f
 			var g = if (rgb.g > 0.04045f) ((rgb.g + 0.055f) / 1.055f).pow(2.4f) else rgb.g / 12.92f
 			var b = if (rgb.b > 0.04045f) ((rgb.b + 0.055f) / 1.055f).pow(2.4f) else rgb.b / 12.92f
@@ -32,26 +32,26 @@ data class XYZColorSpace(
 			g *= 100
 			b *= 100
 
-			return XYZColorSpace(
+			return XYZColor(
 					r * 0.4124f + g * 0.3576f + b * 0.1805f,
 					r * 0.2126f + g * 0.7152f + b * 0.0722f,
 					r * 0.0193f + g * 0.1192f + b * 0.9505f
 			)
 		}
 
-		val RGBColorSpace.xyz: XYZColorSpace
+		val RGBColor.xyz: XYZColor
 			get() = from(this)
 	}
 
-	override val rgb: RGBColorSpace
+	override val rgb: RGBColor
 		get() = internalRGB(true, false)
 
-	val exactRgb: RGBColorSpace
+	val exactRgb: RGBColor
 		get() = internalRGB(false, true)
 
-	override fun copy(): XYZColorSpace = XYZColorSpace(x, y, z)
+	override fun copy(): XYZColor = XYZColor(x, y, z)
 
-	private fun internalRGB(clamp: Boolean, rangeException: Boolean): RGBColorSpace {
+	private fun internalRGB(clamp: Boolean, rangeException: Boolean): RGBColor {
 		val x = this.x / 100
 		val y = this.y / 100
 		val z = this.z / 100
@@ -77,15 +77,15 @@ data class XYZColorSpace(
 				throw IllegalArgumentException("Cannot convert to RGB - B outside the 0-1 bounds.")
 		}
 
-		return RGBColorSpace(r, g, b)
+		return RGBColor(r, g, b)
 	}
 
-	override fun getDistance(other: XYZColorSpace): Float {
+	override fun getDistance(other: XYZColor): Float {
 		return sqrt((x - other.x).pow(2) * 0.01f + (y - other.y).pow(2) * 0.01f + (z - other.z).pow(2) * 0.01f)
 	}
 
-	override fun ease(other: XYZColorSpace, f: Float): XYZColorSpace {
-		return XYZColorSpace(
+	override fun ease(other: XYZColor, f: Float): XYZColor {
+		return XYZColor(
 				x.ease(other.x, f),
 				y.ease(other.y, f),
 				z.ease(other.z, f)
