@@ -11,7 +11,7 @@ class Circle(
 	var position: MutableVec2 = position.mutableCopy()
 
 	override val boundingBox: Rectangle
-		get() = Rectangle(position - ImmutableVec2(radius, radius), ImmutableVec2(radius * 2, radius * 2))
+		get() = Rectangle.centered(position, ImmutableVec2(radius * 2, radius * 2))
 
 	override val center: Vec2
 		get() = position
