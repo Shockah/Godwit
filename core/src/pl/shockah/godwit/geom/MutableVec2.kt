@@ -20,8 +20,8 @@ class MutableVec2(
 		get() = super.length
 		set(value) {
 			val angle = angle
-			x = (-cos(Math.toRadians((angle.value + 180f).toDouble())) * length).toFloat()
-			y = (-sin(Math.toRadians((angle.value + 180f).toDouble())) * length).toFloat()
+			x = (-cos(Math.toRadians((angle.value + 180f).toDouble())) * value).toFloat()
+			y = (-sin(Math.toRadians((angle.value + 180f).toDouble())) * value).toFloat()
 		}
 
 	override var angle: Degrees

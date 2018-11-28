@@ -1,6 +1,6 @@
 package pl.shockah.godwit.swift
 
-inline fun <T> T?.guard(block: T?.() -> Nothing): T {
+inline fun <T> T?.guard(block: () -> Nothing): T {
 	return this ?: block()
 }
 
