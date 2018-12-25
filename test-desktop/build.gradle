@@ -1,11 +1,8 @@
 apply plugin: "java"
 
 dependencies {
-	compile project(":test")
-	compile project(":desktop")
-	compile "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
-	compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
-	compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
+	implementation project(":test")
+	implementation project(":desktop-lwjgl3-windows")
 }
 
 targetCompatibility = "1.8"

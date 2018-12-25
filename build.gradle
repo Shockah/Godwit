@@ -9,19 +9,16 @@ buildscript {
 		google()
 	}
 	dependencies {
-		classpath "com.android.tools.build:gradle:3.0.1"
+		classpath "com.android.tools.build:gradle:$androidPluginVersion"
 		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
 	}
 }
 
 allprojects {
-	ext {
-		appName = "Godwit"
-	}
-
 	repositories {
 		mavenLocal()
 		mavenCentral()
+		google()
 		maven {
 			url "https://oss.sonatype.org/content/repositories/snapshots/"
 		}

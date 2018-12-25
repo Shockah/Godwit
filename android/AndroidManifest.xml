@@ -2,24 +2,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	package="pl.shockah.godwit.android"
 	android:versionCode="1"
-	android:versionName="1.0" >
-
-	<uses-sdk android:minSdkVersion="19" />
-
-	<application>
-		<provider
-			android:name="pl.shockah.godwit.platform.AndroidShareService$FileProvider"
-			android:authorities="${applicationId}.pl.shockah.godwit.android.shareprovider"
-			android:exported="false"
-			android:grantUriPermissions="true">
-			<meta-data
-				android:name="android.support.FILE_PROVIDER_PATHS"
-				android:resource="@xml/share_paths" />
-		</provider>
-
-		<activity
-			android:name="pl.shockah.godwit.platform.AndroidWebViewService$WebViewActivity"
-			android:exported="false">
-		</activity>
-	</application>
+	android:versionName="5.0" >
 </manifest>

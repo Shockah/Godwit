@@ -4,10 +4,8 @@ apply plugin: "maven"
 group = "com.github.Shockah"
 
 dependencies {
-	compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
-	compile "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
-	compile "com.badlogicgames.gdx:gdx:$gdxVersion"
-//	compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
+	implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
+	implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
 }
 
 sourceSets.main {

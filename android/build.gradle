@@ -9,8 +9,9 @@ buildscript {
 		google()
 	}
 	dependencies {
+		classpath "com.android.tools.build:gradle:$androidPluginVersion"
 		classpath "com.github.dcendents:android-maven-gradle-plugin:2.0"
-		classpath "me.tatarka:gradle-retrolambda:3.7.0"
+		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
 	}
 }
 
@@ -25,14 +26,12 @@ configurations {
 }
 
 dependencies {
-	compile project(':core')
-	compile "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
-	compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
+	implementation project(':core')
 }
 
 android {
-	buildToolsVersion '26.0.3'
-	compileSdkVersion 26
+	buildToolsVersion '28.0.3'
+	compileSdkVersion 28
 	sourceSets {
 		main {
 			manifest.srcFile 'AndroidManifest.xml'
@@ -43,15 +42,10 @@ android {
 			assets.srcDirs = ["assets"]
 			jniLibs.srcDirs = ["libs"]
 		}
-
-		instrumentTest.setRoot("tests")
-	}
-	packagingOptions {
-		exclude "META-INF/robovm/ios/robovm.xml"
 	}
 	defaultConfig {
 		minSdkVersion 19
-		targetSdkVersion 26
+		targetSdkVersion 28
 	}
 	compileOptions {
 		sourceCompatibility JavaVersion.VERSION_1_8
