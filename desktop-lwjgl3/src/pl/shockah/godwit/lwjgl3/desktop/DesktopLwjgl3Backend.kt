@@ -1,4 +1,4 @@
-package pl.shockah.godwit.desktop.lwjgl3
+package pl.shockah.godwit.lwjgl3.desktop
 
 import org.lwjgl.glfw.Callbacks.glfwFreeCallbacks
 import org.lwjgl.glfw.GLFW.*
@@ -8,11 +8,16 @@ import org.lwjgl.opengl.GL11.*
 import org.lwjgl.system.MemoryUtil.NULL
 import pl.shockah.godwit.Backend
 import pl.shockah.godwit.geom.Vec2
+import pl.shockah.godwit.gl.GLBinding
 
 class DesktopLwjgl3Backend(
 		var size: Vec2,
 		var title: String? = null
 ) : Backend {
+	override val glBinding: GLBinding by lazy {
+		DesktopLwjgl3GLBinding()
+	}
+
 	private var windowHandle: Long? = null
 
 	override fun init() {
@@ -23,16 +28,16 @@ class DesktopLwjgl3Backend(
 		if (windowHandle == NULL)
 			throw IllegalStateException("Failed to create the GLFW window");
 
-		windowHandle?.let { windowHandle ->
-			glfwMakeContextCurrent(windowHandle)
-			glfwShowWindow(windowHandle)
+		windowHandle?.apply {
+			glfwMakeContextCurrent(this)
+			glfwShowWindow(this)
 		}
 	}
 
 	override fun dispose() {
-		windowHandle?.let { windowHandle ->
-			glfwFreeCallbacks(windowHandle)
-			glfwDestroyWindow(windowHandle)
+		windowHandle?.apply {
+			glfwFreeCallbacks(this)
+			glfwDestroyWindow(this)
 		}
 	}
 
@@ -43,13 +48,13 @@ class DesktopLwjgl3Backend(
 	}
 
 	override fun loop() {
-		windowHandle?.let { windowHandle ->
+		windowHandle?.apply {
 			GL.createCapabilities()
 			GL11.glClearColor(1.0f, 0.0f, 0.0f, 0.0f)
 
-			while (!glfwWindowShouldClose(windowHandle)) {
+			while (!glfwWindowShouldClose(this)) {
 				glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT)
-				glfwSwapBuffers(windowHandle)
+				glfwSwapBuffers(this)
 				glfwPollEvents()
 			}
 		}

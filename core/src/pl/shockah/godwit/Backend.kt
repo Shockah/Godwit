@@ -1,6 +1,10 @@
 package pl.shockah.godwit
 
+import pl.shockah.godwit.gl.GLBinding
+
 interface Backend {
+	val glBinding: GLBinding
+
 	fun init()
 
 	fun dispose()
