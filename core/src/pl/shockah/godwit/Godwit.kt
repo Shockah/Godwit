@@ -1,9 +1,10 @@
 package pl.shockah.godwit
 
+import com.badlogic.gdx.ApplicationAdapter
+
 class Godwit(
-		val backend: Backend,
 		private val initialStateFactory: () -> GameState
-) {
+) : ApplicationAdapter() {
 	private var _state: GameState? = null
 	var state: GameState
 		get() = _state ?: throw IllegalStateException("Not yet initialized.")
@@ -11,17 +12,11 @@ class Godwit(
 			_state = value
 		}
 
-	fun launch() {
-		backend.init()
-		backend.loop()
-		backend.dispose()
-	}
-
-	fun create() {
+	override fun create() {
 		state = initialStateFactory()
 	}
 
-	fun render() {
+	override fun render() {
 		state.render()
 	}
 }
