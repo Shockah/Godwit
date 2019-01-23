@@ -34,24 +34,7 @@ open class Polygon(
 			return result
 		}
 
-	override fun copy(): Polygon = Polygon(points)
-
-	override fun translate(vector: Vec2) {
-		points.forEach { it.xy += vector }
-	}
-
-	override fun mirror(horizontal: Boolean, vertical: Boolean) {
-		if (horizontal)
-			points.forEach { it.x = -it.x }
-		if (vertical)
-			points.forEach { it.y = -it.y }
-	}
-
-	override fun scale(scale: Float) {
-		points.forEach { it.xy *= scale }
-	}
-
-	private companion object Collisions {
+	companion object {
 		init {
 			Shape.registerCollisionHandler(Polygon::class, Polygon::class) { a, b ->
 				for (aLine in a.lines) {
@@ -70,6 +53,23 @@ open class Polygon(
 				return@registerCollisionHandler false
 			}
 		}
+	}
+
+	override fun copy(): Polygon = Polygon(points)
+
+	override fun translate(vector: Vec2) {
+		points.forEach { it.xy += vector }
+	}
+
+	override fun mirror(horizontal: Boolean, vertical: Boolean) {
+		if (horizontal)
+			points.forEach { it.x = -it.x }
+		if (vertical)
+			points.forEach { it.y = -it.y }
+	}
+
+	override fun scale(scale: Float) {
+		points.forEach { it.xy *= scale }
 	}
 
 	override fun ease(other: Polygon, f: Float): Polygon {

@@ -27,6 +27,33 @@ class Triangle(
 				Line(points[2], points[3])
 		)
 
+	companion object {
+		init {
+			Shape.registerCollisionHandler(Triangle::class, Triangle::class) { a, b ->
+				for (point in b.points) {
+					if (point in a)
+						return@registerCollisionHandler true
+				}
+				for (aLine in a.lines) {
+					for (bLine in b.lines) {
+						if (bLine collides aLine)
+							return@registerCollisionHandler true
+					}
+				}
+				return@registerCollisionHandler false
+			}
+			Shape.registerCollisionHandler(Triangle::class, Line::class) { triangle, line ->
+				if (line.point1 in triangle || line.point2 in triangle)
+					return@registerCollisionHandler true
+				for (triangleLine in triangle.lines) {
+					if (line collides triangleLine)
+						return@registerCollisionHandler true
+				}
+				return@registerCollisionHandler false
+			}
+		}
+	}
+
 	override fun copy(): Triangle = Triangle(points[0], points[1], points[2])
 
 	override fun equals(other: Any?): Boolean {
@@ -61,33 +88,6 @@ class Triangle(
 		val b2 = sign(point, points[1], points[2]) < 0f
 		val b3 = sign(point, points[2], points[0]) < 0f
 		return b1 == b2 && b2 == b3
-	}
-
-	private companion object Collisions {
-		init {
-			Shape.registerCollisionHandler(Triangle::class, Triangle::class) { a, b ->
-				for (point in b.points) {
-					if (point in a)
-						return@registerCollisionHandler true
-				}
-				for (aLine in a.lines) {
-					for (bLine in b.lines) {
-						if (bLine collides aLine)
-							return@registerCollisionHandler true
-					}
-				}
-				return@registerCollisionHandler false
-			}
-			Shape.registerCollisionHandler(Triangle::class, Line::class) { triangle, line ->
-				if (line.point1 in triangle || line.point2 in triangle)
-					return@registerCollisionHandler true
-				for (triangleLine in triangle.lines) {
-					if (line collides triangleLine)
-						return@registerCollisionHandler true
-				}
-				return@registerCollisionHandler false
-			}
-		}
 	}
 
 	override fun asClosedPolygon(): ClosedPolygon {

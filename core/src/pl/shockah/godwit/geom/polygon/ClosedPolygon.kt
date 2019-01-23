@@ -39,21 +39,7 @@ class ClosedPolygon(
 		}
 	}
 
-	private fun triangulate() {
-		if (!dirty)
-			return
-		_triangles = triangulator.triangulate(points) ?: throw IllegalStateException("Cannot triangulate polygon.")
-	}
-
-	override fun contains(point: Vec2): Boolean {
-		for (triangle in triangles) {
-			if (point in triangle)
-				return true
-		}
-		return false
-	}
-
-	private companion object Collisions {
+	companion object {
 		init {
 			Shape.registerCollisionHandler(ClosedPolygon::class, ClosedPolygon::class) { a, b ->
 				for (aTriangle in a.triangles) {
@@ -79,6 +65,20 @@ class ClosedPolygon(
 				return@registerCollisionHandler false
 			}
 		}
+	}
+
+	private fun triangulate() {
+		if (!dirty)
+			return
+		_triangles = triangulator.triangulate(points) ?: throw IllegalStateException("Cannot triangulate polygon.")
+	}
+
+	override fun contains(point: Vec2): Boolean {
+		for (triangle in triangles) {
+			if (point in triangle)
+				return true
+		}
+		return false
 	}
 
 	override fun ease(other: Polygon, f: Float): ClosedPolygon {

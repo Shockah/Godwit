@@ -25,6 +25,14 @@ class Line(
 	override val center: Vec2
 		get() = (point1 + point2) * 0.5f
 
+	companion object {
+		init {
+			Shape.registerCollisionHandler(Line::class, Line::class) { a, b ->
+				a intersect b != null
+			}
+		}
+	}
+
 	override fun copy(): Line = Line(point1, point2)
 
 	override fun equals(other: Any?): Boolean {
@@ -54,14 +62,6 @@ class Line(
 	override fun scale(scale: Float) {
 		point1.xy *= scale
 		point2.xy *= scale
-	}
-
-	private companion object Collisions {
-		init {
-			Shape.registerCollisionHandler(Line::class, Line::class) { a, b ->
-				a intersect b != null
-			}
-		}
 	}
 
 	infix fun intersect(line: Line): Vec2? {

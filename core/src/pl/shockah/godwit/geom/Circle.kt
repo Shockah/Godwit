@@ -16,6 +16,24 @@ class Circle(
 	override val center: Vec2
 		get() = position
 
+	companion object {
+		init {
+			Shape.registerCollisionHandler(Circle::class, Circle::class) { a, b ->
+				(b.position - a.position).length < b.radius + a.radius
+			}
+			Shape.registerCollisionHandler(Circle::class, Line::class) { circle, line ->
+				line.point1 in circle || line.point2 in circle || !(circle intersect line).isEmpty()
+			}
+			Shape.registerCollisionHandler(Circle::class, Polygon::class) { circle, polygon ->
+				for (line in polygon.lines) {
+					if (circle collides line)
+						return@registerCollisionHandler true
+				}
+				return@registerCollisionHandler false
+			}
+		}
+	}
+
 	override fun copy(): Circle = Circle(position, radius)
 
 	override fun equals(other: Any?): Boolean {
@@ -44,24 +62,6 @@ class Circle(
 
 	override operator fun contains(point: Vec2): Boolean {
 		return (position - point).length <= radius
-	}
-
-	private companion object Collisions {
-		init {
-			Shape.registerCollisionHandler(Circle::class, Circle::class) { a, b ->
-				(b.position - a.position).length < b.radius + a.radius
-			}
-			Shape.registerCollisionHandler(Circle::class, Line::class) { circle, line ->
-				line.point1 in circle || line.point2 in circle || !(circle intersect line).isEmpty()
-			}
-			Shape.registerCollisionHandler(Circle::class, Polygon::class) { circle, polygon ->
-				for (line in polygon.lines) {
-					if (circle collides line)
-						return@registerCollisionHandler true
-				}
-				return@registerCollisionHandler false
-			}
-		}
 	}
 
 	infix fun intersect(line: Line): List<ImmutableVec2> {

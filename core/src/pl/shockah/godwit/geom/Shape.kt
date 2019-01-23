@@ -6,6 +6,11 @@ import kotlin.reflect.full.isSubclassOf
 import kotlin.reflect.full.superclasses
 
 interface Shape {
+	val boundingBox: Rectangle
+
+	val center: Vec2
+		get() = boundingBox.center
+
 	companion object {
 		private val collisionHandlers: MutableMap<Pair<KClass<out Shape>, KClass<out Shape>>, (Shape, Shape) -> Boolean> = mutableMapOf()
 
@@ -48,15 +53,12 @@ interface Shape {
 		}
 	}
 
-	val boundingBox: Rectangle
-
-	val center: Vec2
-		get() = boundingBox.center
-
 	fun copy(): Shape
 
 	fun translate(vector: Vec2)
+
 	fun mirror(horizontal: Boolean, vertical: Boolean)
+
 	fun scale(scale: Float)
 
 	infix fun collides(other: Shape): Boolean {
