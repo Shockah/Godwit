@@ -5,10 +5,10 @@ import kotlin.math.pow
 import kotlin.math.sqrt
 
 data class HSLColor(
-		val h: Float,
-		val s: Float,
-		val l: Float
-) : Color<HSLColor> {
+		var h: Float,
+		var s: Float,
+		var l: Float
+) : ColorSpace<HSLColor> {
 	companion object {
 		fun from(rgb: RGBColor): HSLColor {
 			val max = maxOf(rgb.r, rgb.g, rgb.b)

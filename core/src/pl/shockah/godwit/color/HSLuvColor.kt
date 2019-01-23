@@ -4,11 +4,11 @@ import pl.shockah.godwit.geom.Degrees
 import kotlin.math.*
 
 data class HSLuvColor(
-		val h: Float,
-		val s: Float,
-		val luv: Float,
+		var h: Float,
+		var s: Float,
+		var luv: Float,
 		val reference: XYZColor.Reference = XYZColor.Reference.D65_2
-) : Color<HSLuvColor> {
+) : ColorSpace<HSLuvColor> {
 	companion object {
 		private const val kappa = 903.2962962f
 		private const val epsilon = 0.0088564516f

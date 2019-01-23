@@ -1,3 +1,3 @@
 # Godwit
 
-## A standalone game engine (not using LibGDX anymore).
+## A game engine on top of libgdx.

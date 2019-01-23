@@ -4,11 +4,11 @@ import pl.shockah.godwit.geom.Degrees
 import kotlin.math.*
 
 data class LCHColor(
-		val l: Float,
-		val c: Float,
-		val h: Float,
+		var l: Float,
+		var c: Float,
+		var h: Float,
 		val reference: XYZColor.Reference = XYZColor.Reference.D65_2
-) : Color<LCHColor> {
+) : ColorSpace<LCHColor> {
 	companion object {
 		fun from(lab: LabColor): LCHColor {
 			var h = atan2(lab.b, lab.a)

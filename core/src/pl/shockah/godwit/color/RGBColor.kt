@@ -4,10 +4,10 @@ import kotlin.math.pow
 import kotlin.math.sqrt
 
 data class RGBColor(
-		val r: Float,
-		val g: Float,
-		val b: Float
-) : Color<RGBColor> {
+		var r: Float,
+		var g: Float,
+		var b: Float
+) : ColorSpace<RGBColor> {
 	override val rgb: RGBColor
 		get() = copy()
 

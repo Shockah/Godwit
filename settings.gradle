@@ -1,6 +1,5 @@
 include 'core'
 include 'tree-entities'
-include 'desktop-lwjgl3', 'desktop-lwjgl3-windows'
-include 'android', 'ios'
+include 'desktop', 'android', 'ios'
 include 'test'
 include 'test-desktop'

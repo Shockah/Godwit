@@ -4,10 +4,10 @@ import kotlin.math.pow
 import kotlin.math.sqrt
 
 data class XYZColor(
-		val x: Float,
-		val y: Float,
-		val z: Float
-) : Color<XYZColor> {
+		var x: Float,
+		var y: Float,
+		var z: Float
+) : ColorSpace<XYZColor> {
 	data class Reference(
 			val x: Float,
 			val y: Float,

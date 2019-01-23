@@ -4,11 +4,11 @@ import kotlin.math.pow
 import kotlin.math.sqrt
 
 data class LabColor(
-		val l: Float,
-		val a: Float,
-		val b: Float,
+		var l: Float,
+		var a: Float,
+		var b: Float,
 		val reference: XYZColor.Reference = XYZColor.Reference.D65_2
-) : Color<LabColor> {
+) : ColorSpace<LabColor> {
 	companion object {
 		fun from(xyz: XYZColor, reference: XYZColor.Reference = XYZColor.Reference.D65_2): LabColor {
 			var x = xyz.x / reference.x
