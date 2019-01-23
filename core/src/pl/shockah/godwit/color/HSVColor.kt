@@ -1,6 +1,6 @@
 package pl.shockah.godwit.color
 
-import pl.shockah.godwit.geom.Degrees
+import pl.shockah.godwit.geom.degrees
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -8,7 +8,7 @@ data class HSVColor(
 		val h: Float,
 		val s: Float,
 		val v: Float
-) : GColor<HSVColor> {
+) : IGColor<HSVColor>() {
 	companion object {
 		fun from(rgb: RGBColor): HSVColor {
 			val max = maxOf(rgb.r, rgb.g, rgb.b)
@@ -30,41 +30,35 @@ data class HSVColor(
 
 			return HSVColor(h / 360f, s, v)
 		}
-
-		val RGBColor.hsv: HSVColor
-			get() = from(this)
 	}
 
-	override fun copy(): HSVColor = HSVColor(h, s, v)
-
-	override val rgb: RGBColor
-		get() {
-			val h = this.h * 360f
-			val x = (h / 60f + 6) % 6
-			val i = x.toInt()
-			val f = x - i
-			val p = v * (1 - s)
-			val q = v * (1 - s * f)
-			val t = v * (1 - s * (1 - f))
-			return when (i) {
-				0 -> RGBColor(v, t, p)
-				1 -> RGBColor(q, v, p)
-				2 -> RGBColor(p, v, t)
-				3 -> RGBColor(p, q, v)
-				4 -> RGBColor(t, p, v)
-				else -> RGBColor(v, p, q)
-			}
+	override val rgb by lazy {
+		val h = this.h * 360f
+		val x = (h / 60f + 6) % 6
+		val i = x.toInt()
+		val f = x - i
+		val p = v * (1 - s)
+		val q = v * (1 - s * f)
+		val t = v * (1 - s * (1 - f))
+		return@lazy when (i) {
+			0 -> RGBColor(v, t, p)
+			1 -> RGBColor(q, v, p)
+			2 -> RGBColor(p, v, t)
+			3 -> RGBColor(p, q, v)
+			4 -> RGBColor(t, p, v)
+			else -> RGBColor(v, p, q)
 		}
+	}
 
 	override fun getDistance(other: HSVColor): Float {
-		var delta = Degrees(h * 360f) delta Degrees(other.h * 360f)
+		var delta = (h * 360f).degrees delta (other.h * 360f).degrees
 		if (delta.value < 0)
-			delta = Degrees(delta.value + 360f)
+			delta = (delta.value + 360f).degrees
 		return sqrt((delta.value / 360f).pow(2) + (s - other.s).pow(2) + (v - other.v).pow(2))
 	}
 
 	override fun ease(other: HSVColor, f: Float): HSVColor {
-		val delta = Degrees(h * 360f) delta Degrees(other.h * 360f)
+		val delta = (h * 360f).degrees delta (other.h * 360f).degrees
 		val h2 = if (delta.value >= 0) other.h else other.h - 1f
 		var h = this.h.ease(h2, f)
 		if (h < 0)

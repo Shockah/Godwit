@@ -10,30 +10,33 @@ class MutableVec2(
 	constructor() : this(0f, 0f)
 
 	companion object {
-		fun angled(degrees: Degrees, length: Float): MutableVec2 = MutableVec2(
-				(-cos(Math.toRadians((degrees.value + 180f).toDouble())) * length).toFloat(),
-				(-sin(Math.toRadians((degrees.value + 180f).toDouble())) * length).toFloat()
-		)
+		fun angled(degrees: Degrees, length: Float): MutableVec2 {
+			val angle = Math.toRadians((degrees.value + 180f).toDouble())
+			return MutableVec2(
+					(-cos(angle) * length).toFloat(),
+					(-sin(angle) * length).toFloat()
+			)
+		}
 	}
 
 	override var length: Float
 		get() = super.length
 		set(value) {
-			val angle = angle
-			x = (-cos(Math.toRadians((angle.value + 180f).toDouble())) * value).toFloat()
-			y = (-sin(Math.toRadians((angle.value + 180f).toDouble())) * value).toFloat()
+			val angle = Math.toRadians((angle.value + 180f).toDouble())
+			x = (-cos(angle) * value).toFloat()
+			y = (-sin(angle) * value).toFloat()
 		}
 
 	override var angle: Degrees
 		get() = super.angle
 		set(value) {
 			val length = length
-			x = (-cos(Math.toRadians((value.value + 180f).toDouble())) * length).toFloat()
-			y = (-sin(Math.toRadians((value.value + 180f).toDouble())) * length).toFloat()
+			val angle = Math.toRadians((value.value + 180f).toDouble())
+			x = (-cos(angle) * length).toFloat()
+			y = (-sin(angle) * length).toFloat()
 		}
 
-	val xy: Mutator
-		get() = Mutator()
+	val xy: Mutator by lazy { Mutator() }
 
 	operator fun set(index: Int, value: Float) = when (index) {
 		0 -> x = value
@@ -52,6 +55,10 @@ class MutableVec2(
 	override operator fun minus(scalar: Float): MutableVec2 = normalized * (length - scalar)
 	override operator fun times(scalar: Float): MutableVec2 = MutableVec2(x * scalar, y * scalar)
 	override operator fun div(scalar: Float): MutableVec2 = MutableVec2(x / scalar, y / scalar)
+
+	override fun rotated(degrees: Degrees): MutableVec2 {
+		return MutableVec2.angled(angle + degrees, length)
+	}
 
 	inner class Mutator {
 		operator fun plusAssign(vector: Vec2) {

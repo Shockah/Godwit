@@ -1,6 +1,5 @@
 package pl.shockah.godwit.color
 
-import com.badlogic.gdx.graphics.Color
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -8,11 +7,12 @@ data class RGBColor(
 		val r: Float,
 		val g: Float,
 		val b: Float
-) : GColor<RGBColor> {
-	override val rgb: RGBColor
-		get() = copy()
+) : IGColor<RGBColor>() {
+	override val rgb = this
 
-	override fun copy(): RGBColor = RGBColor(r, g, b)
+	val hsl: HSLColor by lazy { HSLColor.from(this) }
+
+	val hsv: HSVColor by lazy { HSVColor.from(this) }
 
 	override fun getDistance(other: RGBColor): Float {
 		return sqrt((r - other.r).pow(2) + (g - other.g).pow(2) + (b - other.b).pow(2))
@@ -25,7 +25,4 @@ data class RGBColor(
 				b.ease(other.b, f)
 		)
 	}
-
-	val Color.godwit: RGBColor
-		get() = RGBColor(r, g, b)
 }

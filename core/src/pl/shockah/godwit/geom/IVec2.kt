@@ -12,7 +12,7 @@ abstract class IVec2<T : IVec2<T>> : Comparable<IVec2<*>>, Easable<IVec2<*>> {
 	abstract val x: Float
 	abstract val y: Float
 
-	val lengthSquared: Float
+	open val lengthSquared: Float
 		get() = x * x + y * y
 
 	open val length: Float
@@ -21,11 +21,11 @@ abstract class IVec2<T : IVec2<T>> : Comparable<IVec2<*>>, Easable<IVec2<*>> {
 	open val angle: Degrees
 		get() = ImmutableVec2.ZERO angle this
 
-	val gdx: Vector2
+	open val gdx: Vector2
 		get() = Vector2(x, y)
 
 	@Suppress("UNCHECKED_CAST")
-	val normalized: T
+	open val normalized: T
 		get() {
 			val length = length
 			return when (length) {
@@ -60,7 +60,7 @@ abstract class IVec2<T : IVec2<T>> : Comparable<IVec2<*>>, Easable<IVec2<*>> {
 	abstract operator fun div(scalar: Float): T
 
 	infix fun angle(vector: Vec2): Degrees {
-		return Degrees(Math.toDegrees(atan2((y - vector.y).toDouble(), (vector.x - x).toDouble())).toFloat())
+		return Math.toDegrees(atan2((y - vector.y).toDouble(), (vector.x - x).toDouble())).toFloat().degrees
 	}
 
 	infix fun dot(vector: Vec2): Float {
@@ -70,6 +70,8 @@ abstract class IVec2<T : IVec2<T>> : Comparable<IVec2<*>>, Easable<IVec2<*>> {
 	infix fun cross(vector: Vec2): Float {
 		return x * vector.y - y * vector.x
 	}
+
+	abstract infix fun rotated(degrees: Degrees): T
 
 	infix fun equals(other: Vec2): Boolean {
 		return other.x == x && other.y == y

@@ -1,6 +1,6 @@
 package pl.shockah.godwit.color
 
-import pl.shockah.godwit.geom.Degrees
+import pl.shockah.godwit.geom.degrees
 import kotlin.math.*
 
 data class HSLuvColor(
@@ -8,7 +8,7 @@ data class HSLuvColor(
 		val s: Float,
 		val luv: Float,
 		val reference: XYZColor.Reference = XYZColor.Reference.D65_2
-) : GColor<HSLuvColor> {
+) : IGColor<HSLuvColor>() {
 	companion object {
 		private const val kappa = 903.2962962f
 		private const val epsilon = 0.0088564516f
@@ -29,9 +29,6 @@ data class HSLuvColor(
 			val s = lch.c / max
 			return HSLuvColor(lch.h, s, lch.l * 0.01f, lch.reference)
 		}
-
-		val LCHColor.hsluv: HSLuvColor
-			get() = from(this)
 
 		private fun maxChromaForLH(L: Float, H: Float): Float {
 			val hrad = (H / 360f) * PI * 2
@@ -74,35 +71,30 @@ data class HSLuvColor(
 		}
 	}
 
-	override val rgb: RGBColor
-		get() = lch.rgb
+	override val rgb by lazy { lch.rgb }
 
-	val exactRgb: RGBColor
-		get() = lch.exactRgb
+	val exactRgb: RGBColor by lazy { lch.exactRgb }
 
-	val lch: LCHColor
-		get() {
-			if (luv > 0.999999999f)
-				return LCHColor(1f, 0f, h)
-			if (luv < 0.0000000001f)
-				return LCHColor(0f, 0f, h)
+	val lch: LCHColor by lazy {
+		if (luv > 0.999999999f)
+			return@lazy LCHColor(1f, 0f, h)
+		if (luv < 0.0000000001f)
+			return@lazy LCHColor(0f, 0f, h)
 
-			val max = maxChromaForLH(luv * 100f, h)
-			val c = max * s
-			return LCHColor(luv * 100f, c, h, reference)
-		}
-
-	override fun copy(): HSLuvColor = HSLuvColor(h, s, luv, reference)
+		val max = maxChromaForLH(luv * 100f, h)
+		val c = max * s
+		return@lazy LCHColor(luv * 100f, c, h, reference)
+	}
 
 	override fun getDistance(other: HSLuvColor): Float {
-		var delta = Degrees(h * 360f) delta Degrees(other.h * 360f)
+		var delta = (h * 360f).degrees delta (other.h * 360f).degrees
 		if (delta.value < 0)
-			delta = Degrees(delta.value + 360f)
+			delta = (delta.value + 360f).degrees
 		return sqrt((delta.value / 360f).pow(2) + (s - other.s).pow(2) + (luv - other.luv).pow(2))
 	}
 
 	override fun ease(other: HSLuvColor, f: Float): HSLuvColor {
-		val delta = Degrees(h * 360f) delta Degrees(other.h * 360f)
+		val delta = (h * 360f).degrees delta (other.h * 360f).degrees
 		val h2 = if (delta.value >= 0) other.h else other.h - 1f
 		var h = this.h.ease(h2, f)
 		if (h < 0)

@@ -8,7 +8,7 @@ data class LabColor(
 		val a: Float,
 		val b: Float,
 		val reference: XYZColor.Reference = XYZColor.Reference.D65_2
-) : GColor<LabColor> {
+) : IGColor<LabColor>() {
 	companion object {
 		fun from(xyz: XYZColor, reference: XYZColor.Reference = XYZColor.Reference.D65_2): LabColor {
 			var x = xyz.x / reference.x
@@ -28,30 +28,27 @@ data class LabColor(
 		}
 	}
 
-	override val rgb: RGBColor
-		get() = xyz.rgb
+	override val rgb by lazy { xyz.rgb }
 
-	val exactRgb: RGBColor
-		get() = xyz.exactRgb
+	val exactRgb: RGBColor by lazy { xyz.exactRgb }
 
-	val xyz: XYZColor
-		get() {
-			var y = (l + 16) / 116f
-			var x = a / 500f + y
-			var z = y - b / 200f
+	val xyz: XYZColor by lazy {
+		var y = (l + 16) / 116f
+		var x = a / 500f + y
+		var z = y - b / 200f
 
-			x = if (x > 0.008856f) x.pow(3) else (x - 16f / 116f) / 7.787f
-			y = if (y > 0.008856f) y.pow(3) else (y - 16f / 116f) / 7.787f
-			z = if (z > 0.008856f) z.pow(3) else (z - 16f / 116f) / 7.787f
+		x = if (x > 0.008856f) x.pow(3) else (x - 16f / 116f) / 7.787f
+		y = if (y > 0.008856f) y.pow(3) else (y - 16f / 116f) / 7.787f
+		z = if (z > 0.008856f) z.pow(3) else (z - 16f / 116f) / 7.787f
 
-			return XYZColor(
-					x * reference.x,
-					y * reference.y,
-					z * reference.z
-			)
-		}
+		return@lazy XYZColor(
+				x * reference.x,
+				y * reference.y,
+				z * reference.z
+		)
+	}
 
-	override fun copy(): LabColor = LabColor(l, a, b, reference)
+	val lch: LCHColor by lazy { LCHColor.from(this) }
 
 	override fun getDistance(other: LabColor): Float {
 		return sqrt((l - other.l).pow(2) * 0.01f + (a - other.a).pow(2) * 0.005f + (b - other.b).pow(2) * 0.005f)

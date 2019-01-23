@@ -7,7 +7,7 @@ data class XYZColor(
 		val x: Float,
 		val y: Float,
 		val z: Float
-) : GColor<XYZColor> {
+) : IGColor<XYZColor>() {
 	data class Reference(
 			val x: Float,
 			val y: Float,
@@ -43,13 +43,9 @@ data class XYZColor(
 			get() = from(this)
 	}
 
-	override val rgb: RGBColor
-		get() = internalRGB(true, false)
+	override val rgb by lazy { internalRGB(true, false) }
 
-	val exactRgb: RGBColor
-		get() = internalRGB(false, true)
-
-	override fun copy(): XYZColor = XYZColor(x, y, z)
+	val exactRgb: RGBColor by lazy { internalRGB(false, true) }
 
 	private fun internalRGB(clamp: Boolean, rangeException: Boolean): RGBColor {
 		val x = this.x / 100
