@@ -1,5 +1,6 @@
 package pl.shockah.godwit.geom
 
+import com.badlogic.gdx.math.Vector2
 import pl.shockah.godwit.ease.Easable
 import pl.shockah.godwit.ease.Easing
 import kotlin.math.atan2
@@ -19,6 +20,9 @@ abstract class IVec2<T : IVec2<T>> : Comparable<IVec2<*>>, Easable<IVec2<*>> {
 
 	open val angle: Degrees
 		get() = ImmutableVec2.ZERO angle this
+
+	val gdx: Vector2
+		get() = Vector2(x, y)
 
 	@Suppress("UNCHECKED_CAST")
 	val normalized: T

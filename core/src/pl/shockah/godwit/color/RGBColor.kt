@@ -1,5 +1,6 @@
 package pl.shockah.godwit.color
 
+import com.badlogic.gdx.graphics.Color
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -24,4 +25,7 @@ data class RGBColor(
 				b.ease(other.b, f)
 		)
 	}
+
+	val Color.godwit: RGBColor
+		get() = RGBColor(r, g, b)
 }

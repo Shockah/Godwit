@@ -1,5 +1,6 @@
 package pl.shockah.godwit.geom
 
+import com.badlogic.gdx.math.Vector2
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -29,4 +30,7 @@ class ImmutableVec2(
 	override operator fun minus(scalar: Float): ImmutableVec2 = normalized * (length - scalar)
 	override operator fun times(scalar: Float): ImmutableVec2 = ImmutableVec2(x * scalar, y * scalar)
 	override operator fun div(scalar: Float): ImmutableVec2 = ImmutableVec2(x / scalar, y / scalar)
+
+	val Vector2.godwit: ImmutableVec2
+		get() = ImmutableVec2(x, y)
 }
