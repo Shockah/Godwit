@@ -77,6 +77,10 @@ abstract class IVec2<T : IVec2<T>> : Comparable<IVec2<*>>, Easable<IVec2<*>> {
 		return other.x == x && other.y == y
 	}
 
+	infix fun notEquals(other: Vec2): Boolean {
+		return other.x != x || other.y != y
+	}
+
 	override fun equals(other: Any?): Boolean {
 		return other is Vec2 && other.x == x && other.y == y
 	}

@@ -1,5 +1,5 @@
 include 'core'
-include 'tree-entities'
 include 'desktop', 'android', 'ios'
+include 'tree-nodes'
 include 'test'
 include 'test-desktop'

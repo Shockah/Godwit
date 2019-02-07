@@ -56,6 +56,11 @@ class MutableVec2(
 	override operator fun times(scalar: Float): MutableVec2 = MutableVec2(x * scalar, y * scalar)
 	override operator fun div(scalar: Float): MutableVec2 = MutableVec2(x / scalar, y / scalar)
 
+	fun set(vector: Vec2) {
+		x = vector.x
+		y = vector.y
+	}
+
 	override fun rotated(degrees: Degrees): MutableVec2 {
 		return MutableVec2.angled(angle + degrees, length)
 	}

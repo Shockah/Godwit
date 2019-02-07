@@ -22,6 +22,8 @@ inline class Degrees @Deprecated("Use Degrees.Companion.of(value: Float) or Floa
 		val value: Float
 ) : Easable<Degrees> {
 	companion object {
+		val ZERO = Degrees.of(0f)
+
 		@Suppress("DEPRECATION")
 		fun of(value: Float): Degrees {
 			return Degrees(value.inCycle(-180f, 180f))
