@@ -8,6 +8,11 @@ data class RGBColor(
 		val g: Float,
 		val b: Float
 ) : IGColor<RGBColor>() {
+	companion object {
+		val white = RGBColor(1f, 1f, 1f)
+		val black = RGBColor(0f, 0f, 0f)
+	}
+
 	override val rgb = this
 
 	val hsl: HSLColor by lazy { HSLColor.from(this) }

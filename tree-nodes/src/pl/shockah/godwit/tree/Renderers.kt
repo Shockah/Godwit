@@ -42,16 +42,16 @@ class Renderers {
 		}
 	}
 
-	inline fun sprites(renderingCode: (batch: SpriteBatch) -> Unit) {
+	inline fun sprites(renderingCode: SpriteBatch.(batch: SpriteBatch) -> Unit) {
 		val renderer = Renderer.Sprite(spriteBatch)
 		renderer.begin()
-		renderingCode(renderer.renderer)
+		renderingCode(spriteBatch, renderer.renderer)
 	}
 
-	inline fun shapes(shapeType: ShapeRenderer.ShapeType, renderingCode: (batch: ShapeRenderer) -> Unit) {
+	inline fun shapes(shapeType: ShapeRenderer.ShapeType, renderingCode: ShapeRenderer.(batch: ShapeRenderer) -> Unit) {
 		val renderer = Renderer.Shape(shapeRenderer, shapeType)
 		renderer.begin()
-		renderingCode(renderer.renderer)
+		renderingCode(shapeRenderer, renderer.renderer)
 	}
 
 	fun flush() {

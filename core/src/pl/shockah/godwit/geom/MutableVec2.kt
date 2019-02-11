@@ -3,14 +3,14 @@ package pl.shockah.godwit.geom
 import kotlin.math.cos
 import kotlin.math.sin
 
-class MutableVec2(
+open class MutableVec2(
 		override var x: Float,
 		override var y: Float
 ) : IVec2<MutableVec2>() {
 	constructor() : this(0f, 0f)
 
 	companion object {
-		fun angled(degrees: Degrees, length: Float): MutableVec2 {
+		operator fun invoke(degrees: Degrees, length: Float): MutableVec2 {
 			val angle = Math.toRadians((degrees.value + 180f).toDouble())
 			return MutableVec2(
 					(-cos(angle) * length).toFloat(),
@@ -62,7 +62,7 @@ class MutableVec2(
 	}
 
 	override fun rotated(degrees: Degrees): MutableVec2 {
-		return MutableVec2.angled(angle + degrees, length)
+		return MutableVec2(angle + degrees, length)
 	}
 
 	inner class Mutator {

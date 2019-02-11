@@ -24,8 +24,8 @@ inline class Degrees @Deprecated("Use Degrees.Companion.of(value: Float) or Floa
 	companion object {
 		val ZERO = Degrees.of(0f)
 
-		@Suppress("DEPRECATION")
 		fun of(value: Float): Degrees {
+			@Suppress("DEPRECATION")
 			return Degrees(value.inCycle(-180f, 180f))
 		}
 	}

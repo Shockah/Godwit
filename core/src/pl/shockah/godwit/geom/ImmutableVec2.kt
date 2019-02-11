@@ -23,7 +23,7 @@ class ImmutableVec2(
 	companion object {
 		val ZERO = ImmutableVec2()
 
-		fun angled(degrees: Degrees, length: Float): ImmutableVec2 {
+		operator fun invoke(degrees: Degrees, length: Float): ImmutableVec2 {
 			val angle = Math.toRadians((degrees.value + 180f).toDouble())
 			return ImmutableVec2(
 					(-cos(angle) * length).toFloat(),
@@ -45,7 +45,7 @@ class ImmutableVec2(
 	override operator fun div(scalar: Float): ImmutableVec2 = ImmutableVec2(x / scalar, y / scalar)
 
 	override fun rotated(degrees: Degrees): ImmutableVec2 {
-		return angled(angle + degrees, length)
+		return ImmutableVec2(angle + degrees, length)
 	}
 
 	val Vector2.godwit: ImmutableVec2

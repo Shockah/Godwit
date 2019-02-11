@@ -3,7 +3,7 @@ package pl.shockah.godwit.geom.polygon
 import pl.shockah.godwit.ObservableList
 import pl.shockah.godwit.ease.Easable
 import pl.shockah.godwit.geom.*
-import pl.shockah.godwit.swift.let
+import pl.shockah.godwit.swift.guard
 
 open class Polygon(
 		points: List<Vec2>
@@ -14,15 +14,15 @@ open class Polygon(
 
 	override val boundingBox: Rectangle
 		get() {
-			let(
+			val (minX, minY, maxX, maxY) = guard(
 					points.map { it.x }::min,
 					points.map { it.y }::min,
 					points.map { it.x }::max,
 					points.map { it.y }::max
-			) { minX, minY, maxX, maxY ->
-				return Rectangle(ImmutableVec2(minX, minY), ImmutableVec2(maxX - minX, maxY - minY))
+			) {
+				return Rectangle(ImmutableVec2.ZERO, ImmutableVec2.ZERO)
 			}
-			return Rectangle(ImmutableVec2.ZERO, ImmutableVec2.ZERO)
+			return Rectangle(ImmutableVec2(minX, minY), ImmutableVec2(maxX - minX, maxY - minY))
 		}
 
 	open val lines: List<Line>
