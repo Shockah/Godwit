@@ -20,9 +20,13 @@ open class GroupNode : Node(), Iterable<Node> {
 	}
 
 	override fun draw(renderers: Renderers) {
-		children.applyEach {
-			if (visible)
-				applyTransformationsAndDraw(renderers)
+		children.forEach {
+			if (it.visible)
+				it.applyTransformationsAndDraw(renderers)
 		}
+	}
+
+	override fun update(delta: Float) {
+		children.applyEach { update(delta) }
 	}
 }

@@ -1,4 +1,4 @@
-apply plugin: "java"
+apply plugin: "kotlin"
 
 dependencies {
 	compile project(":test")
@@ -8,13 +8,9 @@ dependencies {
 	compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
 }
 
-targetCompatibility = "1.8"
-sourceCompatibility = "1.8"
-[compileJava, compileTestJava]*.options*.encoding = "UTF-8"
-
 sourceSets.main {
-	java.srcDirs = ["src"]
-	resources.srcDirs = ["resources"]
+	kotlin.srcDirs = ["src"]
+	resources.srcDirs = ["assets"]
 }
 
 project.ext.package = "pl.shockah.godwit.test"
@@ -25,7 +21,7 @@ void handleFiles(File baseDir, File file) {
 		file.eachFile {
 			handleFiles(baseDir, it)
 		}
-	} else if (file.name.endsWith(".java")) {
+	} else if (file.name.endsWith(".kt")) {
 		addTask(baseDir, file)
 	}
 }
@@ -53,10 +49,10 @@ void addTask(File baseDir, File file) {
 		classpath = sourceSets.main.runtimeClasspath
 		standardInput = System.in
 		ignoreExitValue = true
+//		workingDir = project.file("../test/assets/")
 		if (System.getProperty("os.name") == "Mac OS X")
 			jvmArgs "-XstartOnFirstThread"
 		jvmArgs "-Dorg.lwjgl.system.allocator=system"
-		workingDir = project.file("../test-android/assets/")
 
 		if (System.getProperty('DEBUG', 'false') == 'true') {
 			jvmArgs '-Xdebug', '-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005'

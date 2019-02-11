@@ -14,8 +14,8 @@ interface Shape {
 	companion object {
 		private val collisionHandlers: MutableMap<Pair<KClass<out Shape>, KClass<out Shape>>, (Shape, Shape) -> Boolean> = mutableMapOf()
 
-		@Suppress("UNCHECKED_CAST")
 		fun <A : Shape, B : Shape> registerCollisionHandler(first: KClass<A>, second: KClass<B>, handler: (A, B) -> Boolean) {
+			@Suppress("UNCHECKED_CAST")
 			collisionHandlers[Pair(first, second)] = handler as ((Shape, Shape) -> Boolean)
 		}
 
@@ -37,14 +37,19 @@ interface Shape {
 			return collisionHandlers[Pair(first, second)] ?: collisionHandlers[Pair(second, first)] ?: findHandlerFromSupertypes(first, second)
 		}
 
-		@Suppress("UNCHECKED_CAST")
 		private fun findHandlerFromSupertypes(first: KClass<out Shape>, second: KClass<out Shape>): ((Shape, Shape) -> Boolean)? {
-			for (firstSubclass in first.superclasses.filter { it != Shape::class && it.isSubclassOf(Shape::class) }.map { it as KClass<out Shape> }) {
+			for (firstSubclass in first.superclasses.filter { it != Shape::class && it.isSubclassOf(Shape::class) }.map {
+				@Suppress("UNCHECKED_CAST")
+				it as KClass<out Shape>
+			}) {
 				val result = findHandler(firstSubclass, second)
 				if (result != null)
 					return result
 			}
-			for (secondSubclass in second.superclasses.filter { it != Shape::class && it.isSubclassOf(Shape::class) }.map { it as KClass<out Shape> }) {
+			for (secondSubclass in second.superclasses.filter { it != Shape::class && it.isSubclassOf(Shape::class) }.map {
+				@Suppress("UNCHECKED_CAST")
+				it as KClass<out Shape>
+			}) {
 				val result = findHandler(first, secondSubclass)
 				if (result != null)
 					return result

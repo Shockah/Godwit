@@ -15,8 +15,8 @@ class Renderers {
 	private var currentRenderer: Renderer<*>? = null
 
 	var projectionMatrix: Matrix4 by Delegates.observable(Matrix4()) { _, old, new ->
-		if (old == new)
-			return@observable
+//		if (old notEquals new)
+//			return@observable
 
 		currentRenderer?.end()
 		spriteBatch.projectionMatrix = new
@@ -25,8 +25,8 @@ class Renderers {
 	}
 
 	var transformMatrix: Matrix4 by Delegates.observable(Matrix4()) { _, old, new ->
-		if (old == new)
-			return@observable
+//		if (old notEquals new)
+//			return@observable
 
 		currentRenderer?.end()
 		spriteBatch.transformMatrix = new
@@ -34,7 +34,8 @@ class Renderers {
 		currentRenderer?.begin()
 	}
 
-	private fun begin(renderer: Renderer<*>) {
+	@PublishedApi
+	internal fun begin(renderer: Renderer<*>) {
 		if (renderer != currentRenderer) {
 			currentRenderer?.end()
 			renderer.begin()
@@ -42,16 +43,18 @@ class Renderers {
 		}
 	}
 
+	@PublishedApi
+	internal inline fun <R : Any, RR : Renderer<R>> wrapRendering(renderer: RR, renderingCode: R.(renderer : R) -> Unit) {
+		begin(renderer)
+		renderingCode(renderer.renderer, renderer.renderer)
+	}
+
 	inline fun sprites(renderingCode: SpriteBatch.(batch: SpriteBatch) -> Unit) {
-		val renderer = Renderer.Sprite(spriteBatch)
-		renderer.begin()
-		renderingCode(spriteBatch, renderer.renderer)
+		wrapRendering(Renderer.Sprite(spriteBatch), renderingCode)
 	}
 
 	inline fun shapes(shapeType: ShapeRenderer.ShapeType, renderingCode: ShapeRenderer.(batch: ShapeRenderer) -> Unit) {
-		val renderer = Renderer.Shape(shapeRenderer, shapeType)
-		renderer.begin()
-		renderingCode(shapeRenderer, renderer.renderer)
+		wrapRendering(Renderer.Shape(shapeRenderer, shapeType), renderingCode)
 	}
 
 	fun flush() {

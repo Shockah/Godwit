@@ -1,18 +1,24 @@
 package pl.shockah.godwit.tree
 
+import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.SpriteBatch.*
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import pl.shockah.godwit.color.GAlphaColor
 import pl.shockah.godwit.geom.ObservableVec2
 import kotlin.properties.Delegates
 
-class SpriteNode(
-		private val region: TextureRegion
+open class SpriteNode(
+		val region: TextureRegion
 ) : Node() {
+	constructor(texture: Texture) : this(TextureRegion(texture))
+
 	companion object {
 		const val VERTEX_SIZE = 2 + 1 + 2
 		const val SPRITE_SIZE = 4 * VERTEX_SIZE
 	}
+
+	val texture: Texture
+		get() = region.texture
 
 	var size: ObservableVec2 by Delegates.observable(ObservableVec2()) { _, old, new ->
 		if (new !== old) {
@@ -30,6 +36,10 @@ class SpriteNode(
 	private val vertices = FloatArray(SPRITE_SIZE)
 
 	init {
+		size.x = region.regionWidth.toFloat()
+		size.y = region.regionHeight.toFloat()
+		origin.x = size.x * 0.5f
+		origin.y = size.y * 0.5f
 		size.listeners += { _ -> setupPoints() }
 
 		setupPoints()
@@ -59,12 +69,12 @@ class SpriteNode(
 
 		vertices[X1] = x1
 		vertices[Y1] = y1
-		vertices[X2] = x2
-		vertices[Y2] = y1
+		vertices[X2] = x1
+		vertices[Y2] = y2
 		vertices[X3] = x2
 		vertices[Y3] = y2
-		vertices[X4] = x1
-		vertices[Y4] = y2
+		vertices[X4] = x2
+		vertices[Y4] = y1
 	}
 
 	private fun setupColor() {

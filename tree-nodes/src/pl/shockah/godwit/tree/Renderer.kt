@@ -3,8 +3,8 @@ package pl.shockah.godwit.tree
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 
-abstract class Renderer<Renderer>(
-		val renderer: Renderer
+abstract class Renderer<R>(
+		val renderer: R
 ) {
 	abstract fun begin()
 

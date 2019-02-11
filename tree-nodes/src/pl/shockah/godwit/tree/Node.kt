@@ -68,11 +68,14 @@ open class Node {
 
 	internal fun applyTransformationsAndDraw(renderers: Renderers) {
 		val oldTransformMatrix = renderers.transformMatrix
-		renderers.transformMatrix = renderers.transformMatrix.mul(transformationMatrix)
+		renderers.transformMatrix = renderers.transformMatrix.cpy().mul(transformationMatrix)
 		draw(renderers)
 		renderers.transformMatrix = oldTransformMatrix
 	}
 
 	open fun draw(renderers: Renderers) {
+	}
+
+	open fun update(delta: Float) {
 	}
 }

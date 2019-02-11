@@ -24,10 +24,10 @@ abstract class IVec2<T : IVec2<T>> : Comparable<IVec2<*>>, Easable<IVec2<*>> {
 	open val gdx: Vector2
 		get() = Vector2(x, y)
 
-	@Suppress("UNCHECKED_CAST")
 	open val normalized: T
 		get() {
 			val length = length
+			@Suppress("UNCHECKED_CAST")
 			return when (length) {
 				0f -> throw IllegalStateException()
 				1f -> this as T
@@ -89,7 +89,7 @@ abstract class IVec2<T : IVec2<T>> : Comparable<IVec2<*>>, Easable<IVec2<*>> {
 		return x.hashCode() * 31 + y.hashCode()
 	}
 
-	override fun toString(): String = "[IVec2(x: $x, y: $y)]"
+	override fun toString(): String = "[$x, $y]"
 
 	override fun compareTo(other: IVec2<*>): Int {
 		return length.compareTo(other.length)
