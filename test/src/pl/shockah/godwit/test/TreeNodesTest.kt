@@ -29,10 +29,11 @@ class TreeNodesTest : TreeNodeGame({
 			manager.load(Assets.gun)
 			manager.finishLoading()
 
-			ship = GroupNode()
-			ship.position.x = 256f
-			ship.position.y = 256f
-			root += ship
+			ship = GroupNode().apply {
+				position.x = 256f
+				position.y = 256f
+				root += this
+			}
 
 			SpriteNode(manager.get(Assets.engine)).apply {
 				position.y = 44f
