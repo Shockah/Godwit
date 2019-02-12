@@ -87,7 +87,7 @@ open class SpriteNode(
 
 	override fun draw(renderers: Renderers) {
 		renderers.sprites {
-			draw(region.texture, vertices, 0, SPRITE_SIZE)
+			draw(texture, vertices, 0, SPRITE_SIZE)
 		}
 	}
 }

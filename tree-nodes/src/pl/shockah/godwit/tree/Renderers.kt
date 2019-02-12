@@ -14,7 +14,7 @@ class Renderers {
 
 	private var currentRenderer: Renderer<*>? = null
 
-	var projectionMatrix: Matrix4 by Delegates.observable(Matrix4()) { _, old, new ->
+	var projectionMatrix: Matrix4 by Delegates.observable(Matrix4()) { _, _, new ->
 //		if (old notEquals new)
 //			return@observable
 
@@ -24,7 +24,7 @@ class Renderers {
 		currentRenderer?.begin()
 	}
 
-	var transformMatrix: Matrix4 by Delegates.observable(Matrix4()) { _, old, new ->
+	var transformMatrix: Matrix4 by Delegates.observable(Matrix4()) { _, _, new ->
 //		if (old notEquals new)
 //			return@observable
 

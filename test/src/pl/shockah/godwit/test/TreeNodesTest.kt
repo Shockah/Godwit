@@ -1,9 +1,11 @@
 package pl.shockah.godwit.test
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.assets.AssetDescriptor
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.Texture
 import pl.shockah.godwit.geom.degrees
+import pl.shockah.godwit.size
 import pl.shockah.godwit.tree.GroupNode
 import pl.shockah.godwit.tree.SpriteNode
 import pl.shockah.godwit.tree.Stage
@@ -30,8 +32,6 @@ class TreeNodesTest : TreeNodeGame({
 			manager.finishLoading()
 
 			ship = GroupNode().apply {
-				position.x = 256f
-				position.y = 256f
 				root += this
 			}
 
@@ -40,10 +40,10 @@ class TreeNodesTest : TreeNodeGame({
 				ship += this
 			}
 
-			for (i in -1..1 step 2) {
+			arrayOf(-1, 1).forEach {
 				SpriteNode(manager.get(Assets.wing)).apply {
-					scale.x = i.toFloat()
-					position.x = -24f * i
+					scale.x = it.toFloat()
+					position.x = -24f * it
 					position.y = 8f
 					ship += this
 				}
@@ -55,6 +55,7 @@ class TreeNodesTest : TreeNodeGame({
 		}
 
 		override fun update(delta: Float) {
+			ship.position.set(Gdx.graphics.size * 0.5f)
 			ship.rotation += (45f * delta).degrees
 			super.update(delta)
 		}
