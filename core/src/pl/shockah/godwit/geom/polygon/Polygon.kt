@@ -1,5 +1,6 @@
 package pl.shockah.godwit.geom.polygon
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import pl.shockah.godwit.ObservableList
 import pl.shockah.godwit.ease.Easable
 import pl.shockah.godwit.geom.*
@@ -76,5 +77,14 @@ open class Polygon(
 		if (points.size != other.points.size)
 			throw IllegalArgumentException()
 		return Polygon(points.mapIndexed { index, point -> point.ease(other.points[index], f) })
+	}
+
+	override fun drawOutline(shapes: ShapeRenderer) {
+		val vertices = FloatArray(points.size * 2)
+		for (i in 0 until points.size) {
+			vertices[i * 2] = points[i].x
+			vertices[i * 2 + 1] = points[i].y
+		}
+		shapes.polygon(vertices)
 	}
 }

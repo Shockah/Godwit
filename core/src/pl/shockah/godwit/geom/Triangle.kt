@@ -1,5 +1,6 @@
 package pl.shockah.godwit.geom
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import pl.shockah.godwit.ease.Easable
 import pl.shockah.godwit.geom.polygon.ClosedPolygon
 import pl.shockah.godwit.geom.polygon.Polygonable
@@ -100,5 +101,17 @@ class Triangle(
 				points[1].ease(other.points[1], f),
 				points[2].ease(other.points[2], f)
 		)
+	}
+
+	private fun draw(shapes: ShapeRenderer) {
+		shapes.triangle(points[0].x, points[0].y, points[1].x, points[1].y, points[2].x, points[2].y)
+	}
+
+	override fun drawFilled(shapes: ShapeRenderer) {
+		draw(shapes)
+	}
+
+	override fun drawOutline(shapes: ShapeRenderer) {
+		draw(shapes)
 	}
 }

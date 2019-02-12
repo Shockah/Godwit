@@ -1,5 +1,6 @@
 package pl.shockah.godwit.geom.polygon
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import pl.shockah.godwit.ObservableList
 import pl.shockah.godwit.geom.*
 
@@ -87,5 +88,22 @@ class ClosedPolygon(
 		if (points.size != other.points.size)
 			throw IllegalArgumentException()
 		return ClosedPolygon(points.mapIndexed { index, point -> point.ease(other.points[index], f) })
+	}
+
+	private fun draw(shapes: ShapeRenderer) {
+		val vertices = FloatArray(points.size * 2)
+		for (i in 0 until points.size) {
+			vertices[i * 2] = points[i].x
+			vertices[i * 2 + 1] = points[i].y
+		}
+		shapes.polygon(vertices)
+	}
+
+	override fun drawFilled(shapes: ShapeRenderer) {
+		draw(shapes)
+	}
+
+	override fun drawOutline(shapes: ShapeRenderer) {
+		draw(shapes)
 	}
 }

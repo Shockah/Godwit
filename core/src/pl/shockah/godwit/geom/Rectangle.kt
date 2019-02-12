@@ -1,5 +1,6 @@
 package pl.shockah.godwit.geom
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import pl.shockah.godwit.ease.Easable
 import pl.shockah.godwit.geom.polygon.ClosedPolygon
 import pl.shockah.godwit.geom.polygon.Polygonable
@@ -112,5 +113,17 @@ class Rectangle(
 				position.ease(other.position, f),
 				size.ease(other.size, f)
 		)
+	}
+
+	private fun draw(shapes: ShapeRenderer) {
+		shapes.rect(position.x, position.y, size.x, size.y)
+	}
+
+	override fun drawFilled(shapes: ShapeRenderer) {
+		draw(shapes)
+	}
+
+	override fun drawOutline(shapes: ShapeRenderer) {
+		draw(shapes)
 	}
 }

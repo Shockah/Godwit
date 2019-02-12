@@ -1,5 +1,6 @@
 package pl.shockah.godwit.geom
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import pl.shockah.godwit.geom.polygon.Polygonable
 import kotlin.reflect.KClass
 import kotlin.reflect.full.isSubclassOf
@@ -71,9 +72,12 @@ interface Shape {
 	}
 
 	interface Filled : Shape {
+		fun drawFilled(shapes: ShapeRenderer)
+
 		operator fun contains(point: Vec2): Boolean
 	}
 
 	interface Outline : Shape {
+		fun drawOutline(shapes: ShapeRenderer)
 	}
 }

@@ -1,5 +1,6 @@
 package pl.shockah.godwit.geom
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import pl.shockah.godwit.ease.Easable
 import pl.shockah.godwit.geom.polygon.Polygon
 import pl.shockah.godwit.geom.polygon.Polygonable
@@ -94,5 +95,9 @@ class Line(
 				point1.ease(other.point1, f),
 				point2.ease(other.point2, f)
 		)
+	}
+
+	override fun drawOutline(shapes: ShapeRenderer) {
+		shapes.line(point1.x, point1.y, point2.x, point2.y)
 	}
 }

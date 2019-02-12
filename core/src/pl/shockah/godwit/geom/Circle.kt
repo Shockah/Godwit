@@ -1,5 +1,6 @@
 package pl.shockah.godwit.geom
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import pl.shockah.godwit.ease.Easable
 import pl.shockah.godwit.geom.polygon.Polygon
 import kotlin.math.sqrt
@@ -113,5 +114,17 @@ class Circle(
 				position.ease(other.position, f),
 				radius.ease(other.radius, f)
 		)
+	}
+
+	private fun draw(shapes: ShapeRenderer) {
+		shapes.circle(position.x, position.y, radius)
+	}
+
+	override fun drawFilled(shapes: ShapeRenderer) {
+		draw(shapes)
+	}
+
+	override fun drawOutline(shapes: ShapeRenderer) {
+		draw(shapes)
 	}
 }
