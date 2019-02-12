@@ -1,9 +1,9 @@
 package pl.shockah.godwit.test
 
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.assets.AssetDescriptor
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.Texture
+import pl.shockah.godwit.assetDescriptor
 import pl.shockah.godwit.geom.degrees
 import pl.shockah.godwit.size
 import pl.shockah.godwit.tree.GroupNode
@@ -12,10 +12,10 @@ import pl.shockah.godwit.tree.Stage
 import pl.shockah.godwit.tree.TreeNodeGame
 
 private object Assets {
-	val cockpit = AssetDescriptor<Texture>("kenney/part-cockpit.png", Texture::class.java)
-	val wing = AssetDescriptor<Texture>("kenney/part-wing.png", Texture::class.java)
-	val engine = AssetDescriptor<Texture>("kenney/part-engine.png", Texture::class.java)
-	val gun = AssetDescriptor<Texture>("kenney/part-gun.png", Texture::class.java)
+	val cockpit = assetDescriptor<Texture>("kenney/part-cockpit.png")
+	val wing = assetDescriptor<Texture>("kenney/part-wing.png")
+	val engine = assetDescriptor<Texture>("kenney/part-engine.png")
+	val gun = assetDescriptor<Texture>("kenney/part-gun.png")
 }
 
 class TreeNodesTest : TreeNodeGame({

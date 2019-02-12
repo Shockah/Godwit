@@ -24,6 +24,15 @@ class Circle(
 			Shape.registerCollisionHandler(Circle::class, Line::class) { circle, line ->
 				line.point1 in circle || line.point2 in circle || !(circle intersect line).isEmpty()
 			}
+			Shape.registerCollisionHandler(Circle::class, Rectangle::class) { circle, rectangle ->
+				if (circle.position in rectangle)
+					return@registerCollisionHandler true
+				for (line in rectangle.lines) {
+					if (!(circle intersect line).isEmpty())
+						return@registerCollisionHandler true
+				}
+				return@registerCollisionHandler false
+			}
 			Shape.registerCollisionHandler(Circle::class, Polygon::class) { circle, polygon ->
 				for (line in polygon.lines) {
 					if (circle collides line)
