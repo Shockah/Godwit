@@ -2,7 +2,6 @@ package pl.shockah.godwit.geom
 
 import com.badlogic.gdx.math.Vector2
 import pl.shockah.godwit.ease.Easable
-import pl.shockah.godwit.ease.Easing
 import kotlin.math.atan2
 import kotlin.math.sqrt
 
@@ -18,8 +17,11 @@ abstract class IVec2<T : IVec2<T>> : Comparable<IVec2<*>>, Easable<IVec2<*>> {
 	open val length: Float
 		get() = sqrt(lengthSquared)
 
-	open val angle: Degrees
-		get() = ImmutableVec2.ZERO angle this
+	open val degrees: Degrees
+		get() = ImmutableVec2.ZERO degrees this
+
+	open val radians: Radians
+		get() = ImmutableVec2.ZERO radians this
 
 	open val gdx: Vector2
 		get() = Vector2(x, y)
@@ -59,8 +61,12 @@ abstract class IVec2<T : IVec2<T>> : Comparable<IVec2<*>>, Easable<IVec2<*>> {
 	abstract operator fun times(scalar: Float): T
 	abstract operator fun div(scalar: Float): T
 
-	infix fun angle(vector: Vec2): Degrees {
-		return Math.toDegrees(atan2((y - vector.y).toDouble(), (vector.x - x).toDouble())).toFloat().degrees
+	infix fun degrees(vector: Vec2): Degrees {
+		return (this radians vector).degrees
+	}
+
+	infix fun radians(vector: Vec2): Radians {
+		return atan2((y - vector.y).toDouble(), (vector.x - x).toDouble()).toFloat().radians
 	}
 
 	infix fun dot(vector: Vec2): Float {
@@ -71,7 +77,7 @@ abstract class IVec2<T : IVec2<T>> : Comparable<IVec2<*>>, Easable<IVec2<*>> {
 		return x * vector.y - y * vector.x
 	}
 
-	abstract infix fun rotated(degrees: Degrees): T
+	abstract infix fun rotated(angle: Angle): T
 
 	infix fun equals(other: Vec2): Boolean {
 		return other.x == x && other.y == y
@@ -97,8 +103,8 @@ abstract class IVec2<T : IVec2<T>> : Comparable<IVec2<*>>, Easable<IVec2<*>> {
 
 	override fun ease(other: IVec2<*>, f: Float): IVec2<*> {
 		return ImmutableVec2(
-				Easing.linear.ease(x, other.x, f),
-				Easing.linear.ease(y, other.y, f)
+				x.ease(other.x, f),
+				y.ease(other.y, f)
 		)
 	}
 }

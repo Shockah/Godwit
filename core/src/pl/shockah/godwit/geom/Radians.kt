@@ -1,6 +1,5 @@
 package pl.shockah.godwit.geom
 
-import pl.shockah.godwit.ease.Easable
 import kotlin.math.*
 
 private fun Float.inCycle(min: Float, max: Float): Float {
@@ -22,7 +21,7 @@ val Float.radians: Radians
 
 inline class Radians @Deprecated("Use Radians.Companion.of(value: Float) or Float.radians instead") constructor(
 		val value: Float
-) : Easable<Radians> {
+) : IAngle<Radians> {
 	companion object {
 		val ZERO = Radians.of(0f)
 
@@ -32,36 +31,39 @@ inline class Radians @Deprecated("Use Radians.Companion.of(value: Float) or Floa
 		}
 	}
 
-	val degrees: Degrees
+	override val radians: Radians
+		get() = this
+
+	override val degrees: Degrees
 		get() = Math.toDegrees(value.toDouble()).toFloat().degrees
 
-	val sin: Float
+	override val sin: Float
 		get() = sin(value)
 
-	val cos: Float
+	override val cos: Float
 		get() = cos(value)
 
-	val tan: Float
+	override val tan: Float
 		get() = tan(value)
 
-	infix fun delta(angle: Radians): Radians {
-		val r = angle.value - value
+	override infix fun delta(angle: Angle): Radians {
+		val r = angle.radians.value - value
 		return (r + (if (r > floatPI) -2 * floatPI else if (r < -floatPI) 2 * floatPI else 0f)).radians
 	}
 
-	override fun ease(other: Radians, f: Float): Radians {
+	override fun ease(other: Angle, f: Float): Radians {
 		val delta = this delta other
 		return if (delta.value > 0)
-			value.ease(other.value, f).radians
+			value.ease(other.radians.value, f).radians
 		else
-			(value + 360).ease(other.value, f).radians
+			(value + 360).ease(other.radians.value, f).radians
 	}
 
-	operator fun plus(other: Radians): Radians {
-		return (value + other.value).radians
+	override operator fun plus(other: Angle): Radians {
+		return (value + other.radians.value).radians
 	}
 
-	operator fun minus(other: Radians): Radians {
-		return (value - other.value).radians
+	override operator fun minus(other: Angle): Radians {
+		return (value - other.radians.value).radians
 	}
 }

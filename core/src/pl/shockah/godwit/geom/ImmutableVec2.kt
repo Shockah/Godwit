@@ -1,8 +1,7 @@
 package pl.shockah.godwit.geom
 
 import com.badlogic.gdx.math.Vector2
-import kotlin.math.cos
-import kotlin.math.sin
+import kotlin.math.PI
 
 class ImmutableVec2(
 		override val x: Float,
@@ -12,7 +11,9 @@ class ImmutableVec2(
 
 	override val length by lazy { super.length }
 
-	override val angle by lazy { super.angle }
+	override val degrees by lazy { super.degrees }
+
+	override val radians by lazy { super.radians }
 
 	override val gdx by lazy { super.gdx }
 
@@ -23,12 +24,9 @@ class ImmutableVec2(
 	companion object {
 		val ZERO = ImmutableVec2()
 
-		operator fun invoke(degrees: Degrees, length: Float): ImmutableVec2 {
-			val angle = Math.toRadians((degrees.value + 180f).toDouble())
-			return ImmutableVec2(
-					(-cos(angle) * length).toFloat(),
-					(-sin(angle) * length).toFloat()
-			)
+		operator fun invoke(angle: Angle, length: Float): ImmutableVec2 {
+			val radians = angle.radians + PI.toFloat().radians
+			return ImmutableVec2(-radians.cos * length, -radians.sin * length)
 		}
 	}
 
@@ -44,8 +42,8 @@ class ImmutableVec2(
 	override operator fun times(scalar: Float): ImmutableVec2 = ImmutableVec2(x * scalar, y * scalar)
 	override operator fun div(scalar: Float): ImmutableVec2 = ImmutableVec2(x / scalar, y / scalar)
 
-	override fun rotated(degrees: Degrees): ImmutableVec2 {
-		return ImmutableVec2(angle + degrees, length)
+	override fun rotated(angle: Angle): ImmutableVec2 {
+		return ImmutableVec2(radians + angle.radians, length)
 	}
 
 	val Vector2.godwit: ImmutableVec2

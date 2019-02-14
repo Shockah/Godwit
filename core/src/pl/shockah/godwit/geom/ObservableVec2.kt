@@ -1,8 +1,7 @@
 package pl.shockah.godwit.geom
 
 import pl.shockah.godwit.GDelegates
-import kotlin.math.cos
-import kotlin.math.sin
+import kotlin.math.PI
 import kotlin.reflect.KProperty
 
 class ObservableVec2(
@@ -17,12 +16,9 @@ class ObservableVec2(
 	override var y: Float by GDelegates.anyChangeObservable(initialY, listeners)
 
 	companion object {
-		operator fun invoke(degrees: Degrees, length: Float): MutableVec2 {
-			val angle = Math.toRadians((degrees.value + 180f).toDouble())
-			return MutableVec2(
-					(-cos(angle) * length).toFloat(),
-					(-sin(angle) * length).toFloat()
-			)
+		operator fun invoke(angle: Angle, length: Float): ObservableVec2 {
+			val radians = angle.radians + PI.toFloat().radians
+			return ObservableVec2(-radians.cos * length, -radians.sin * length)
 		}
 	}
 }

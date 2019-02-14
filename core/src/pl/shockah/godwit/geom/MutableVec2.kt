@@ -1,7 +1,6 @@
 package pl.shockah.godwit.geom
 
-import kotlin.math.cos
-import kotlin.math.sin
+import kotlin.math.PI
 
 open class MutableVec2(
 		override var x: Float,
@@ -10,30 +9,36 @@ open class MutableVec2(
 	constructor() : this(0f, 0f)
 
 	companion object {
-		operator fun invoke(degrees: Degrees, length: Float): MutableVec2 {
-			val angle = Math.toRadians((degrees.value + 180f).toDouble())
-			return MutableVec2(
-					(-cos(angle) * length).toFloat(),
-					(-sin(angle) * length).toFloat()
-			)
+		operator fun invoke(angle: Angle, length: Float): MutableVec2 {
+			val radians = angle.radians + PI.toFloat().radians
+			return MutableVec2(-radians.cos * length, -radians.sin * length)
 		}
 	}
 
 	override var length: Float
 		get() = super.length
 		set(value) {
-			val angle = Math.toRadians((angle.value + 180f).toDouble())
-			x = (-cos(angle) * value).toFloat()
-			y = (-sin(angle) * value).toFloat()
+			val angle = (degrees + 180f.degrees).radians
+			x = -angle.cos * value
+			y = -angle.sin * value
 		}
 
-	override var angle: Degrees
-		get() = super.angle
+	override var degrees: Degrees
+		get() = super.degrees
 		set(value) {
 			val length = length
-			val angle = Math.toRadians((value.value + 180f).toDouble())
-			x = (-cos(angle) * length).toFloat()
-			y = (-sin(angle) * length).toFloat()
+			val angle = (value + 180f.degrees).radians
+			x = -angle.cos * length
+			y = -angle.sin * length
+		}
+
+	override var radians: Radians
+		get() = super.radians
+		set(value) {
+			val length = length
+			val angle = value + PI.toFloat().radians
+			x = -angle.cos * length
+			y = -angle.sin * length
 		}
 
 	val xy: Mutator by lazy { Mutator() }
@@ -61,8 +66,8 @@ open class MutableVec2(
 		y = vector.y
 	}
 
-	override fun rotated(degrees: Degrees): MutableVec2 {
-		return MutableVec2(angle + degrees, length)
+	override fun rotated(angle: Angle): MutableVec2 {
+		return MutableVec2(radians + angle.radians, length)
 	}
 
 	inner class Mutator {
