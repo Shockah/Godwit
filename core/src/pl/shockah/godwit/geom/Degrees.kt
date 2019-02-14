@@ -30,9 +30,21 @@ inline class Degrees @Deprecated("Use Degrees.Companion.of(value: Float) or Floa
 		}
 	}
 
+	val radians: Radians
+		get() = Math.toRadians(value.toDouble()).toFloat().radians
+
+	val sin: Float
+		get() = radians.sin
+
+	val cos: Float
+		get() = radians.cos
+
+	val tan: Float
+		get() = radians.tan
+
 	infix fun delta(angle: Degrees): Degrees {
 		val r = angle.value - value
-		return Degrees.of(r + if (r > 180) -360 else if (r < -180) 360 else 0)
+		return (r + if (r > 180) -360 else if (r < -180) 360 else 0).degrees
 	}
 
 	override fun ease(other: Degrees, f: Float): Degrees {
