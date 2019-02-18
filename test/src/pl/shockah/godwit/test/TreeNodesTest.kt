@@ -42,10 +42,10 @@ class TreeNodesTest : TreeNodeGame({
 				ship += this
 			}
 
-			arrayOf(-1, 1).forEach {
+			arrayOf(-1f, 1f).forEach {
 				SpriteNode(manager.get(Assets.wing)).apply {
 					zLayer = 0f
-					scale.x = it.toFloat()
+					scale.x = it
 					position.x = -24f * it
 					position.y = 8f
 					ship += this
