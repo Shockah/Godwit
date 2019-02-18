@@ -2,6 +2,7 @@ package pl.shockah.godwit.tree
 
 import com.badlogic.gdx.math.Affine2
 import com.badlogic.gdx.math.Matrix4
+import pl.shockah.godwit.geom.ImmutableVec2
 import pl.shockah.godwit.geom.MutableVec2
 import pl.shockah.godwit.geom.degrees
 
@@ -14,7 +15,9 @@ class Transformation {
 	val matrix: Matrix4
 		get() {
 			val transform = Affine2()
-			transform.setToTrnRotScl(position.x - origin.x * scale.x, position.y - origin.y * scale.y, rotation.value, scale.x, scale.y)
+			transform.setToTrnRotScl(position.x, position.y, rotation.value, scale.x, scale.y)
+			if (origin notEquals ImmutableVec2.ZERO)
+				transform.translate(-origin.x, -origin.y)
 			return Matrix4().set(transform)
 		}
 

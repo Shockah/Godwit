@@ -31,26 +31,25 @@ class TreeNodesTest : TreeNodeGame({
 			manager.load(Assets.gun)
 			manager.finishLoading()
 
-			ship = Node().apply {
+			ship = SpriteNode(manager.get(Assets.cockpit)).apply {
+				zLayer = 1f
 				root += this
 			}
 
 			SpriteNode(manager.get(Assets.engine)).apply {
+				zLayer = 0f
 				position.y = 44f
 				ship += this
 			}
 
 			arrayOf(-1, 1).forEach {
 				SpriteNode(manager.get(Assets.wing)).apply {
+					zLayer = 0f
 					scale.x = it.toFloat()
 					position.x = -24f * it
 					position.y = 8f
 					ship += this
 				}
-			}
-
-			SpriteNode(manager.get(Assets.cockpit)).apply {
-				ship += this
 			}
 		}
 

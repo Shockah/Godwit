@@ -7,7 +7,6 @@ import pl.shockah.godwit.geom.Degrees
 import pl.shockah.godwit.geom.ImmutableVec2
 import pl.shockah.godwit.geom.MutableVec2
 import pl.shockah.godwit.geom.Rectangle
-import pl.shockah.godwit.render.Renderers
 import java.util.*
 import kotlin.properties.Delegates
 
@@ -17,7 +16,9 @@ open class Node {
 		old?.children?.remove(this)
 		new?.children?.add(this)
 	}
+
 	var visible = true
+	var zLayer: Float? = null
 
 	private var transformation = Transformation()
 	private var lastTransformation = transformation
@@ -75,22 +76,30 @@ open class Node {
 	open val bounds: Rectangle
 		get() = Rectangle(position, ImmutableVec2.ZERO)
 
-	open fun draw(renderers: Renderers) {
+	open fun draw(renderers: TreeNodeRenderers, zLayer: Float?) {
 		if (!visible)
 			return
 
 		val oldTransformMatrix = renderers.transformMatrix
 		renderers.transformMatrix = renderers.transformMatrix.cpy().mul(transformationMatrix)
-		drawSelf(renderers)
-		drawChildren(renderers)
+
+		val myZLayer = this.zLayer
+		if (myZLayer == null || (zLayer != null && myZLayer == zLayer))
+			drawSelf(renderers)
+		if (zLayer == null && myZLayer != null)
+			renderers.currentPassZLayers += myZLayer
+		if (origin notEquals ImmutableVec2.ZERO)
+			renderers.transformMatrix = renderers.transformMatrix.cpy().translate(origin.x, origin.y, 0f)
+		drawChildren(renderers, zLayer)
+
 		renderers.transformMatrix = oldTransformMatrix
 	}
 
-	open fun drawSelf(renderers: Renderers) {
+	open fun drawSelf(renderers: TreeNodeRenderers) {
 	}
 
-	open fun drawChildren(renderers: Renderers) {
-		children.applyEach { draw(renderers) }
+	open fun drawChildren(renderers: TreeNodeRenderers, zLayer: Float?) {
+		children.applyEach { draw(renderers, zLayer) }
 	}
 
 	open fun update(delta: Float) {

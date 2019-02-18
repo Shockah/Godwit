@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.math.Matrix4
 import kotlin.properties.Delegates
 
-class Renderers {
+open class Renderers {
 	@PublishedApi
 	internal val spriteBatch = SpriteBatch()
 

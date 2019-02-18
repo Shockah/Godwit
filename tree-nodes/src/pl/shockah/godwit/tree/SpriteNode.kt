@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch.*
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import pl.shockah.godwit.color.GAlphaColor
 import pl.shockah.godwit.geom.ObservableVec2
-import pl.shockah.godwit.render.Renderers
 import kotlin.properties.Delegates
 
 open class SpriteNode(
@@ -86,7 +85,7 @@ open class SpriteNode(
 		vertices[C4] = colorBits
 	}
 
-	override fun drawSelf(renderers: Renderers) {
+	override fun drawSelf(renderers: TreeNodeRenderers) {
 		renderers.sprites {
 			draw(texture, vertices, 0, SPRITE_SIZE)
 		}

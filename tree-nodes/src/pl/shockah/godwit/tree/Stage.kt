@@ -3,14 +3,13 @@ package pl.shockah.godwit.tree
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 import com.badlogic.gdx.utils.viewport.Viewport
-import pl.shockah.godwit.render.Renderers
 
 open class Stage(
 		val viewport: Viewport = ScreenViewport()
 ) {
 	val root = Node()
 
-	private val renderers = Renderers()
+	private val renderers = TreeNodeRenderers()
 
 	init {
 		viewport.update(Gdx.graphics.width, Gdx.graphics.height, true)
@@ -23,7 +22,10 @@ open class Stage(
 		val camera = viewport.camera
 		camera.update()
 		renderers.projectionMatrix = camera.combined
-		root.draw(renderers)
+		renderers.currentPassZLayers.clear()
+		root.draw(renderers, null)
+		renderers.currentPassZLayers.sorted().forEach { zLayer -> root.draw(renderers, zLayer) }
+
 		renderers.flush()
 	}
 
