@@ -24,8 +24,8 @@ open class Stage(
 		renderers.projectionMatrix = camera.combined
 
 		root.draw(renderers, null)
-		renderers.currentPassZLayers.keys.sorted().forEach { zLayer ->
-			renderers.currentPassZLayers[zLayer]!!.forEach { it.draw(renderers, zLayer) }
+		renderers.currentPassZLayers.forEach { zLayer, nodes ->
+			nodes.forEach { it.draw(renderers, zLayer) }
 		}
 		renderers.currentPassZLayers.clear()
 
