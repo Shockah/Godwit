@@ -20,13 +20,7 @@ open class SpriteNode(
 	val texture: Texture
 		get() = region.texture
 
-	var size: ObservableVec2 by Delegates.observable(ObservableVec2()) { _, old, new ->
-		if (new !== old) {
-			old.listeners.clear()
-			new.listeners += { _ -> setupPoints() }
-			setupPoints()
-		}
-	}
+	var size: ObservableVec2 by ObservableVec2.property { setupPoints() }
 
 	var color: GAlphaColor by Delegates.observable(GAlphaColor.white) { _, old, new ->
 		if (old != new)

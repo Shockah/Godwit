@@ -22,9 +22,12 @@ open class Stage(
 		val camera = viewport.camera
 		camera.update()
 		renderers.projectionMatrix = camera.combined
-		renderers.currentPassZLayers.clear()
+
 		root.draw(renderers, null)
-		renderers.currentPassZLayers.sorted().forEach { zLayer -> root.draw(renderers, zLayer) }
+		renderers.currentPassZLayers.keys.sorted().forEach { zLayer ->
+			renderers.currentPassZLayers[zLayer]!!.forEach { it.draw(renderers, zLayer) }
+		}
+		renderers.currentPassZLayers.clear()
 
 		renderers.flush()
 	}

@@ -30,4 +30,8 @@ data class RGBColor(
 				b.ease(other.b, f)
 		)
 	}
+
+	operator fun times(rgb: RGBColor): RGBColor {
+		return RGBColor(r * rgb.r, g * rgb.g, b * rgb.b)
+	}
 }

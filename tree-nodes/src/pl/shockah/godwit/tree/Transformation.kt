@@ -2,24 +2,51 @@ package pl.shockah.godwit.tree
 
 import com.badlogic.gdx.math.Affine2
 import com.badlogic.gdx.math.Matrix4
+import pl.shockah.godwit.geom.Degrees
 import pl.shockah.godwit.geom.ImmutableVec2
-import pl.shockah.godwit.geom.MutableVec2
+import pl.shockah.godwit.geom.ObservableVec2
 import pl.shockah.godwit.geom.degrees
+import kotlin.properties.Delegates
 
 class Transformation {
-	var position = MutableVec2()
-	var origin = MutableVec2()
-	var scale = MutableVec2(1f, 1f)
-	var rotation = 0f.degrees
+	var position: ObservableVec2 by ObservableVec2.property { markDirty() }
+	var origin: ObservableVec2 by ObservableVec2.property { markDirty() }
+	var scale: ObservableVec2 by ObservableVec2.property(1f, 1f) { markDirty() }
+	var rotation: Degrees by Delegates.observable(0f.degrees) { _, old, new ->
+		if (new != old)
+			markDirty()
+	}
+
+	private var backingMatrix: Matrix4? = null
+	private var backingMatrixWithOrigin: Matrix4? = null
 
 	val matrix: Matrix4
 		get() {
-			val transform = Affine2()
-			transform.setToTrnRotScl(position.x, position.y, rotation.value, scale.x, scale.y)
-			if (origin notEquals ImmutableVec2.ZERO)
-				transform.translate(-origin.x, -origin.y)
-			return Matrix4().set(transform)
+			if (backingMatrix == null)
+				setupMatrixes()
+			return backingMatrix!!
 		}
+
+	val matrixWithOrigin: Matrix4
+		get() {
+			if (backingMatrixWithOrigin == null)
+				setupMatrixes()
+			return backingMatrixWithOrigin!!
+		}
+
+	private fun markDirty() {
+		backingMatrix = null
+		backingMatrixWithOrigin = null
+	}
+
+	private fun setupMatrixes() {
+		val transform = Affine2()
+		transform.setToTrnRotScl(position.x, position.y, rotation.value, scale.x, scale.y)
+		backingMatrix = Matrix4().set(transform)
+		if (origin notEquals ImmutableVec2.ZERO)
+			transform.translate(-origin.x, -origin.y)
+		backingMatrixWithOrigin = Matrix4().set(transform)
+	}
 
 	override fun equals(other: Any?): Boolean {
 		return other is Transformation

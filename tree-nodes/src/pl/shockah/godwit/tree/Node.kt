@@ -21,57 +21,32 @@ open class Node {
 	var zLayer: Float? = null
 
 	private var transformation = Transformation()
-	private var lastTransformation = transformation
-	private var actualTransformationMatrix: Matrix4? = null
-
-	val transformationMatrix: Matrix4
-		get() {
-			val actual = actualTransformationMatrix ?: transformation.matrix
-			actualTransformationMatrix = actual
-			return actual
-		}
+	private var cachedMatrix = Matrix4()
+	private var cachedMatrixWithOrigin = Matrix4()
 
 	var position: MutableVec2
 		get() = transformation.position
-		set(new) {
-			transformation.position = new
-			actualTransformationMatrix = null
-		}
+		set(new) { transformation.position.set(new) }
 
 	var origin: MutableVec2
 		get() = transformation.origin
-		set(new) {
-			transformation.origin = new
-			actualTransformationMatrix = null
-		}
+		set(new) { transformation.origin.set(new) }
 
 	var scale: MutableVec2
 		get() = transformation.scale
-		set(new) {
-			transformation.scale = new
-			actualTransformationMatrix = null
-		}
+		set(new) { transformation.scale.set(new) }
 
 	var rotation: Degrees
 		get() = transformation.rotation
-		set(new) {
-			transformation.rotation = new
-			actualTransformationMatrix = null
-		}
+		set(new) { transformation.rotation = new }
 
 	var x: Float
 		get() = position.x
-		set(new) {
-			position.x = new
-			actualTransformationMatrix = null
-		}
+		set(new) { position.x = new }
 
 	var y: Float
 		get() = position.y
-		set(new) {
-			position.y = new
-			actualTransformationMatrix = null
-		}
+		set(new) { position.y = new }
 
 	open val bounds: Rectangle
 		get() = Rectangle(position, ImmutableVec2.ZERO)
@@ -81,15 +56,21 @@ open class Node {
 			return
 
 		val oldTransformMatrix = renderers.transformMatrix
-		renderers.transformMatrix = renderers.transformMatrix.cpy().mul(transformationMatrix)
-
+		if (zLayer == null) {
+			cachedMatrixWithOrigin.set(renderers.transformMatrix).mul(transformation.matrixWithOrigin)
+			cachedMatrix.set(renderers.transformMatrix).mul(transformation.matrix)
+		}
 		val myZLayer = this.zLayer
-		if (myZLayer == null || (zLayer != null && myZLayer == zLayer))
+
+		if (myZLayer == null || (zLayer != null && myZLayer == zLayer)) {
+			renderers.transformMatrix = cachedMatrixWithOrigin
 			drawSelf(renderers)
+		}
+
 		if (zLayer == null && myZLayer != null)
-			renderers.currentPassZLayers += myZLayer
-		if (origin notEquals ImmutableVec2.ZERO)
-			renderers.transformMatrix = renderers.transformMatrix.cpy().translate(origin.x, origin.y, 0f)
+			renderers.currentPassZLayers.computeIfAbsent(myZLayer) { mutableListOf() } += this
+
+		renderers.transformMatrix = cachedMatrix
 		drawChildren(renderers, zLayer)
 
 		renderers.transformMatrix = oldTransformMatrix
