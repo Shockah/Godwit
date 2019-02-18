@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.Texture
 import pl.shockah.godwit.assetDescriptor
 import pl.shockah.godwit.geom.degrees
 import pl.shockah.godwit.size
-import pl.shockah.godwit.tree.GroupNode
+import pl.shockah.godwit.tree.Node
 import pl.shockah.godwit.tree.SpriteNode
 import pl.shockah.godwit.tree.Stage
 import pl.shockah.godwit.tree.TreeNodeGame
@@ -22,7 +22,7 @@ class TreeNodesTest : TreeNodeGame({
 	object : Stage() {
 		private val manager = AssetManager()
 
-		private val ship: GroupNode
+		private val ship: Node
 
 		init {
 			manager.load(Assets.cockpit)
@@ -31,7 +31,7 @@ class TreeNodesTest : TreeNodeGame({
 			manager.load(Assets.gun)
 			manager.finishLoading()
 
-			ship = GroupNode().apply {
+			ship = Node().apply {
 				root += this
 			}
 

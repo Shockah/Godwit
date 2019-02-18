@@ -3,6 +3,7 @@ package pl.shockah.godwit.tree
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import pl.shockah.godwit.color.GAlphaColor
 import pl.shockah.godwit.geom.Shape
+import pl.shockah.godwit.render.Renderers
 
 abstract class ShapeNode<S : Shape>(
 		val shape: S
@@ -12,7 +13,7 @@ abstract class ShapeNode<S : Shape>(
 	open class Filled<S : Shape.Filled>(
 			shape: S
 	) : ShapeNode<S>(shape) {
-		override fun draw(renderers: Renderers) {
+		override fun drawSelf(renderers: Renderers) {
 			val c = color
 			renderers.shapes(ShapeRenderer.ShapeType.Filled) {
 				color = c.gdx
@@ -24,7 +25,7 @@ abstract class ShapeNode<S : Shape>(
 	open class Outline<S : Shape.Outline>(
 			shape: S
 	) : ShapeNode<S>(shape) {
-		override fun draw(renderers: Renderers) {
+		override fun drawSelf(renderers: Renderers) {
 			val c = color
 			renderers.shapes(ShapeRenderer.ShapeType.Filled) {
 				color = c.gdx

@@ -2,6 +2,7 @@ package pl.shockah.godwit.geom
 
 import com.badlogic.gdx.math.Vector2
 import kotlin.math.PI
+import kotlin.math.sqrt
 
 class ImmutableVec2(
 		override val x: Float,
@@ -9,7 +10,7 @@ class ImmutableVec2(
 ) : IVec2<ImmutableVec2>() {
 	override val lengthSquared by lazy { super.lengthSquared }
 
-	override val length by lazy { super.length }
+	override val length by lazy { sqrt(lengthSquared) }
 
 	override val degrees by lazy { super.degrees }
 
