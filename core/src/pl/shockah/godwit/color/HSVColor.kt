@@ -1,11 +1,12 @@
 package pl.shockah.godwit.color
 
+import pl.shockah.godwit.geom.Angle
 import pl.shockah.godwit.geom.degrees
 import kotlin.math.pow
 import kotlin.math.sqrt
 
 data class HSVColor(
-		val h: Float,
+		val h: Angle,
 		val s: Float,
 		val v: Float
 ) : IGColor<HSVColor>() {
@@ -28,12 +29,14 @@ data class HSVColor(
 			s = if (max > 0) 1 - min / max else 0f
 			v = max
 
-			return HSVColor(h / 360f, s, v)
+			return HSVColor(h.degrees, s, v)
 		}
 	}
 
 	override val rgb by lazy {
-		val h = this.h * 360f
+		var h = this.h.degrees.value
+		if (h < 0f)
+			h += 360f
 		val x = (h / 60f + 6) % 6
 		val i = x.toInt()
 		val f = x - i
@@ -51,25 +54,19 @@ data class HSVColor(
 	}
 
 	override fun getDistance(other: HSVColor): Float {
-		var delta = (h * 360f).degrees delta (other.h * 360f).degrees
-		if (delta.value < 0)
-			delta = (delta.value + 360f).degrees
-		return sqrt((delta.value / 360f).pow(2) + (s - other.s).pow(2) + (v - other.v).pow(2))
+		val delta = h delta other.h
+		return sqrt((delta.degrees.value / 180f).pow(2) + (s - other.s).pow(2) + (v - other.v).pow(2))
 	}
 
 	override fun ease(other: HSVColor, f: Float): HSVColor {
-		val delta = (h * 360f).degrees delta (other.h * 360f).degrees
-		val h2 = if (delta.value >= 0) other.h else other.h - 1f
-		var h = this.h.ease(h2, f)
-		if (h < 0)
-			h += 1f
-		if (h > 0)
-			h -= 1f
-
 		return HSVColor(
-				h,
+				h.ease(other.h, f),
 				s.ease(other.s, f),
 				v.ease(other.v, f)
 		)
+	}
+
+	fun with(h: Angle = this.h, s: Float = this.s, v: Float = this.v): HSVColor {
+		return HSVColor(h, s, v)
 	}
 }

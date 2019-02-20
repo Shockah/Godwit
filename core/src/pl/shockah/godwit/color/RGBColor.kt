@@ -31,6 +31,10 @@ data class RGBColor(
 		)
 	}
 
+	fun with(r: Float = this.r, g: Float = this.g, b: Float = this.b): RGBColor {
+		return RGBColor(r, g, b)
+	}
+
 	operator fun times(rgb: RGBColor): RGBColor {
 		return RGBColor(r * rgb.r, g * rgb.g, b * rgb.b)
 	}

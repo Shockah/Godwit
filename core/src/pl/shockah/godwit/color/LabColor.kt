@@ -62,4 +62,8 @@ data class LabColor(
 				reference
 		)
 	}
+
+	fun with(l: Float = this.l, a: Float = this.a, b: Float = this.b): LabColor {
+		return LabColor(l, a, b)
+	}
 }

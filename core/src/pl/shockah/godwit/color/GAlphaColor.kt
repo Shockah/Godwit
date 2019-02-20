@@ -18,4 +18,8 @@ data class GAlphaColor(
 
 	val Color.godwit: GAlphaColor
 		get() = GAlphaColor(RGBColor(r, g, b), a)
+
+	fun with(color: GColor = this.color, alpha: Float = this.alpha): GAlphaColor {
+		return GAlphaColor(color, alpha)
+	}
 }

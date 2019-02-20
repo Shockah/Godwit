@@ -87,4 +87,8 @@ data class XYZColor(
 				z.ease(other.z, f)
 		)
 	}
+
+	fun with(x: Float = this.x, y: Float = this.y, z: Float = this.z): XYZColor {
+		return XYZColor(x, y, z)
+	}
 }

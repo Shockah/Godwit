@@ -15,12 +15,9 @@ class Touch(
 		if (new == old)
 			return@observable
 
-		if (new != null) {
-//			for (continuousRecognizer in ArrayList(Godwit.getInstance().inputManager.gestureManager.currentContinuousRecognizers)) {
-//				if (continuousRecognizer === recognizer)
-//					continue
-//				continuousRecognizer.onTouchUsedByRecognizer(this)
-//			}
+		new?.stage?.activeContinuousGestureRecognizers?.forEach {
+			if (it != new)
+				it.onTouchUsedByRecognizer(this)
 		}
 	}
 

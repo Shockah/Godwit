@@ -12,8 +12,7 @@ class LongPressGestureRecognizer(
 ) : GestureRecognizer() {
 	companion object {
 		private val stationaryRadius: Float by lazy {
-			val ppi = Gdx.graphics.ppi
-//				val ppi = Godwit.getInstance().getPpi()
+			val ppi = Gdx.graphics.ppi // TODO: cache it every tick
 			val average = (ppi.x + ppi.y) * 0.5f
 			return@lazy average * 0.1f
 		}

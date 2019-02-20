@@ -19,6 +19,6 @@ abstract class ContinuousGestureRecognizer : GestureRecognizer() {
 			}
 		}
 
-	protected open fun onTouchUsedByRecognizer(touch: Touch) {
+	internal open fun onTouchUsedByRecognizer(touch: Touch) {
 	}
 }

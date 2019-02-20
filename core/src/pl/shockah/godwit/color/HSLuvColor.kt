@@ -1,10 +1,11 @@
 package pl.shockah.godwit.color
 
+import pl.shockah.godwit.geom.Angle
 import pl.shockah.godwit.geom.degrees
 import kotlin.math.*
 
 data class HSLuvColor(
-		val h: Float,
+		val h: Angle,
 		val s: Float,
 		val luv: Float,
 		val reference: XYZColor.Reference = XYZColor.Reference.D65_2
@@ -30,13 +31,12 @@ data class HSLuvColor(
 			return HSLuvColor(lch.h, s, lch.l * 0.01f, lch.reference)
 		}
 
-		private fun maxChromaForLH(L: Float, H: Float): Float {
-			val hrad = (H / 360f) * PI * 2
+		private fun maxChromaForLH(L: Float, H: Angle): Float {
 			val bounds = getBounds(L)
 			var min = Float.MAX_VALUE
 
 			for (bound in bounds) {
-				val length = lengthOfRayUntilIntersect(hrad, bound)
+				val length = lengthOfRayUntilIntersect(H, bound)
 				if (length >= 0f)
 					min = Math.min(min, length)
 			}
@@ -44,8 +44,8 @@ data class HSLuvColor(
 			return min
 		}
 
-		private fun lengthOfRayUntilIntersect(theta: Double, line: FloatArray): Float {
-			return (line[1] / (sin(theta) - line[0] * cos(theta))).toFloat()
+		private fun lengthOfRayUntilIntersect(theta: Angle, line: FloatArray): Float {
+			return line[1] / (theta.sin - line[0] * theta.cos)
 		}
 
 		private fun getBounds(L: Float): List<FloatArray> {
@@ -87,26 +87,20 @@ data class HSLuvColor(
 	}
 
 	override fun getDistance(other: HSLuvColor): Float {
-		var delta = (h * 360f).degrees delta (other.h * 360f).degrees
-		if (delta.value < 0)
-			delta = (delta.value + 360f).degrees
-		return sqrt((delta.value / 360f).pow(2) + (s - other.s).pow(2) + (luv - other.luv).pow(2))
+		val delta = h delta other.h
+		return sqrt((delta.degrees.value / 180f).pow(2) + (s - other.s).pow(2) + (luv - other.luv).pow(2))
 	}
 
 	override fun ease(other: HSLuvColor, f: Float): HSLuvColor {
-		val delta = (h * 360f).degrees delta (other.h * 360f).degrees
-		val h2 = if (delta.value >= 0) other.h else other.h - 1f
-		var h = this.h.ease(h2, f)
-		if (h < 0)
-			h += 1f
-		if (h > 0)
-			h -= 1f
-
 		return HSLuvColor(
-				h,
+				h.ease(other.h, f),
 				s.ease(other.s, f),
 				luv.ease(other.luv, f),
 				reference
 		)
+	}
+
+	fun with(h: Angle = this.h, s: Float = this.s, luv: Float = this.luv): HSLuvColor {
+		return HSLuvColor(h, s, luv)
 	}
 }
