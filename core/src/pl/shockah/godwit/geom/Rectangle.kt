@@ -6,7 +6,7 @@ import pl.shockah.godwit.geom.polygon.ClosedPolygon
 import pl.shockah.godwit.geom.polygon.Polygonable
 
 class Rectangle(
-		position: Vec2,
+		position: Vec2 = ImmutableVec2.ZERO,
 		size: Vec2
 ) : Polygonable.Closed, Easable<Rectangle> {
 	var position: MutableVec2 = position.mutableCopy()

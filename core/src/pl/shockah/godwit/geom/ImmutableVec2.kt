@@ -4,6 +4,9 @@ import com.badlogic.gdx.math.Vector2
 import kotlin.math.PI
 import kotlin.math.sqrt
 
+val Vector2.godwit: ImmutableVec2
+	get() = ImmutableVec2(x, y)
+
 class ImmutableVec2(
 		override val x: Float,
 		override val y: Float
@@ -31,6 +34,8 @@ class ImmutableVec2(
 		}
 	}
 
+	override fun immutable(): ImmutableVec2 = this
+
 	override operator fun unaryMinus(): ImmutableVec2 = ImmutableVec2(-x, -y)
 
 	override operator fun plus(vector: Vec2): ImmutableVec2 = ImmutableVec2(x + vector.x, y + vector.y)
@@ -46,7 +51,4 @@ class ImmutableVec2(
 	override fun rotated(angle: Angle): ImmutableVec2 {
 		return ImmutableVec2(radians + angle.radians, length)
 	}
-
-	val Vector2.godwit: ImmutableVec2
-		get() = ImmutableVec2(x, y)
 }

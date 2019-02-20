@@ -17,9 +17,13 @@ abstract class ShapeNode<S : Shape>(
 ) : Node() {
 	var color = GAlphaColor.white
 
-	open class Filled<S : Shape.Filled>(
+	class Filled<S : Shape.Filled>(
 			shape: S
 	) : ShapeNode<S>(shape) {
+		init {
+			touchShape = shape
+		}
+
 		override fun drawSelf(renderers: TreeNodeRenderers) {
 			val c = color
 			renderers.shapes(ShapeRenderer.ShapeType.Filled) {
@@ -29,7 +33,7 @@ abstract class ShapeNode<S : Shape>(
 		}
 	}
 
-	open class Outline<S : Shape.Outline>(
+	class Outline<S : Shape.Outline>(
 			shape: S
 	) : ShapeNode<S>(shape) {
 		override fun drawSelf(renderers: TreeNodeRenderers) {

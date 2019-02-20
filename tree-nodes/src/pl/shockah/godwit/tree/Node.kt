@@ -1,28 +1,54 @@
 package pl.shockah.godwit.tree
 
 import com.badlogic.gdx.math.Matrix4
+import pl.shockah.godwit.ObservableList
 import pl.shockah.godwit.SnapshotList
 import pl.shockah.godwit.applyEach
-import pl.shockah.godwit.geom.Degrees
-import pl.shockah.godwit.geom.ImmutableVec2
-import pl.shockah.godwit.geom.MutableVec2
-import pl.shockah.godwit.geom.Rectangle
+import pl.shockah.godwit.geom.*
+import pl.shockah.godwit.tree.gesture.GestureRecognizer
 import java.util.*
 import kotlin.properties.Delegates
 
 open class Node {
 	val children = SnapshotList(LinkedList<Node>())
 	var parent: Node? by Delegates.observable(null) { _, old: Node?, new: Node? ->
+		if (new != null)
+			stage = new.stage
 		old?.children?.remove(this)
 		new?.children?.add(this)
 	}
 
+	private var backingStage: Stage? = null
+
+	var stage: Stage
+		get() = backingStage!!
+		protected set(value) {
+			backingStage = value
+			gestureRecognizers.forEach { it.stage = backingStage!! }
+		}
+
 	var visible = true
 	var zLayer: Float? = null
 
+	open var touchShape: Shape.Filled = Shape.none
+	var clipsChildrenTouches = false
+
+	val gestureRecognizers = ObservableList(mutableListOf<GestureRecognizer>()).apply {
+		listeners += object : ObservableList.ChangeListener<GestureRecognizer> {
+			override fun onAddedToList(element: GestureRecognizer) {
+				backingStage?.let { stage ->
+					element.stage = stage
+				}
+			}
+
+			override fun onRemovedFromList(element: GestureRecognizer) {
+			}
+		}
+	}
+
 	private var transformation = Transformation()
-	private var cachedMatrix = Matrix4()
-	private var cachedMatrixWithOrigin = Matrix4()
+	internal var cachedMatrix = Matrix4()
+	internal var cachedMatrixWithOrigin = Matrix4()
 
 	var position: MutableVec2
 		get() = transformation.position

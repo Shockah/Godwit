@@ -29,7 +29,7 @@ class ClosedPolygon(
 	constructor(vararg points: Vec2) : this(points.toList())
 
 	init {
-		super.points += object : ObservableList.ChangeListener<MutableVec2> {
+		super.points.listeners += object : ObservableList.ChangeListener<MutableVec2> {
 			override fun onAddedToList(element: MutableVec2) {
 				dirty = true
 			}

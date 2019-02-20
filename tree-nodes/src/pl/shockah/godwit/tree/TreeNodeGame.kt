@@ -18,7 +18,7 @@ open class TreeNodeGame(
 		get() = backingStage
 		set(new) {
 			backingStage = new
-//			Gdx.input.inputProcessor = new
+			Gdx.input.inputProcessor = new
 		}
 
 	constructor(viewport: Viewport = ScreenViewport()) : this({ Stage(viewport) })

@@ -46,7 +46,7 @@ abstract class IVec2<T : IVec2<T>> : Comparable<IVec2<*>>, Easable<IVec2<*>> {
 	operator fun component1(): Float = x
 	operator fun component2(): Float = y
 
-	fun immutableCopy(): ImmutableVec2 = ImmutableVec2(x, y)
+	open fun immutable(): ImmutableVec2 = ImmutableVec2(x, y)
 	fun mutableCopy(): MutableVec2 = MutableVec2(x, y)
 
 	abstract operator fun unaryMinus(): T

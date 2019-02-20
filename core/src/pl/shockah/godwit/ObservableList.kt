@@ -5,12 +5,12 @@ class ObservableList<E>(
 ) : List<E> by observedList {
 	val listeners: MutableList<ChangeListener<E>> = mutableListOf()
 
-	operator fun plusAssign(listener: ChangeListener<E>) {
-		listeners += listener
+	operator fun plusAssign(element: E) {
+		add(element)
 	}
 
-	operator fun minusAssign(listener: ChangeListener<E>) {
-		listeners -= listener
+	operator fun minusAssign(element: E) {
+		remove(element)
 	}
 
 	fun add(element: E): Boolean {

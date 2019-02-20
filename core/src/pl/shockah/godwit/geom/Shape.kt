@@ -13,6 +13,66 @@ interface Shape {
 		get() = boundingBox.center
 
 	companion object {
+		val none = object : Shape.Filled {
+			override val boundingBox: Rectangle
+				get() = Rectangle(
+						ImmutableVec2(-Float.NEGATIVE_INFINITY, -Float.NEGATIVE_INFINITY),
+						ImmutableVec2(0f, 0f)
+				)
+
+			override fun copy(): Shape.Filled {
+				return this
+			}
+
+			override fun translate(vector: Vec2) {
+			}
+
+			override fun mirror(horizontal: Boolean, vertical: Boolean) {
+			}
+
+			override fun scale(scale: Float) {
+			}
+
+			override fun drawFilled(shapes: ShapeRenderer) {
+			}
+
+			override fun contains(point: Vec2): Boolean {
+				return false
+			}
+		}
+
+		val infinitePlane = object : Shape.Filled {
+			override val boundingBox: Rectangle
+				get() = Rectangle(
+						ImmutableVec2(-Float.NEGATIVE_INFINITY, -Float.NEGATIVE_INFINITY),
+						ImmutableVec2(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY)
+				)
+
+			override fun copy(): Shape.Filled {
+				return this
+			}
+
+			override fun translate(vector: Vec2) {
+			}
+
+			override fun mirror(horizontal: Boolean, vertical: Boolean) {
+			}
+
+			override fun scale(scale: Float) {
+			}
+
+			override fun drawFilled(shapes: ShapeRenderer) {
+				shapes.rect(
+						-Float.NEGATIVE_INFINITY, -Float.NEGATIVE_INFINITY,
+						Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY
+				)
+			}
+
+			override fun contains(point: Vec2): Boolean {
+				return true
+			}
+		}
+
 		private val collisionHandlers: MutableMap<Pair<KClass<out Shape>, KClass<out Shape>>, (Shape, Shape) -> Boolean> = mutableMapOf()
 
 		fun <A : Shape, B : Shape> registerCollisionHandler(first: KClass<A>, second: KClass<B>, handler: (A, B) -> Boolean) {
