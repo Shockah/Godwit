@@ -18,9 +18,8 @@ allprojects {
 	repositories {
 		mavenLocal()
 		mavenCentral()
-		maven {
-			url "https://oss.sonatype.org/content/repositories/releases/"
-		}
+		google()
+		jcenter()
 		maven {
 			url "https://jitpack.io"
 		}
