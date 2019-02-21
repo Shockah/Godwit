@@ -54,7 +54,7 @@ open class Stage(
 		val touch = Touch(pointer, button)
 		touch += ImmutableVec2(screenX.toFloat(), screenY.toFloat())
 		touches[pointer to button] = touch
-		stageLayers.forEach { it.touchDown(screenX, screenY, touch) }
+		stageLayers.asReversed().forEach { it.touchDown(screenX, screenY, touch) }
 		return true
 	}
 
@@ -64,7 +64,7 @@ open class Stage(
 		touches.forEach { (touchPointer, _), touch ->
 			if (touchPointer == pointer) {
 				touch += point
-				stageLayers.forEach { it.touchDragged(screenX, screenY, touch) }
+				stageLayers.asReversed().forEach { it.touchDragged(screenX, screenY, touch) }
 				handled = true
 			}
 		}
@@ -79,7 +79,7 @@ open class Stage(
 		touch += ImmutableVec2(screenX.toFloat(), screenY.toFloat())
 		touch.finish()
 		touches.remove(pointer to button)
-		stageLayers.forEach { it.touchUp(screenX, screenY, touch) }
+		stageLayers.asReversed().forEach { it.touchUp(screenX, screenY, touch) }
 		return true
 	}
 
