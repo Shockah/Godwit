@@ -10,6 +10,12 @@ import kotlin.math.min
 open class TreeNodeGame(
 		private val initialStageFactory: () -> Stage
 ) : ApplicationAdapter() {
+	companion object {
+		operator fun invoke(stageLayerFactory: () -> StageLayer): TreeNodeGame {
+			return TreeNodeGame { Stage(stageLayerFactory()) }
+		}
+	}
+
 	private lateinit var backingStage: Stage
 
 	var maximumDeltaTime: Float? = 1f / 15f
@@ -21,14 +27,18 @@ open class TreeNodeGame(
 			Gdx.input.inputProcessor = new
 		}
 
-	constructor(viewport: Viewport = ScreenViewport()) : this({ Stage(viewport) })
+	constructor(viewport: Viewport = ScreenViewport()) : this({ Stage(StageLayer(viewport)) })
 
 	override fun create() {
 		stage = initialStageFactory()
 	}
 
 	override fun resize(width: Int, height: Int) {
-		stage.viewport.update(width, height, true)
+		stage.stageLayers.forEach { stageLayer ->
+			stageLayer.viewports.forEach {
+				it.update(width, height, true)
+			}
+		}
 	}
 
 	override fun render() {

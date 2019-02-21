@@ -1,55 +1,25 @@
 package pl.shockah.godwit.tree
 
-import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.InputProcessor
-import com.badlogic.gdx.math.Vector3
-import com.badlogic.gdx.utils.viewport.ScreenViewport
-import com.badlogic.gdx.utils.viewport.Viewport
 import pl.shockah.godwit.applyEach
 import pl.shockah.godwit.geom.ImmutableVec2
-import pl.shockah.godwit.geom.Shape
-import pl.shockah.godwit.geom.Vec2
-import pl.shockah.godwit.geom.godwit
-import pl.shockah.godwit.toVector2
-import pl.shockah.godwit.toVector3
 import pl.shockah.godwit.tree.gesture.ContinuousGestureRecognizer
 import pl.shockah.godwit.tree.gesture.GestureRecognizer
 import pl.shockah.godwit.tree.gesture.Touch
 
 open class Stage(
-		val viewport: Viewport = ScreenViewport()
+		vararg stageLayers: StageLayer
 ) : InputProcessor {
-	val root = object : Node() {
-		init {
-			stage = this@Stage
-		}
-	}
+	val stageLayers = stageLayers.toList()
 
-	private val renderers = TreeNodeRenderers()
+	internal val renderers = TreeNodeRenderers()
 
-	private val touches = mutableMapOf<Int, Touch>()
+	private val touches = mutableMapOf<Pair<Int, Int>, Touch>()
 	internal val gestureRecognizers = mutableSetOf<GestureRecognizer>()
 	internal val activeContinuousGestureRecognizers = mutableSetOf<ContinuousGestureRecognizer>()
 
 	init {
-		viewport.update(Gdx.graphics.width, Gdx.graphics.height, true)
-	}
-
-	open fun draw() {
-		if (!root.visible)
-			return
-
-		val camera = viewport.camera
-		camera.update()
-		renderers.projectionMatrix = camera.combined
-
-		root.draw(renderers, null)
-		renderers.currentPassZLayers.forEach { zLayer, nodes ->
-			nodes.forEach { it.draw(renderers, zLayer) }
-		}
-		renderers.currentPassZLayers.clear()
-
-		renderers.flush()
+		stageLayers.forEach { it.stage = this }
 	}
 
 	open fun update(delta: Float) {
@@ -72,67 +42,45 @@ open class Stage(
 			}
 		}
 
-		root.update(delta)
+		stageLayers.forEach { it.update(delta) }
 	}
 
-	private fun screenToWorldCoordinates(screenX: Int, screenY: Int): ImmutableVec2 {
-		return viewport.camera.unproject(Vector3(screenX.toFloat(), screenY.toFloat(), 0f)).toVector2().godwit
+	open fun draw() {
+		stageLayers.forEach { it.draw(renderers) }
+		renderers.flush()
 	}
 
 	override fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
 		val touch = Touch(pointer, button)
-		val point = screenToWorldCoordinates(screenX, screenY)
-		touch += point
-		touches[pointer] = touch
-		handle(GestureRecognizer::handleTouchDown, true, touch, point, root)
+		touch += ImmutableVec2(screenX.toFloat(), screenY.toFloat())
+		touches[pointer to button] = touch
+		stageLayers.forEach { it.touchDown(screenX, screenY, touch) }
 		return true
 	}
 
 	override fun touchDragged(screenX: Int, screenY: Int, pointer: Int): Boolean {
-		val touch = touches[pointer] ?: return false
-		if (touch.finished)
-			return true
-
-		val point = screenToWorldCoordinates(screenX, screenY)
-		touch += point
-		handle(GestureRecognizer::handleTouchDragged, false, touch, point, root)
-		return true
+		val point = ImmutableVec2(screenX.toFloat(), screenY.toFloat())
+		var handled = false
+		touches.forEach { (touchPointer, _), touch ->
+			if (touchPointer == pointer) {
+				touch += point
+				stageLayers.forEach { it.touchDragged(screenX, screenY, touch) }
+				handled = true
+			}
+		}
+		return handled
 	}
 
 	override fun touchUp(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
-		val touch = touches[pointer] ?: return false
+		val touch = touches[pointer to button] ?: return false
 		if (touch.finished)
 			return true
 
-		val point = screenToWorldCoordinates(screenX, screenY)
-		touch += point
+		touch += ImmutableVec2(screenX.toFloat(), screenY.toFloat())
 		touch.finish()
-		touches.remove(pointer)
-		handle(GestureRecognizer::handleTouchUp, false, touch, point, root)
+		touches.remove(pointer to button)
+		stageLayers.forEach { it.touchUp(screenX, screenY, touch) }
 		return true
-	}
-
-	private fun handle(method: (recognizer: GestureRecognizer, touch: Touch, point: Vec2) -> Unit, clipping: Boolean, touch: Touch, point: Vec2, node: Node) {
-		fun testInShape(): Boolean {
-			return when (node.touchShape) {
-				Shape.infinitePlane -> true
-				Shape.none -> false
-				else -> {
-					val transformed = point.gdx.toVector3().mul(node.cachedMatrixWithOrigin.cpy().inv()).toVector2().godwit
-					return transformed in node.touchShape
-				}
-			}
-		}
-
-		val inShape = !clipping || testInShape()
-		if (!node.clipsChildrenTouches || inShape) {
-			node.children.snapshot { children ->
-				children.forEach { handle(method, clipping, touch, point, it) }
-			}
-		}
-
-		if (inShape)
-			node.gestureRecognizers.forEach { method(it, touch, point) }
 	}
 
 	override fun keyDown(keycode: Int): Boolean {

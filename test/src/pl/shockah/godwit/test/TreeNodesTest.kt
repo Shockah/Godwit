@@ -6,10 +6,7 @@ import com.badlogic.gdx.graphics.Texture
 import pl.shockah.godwit.assetDescriptor
 import pl.shockah.godwit.geom.degrees
 import pl.shockah.godwit.size
-import pl.shockah.godwit.tree.Node
-import pl.shockah.godwit.tree.SpriteNode
-import pl.shockah.godwit.tree.Stage
-import pl.shockah.godwit.tree.TreeNodeGame
+import pl.shockah.godwit.tree.*
 
 private object Assets {
 	val cockpit = assetDescriptor<Texture>("kenney/part-cockpit.png")
@@ -18,7 +15,7 @@ private object Assets {
 	val gun = assetDescriptor<Texture>("kenney/part-gun.png")
 }
 
-class TreeNodesTest : TreeNodeGame({ object : Stage() {
+class TreeNodesTest : TreeNodeGame({ Stage(object : StageLayer() {
 	private val manager = AssetManager()
 
 	private val ship: Node
@@ -57,4 +54,4 @@ class TreeNodesTest : TreeNodeGame({ object : Stage() {
 		ship.rotation += (45f * delta).degrees
 		super.update(delta)
 	}
-}})
+}) })

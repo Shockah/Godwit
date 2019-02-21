@@ -1,6 +1,5 @@
 package pl.shockah.godwit.tree
 
-import com.badlogic.gdx.math.Matrix4
 import pl.shockah.godwit.ObservableList
 import pl.shockah.godwit.SnapshotList
 import pl.shockah.godwit.applyEach
@@ -13,19 +12,22 @@ open class Node {
 	val children = SnapshotList(LinkedList<Node>())
 	var parent: Node? by Delegates.observable(null) { _, old: Node?, new: Node? ->
 		if (new != null)
-			stage = new.stage
+			stageLayer = new.stageLayer
 		old?.children?.remove(this)
 		new?.children?.add(this)
 	}
 
-	private var backingStage: Stage? = null
+	private var backingStageLayer: StageLayer? = null
 
-	var stage: Stage
-		get() = backingStage!!
+	var stageLayer: StageLayer
+		get() = backingStageLayer!!
 		protected set(value) {
-			backingStage = value
-			gestureRecognizers.forEach { it.stage = backingStage!! }
+			backingStageLayer = value
+			gestureRecognizers.forEach { value.awaitStage(it) }
 		}
+
+	val stage: Stage
+		get() = stageLayer.stage
 
 	var visible = true
 	var zLayer: Float? = null
@@ -36,9 +38,7 @@ open class Node {
 	val gestureRecognizers = ObservableList(mutableListOf<GestureRecognizer>()).apply {
 		listeners += object : ObservableList.ChangeListener<GestureRecognizer> {
 			override fun onAddedToList(element: GestureRecognizer) {
-				backingStage?.let { stage ->
-					element.stage = stage
-				}
+				backingStageLayer?.awaitStage(element)
 			}
 
 			override fun onRemovedFromList(element: GestureRecognizer) {
@@ -47,8 +47,6 @@ open class Node {
 	}
 
 	private var transformation = Transformation()
-	internal var cachedMatrix = Matrix4()
-	internal var cachedMatrixWithOrigin = Matrix4()
 
 	var position: MutableVec2
 		get() = transformation.position
@@ -82,21 +80,19 @@ open class Node {
 			return
 
 		val oldTransformMatrix = renderers.transformMatrix
-		if (zLayer == null) {
-			cachedMatrixWithOrigin.set(renderers.transformMatrix).mul(transformation.matrixWithOrigin)
-			cachedMatrix.set(renderers.transformMatrix).mul(transformation.matrix)
-		}
-		val myZLayer = this.zLayer
+		if (zLayer == null)
+			renderers.transformationMatrixCache[this] = oldTransformMatrix.cpy().mul(transformation.matrixWithOrigin)
 
+		val myZLayer = this.zLayer
 		if (myZLayer == null || (zLayer != null && myZLayer == zLayer)) {
-			renderers.transformMatrix = cachedMatrixWithOrigin
+			renderers.transformMatrix = renderers.transformationMatrixCache[this]!!
 			drawSelf(renderers)
 		}
 
 		if (zLayer == null && myZLayer != null)
-			renderers.currentPassZLayers.computeIfAbsent(myZLayer) { mutableListOf() } += this
+			renderers.currentPassZLayers.getOrPut(myZLayer) { mutableListOf() } += this
 
-		renderers.transformMatrix = cachedMatrix
+		renderers.transformMatrix = oldTransformMatrix.cpy().mul(transformation.matrix)
 		drawChildren(renderers, zLayer)
 
 		renderers.transformMatrix = oldTransformMatrix
