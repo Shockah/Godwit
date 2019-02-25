@@ -1,15 +1,15 @@
 package pl.shockah.godwit.tree
 
-import com.badlogic.gdx.ApplicationAdapter
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 import com.badlogic.gdx.utils.viewport.Viewport
+import pl.shockah.godwit.GodwitApplicationAdapter
 import kotlin.math.min
 
 open class TreeNodeGame(
 		private val initialStageFactory: () -> Stage
-) : ApplicationAdapter() {
+) : GodwitApplicationAdapter() {
 	companion object {
 		operator fun invoke(stageLayerFactory: () -> StageLayer): TreeNodeGame {
 			return TreeNodeGame { Stage(stageLayerFactory()) }
