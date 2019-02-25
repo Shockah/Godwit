@@ -34,11 +34,7 @@ open class TreeNodeGame(
 	}
 
 	override fun resize(width: Int, height: Int) {
-		stage.stageLayers.forEach { stageLayer ->
-			stageLayer.viewports.forEach {
-				it.update(width, height, true)
-			}
-		}
+		stage.resize(width, height)
 	}
 
 	override fun render() {

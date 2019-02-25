@@ -22,6 +22,12 @@ open class Stage(
 		stageLayers.forEach { it.stage = this }
 	}
 
+	open fun resize(screenWidth: Int, screenHeight: Int) {
+		stageLayers.forEach {
+			it.resize(screenWidth, screenHeight)
+		}
+	}
+
 	open fun update(delta: Float) {
 		val recognizers = gestureRecognizers.toList()
 

@@ -41,6 +41,12 @@ open class StageLayer(
 		}
 	}
 
+	open fun resize(screenWidth: Int, screenHeight: Int) {
+		viewports.forEach {
+			it.update(screenWidth, screenHeight, true)
+		}
+	}
+
 	open fun update(delta: Float) {
 		root.update(delta)
 	}
