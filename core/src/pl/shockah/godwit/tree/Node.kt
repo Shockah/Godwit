@@ -75,25 +75,24 @@ open class Node {
 	open val bounds: Rectangle
 		get() = Rectangle(position, ImmutableVec2.ZERO)
 
-	open fun draw(renderers: TreeNodeRenderers, zLayer: Float?) {
+	open fun draw(renderers: TreeNodeRenderers) {
 		if (!visible)
 			return
 
 		val oldTransformMatrix = renderers.transformMatrix
-		if (zLayer == null)
-			renderers.transformationMatrixCache[this] = oldTransformMatrix.cpy().mul(transformation.matrixWithOrigin)
+		val matrixWithOrigin = oldTransformMatrix.cpy().mul(transformation.matrixWithOrigin)
+		renderers.transformationMatrixCache[this] = matrixWithOrigin
 
-		val myZLayer = this.zLayer
-		if (myZLayer == null || (zLayer != null && myZLayer == zLayer)) {
-			renderers.transformMatrix = renderers.transformationMatrixCache[this]!!
+		val zLayer = this.zLayer
+		if (zLayer == null) {
+			renderers.transformMatrix = matrixWithOrigin
 			drawSelf(renderers)
+		} else {
+			renderers.zOrderedNodes += Triple(zLayer, this, matrixWithOrigin)
 		}
 
-		if (zLayer == null && myZLayer != null)
-			renderers.currentPassZLayers.getOrPut(myZLayer) { mutableListOf() } += this
-
 		renderers.transformMatrix = oldTransformMatrix.cpy().mul(transformation.matrix)
-		drawChildren(renderers, zLayer)
+		drawChildren(renderers)
 
 		renderers.transformMatrix = oldTransformMatrix
 	}
@@ -101,8 +100,8 @@ open class Node {
 	open fun drawSelf(renderers: TreeNodeRenderers) {
 	}
 
-	open fun drawChildren(renderers: TreeNodeRenderers, zLayer: Float?) {
-		children.applyEach { draw(renderers, zLayer) }
+	open fun drawChildren(renderers: TreeNodeRenderers) {
+		children.applyEach { draw(renderers) }
 	}
 
 	open fun update(delta: Float) {

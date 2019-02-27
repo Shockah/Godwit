@@ -2,6 +2,7 @@ package pl.shockah.godwit.tree
 
 import com.badlogic.gdx.math.Matrix4
 import com.badlogic.gdx.utils.viewport.Viewport
+import pl.shockah.godwit.compare
 import pl.shockah.godwit.render.Renderers
 import java.util.*
 import kotlin.properties.Delegates
@@ -12,7 +13,14 @@ class TreeNodeRenderers : Renderers() {
 	var currentViewport: Viewport by Delegates.notNull()
 		internal set
 
-	val currentPassZLayers = TreeMap<Float, MutableList<Node>>()
+	val zOrderedNodes = TreeSet<Triple<Float, Node, Matrix4>> { (a, n1, _), (b, n2, _) ->
+		if (a < b)
+			return@TreeSet -1
+		else if (a > b)
+			return@TreeSet 1
+		else
+			return@TreeSet System.identityHashCode(n1) compare System.identityHashCode(n2)
+	}
 
 	inner class TransformationMatrixCache {
 		val cache = mutableMapOf<Viewport, MutableMap<Node, Matrix4>>()

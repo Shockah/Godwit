@@ -61,11 +61,14 @@ open class StageLayer(
 			viewport.camera.update()
 			renderers.projectionMatrix = viewport.camera.combined
 
-			root.draw(renderers, null)
-			renderers.currentPassZLayers.forEach { zLayer, nodes ->
-				nodes.forEach { it.draw(renderers, zLayer) }
+			root.draw(renderers)
+			val oldTransformMatrix = renderers.transformMatrix
+			renderers.zOrderedNodes.forEach { (_, node, matrix) ->
+				renderers.transformMatrix = matrix
+				node.drawSelf(renderers)
 			}
-			renderers.currentPassZLayers.clear()
+			renderers.transformMatrix = oldTransformMatrix
+			renderers.zOrderedNodes.clear()
 		}
 	}
 
