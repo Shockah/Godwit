@@ -35,7 +35,7 @@ open class Node {
 	open var touchShape: Shape.Filled = Shape.none
 	var clipsChildrenTouches = false
 
-	val gestureRecognizers = ObservableList(mutableListOf<GestureRecognizer>()).apply {
+	val gestureRecognizers = ObservableList<GestureRecognizer>().apply {
 		listeners += object : ObservableList.ChangeListener<GestureRecognizer> {
 			override fun onAddedToList(element: GestureRecognizer) {
 				backingStageLayer?.awaitStage(element)

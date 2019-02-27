@@ -1,7 +1,7 @@
 package pl.shockah.godwit
 
 class ObservableList<E>(
-		private val observedList: MutableList<E>
+		private val observedList: MutableList<E> = mutableListOf()
 ) : List<E> by observedList {
 	val listeners: MutableList<ChangeListener<E>> = mutableListOf()
 
