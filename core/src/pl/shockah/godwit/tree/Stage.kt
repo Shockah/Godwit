@@ -52,6 +52,7 @@ open class Stage(
 	}
 
 	open fun draw() {
+		renderers.transformationMatrixCache.clear()
 		stageLayers.forEach { it.draw(renderers) }
 		renderers.flush()
 	}
