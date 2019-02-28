@@ -50,7 +50,9 @@ class Circle(
 		}
 	}
 
-	override fun copy(): Circle = Circle(position, radius)
+	override fun copy(): Circle {
+		return Circle(position, radius)
+	}
 
 	override fun equals(other: Any?): Boolean {
 		return other is Circle && position == other.position && radius == other.radius

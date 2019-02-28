@@ -3,7 +3,7 @@ package pl.shockah.godwit
 class ObservableList<E>(
 		private val observedList: MutableList<E> = mutableListOf()
 ) : List<E> by observedList {
-	val listeners: MutableList<ChangeListener<E>> = mutableListOf()
+	val listeners = mutableListOf<ChangeListener<E>>()
 
 	operator fun plusAssign(element: E) {
 		add(element)
@@ -16,14 +16,14 @@ class ObservableList<E>(
 	fun add(element: E): Boolean {
 		val result = observedList.add(element)
 		if (result)
-			listeners.forEach { it.onAddedToList(element) }
+			listeners.applyEach { onAddedToList(element) }
 		return result
 	}
 
 	fun remove(element: E): Boolean {
 		val result = observedList.remove(element)
 		if (result)
-			listeners.forEach { it.onRemovedFromList(element) }
+			listeners.applyEach { onRemovedFromList(element) }
 		return result
 	}
 

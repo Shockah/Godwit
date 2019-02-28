@@ -56,7 +56,9 @@ open class Polygon(
 		}
 	}
 
-	override fun copy(): Polygon = Polygon(points)
+	override fun copy(): Polygon {
+		return Polygon(points)
+	}
 
 	override fun translate(vector: Vec2) {
 		points.forEach { it.xy += vector }

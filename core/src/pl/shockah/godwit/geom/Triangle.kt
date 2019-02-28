@@ -55,7 +55,9 @@ class Triangle(
 		}
 	}
 
-	override fun copy(): Triangle = Triangle(points[0], points[1], points[2])
+	override fun copy(): Triangle {
+		return Triangle(points[0], points[1], points[2])
+	}
 
 	override fun equals(other: Any?): Boolean {
 		return other is Triangle && points == other.points

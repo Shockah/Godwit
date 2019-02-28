@@ -1,5 +1,6 @@
 package pl.shockah.godwit.tree
 
+import pl.shockah.godwit.LateInitAwaitable
 import pl.shockah.godwit.ObservableList
 import pl.shockah.godwit.SnapshotList
 import pl.shockah.godwit.applyEach
@@ -17,17 +18,19 @@ open class Node {
 		new?.children?.add(this)
 	}
 
-	private var backingStageLayer: StageLayer? = null
-
-	var stageLayer: StageLayer
-		get() = backingStageLayer!!
-		protected set(value) {
-			backingStageLayer = value
-			gestureRecognizers.forEach { value.awaitableStage.await(it) }
-		}
+	private val awaitableStageLayer = LateInitAwaitable<StageLayer>()
+	var stageLayer: StageLayer by awaitableStageLayer
 
 	val stage: Stage
 		get() = stageLayer.stage
+
+	init {
+		awaitableStageLayer.listeners += { _, _, new ->
+			gestureRecognizers.forEach { new.awaitableStage.await { _, value ->
+				it.stage = value
+			} }
+		}
+	}
 
 	var visible = true
 	var zLayer: Float? = null
@@ -38,7 +41,11 @@ open class Node {
 	val gestureRecognizers = ObservableList<GestureRecognizer>().apply {
 		listeners += object : ObservableList.ChangeListener<GestureRecognizer> {
 			override fun onAddedToList(element: GestureRecognizer) {
-				backingStageLayer?.awaitableStage?.await(element)
+				if (awaitableStageLayer.initialized) {
+					stageLayer.awaitableStage.await { _, value ->
+						element.stage = value
+					}
+				}
 			}
 
 			override fun onRemovedFromList(element: GestureRecognizer) {

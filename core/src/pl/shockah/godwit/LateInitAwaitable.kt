@@ -10,19 +10,19 @@ class LateInitAwaitable<T>() : ReadWriteProperty<Any?, T> {
 
 	private var value: T? = null
 
-	private val awaitees = mutableListOf<Awaitee<T>>()
+	private val awaitees = mutableListOf<(property: LateInitAwaitable<T>, value: T) -> Unit>()
 
 	val listeners = mutableListOf<(property: LateInitAwaitable<T>, oldValue: T?, newValue: T) -> Unit>()
 
 	val initialized: Boolean
 		get() = value != null
 
-	fun await(awaitee: Awaitee<T>) {
+	fun await(awaitee: (property: LateInitAwaitable<T>, value: T) -> Unit) {
 		val value = this.value
 		if (value == null)
 			awaitees += awaitee
 		else
-			awaitee.onLateInit(this, value)
+			awaitee(this, value)
 	}
 
 	override fun getValue(thisRef: Any?, property: KProperty<*>): T {
@@ -35,12 +35,8 @@ class LateInitAwaitable<T>() : ReadWriteProperty<Any?, T> {
 			return
 
 		this.value = value
-		awaitees.forEach { it.onLateInit(this, value) }
+		awaitees.forEach { it(this, value) }
 		awaitees.clear()
 		listeners.forEach { it(this, oldValue, value) }
-	}
-
-	interface Awaitee<T> {
-		fun onLateInit(property: LateInitAwaitable<T>, newValue: T)
 	}
 }

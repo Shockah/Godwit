@@ -43,23 +43,49 @@ open class MutableVec2(
 
 	val xy: Mutator by lazy { Mutator() }
 
-	operator fun set(index: Int, value: Float) = when (index) {
-		0 -> x = value
-		1 -> y = value
-		else -> throw IllegalArgumentException()
+	operator fun set(index: Int, value: Float) {
+		when (index) {
+			0 -> x = value
+			1 -> y = value
+			else -> throw IllegalArgumentException()
+		}
 	}
 
-	override operator fun unaryMinus(): MutableVec2 = MutableVec2(-x, -y)
+	override operator fun unaryMinus(): MutableVec2 {
+		return MutableVec2(-x, -y)
+	}
 
-	override operator fun plus(vector: Vec2): MutableVec2 = MutableVec2(x + vector.x, y + vector.y)
-	override operator fun minus(vector: Vec2): MutableVec2 = MutableVec2(x - vector.x, y - vector.y)
-	override operator fun times(vector: Vec2): MutableVec2 = MutableVec2(x * vector.x, y * vector.y)
-	override operator fun div(vector: Vec2): MutableVec2 = MutableVec2(x / vector.x, y / vector.y)
+	override operator fun plus(vector: Vec2): MutableVec2 {
+		return MutableVec2(x + vector.x, y + vector.y)
+	}
 
-	override operator fun plus(scalar: Float): MutableVec2 = normalized * (length + scalar)
-	override operator fun minus(scalar: Float): MutableVec2 = normalized * (length - scalar)
-	override operator fun times(scalar: Float): MutableVec2 = MutableVec2(x * scalar, y * scalar)
-	override operator fun div(scalar: Float): MutableVec2 = MutableVec2(x / scalar, y / scalar)
+	override operator fun minus(vector: Vec2): MutableVec2 {
+		return MutableVec2(x - vector.x, y - vector.y)
+	}
+
+	override operator fun times(vector: Vec2): MutableVec2 {
+		return MutableVec2(x * vector.x, y * vector.y)
+	}
+
+	override operator fun div(vector: Vec2): MutableVec2 {
+		return MutableVec2(x / vector.x, y / vector.y)
+	}
+
+	override operator fun plus(scalar: Float): MutableVec2 {
+		return normalized * (length + scalar)
+	}
+
+	override operator fun minus(scalar: Float): MutableVec2 {
+		return normalized * (length - scalar)
+	}
+
+	override operator fun times(scalar: Float): MutableVec2 {
+		return MutableVec2(x * scalar, y * scalar)
+	}
+
+	override operator fun div(scalar: Float): MutableVec2 {
+		return MutableVec2(x / scalar, y / scalar)
+	}
 
 	fun set(vector: Vec2) {
 		x = vector.x

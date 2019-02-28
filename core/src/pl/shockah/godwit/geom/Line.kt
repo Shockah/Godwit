@@ -34,7 +34,9 @@ class Line(
 		}
 	}
 
-	override fun copy(): Line = Line(point1, point2)
+	override fun copy(): Line {
+		return Line(point1, point2)
+	}
 
 	override fun equals(other: Any?): Boolean {
 		return other is Line && point1 == other.point1 && point2 == other.point2

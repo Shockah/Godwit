@@ -68,6 +68,12 @@ class ClosedPolygon(
 		}
 	}
 
+	override fun copy(): ClosedPolygon {
+		return ClosedPolygon(points).apply {
+			triangulator = this@ClosedPolygon.triangulator
+		}
+	}
+
 	private fun triangulate() {
 		if (!dirty)
 			return

@@ -5,7 +5,7 @@ import pl.shockah.godwit.geom.Vec2
 import pl.shockah.godwit.tree.Stage
 import kotlin.properties.Delegates
 
-abstract class GestureRecognizer : LateInitAwaitable.Awaitee<Stage> {
+abstract class GestureRecognizer {
 	private val awaitableStage = LateInitAwaitable<Stage> { _, old, new ->
 		if (old != null)
 			old.gestureRecognizers -= this
@@ -75,10 +75,6 @@ abstract class GestureRecognizer : LateInitAwaitable.Awaitee<Stage> {
 	}
 
 	internal open fun handleTouchUp(touch: Touch, point: Vec2) {
-	}
-
-	override fun onLateInit(property: LateInitAwaitable<Stage>, value: Stage) {
-		stage = value
 	}
 
 	enum class State {

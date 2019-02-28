@@ -28,14 +28,12 @@ data class LCHColor(
 
 	val exactRgb: RGBColor by lazy { lab.exactRgb }
 
-	val lab: LabColor by lazy {
-		return@lazy LabColor(
-				l,
-				h.cos * c,
-				h.sin * c,
-				reference
-		)
-	}
+	val lab: LabColor by lazy { LabColor(
+			l,
+			h.cos * c,
+			h.sin * c,
+			reference
+	) }
 
 	val hsluv: HSLuvColor by lazy { HSLuvColor.from(this) }
 

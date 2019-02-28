@@ -52,13 +52,19 @@ abstract class IVec2<T : IVec2<T>> : Comparable<IVec2<*>>, Easable<IVec2<*>> {
 	abstract operator fun unaryMinus(): T
 
 	abstract operator fun plus(vector: Vec2): T
+
 	abstract operator fun minus(vector: Vec2): T
+
 	abstract operator fun times(vector: Vec2): T
+
 	abstract operator fun div(vector: Vec2): T
 
 	abstract operator fun plus(scalar: Float): T
+
 	abstract operator fun minus(scalar: Float): T
+
 	abstract operator fun times(scalar: Float): T
+
 	abstract operator fun div(scalar: Float): T
 
 	infix fun degrees(vector: Vec2): Degrees {
