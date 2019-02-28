@@ -8,6 +8,9 @@ class LateInitAwaitable<T> : ReadWriteProperty<Any?, T> {
 
 	private val awaitees = mutableListOf<Awaitee<T>>()
 
+	val initialized: Boolean
+		get() = value != null
+
 	fun await(awaitee: Awaitee<T>) {
 		val value = this.value
 		if (value == null)
