@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 import com.badlogic.gdx.utils.viewport.Viewport
+import pl.shockah.godwit.LateInitAwaitable
 import pl.shockah.godwit.geom.Shape
 import pl.shockah.godwit.geom.Vec2
 import pl.shockah.godwit.geom.godwit
@@ -15,17 +16,8 @@ import pl.shockah.godwit.tree.gesture.Touch
 open class StageLayer(
 		vararg viewports: Viewport = arrayOf(ScreenViewport())
 ) {
-	private var backingStage: Stage? = null
-
-	var stage: Stage
-		get() = backingStage!!
-		set(value) {
-			backingStage = value
-			stageAwaiters.forEach { it.onStageSet(value) }
-			stageAwaiters.clear()
-		}
-
-	internal val stageAwaiters = mutableListOf<StageAwaiter>()
+	val awaitableStage = LateInitAwaitable<Stage>()
+	var stage by awaitableStage
 
 	val viewports = viewports.toList()
 
@@ -118,17 +110,5 @@ open class StageLayer(
 
 		if (inShape)
 			node.gestureRecognizers.forEach { method(it, touch, point) }
-	}
-
-	internal fun awaitStage(awaiter: StageAwaiter) {
-		val backingStage = this.backingStage
-		if (backingStage == null)
-			stageAwaiters += awaiter
-		else
-			awaiter.onStageSet(backingStage)
-	}
-
-	interface StageAwaiter {
-		fun onStageSet(stage: Stage)
 	}
 }

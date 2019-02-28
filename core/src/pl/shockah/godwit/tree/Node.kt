@@ -23,7 +23,7 @@ open class Node {
 		get() = backingStageLayer!!
 		protected set(value) {
 			backingStageLayer = value
-			gestureRecognizers.forEach { value.awaitStage(it) }
+			gestureRecognizers.forEach { value.awaitableStage.await(it) }
 		}
 
 	val stage: Stage
@@ -38,7 +38,7 @@ open class Node {
 	val gestureRecognizers = ObservableList<GestureRecognizer>().apply {
 		listeners += object : ObservableList.ChangeListener<GestureRecognizer> {
 			override fun onAddedToList(element: GestureRecognizer) {
-				backingStageLayer?.awaitStage(element)
+				backingStageLayer?.awaitableStage?.await(element)
 			}
 
 			override fun onRemovedFromList(element: GestureRecognizer) {

@@ -14,12 +14,11 @@ class TreeNodeRenderers : Renderers() {
 		internal set
 
 	val zOrderedNodes = TreeSet<Triple<Float, Node, Matrix4>> { (a, n1, _), (b, n2, _) ->
-		if (a < b)
-			return@TreeSet -1
-		else if (a > b)
-			return@TreeSet 1
-		else
-			return@TreeSet System.identityHashCode(n1) compare System.identityHashCode(n2)
+		return@TreeSet when {
+			a < b -> -1
+			a > b -> 1
+			else -> System.identityHashCode(n1) compare System.identityHashCode(n2)
+		}
 	}
 
 	inner class TransformationMatrixCache {
