@@ -1,10 +1,13 @@
 package pl.shockah.godwit.tree
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.graphics.GL20
+import com.badlogic.gdx.graphics.glutils.HdpiUtils
 import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 import com.badlogic.gdx.utils.viewport.Viewport
 import pl.shockah.godwit.LateInitAwaitable
+import pl.shockah.godwit.boundingBox
 import pl.shockah.godwit.geom.Shape
 import pl.shockah.godwit.geom.Vec2
 import pl.shockah.godwit.geom.godwit
@@ -43,10 +46,13 @@ open class StageLayer(
 		if (!root.visible)
 			return
 
+		Gdx.gl.glEnable(GL20.GL_SCISSOR_TEST)
 		viewports.forEach { viewport ->
 			renderers.currentViewport = viewport
 			viewport.apply()
 			renderers.projectionMatrix = viewport.camera.combined
+
+			HdpiUtils.glScissor(viewport.screenX, viewport.screenY, viewport.screenWidth, viewport.screenHeight)
 
 			root.draw(renderers)
 			val oldTransformMatrix = renderers.transformMatrix
@@ -57,6 +63,7 @@ open class StageLayer(
 			renderers.transformMatrix = oldTransformMatrix
 			renderers.zOrderedNodes.clear()
 		}
+		Gdx.gl.glDisable(GL20.GL_SCISSOR_TEST)
 	}
 
 	internal fun touchDown(x: Int, y: Int, touch: Touch) {
@@ -69,14 +76,14 @@ open class StageLayer(
 	internal fun touchDragged(x: Int, y: Int, touch: Touch) {
 		viewports.forEach { viewport ->
 			val point = viewport.camera.unproject(Vector3(x.toFloat(), y.toFloat(), 0f)).toVector2().godwit
-			handle(GestureRecognizer::handleTouchDragged, true, viewport, touch, point, root)
+			handle(GestureRecognizer::handleTouchDragged, false, viewport, touch, point, root)
 		}
 	}
 
 	internal fun touchUp(x: Int, y: Int, touch: Touch) {
 		viewports.forEach { viewport ->
 			val point = viewport.camera.unproject(Vector3(x.toFloat(), y.toFloat(), 0f)).toVector2().godwit
-			handle(GestureRecognizer::handleTouchUp, true, viewport, touch, point, root)
+			handle(GestureRecognizer::handleTouchUp, false, viewport, touch, point, root)
 		}
 	}
 
@@ -96,7 +103,7 @@ open class StageLayer(
 			}
 		}
 
-		val inShape = !clipping || testInShape()
+		val inShape = !clipping || (touch.points.last().position in viewport.boundingBox && testInShape())
 		if (!node.clipsChildrenTouches || inShape) {
 			node.children.snapshot { children ->
 				children.forEach { handle(method, clipping, viewport, touch, point, it) }

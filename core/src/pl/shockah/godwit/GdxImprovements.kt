@@ -5,7 +5,9 @@ import com.badlogic.gdx.assets.AssetDescriptor
 import com.badlogic.gdx.math.Matrix4
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.math.Vector3
+import com.badlogic.gdx.utils.viewport.Viewport
 import pl.shockah.godwit.geom.ImmutableVec2
+import pl.shockah.godwit.geom.Rectangle
 
 infix fun Matrix4.equals(other: Matrix4): Boolean {
 	return values!!.contentEquals(other.values)
@@ -40,3 +42,6 @@ val Graphics.ppi: ImmutableVec2
 inline fun <reified T> assetDescriptor(path: String): AssetDescriptor<T> {
 	return AssetDescriptor<T>(path, T::class.java)
 }
+
+val Viewport.boundingBox: Rectangle
+	get() = Rectangle(ImmutableVec2(screenX.toFloat(), screenY.toFloat()), ImmutableVec2(screenWidth.toFloat(), screenHeight.toFloat()))
