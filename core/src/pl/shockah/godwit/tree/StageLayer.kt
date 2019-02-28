@@ -16,7 +16,9 @@ import pl.shockah.godwit.tree.gesture.Touch
 open class StageLayer(
 		vararg viewports: Viewport = arrayOf(ScreenViewport())
 ) {
-	val awaitableStage = LateInitAwaitable<Stage>()
+	val awaitableStage = LateInitAwaitable<Stage> { _, _, _ ->
+		resize(Gdx.graphics.width, Gdx.graphics.height)
+	}
 	var stage by awaitableStage
 
 	val viewports = viewports.toList()
@@ -24,12 +26,6 @@ open class StageLayer(
 	val root = object : Node() {
 		init {
 			stageLayer = this@StageLayer
-		}
-	}
-
-	init {
-		viewports.forEach {
-			it.update(Gdx.graphics.width, Gdx.graphics.height, true)
 		}
 	}
 
