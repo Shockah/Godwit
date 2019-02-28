@@ -6,16 +6,12 @@ import pl.shockah.godwit.tree.Stage
 import kotlin.properties.Delegates
 
 abstract class GestureRecognizer : LateInitAwaitable.Awaitee<Stage> {
-	private var backingStage: Stage? by Delegates.observable(null) { _, old: Stage?, new: Stage? ->
+	private val awaitableStage = LateInitAwaitable<Stage> { _, old, new ->
 		if (old != null)
 			old.gestureRecognizers -= this
-		if (new != null)
-			new.gestureRecognizers += this
+		new.gestureRecognizers += this
 	}
-
-	var stage: Stage
-		get() = backingStage!!
-		set(value) { backingStage = value }
+	var stage by awaitableStage
 
 	open var state: State by Delegates.observable(State.Possible) { _, old, state ->
 		if (state == old)

@@ -3,10 +3,16 @@ package pl.shockah.godwit
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
-class LateInitAwaitable<T> : ReadWriteProperty<Any?, T> {
+class LateInitAwaitable<T>() : ReadWriteProperty<Any?, T> {
+	constructor(listener: (property: LateInitAwaitable<T>, oldValue: T?, newValue: T) -> Unit) : this() {
+		listeners += listener
+	}
+
 	private var value: T? = null
 
 	private val awaitees = mutableListOf<Awaitee<T>>()
+
+	val listeners = mutableListOf<(property: LateInitAwaitable<T>, oldValue: T?, newValue: T) -> Unit>()
 
 	val initialized: Boolean
 		get() = value != null
@@ -24,15 +30,17 @@ class LateInitAwaitable<T> : ReadWriteProperty<Any?, T> {
 	}
 
 	override fun setValue(thisRef: Any?, property: KProperty<*>, value: T) {
-		if (value === this.value)
+		val oldValue = this.value
+		if (value === oldValue)
 			return
 
 		this.value = value
 		awaitees.forEach { it.onLateInit(this, value) }
 		awaitees.clear()
+		listeners.forEach { it(this, oldValue, value) }
 	}
 
 	interface Awaitee<T> {
-		fun onLateInit(property: LateInitAwaitable<T>, value: T)
+		fun onLateInit(property: LateInitAwaitable<T>, newValue: T)
 	}
 }
