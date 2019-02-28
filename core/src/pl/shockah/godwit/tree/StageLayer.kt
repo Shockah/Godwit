@@ -50,7 +50,6 @@ open class StageLayer(
 		viewports.forEach { viewport ->
 			renderers.currentViewport = viewport
 			viewport.apply()
-			viewport.camera.update()
 			renderers.projectionMatrix = viewport.camera.combined
 
 			root.draw(renderers)
