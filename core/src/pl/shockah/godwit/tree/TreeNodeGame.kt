@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 import com.badlogic.gdx.utils.viewport.Viewport
 import pl.shockah.godwit.GodwitApplicationAdapter
+import pl.shockah.godwit.LateInitAwaitable
 import kotlin.math.min
 
 open class TreeNodeGame(
@@ -16,16 +17,11 @@ open class TreeNodeGame(
 		}
 	}
 
-	private lateinit var backingStage: Stage
+	var stage: Stage by LateInitAwaitable { _, _, new ->
+		Gdx.input.inputProcessor = new
+	}
 
 	var maximumDeltaTime: Float? = 1f / 15f
-
-	var stage: Stage
-		get() = backingStage
-		set(new) {
-			backingStage = new
-			Gdx.input.inputProcessor = new
-		}
 
 	constructor(viewport: Viewport = ScreenViewport()) : this({ Stage(StageLayer(viewport)) })
 
