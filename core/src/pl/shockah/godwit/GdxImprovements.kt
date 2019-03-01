@@ -36,9 +36,6 @@ operator fun Matrix4.set(index: Int, value: Float) {
 val Graphics.size: ImmutableVec2
 	get() = ImmutableVec2(width.toFloat(), height.toFloat())
 
-val Graphics.ppi: ImmutableVec2
-	get() = ImmutableVec2(ppiX, ppiY)
-
 inline fun <reified T> assetDescriptor(path: String): AssetDescriptor<T> {
 	return AssetDescriptor<T>(path, T::class.java)
 }

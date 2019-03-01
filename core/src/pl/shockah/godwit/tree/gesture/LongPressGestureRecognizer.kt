@@ -2,9 +2,9 @@ package pl.shockah.godwit.tree.gesture
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.utils.Timer
+import pl.shockah.godwit.GodwitApplication
 import pl.shockah.godwit.geom.Circle
 import pl.shockah.godwit.geom.Vec2
-import pl.shockah.godwit.ppi
 
 class LongPressGestureRecognizer(
 		val delay: Float = 0f,
@@ -12,7 +12,7 @@ class LongPressGestureRecognizer(
 ) : GestureRecognizer() {
 	companion object {
 		private val stationaryRadius: Float by lazy {
-			val ppi = Gdx.graphics.ppi // TODO: cache it every tick
+			val ppi = GodwitApplication.self.ppi
 			val average = (ppi.x + ppi.y) * 0.5f
 			return@lazy average * 0.1f
 		}
