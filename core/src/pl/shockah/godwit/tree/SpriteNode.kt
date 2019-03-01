@@ -3,10 +3,10 @@ package pl.shockah.godwit.tree
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.SpriteBatch.*
 import com.badlogic.gdx.graphics.g2d.TextureRegion
+import pl.shockah.godwit.GDelegates
 import pl.shockah.godwit.color.GAlphaColor
 import pl.shockah.godwit.geom.ObservableVec2
 import pl.shockah.godwit.geom.Rectangle
-import kotlin.properties.Delegates
 
 open class SpriteNode(
 		val region: TextureRegion
@@ -23,15 +23,9 @@ open class SpriteNode(
 
 	var size: ObservableVec2 by ObservableVec2.property { setupPoints() }
 
-	var color: GAlphaColor by Delegates.observable(GAlphaColor.white) { _, old, new ->
-		if (old != new)
-			setupColor()
-	}
+	var color: GAlphaColor by GDelegates.changeObservable(GAlphaColor.white) { -> setupColor() }
 
-	var usesRectangleTouchShape: Boolean by Delegates.observable(true) { _, old, _ ->
-		if (!old)
-			setupRectangleTouchShape()
-	}
+	var usesRectangleTouchShape: Boolean by GDelegates.changeObservable(true) { -> setupRectangleTouchShape() }
 
 	private val vertices = FloatArray(SPRITE_SIZE)
 

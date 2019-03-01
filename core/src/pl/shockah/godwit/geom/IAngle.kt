@@ -20,4 +20,6 @@ interface IAngle<T : IAngle<T>> : Easable<IAngle<*>> {
 	operator fun plus(other: Angle): T
 
 	operator fun minus(other: Angle): T
+
+	fun rotated(fullRotations: Float): T
 }

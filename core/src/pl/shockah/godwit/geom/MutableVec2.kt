@@ -1,7 +1,5 @@
 package pl.shockah.godwit.geom
 
-import kotlin.math.PI
-
 open class MutableVec2(
 		override var x: Float,
 		override var y: Float
@@ -10,35 +8,34 @@ open class MutableVec2(
 
 	companion object {
 		operator fun invoke(angle: Angle, length: Float): MutableVec2 {
-			val radians = angle.radians + PI.toFloat().radians
-			return MutableVec2(-radians.cos * length, -radians.sin * length)
+			val radians = angle.radians
+			return MutableVec2(radians.cos * length, radians.sin * length)
 		}
 	}
 
 	override var length: Float
 		get() = super.length
 		set(value) {
-			val angle = (degrees + 180f.degrees).radians
-			x = -angle.cos * value
-			y = -angle.sin * value
+			val angle = radians
+			x = angle.cos * value
+			y = angle.sin * value
 		}
 
 	override var degrees: Degrees
 		get() = super.degrees
 		set(value) {
 			val length = length
-			val angle = (value + 180f.degrees).radians
-			x = -angle.cos * length
-			y = -angle.sin * length
+			val angle = value.radians
+			x = angle.cos * length
+			y = angle.sin * length
 		}
 
 	override var radians: Radians
 		get() = super.radians
 		set(value) {
 			val length = length
-			val angle = value + PI.toFloat().radians
-			x = -angle.cos * length
-			y = -angle.sin * length
+			x = value.cos * length
+			y = value.sin * length
 		}
 
 	val xy: Mutator by lazy { Mutator() }

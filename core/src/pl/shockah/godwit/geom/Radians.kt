@@ -24,6 +24,7 @@ inline class Radians @Deprecated("Use Radians.Companion.of(value: Float) or Floa
 ) : IAngle<Radians> {
 	companion object {
 		val ZERO = Radians.of(0f)
+		val HALF = Radians.of(floatPI)
 
 		fun of(value: Float): Radians {
 			@Suppress("DEPRECATION")
@@ -65,5 +66,9 @@ inline class Radians @Deprecated("Use Radians.Companion.of(value: Float) or Floa
 
 	override operator fun minus(other: Angle): Radians {
 		return (value - other.radians.value).radians
+	}
+
+	override fun rotated(fullRotations: Float): Radians {
+		return (value + fullRotations * floatPI * 2f).radians
 	}
 }

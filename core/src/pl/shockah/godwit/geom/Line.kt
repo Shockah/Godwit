@@ -26,6 +26,12 @@ class Line(
 	override val center: Vec2
 		get() = (point1 + point2) * 0.5f
 
+	val degrees: Degrees
+		get() = (point2 - point1).degrees
+
+	val radians: Radians
+		get() = (point2 - point1).radians
+
 	companion object {
 		init {
 			Shape.registerCollisionHandler(Line::class, Line::class) { a, b ->

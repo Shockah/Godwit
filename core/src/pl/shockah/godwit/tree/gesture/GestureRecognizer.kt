@@ -13,13 +13,13 @@ abstract class GestureRecognizer {
 	}
 	var stage by awaitableStage
 
-	open var state: State by Delegates.observable(State.Possible) { _, old, state ->
-		if (state == old)
+	open var state: State by Delegates.observable(State.Possible) { _, old, new ->
+		if (new == old)
 			return@observable
 
-		if (state == State.Ended) {
+		if (new == State.Ended) {
 			failListeners.forEach { it.onRequiredFailEnded(this) }
-		} else if (state == State.Failed) {
+		} else if (new == State.Failed) {
 			failListeners.forEach { it.onRequiredFailFailed(this) }
 		}
 	}

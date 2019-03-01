@@ -37,17 +37,29 @@ abstract class IVec2<T : IVec2<T>> : Comparable<IVec2<*>>, Easable<IVec2<*>> {
 			}
 		}
 
-	operator fun get(index: Int): Float = when (index) {
-		0 -> x
-		1 -> y
-		else -> throw IllegalArgumentException()
+	operator fun get(index: Int): Float {
+		return when (index) {
+			0 -> x
+			1 -> y
+			else -> throw IllegalArgumentException()
+		}
 	}
 
-	operator fun component1(): Float = x
-	operator fun component2(): Float = y
+	operator fun component1(): Float {
+		return x
+	}
 
-	open fun immutable(): ImmutableVec2 = ImmutableVec2(x, y)
-	fun mutableCopy(): MutableVec2 = MutableVec2(x, y)
+	operator fun component2(): Float {
+		return y
+	}
+
+	open fun immutable(): ImmutableVec2 {
+		return ImmutableVec2(x, y)
+	}
+
+	fun mutableCopy(): MutableVec2 {
+		return MutableVec2(x, y)
+	}
 
 	abstract operator fun unaryMinus(): T
 

@@ -22,6 +22,7 @@ inline class Degrees @Deprecated("Use Degrees.Companion.of(value: Float) or Floa
 ) : IAngle<Degrees> {
 	companion object {
 		val ZERO = Degrees.of(0f)
+		val HALF = Degrees.of(180f)
 
 		fun of(value: Float): Degrees {
 			@Suppress("DEPRECATION")
@@ -63,5 +64,9 @@ inline class Degrees @Deprecated("Use Degrees.Companion.of(value: Float) or Floa
 
 	override operator fun minus(other: Angle): Degrees {
 		return (value - other.degrees.value).degrees
+	}
+
+	override fun rotated(fullRotations: Float): Degrees {
+		return (value + fullRotations * 360f).degrees
 	}
 }

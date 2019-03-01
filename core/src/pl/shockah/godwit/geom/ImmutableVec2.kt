@@ -1,7 +1,6 @@
 package pl.shockah.godwit.geom
 
 import com.badlogic.gdx.math.Vector2
-import kotlin.math.PI
 import kotlin.math.sqrt
 
 val Vector2.godwit: ImmutableVec2
@@ -29,8 +28,8 @@ class ImmutableVec2(
 		val ZERO = ImmutableVec2()
 
 		operator fun invoke(angle: Angle, length: Float): ImmutableVec2 {
-			val radians = angle.radians + PI.toFloat().radians
-			return ImmutableVec2(-radians.cos * length, -radians.sin * length)
+			val radians = angle.radians
+			return ImmutableVec2(radians.cos * length, radians.sin * length)
 		}
 	}
 

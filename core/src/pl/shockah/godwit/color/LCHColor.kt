@@ -1,8 +1,10 @@
 package pl.shockah.godwit.color
 
 import pl.shockah.godwit.geom.Angle
-import pl.shockah.godwit.geom.degrees
-import kotlin.math.*
+import pl.shockah.godwit.geom.radians
+import kotlin.math.atan2
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 data class LCHColor(
 		val l: Float,
@@ -12,13 +14,10 @@ data class LCHColor(
 ) : IGColor<LCHColor>() {
 	companion object {
 		fun from(lab: LabColor): LCHColor {
-			var h = atan2(lab.b, lab.a)
-			h = (if (h > 0) h / PI * 180 else 360 + h / PI * 180).toFloat()
-
 			return LCHColor(
 					lab.l,
 					sqrt(lab.a * lab.a + lab.b * lab.b),
-					h.degrees,
+					atan2(lab.b, lab.a).radians,
 					lab.reference
 			)
 		}
