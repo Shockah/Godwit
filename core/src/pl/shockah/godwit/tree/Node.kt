@@ -33,7 +33,7 @@ open class Node {
 	}
 
 	var visible = true
-	var zLayer: Float? = null
+	open var zLayer: Float? = null
 
 	open var touchShape: Shape.Filled = Shape.none
 	var clipsChildrenTouches = false
