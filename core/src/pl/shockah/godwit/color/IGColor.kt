@@ -14,4 +14,8 @@ abstract class IGColor<CS : IGColor<CS>> : Easable<CS> {
 	}
 
 	abstract fun getDistance(other: CS): Float
+
+	fun alpha(alpha: Float = 1.0f): GAlphaColor {
+		return GAlphaColor(this, alpha)
+	}
 }

@@ -32,6 +32,8 @@ open class StageLayer(
 		}
 	}
 
+	var clipping: Boolean = true
+
 	open fun resize(screenWidth: Int, screenHeight: Int) {
 		viewports.forEach {
 			it.update(screenWidth, screenHeight, true)
@@ -46,13 +48,17 @@ open class StageLayer(
 		if (!root.visible)
 			return
 
-		Gdx.gl.glEnable(GL20.GL_SCISSOR_TEST)
+		val clipping = this.clipping
+		if (clipping)
+			Gdx.gl.glEnable(GL20.GL_SCISSOR_TEST)
+
 		viewports.forEach { viewport ->
 			renderers.currentViewport = viewport
 			viewport.apply()
 			renderers.projectionMatrix = viewport.camera.combined
 
-			HdpiUtils.glScissor(viewport.screenX, viewport.screenY, viewport.screenWidth, viewport.screenHeight)
+			if (clipping)
+				HdpiUtils.glScissor(viewport.screenX, viewport.screenY, viewport.screenWidth, viewport.screenHeight)
 
 			root.draw(renderers)
 			val oldTransformMatrix = renderers.transformMatrix
@@ -63,7 +69,9 @@ open class StageLayer(
 			renderers.transformMatrix = oldTransformMatrix
 			renderers.zOrderedNodes.clear()
 		}
-		Gdx.gl.glDisable(GL20.GL_SCISSOR_TEST)
+
+		if (clipping)
+			Gdx.gl.glDisable(GL20.GL_SCISSOR_TEST)
 	}
 
 	internal fun touchDown(x: Int, y: Int, touch: Touch) {

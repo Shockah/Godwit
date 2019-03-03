@@ -1,7 +1,6 @@
 package pl.shockah.godwit.test
 
 import com.badlogic.gdx.Gdx
-import pl.shockah.godwit.color.GAlphaColor
 import pl.shockah.godwit.color.HSLColor
 import pl.shockah.godwit.geom.ImmutableVec2
 import pl.shockah.godwit.geom.Rectangle
@@ -18,7 +17,7 @@ class NestedNodeGestureTest : TreeNodeGame({ Stage(object : StageLayer() {
 		for (i in 0 until nodes.size) {
 			nodes[i].gestureRecognizers += TapGestureRecognizer { _, _ -> println("Node $i") }
 			nodes[i].parent = current
-			nodes[i].color = GAlphaColor(HSLColor((360f / nodes.size * i).degrees, 0.7f, 0.7f))
+			nodes[i].color = HSLColor((360f / nodes.size * i).degrees, 0.7f, 0.7f).alpha()
 			if (i != 0)
 				nodes[i].position = nodes[i].shape.boundingBox.size
 			current = nodes[i]
