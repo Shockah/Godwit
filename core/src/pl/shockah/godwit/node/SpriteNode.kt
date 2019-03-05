@@ -23,10 +23,7 @@ open class SpriteNode(
 		get() = region.texture
 
 	protected val observableSize = ObservableVec2 { setupPoints() }
-
-	var size: MutableVec2
-		get() = observableSize
-		set(value) { observableSize.set(value) }
+	var size: MutableVec2 by observableSize.asMutableProperty()
 
 	var color: GAlphaColor by GDelegates.changeObservable(GAlphaColor.white) { -> setupColor() }
 

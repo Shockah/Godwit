@@ -1,9 +1,6 @@
 package pl.shockah.godwit.node
 
-import pl.shockah.godwit.LateInitAwaitable
-import pl.shockah.godwit.ObservableList
-import pl.shockah.godwit.SnapshotList
-import pl.shockah.godwit.applyEach
+import pl.shockah.godwit.*
 import pl.shockah.godwit.geom.*
 import pl.shockah.godwit.node.gesture.GestureRecognizer
 import java.util.*
@@ -55,29 +52,12 @@ open class Node {
 
 	val transformation = Transformation()
 
-	var position: MutableVec2
-		get() = transformation.position
-		set(new) { transformation.position.set(new) }
-
-	var origin: MutableVec2
-		get() = transformation.origin
-		set(new) { transformation.origin.set(new) }
-
-	var scale: MutableVec2
-		get() = transformation.scale
-		set(new) { transformation.scale.set(new) }
-
-	var rotation: Degrees
-		get() = transformation.rotation
-		set(new) { transformation.rotation = new }
-
-	var x: Float
-		get() = position.x
-		set(new) { position.x = new }
-
-	var y: Float
-		get() = position.y
-		set(new) { position.y = new }
+	var position: MutableVec2 by transformation.position.asMutableProperty()
+	var origin: MutableVec2 by transformation.origin.asMutableProperty()
+	var scale: MutableVec2 by transformation.scale.asMutableProperty()
+	var rotation: Degrees by transformation::rotation.delegate()
+	var x: Float by transformation.position::x.delegate()
+	var y: Float by transformation.position::y.delegate()
 
 	open val bounds: Rectangle
 		get() = Rectangle(position, ImmutableVec2.ZERO)

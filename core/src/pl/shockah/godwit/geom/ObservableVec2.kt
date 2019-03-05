@@ -1,6 +1,7 @@
 package pl.shockah.godwit.geom
 
 import pl.shockah.godwit.GDelegates
+import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
 class ObservableVec2(
@@ -21,6 +22,18 @@ class ObservableVec2(
 
 	override var x: Float by GDelegates.anyChangeObservable(initialX, listeners)
 	override var y: Float by GDelegates.anyChangeObservable(initialY, listeners)
+
+	fun asMutableProperty(): ReadWriteProperty<Any?, MutableVec2> {
+		return object : ReadWriteProperty<Any?, MutableVec2> {
+			override fun getValue(thisRef: Any?, property: KProperty<*>): MutableVec2 {
+				return this@ObservableVec2
+			}
+
+			override fun setValue(thisRef: Any?, property: KProperty<*>, value: MutableVec2) {
+				set(value)
+			}
+		}
+	}
 
 	companion object {
 		operator fun invoke(angle: Angle, length: Float): ObservableVec2 {
