@@ -1,4 +1,4 @@
-package pl.shockah.godwit.tree
+package pl.shockah.godwit.node
 
 import com.badlogic.gdx.math.Affine2
 import com.badlogic.gdx.math.Matrix4

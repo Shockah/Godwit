@@ -6,10 +6,10 @@ import pl.shockah.godwit.geom.ImmutableVec2
 import pl.shockah.godwit.geom.Rectangle
 import pl.shockah.godwit.geom.degrees
 import pl.shockah.godwit.size
-import pl.shockah.godwit.tree.*
-import pl.shockah.godwit.tree.gesture.TapGestureRecognizer
+import pl.shockah.godwit.node.*
+import pl.shockah.godwit.node.gesture.TapGestureRecognizer
 
-class NestedNodeGestureTest : TreeNodeGame({ Stage(object : StageLayer() {
+class NestedNodeGestureTest : NodeGame({ Stage(object : StageLayer() {
 	val nodes = Array(3) { Rectangle(size = ImmutableVec2(64f, 64f)).asFilledNode() }
 
 	init {

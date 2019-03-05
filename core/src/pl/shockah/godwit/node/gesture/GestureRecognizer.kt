@@ -1,8 +1,8 @@
-package pl.shockah.godwit.tree.gesture
+package pl.shockah.godwit.node.gesture
 
 import pl.shockah.godwit.LateInitAwaitable
 import pl.shockah.godwit.geom.Vec2
-import pl.shockah.godwit.tree.Stage
+import pl.shockah.godwit.node.Stage
 import kotlin.properties.Delegates
 
 abstract class GestureRecognizer {

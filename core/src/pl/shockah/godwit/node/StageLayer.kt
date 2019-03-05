@@ -1,4 +1,4 @@
-package pl.shockah.godwit.tree
+package pl.shockah.godwit.node
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.GL20
@@ -13,8 +13,8 @@ import pl.shockah.godwit.geom.Vec2
 import pl.shockah.godwit.geom.godwit
 import pl.shockah.godwit.toVector2
 import pl.shockah.godwit.toVector3
-import pl.shockah.godwit.tree.gesture.GestureRecognizer
-import pl.shockah.godwit.tree.gesture.Touch
+import pl.shockah.godwit.node.gesture.GestureRecognizer
+import pl.shockah.godwit.node.gesture.Touch
 
 open class StageLayer(
 		vararg viewports: Viewport = arrayOf(ScreenViewport())
@@ -44,7 +44,7 @@ open class StageLayer(
 		root.update(delta)
 	}
 
-	open fun draw(renderers: TreeNodeRenderers) {
+	open fun draw(renderers: NodeRenderers) {
 		if (!root.visible)
 			return
 

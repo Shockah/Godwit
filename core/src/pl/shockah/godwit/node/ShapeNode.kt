@@ -1,4 +1,4 @@
-package pl.shockah.godwit.tree
+package pl.shockah.godwit.node
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import pl.shockah.godwit.color.GAlphaColor
@@ -24,7 +24,7 @@ abstract class ShapeNode<S : Shape>(
 			touchShape = shape
 		}
 
-		override fun drawSelf(renderers: TreeNodeRenderers) {
+		override fun drawSelf(renderers: NodeRenderers) {
 			val c = color
 			renderers.shapes(ShapeRenderer.ShapeType.Filled) {
 				color = c.gdx
@@ -36,7 +36,7 @@ abstract class ShapeNode<S : Shape>(
 	class Outline<S : Shape.Outline>(
 			shape: S
 	) : ShapeNode<S>(shape) {
-		override fun drawSelf(renderers: TreeNodeRenderers) {
+		override fun drawSelf(renderers: NodeRenderers) {
 			val c = color
 			renderers.shapes(ShapeRenderer.ShapeType.Filled) {
 				color = c.gdx

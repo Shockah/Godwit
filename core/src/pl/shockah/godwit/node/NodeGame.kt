@@ -1,4 +1,4 @@
-package pl.shockah.godwit.tree
+package pl.shockah.godwit.node
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.GL20
@@ -8,12 +8,12 @@ import pl.shockah.godwit.GodwitApplication
 import pl.shockah.godwit.LateInitAwaitable
 import kotlin.math.min
 
-open class TreeNodeGame(
+open class NodeGame(
 		private val initialStageFactory: () -> Stage
 ) : GodwitApplication() {
 	companion object {
-		operator fun invoke(stageLayerFactory: () -> StageLayer): TreeNodeGame {
-			return TreeNodeGame { Stage(stageLayerFactory()) }
+		operator fun invoke(stageLayerFactory: () -> StageLayer): NodeGame {
+			return NodeGame { Stage(stageLayerFactory()) }
 		}
 	}
 

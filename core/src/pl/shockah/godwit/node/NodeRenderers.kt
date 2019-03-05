@@ -1,4 +1,4 @@
-package pl.shockah.godwit.tree
+package pl.shockah.godwit.node
 
 import com.badlogic.gdx.math.Matrix4
 import com.badlogic.gdx.utils.viewport.Viewport
@@ -7,7 +7,7 @@ import pl.shockah.godwit.render.Renderers
 import java.util.*
 import kotlin.properties.Delegates
 
-class TreeNodeRenderers : Renderers() {
+class NodeRenderers : Renderers() {
 	val transformationMatrixCache = TransformationMatrixCache()
 
 	var currentViewport: Viewport by Delegates.notNull()

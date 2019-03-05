@@ -1,4 +1,4 @@
-package pl.shockah.godwit.tree.gesture
+package pl.shockah.godwit.node.gesture
 
 import pl.shockah.godwit.geom.ImmutableVec2
 import pl.shockah.godwit.geom.Vec2

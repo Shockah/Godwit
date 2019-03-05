@@ -1,4 +1,4 @@
-package pl.shockah.godwit.tree.gesture
+package pl.shockah.godwit.node.gesture
 
 abstract class ContinuousGestureRecognizer : GestureRecognizer() {
 	override var state: State

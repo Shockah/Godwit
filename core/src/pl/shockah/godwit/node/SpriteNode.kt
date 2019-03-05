@@ -1,4 +1,4 @@
-package pl.shockah.godwit.tree
+package pl.shockah.godwit.node
 
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.SpriteBatch.*
@@ -76,7 +76,7 @@ open class SpriteNode(
 		vertices[C4] = colorBits
 	}
 
-	override fun drawSelf(renderers: TreeNodeRenderers) {
+	override fun drawSelf(renderers: NodeRenderers) {
 		renderers.sprites {
 			draw(texture, vertices, 0, SPRITE_SIZE)
 		}

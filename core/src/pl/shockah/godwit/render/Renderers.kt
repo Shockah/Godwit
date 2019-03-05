@@ -1,13 +1,20 @@
 package pl.shockah.godwit.render
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.badlogic.gdx.graphics.glutils.ShaderProgram
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.math.Matrix4
+import com.badlogic.gdx.utils.Disposable
+import pl.shockah.godwit.GDelegates
+import pl.shockah.godwit.LazyInspectable
 import kotlin.properties.Delegates
 
-open class Renderers {
+open class Renderers : Disposable {
+	private val defaultShaderInspectable = LazyInspectable<ShaderProgram> { SpriteBatch.createDefaultShader() }
+	val defaultShader by defaultShaderInspectable
+
 	@PublishedApi
-	internal val spriteBatch = SpriteBatch()
+	internal val spriteBatch = SpriteBatch(4096, defaultShader)
 
 	@PublishedApi
 	internal val shapeRenderer = ShapeRenderer()
@@ -31,6 +38,12 @@ open class Renderers {
 		currentRenderer?.end()
 		spriteBatch.transformMatrix = new
 		shapeRenderer.transformMatrix = new
+		currentRenderer?.begin()
+	}
+
+	var shader: ShaderProgram by GDelegates.changeObservable(defaultShader) { _, _, new ->
+		currentRenderer?.end()
+		spriteBatch.shader = new
 		currentRenderer?.begin()
 	}
 
@@ -62,5 +75,10 @@ open class Renderers {
 			end()
 			currentRenderer = null
 		}
+	}
+
+	override fun dispose() {
+		if (defaultShaderInspectable.initialized)
+			defaultShader.dispose()
 	}
 }

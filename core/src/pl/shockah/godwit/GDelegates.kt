@@ -1,7 +1,6 @@
 package pl.shockah.godwit
 
 import kotlin.properties.ObservableProperty
-import kotlin.properties.ReadOnlyProperty
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
@@ -27,21 +26,6 @@ object GDelegates {
 						it(property)
 					}
 				}
-			}
-		}
-	}
-
-	fun <T : Any> lazyDirty(init: () -> T): ReadOnlyProperty<Any?, T> {
-		return object : ReadOnlyProperty<Any?, T> {
-			private var value: T? = null
-
-			override fun getValue(thisRef: Any?, property: KProperty<*>): T {
-				var value = this.value
-				if (value == null) {
-					value = init()
-					this.value = value
-				}
-				return value
 			}
 		}
 	}

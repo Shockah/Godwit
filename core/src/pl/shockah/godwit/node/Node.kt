@@ -1,11 +1,11 @@
-package pl.shockah.godwit.tree
+package pl.shockah.godwit.node
 
 import pl.shockah.godwit.LateInitAwaitable
 import pl.shockah.godwit.ObservableList
 import pl.shockah.godwit.SnapshotList
 import pl.shockah.godwit.applyEach
 import pl.shockah.godwit.geom.*
-import pl.shockah.godwit.tree.gesture.GestureRecognizer
+import pl.shockah.godwit.node.gesture.GestureRecognizer
 import java.util.*
 import kotlin.properties.Delegates
 
@@ -82,7 +82,7 @@ open class Node {
 	open val bounds: Rectangle
 		get() = Rectangle(position, ImmutableVec2.ZERO)
 
-	open fun draw(renderers: TreeNodeRenderers) {
+	open fun draw(renderers: NodeRenderers) {
 		if (!visible)
 			return
 
@@ -104,10 +104,10 @@ open class Node {
 		renderers.transformMatrix = oldTransformMatrix
 	}
 
-	open fun drawSelf(renderers: TreeNodeRenderers) {
+	open fun drawSelf(renderers: NodeRenderers) {
 	}
 
-	open fun drawChildren(renderers: TreeNodeRenderers) {
+	open fun drawChildren(renderers: NodeRenderers) {
 		children.applyEach { draw(renderers) }
 	}
 

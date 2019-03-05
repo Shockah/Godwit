@@ -1,4 +1,4 @@
-package pl.shockah.godwit.tree.gesture
+package pl.shockah.godwit.node.gesture
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.utils.Timer

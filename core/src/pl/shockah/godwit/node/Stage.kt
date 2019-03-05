@@ -1,18 +1,18 @@
-package pl.shockah.godwit.tree
+package pl.shockah.godwit.node
 
 import com.badlogic.gdx.InputProcessor
 import pl.shockah.godwit.applyEach
 import pl.shockah.godwit.geom.ImmutableVec2
-import pl.shockah.godwit.tree.gesture.ContinuousGestureRecognizer
-import pl.shockah.godwit.tree.gesture.GestureRecognizer
-import pl.shockah.godwit.tree.gesture.Touch
+import pl.shockah.godwit.node.gesture.ContinuousGestureRecognizer
+import pl.shockah.godwit.node.gesture.GestureRecognizer
+import pl.shockah.godwit.node.gesture.Touch
 
 open class Stage(
 		vararg stageLayers: StageLayer
 ) : InputProcessor {
 	val stageLayers = stageLayers.toList()
 
-	internal val renderers = TreeNodeRenderers()
+	internal val renderers = NodeRenderers()
 
 	private val touches = mutableMapOf<Pair<Int, Int>, Touch>()
 	internal val gestureRecognizers = mutableSetOf<GestureRecognizer>()

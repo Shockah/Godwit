@@ -5,9 +5,9 @@ import pl.shockah.godwit.geom.ImmutableVec2
 import pl.shockah.godwit.geom.Line
 import pl.shockah.godwit.geom.degrees
 import pl.shockah.godwit.size
-import pl.shockah.godwit.tree.*
+import pl.shockah.godwit.node.*
 
-class TreeNodes2Test : TreeNodeGame({ Stage(object : StageLayer() {
+class Nodes2Test : NodeGame({ Stage(object : StageLayer() {
 	val lines = Array(5) { Line(ImmutableVec2(0f, 0f), ImmutableVec2(48f, 0f)).asOutlineNode() }
 
 	init {

@@ -4,14 +4,14 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport
 import pl.shockah.godwit.color.RGBColor
 import pl.shockah.godwit.geom.ImmutableVec2
 import pl.shockah.godwit.geom.Rectangle
-import pl.shockah.godwit.tree.Stage
-import pl.shockah.godwit.tree.StageLayer
-import pl.shockah.godwit.tree.TreeNodeGame
-import pl.shockah.godwit.tree.asFilledNode
+import pl.shockah.godwit.node.Stage
+import pl.shockah.godwit.node.StageLayer
+import pl.shockah.godwit.node.NodeGame
+import pl.shockah.godwit.node.asFilledNode
 
 private val rect = Rectangle(ImmutableVec2(-5000f, -5000f), ImmutableVec2(10000f, 10000f))
 
-class UiViewportTest : TreeNodeGame({ object : Stage(
+class UiViewportTest : NodeGame({ object : Stage(
 		StageLayer(ScreenViewport()).apply {
 			root += rect.asFilledNode().apply { color = RGBColor(1f, 0.5f, 0f).alpha() }
 			root += Rectangle(size = ImmutableVec2(32f, 32f)).asFilledNode()
