@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch.*
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import pl.shockah.godwit.GDelegates
 import pl.shockah.godwit.color.GAlphaColor
+import pl.shockah.godwit.geom.MutableVec2
 import pl.shockah.godwit.geom.ObservableVec2
 import pl.shockah.godwit.geom.Rectangle
 
@@ -21,7 +22,11 @@ open class SpriteNode(
 	val texture: Texture
 		get() = region.texture
 
-	var size: ObservableVec2 by ObservableVec2.property { setupPoints() }
+	protected val observableSize = ObservableVec2 { setupPoints() }
+
+	var size: MutableVec2
+		get() = observableSize
+		set(value) { observableSize.set(value) }
 
 	var color: GAlphaColor by GDelegates.changeObservable(GAlphaColor.white) { -> setupColor() }
 

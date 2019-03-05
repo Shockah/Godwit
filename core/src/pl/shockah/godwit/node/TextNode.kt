@@ -2,6 +2,7 @@ package pl.shockah.godwit.node
 
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.BitmapFont
+import com.badlogic.gdx.graphics.g2d.BitmapFontCache
 import com.badlogic.gdx.graphics.g2d.DistanceFieldFont
 import com.badlogic.gdx.graphics.g2d.GlyphLayout
 import com.badlogic.gdx.graphics.glutils.ShaderProgram
@@ -17,17 +18,24 @@ open class TextNode(
 		private val distanceFontShader: ShaderProgram by lazy { DistanceFieldFont.createDistanceFieldShader() }
 	}
 
-	private val dirtyLayout = LazyDirty {
-		GlyphLayout(font, text, Color.WHITE, maxWidth ?: 0f, Align.left, lineBreakMode == LineBreakMode.Wrap)
+	private val dirtyCache = LazyDirty {
+		val layout = GlyphLayout(font, text, Color.WHITE, maxWidth ?: 0f, Align.left, lineBreakMode == LineBreakMode.Wrap)
+		val cache = BitmapFontCache(font)
+		cache.addText(text, -layout.width * alignment.multiplier.x, layout.height * alignment.multiplier.y, maxWidth ?: 0f, Align.left, lineBreakMode == LineBreakMode.Wrap)
+		return@LazyDirty cache
 	}
-	val layout: GlyphLayout by dirtyLayout
+	private val cache: BitmapFontCache by dirtyCache
 
-	var text: String by GDelegates.changeObservable("") { -> dirtyLayout.markDirty() }
-	var alignment: Alignment = Alignment.Horizontal.Left + Alignment.Vertical.Top
-	var maxWidth: Float? by GDelegates.changeObservable(null) { -> dirtyLayout.markDirty() }
-	var lineBreakMode: LineBreakMode by GDelegates.changeObservable(LineBreakMode.Wrap) { -> dirtyLayout.markDirty() }
+	var text: String by GDelegates.changeObservable("") { -> markDirty() }
+	var alignment: Alignment by GDelegates.changeObservable(Alignment.Horizontal.Left + Alignment.Vertical.Top) { -> markDirty() }
+	var maxWidth: Float? by GDelegates.changeObservable(null) { -> markDirty() }
+	var lineBreakMode: LineBreakMode by GDelegates.changeObservable(LineBreakMode.Wrap) { -> markDirty() }
 
 	private val isDistanceField = font is DistanceFieldFont
+
+	private fun markDirty() {
+		dirtyCache.markDirty()
+	}
 
 	override fun drawSelf(renderers: NodeRenderers) {
 		if (text.isEmpty())
@@ -36,7 +44,7 @@ open class TextNode(
 		renderers.sprites {
 			if (isDistanceField)
 				renderers.shader = distanceFontShader
-			font.draw(this, text, -layout.width * alignment.multiplier.x, layout.height * alignment.multiplier.y)
+			cache.draw(this)
 			if (isDistanceField)
 				renderers.shader = renderers.defaultShader
 		}

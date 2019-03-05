@@ -9,9 +9,9 @@ import pl.shockah.godwit.geom.ObservableVec2
 import pl.shockah.godwit.geom.degrees
 
 class Transformation {
-	var position: ObservableVec2 by ObservableVec2.property { markDirty() }
-	var origin: ObservableVec2 by ObservableVec2.property { markDirty() }
-	var scale: ObservableVec2 by ObservableVec2.property(1f, 1f) { markDirty() }
+	val position = ObservableVec2 { markDirty() }
+	val origin = ObservableVec2 { markDirty() }
+	val scale = ObservableVec2(1f, 1f) { markDirty() }
 	var rotation: Degrees by GDelegates.changeObservable(0f.degrees) { -> markDirty() }
 
 	private var backingMatrix: Matrix4? = null

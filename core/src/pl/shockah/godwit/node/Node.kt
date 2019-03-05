@@ -53,7 +53,7 @@ open class Node {
 		}
 	}
 
-	private var transformation = Transformation()
+	val transformation = Transformation()
 
 	var position: MutableVec2
 		get() = transformation.position
