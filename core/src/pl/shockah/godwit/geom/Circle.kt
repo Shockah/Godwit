@@ -6,7 +6,7 @@ import pl.shockah.godwit.geom.polygon.Polygon
 import kotlin.math.sqrt
 
 class Circle(
-		position: Vec2,
+		position: Vec2 = ImmutableVec2.ZERO,
 		var radius: Float
 ) : Shape.Filled, Shape.Outline, Easable<Circle> {
 	var position: MutableVec2 = position.mutableCopy()

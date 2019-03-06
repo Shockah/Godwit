@@ -38,7 +38,7 @@ abstract class ShapeNode<S : Shape>(
 	) : ShapeNode<S>(shape) {
 		override fun drawSelf(renderers: NodeRenderers) {
 			val c = color
-			renderers.shapes(ShapeRenderer.ShapeType.Filled) {
+			renderers.shapes(ShapeRenderer.ShapeType.Line) {
 				color = c.gdx
 				shape.drawOutline(this)
 			}

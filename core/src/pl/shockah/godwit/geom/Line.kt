@@ -8,7 +8,7 @@ import kotlin.math.max
 import kotlin.math.min
 
 class Line(
-		point1: Vec2,
+		point1: Vec2 = ImmutableVec2.ZERO,
 		point2: Vec2
 ) : Polygonable.Open, Easable<Line> {
 	var point1: MutableVec2 = point1.mutableCopy()

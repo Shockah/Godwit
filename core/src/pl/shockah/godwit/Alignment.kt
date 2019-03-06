@@ -3,6 +3,10 @@ package pl.shockah.godwit
 import pl.shockah.godwit.geom.ImmutableVec2
 
 interface Alignment {
+	companion object {
+		val Centered = Horizontal.Center + Vertical.Middle
+	}
+
 	val multiplier: ImmutableVec2
 
 	enum class Horizontal(override val multiplier: ImmutableVec2) : Alignment {
