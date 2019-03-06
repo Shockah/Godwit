@@ -11,10 +11,10 @@ import pl.shockah.godwit.boundingBox
 import pl.shockah.godwit.geom.Shape
 import pl.shockah.godwit.geom.Vec2
 import pl.shockah.godwit.geom.godwit
-import pl.shockah.godwit.toVector2
-import pl.shockah.godwit.toVector3
 import pl.shockah.godwit.node.gesture.GestureRecognizer
 import pl.shockah.godwit.node.gesture.Touch
+import pl.shockah.godwit.toVector2
+import pl.shockah.godwit.toVector3
 
 open class StageLayer(
 		vararg viewports: Viewport = arrayOf(ScreenViewport())
@@ -26,11 +26,7 @@ open class StageLayer(
 
 	val viewports = viewports.toList()
 
-	val root = object : Node() {
-		init {
-			stageLayer = this@StageLayer
-		}
-	}
+	val root: Node by lazy { Node().apply { stageLayer = this@StageLayer } }
 
 	var clipping: Boolean = true
 

@@ -26,16 +26,12 @@ open class TextNode(
 	}
 	private val cache: BitmapFontCache by dirtyCache
 
-	var text: String by GDelegates.changeObservable("") { -> markDirty() }
-	var alignment: Alignment by GDelegates.changeObservable(Alignment.Horizontal.Left + Alignment.Vertical.Top) { -> markDirty() }
-	var maxWidth: Float? by GDelegates.changeObservable(null) { -> markDirty() }
-	var lineBreakMode: LineBreakMode by GDelegates.changeObservable(LineBreakMode.Wrap) { -> markDirty() }
+	var text: String by GDelegates.changeObservable("") { -> dirtyCache.markDirty() }
+	var alignment: Alignment by GDelegates.changeObservable(Alignment.Horizontal.Left + Alignment.Vertical.Top) { -> dirtyCache.markDirty() }
+	var maxWidth: Float? by GDelegates.changeObservable(null) { -> dirtyCache.markDirty() }
+	var lineBreakMode: LineBreakMode by GDelegates.changeObservable(LineBreakMode.Wrap) { -> dirtyCache.markDirty() }
 
 	private val isDistanceField = font is DistanceFieldFont
-
-	private fun markDirty() {
-		dirtyCache.markDirty()
-	}
 
 	override fun drawSelf(renderers: NodeRenderers) {
 		if (text.isEmpty())
