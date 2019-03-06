@@ -43,7 +43,7 @@ class RotationAngleTest : NodeGame({ Stage(object : StageLayer() {
 	override fun update(delta: Float) {
 		group.position.set(Gdx.graphics.size * 0.5f)
 		degrees += (delta * 30f).degrees
-		textNode.text = String.format("%.0f*", degrees.value)
+		textNode.text = "%.0f*".format(degrees.value)
 		vectorLine.shape.point2 = MutableVec2(degrees, 32f)
 		transformationLine.rotation = degrees
 		super.update(delta)
