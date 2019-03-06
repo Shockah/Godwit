@@ -1,7 +1,7 @@
 package pl.shockah.godwit.color
 
 import pl.shockah.godwit.geom.Angle
-import pl.shockah.godwit.geom.radians
+import pl.shockah.godwit.geom.Radians
 import kotlin.math.atan2
 import kotlin.math.pow
 import kotlin.math.sqrt
@@ -17,7 +17,7 @@ data class LCHColor(
 			return LCHColor(
 					lab.l,
 					sqrt(lab.a * lab.a + lab.b * lab.b),
-					atan2(lab.b, lab.a).radians,
+					Radians.of(atan2(lab.b, lab.a)),
 					lab.reference
 			)
 		}

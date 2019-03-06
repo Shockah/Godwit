@@ -1,7 +1,6 @@
 package pl.shockah.godwit.color
 
 import pl.shockah.godwit.geom.Angle
-import pl.shockah.godwit.geom.degrees
 import kotlin.math.*
 
 data class HSLuvColor(

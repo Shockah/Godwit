@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.Texture
 import pl.shockah.godwit.assetDescriptor
-import pl.shockah.godwit.geom.degrees
 import pl.shockah.godwit.node.*
 import pl.shockah.godwit.size
 
@@ -44,7 +43,7 @@ class NodesTest : NodeGame({ Stage(object : StageLayer() {
 
 	override fun update(delta: Float) {
 		ship.position.set(Gdx.graphics.size * 0.5f)
-		ship.rotation += (45f * delta).degrees
+		ship.rotation += 45f * delta
 		super.update(delta)
 	}
 }) }) {

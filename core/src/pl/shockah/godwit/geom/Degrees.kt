@@ -14,15 +14,16 @@ private fun Float.inCycle(min: Float, max: Float): Float {
 	return new + min
 }
 
-val Float.degrees: Degrees
-	get() = Degrees.of(this)
-
 inline class Degrees @Deprecated("Use Degrees.Companion.of(value: Float) or Float.degrees instead") constructor(
 		val value: Float
 ) : IAngle<Degrees> {
 	companion object {
-		val ZERO = Degrees.of(0f)
+		val ZERO = Degrees()
 		val HALF = Degrees.of(180f)
+
+		operator fun invoke(): Degrees {
+			return of(0f)
+		}
 
 		fun of(value: Float): Degrees {
 			@Suppress("DEPRECATION")
@@ -34,7 +35,7 @@ inline class Degrees @Deprecated("Use Degrees.Companion.of(value: Float) or Floa
 		get() = this
 
 	override val radians: Radians
-		get() = Math.toRadians(value.toDouble()).toFloat().radians
+		get() = Radians.of(Math.toRadians(value.toDouble()).toFloat())
 
 	override val sin: Float
 		get() = radians.sin
@@ -47,26 +48,34 @@ inline class Degrees @Deprecated("Use Degrees.Companion.of(value: Float) or Floa
 
 	override infix fun delta(angle: Angle): Degrees {
 		val r = angle.degrees.value - value
-		return (r + if (r > 180) -360 else if (r < -180) 360 else 0).degrees
+		return Degrees.of(r + if (r > 180) -360 else if (r < -180) 360 else 0)
 	}
 
 	override fun ease(other: Angle, f: Float): Degrees {
 		val delta = this delta other
 		return if (delta.value > 0)
-			value.ease(other.degrees.value, f).degrees
+			Degrees.of(value.ease(other.degrees.value, f))
 		else
-			(value + 360).ease(other.degrees.value, f).degrees
+			Degrees.of((value + 360).ease(other.degrees.value, f))
 	}
 
 	override operator fun plus(other: Angle): Degrees {
-		return (value + other.degrees.value).degrees
+		return Degrees.of(value + other.degrees.value)
 	}
 
 	override operator fun minus(other: Angle): Degrees {
-		return (value - other.degrees.value).degrees
+		return Degrees.of(value - other.degrees.value)
+	}
+
+	operator fun plus(degrees: Float): Degrees {
+		return Degrees.of(value + degrees)
+	}
+
+	operator fun minus(degrees: Float): Degrees {
+		return Degrees.of(value - degrees)
 	}
 
 	override fun rotated(fullRotations: Float): Degrees {
-		return (value + fullRotations * 360f).degrees
+		return Degrees.of(value + fullRotations * 360f)
 	}
 }

@@ -84,7 +84,7 @@ abstract class IVec2<T : IVec2<T>> : Comparable<IVec2<*>>, Easable<IVec2<*>> {
 	}
 
 	infix fun radians(vector: Vec2): Radians {
-		return atan2((y - vector.y).toDouble(), (vector.x - x).toDouble()).toFloat().radians
+		return Radians.of(atan2((y - vector.y).toDouble(), (vector.x - x).toDouble()).toFloat())
 	}
 
 	infix fun dot(vector: Vec2): Float {

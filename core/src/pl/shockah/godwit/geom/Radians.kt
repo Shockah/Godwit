@@ -16,15 +16,16 @@ private fun Float.inCycle(min: Float, max: Float): Float {
 
 private const val floatPI = PI.toFloat()
 
-val Float.radians: Radians
-	get() = Radians.of(this)
-
 inline class Radians @Deprecated("Use Radians.Companion.of(value: Float) or Float.radians instead") constructor(
 		val value: Float
 ) : IAngle<Radians> {
 	companion object {
-		val ZERO = Radians.of(0f)
+		val ZERO = Radians()
 		val HALF = Radians.of(floatPI)
+
+		operator fun invoke(): Radians {
+			return of(0f)
+		}
 
 		fun of(value: Float): Radians {
 			@Suppress("DEPRECATION")
@@ -36,7 +37,7 @@ inline class Radians @Deprecated("Use Radians.Companion.of(value: Float) or Floa
 		get() = this
 
 	override val degrees: Degrees
-		get() = Math.toDegrees(value.toDouble()).toFloat().degrees
+		get() = Degrees.of(Math.toDegrees(value.toDouble()).toFloat())
 
 	override val sin: Float
 		get() = sin(value)
@@ -49,26 +50,34 @@ inline class Radians @Deprecated("Use Radians.Companion.of(value: Float) or Floa
 
 	override infix fun delta(angle: Angle): Radians {
 		val r = angle.radians.value - value
-		return (r + (if (r > floatPI) -2 * floatPI else if (r < -floatPI) 2 * floatPI else 0f)).radians
+		return Radians.of(r + (if (r > floatPI) -2 * floatPI else if (r < -floatPI) 2 * floatPI else 0f))
 	}
 
 	override fun ease(other: Angle, f: Float): Radians {
 		val delta = this delta other
 		return if (delta.value > 0)
-			value.ease(other.radians.value, f).radians
+			Radians.of(value.ease(other.radians.value, f))
 		else
-			(value + 360).ease(other.radians.value, f).radians
+			Radians.of((value + 360).ease(other.radians.value, f))
 	}
 
 	override operator fun plus(other: Angle): Radians {
-		return (value + other.radians.value).radians
+		return Radians.of(value + other.radians.value)
 	}
 
 	override operator fun minus(other: Angle): Radians {
-		return (value - other.radians.value).radians
+		return Radians.of(value - other.radians.value)
+	}
+
+	operator fun plus(radians: Float): Radians {
+		return Radians.of(value + radians)
+	}
+
+	operator fun minus(radians: Float): Radians {
+		return Radians.of(value - radians)
 	}
 
 	override fun rotated(fullRotations: Float): Radians {
-		return (value + fullRotations * floatPI * 2f).radians
+		return Radians.of(value + fullRotations * floatPI * 2f)
 	}
 }

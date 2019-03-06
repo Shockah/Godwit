@@ -13,7 +13,7 @@ class RotationAngleTest : NodeGame({ Stage(object : StageLayer() {
 	private val transformationLine: ShapeNode.Outline<Line>
 	private val textNode: TextNode
 
-	private var degrees = 0f.degrees
+	private var degrees = Degrees()
 
 	init {
 		group = Node().apply { root += this }
@@ -42,7 +42,7 @@ class RotationAngleTest : NodeGame({ Stage(object : StageLayer() {
 
 	override fun update(delta: Float) {
 		group.position.set(Gdx.graphics.size * 0.5f)
-		degrees += (delta * 30f).degrees
+		degrees += delta * 30f
 		textNode.text = "%.0f*".format(degrees.value)
 		vectorLine.shape.point2 = MutableVec2(degrees, 32f)
 		transformationLine.rotation = degrees

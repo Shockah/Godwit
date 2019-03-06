@@ -6,13 +6,12 @@ import pl.shockah.godwit.GDelegates
 import pl.shockah.godwit.geom.Degrees
 import pl.shockah.godwit.geom.ImmutableVec2
 import pl.shockah.godwit.geom.ObservableVec2
-import pl.shockah.godwit.geom.degrees
 
 class Transformation {
 	val position = ObservableVec2 { markDirty() }
 	val origin = ObservableVec2 { markDirty() }
 	val scale = ObservableVec2(1f, 1f) { markDirty() }
-	var rotation: Degrees by GDelegates.changeObservable(0f.degrees) { -> markDirty() }
+	var rotation: Degrees by GDelegates.changeObservable(Degrees()) { -> markDirty() }
 
 	private var backingMatrix: Matrix4? = null
 	private var backingMatrixWithOrigin: Matrix4? = null

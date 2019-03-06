@@ -1,7 +1,7 @@
 package pl.shockah.godwit.color
 
 import pl.shockah.godwit.geom.Angle
-import pl.shockah.godwit.geom.degrees
+import pl.shockah.godwit.geom.Degrees
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -29,7 +29,7 @@ data class HSVColor(
 			s = if (max > 0) 1 - min / max else 0f
 			v = max
 
-			return HSVColor(h.degrees, s, v)
+			return HSVColor(Degrees.of(h), s, v)
 		}
 	}
 

@@ -2,7 +2,6 @@ package pl.shockah.godwit.color
 
 import pl.shockah.godwit.geom.Angle
 import pl.shockah.godwit.geom.Degrees
-import pl.shockah.godwit.geom.degrees
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -42,7 +41,7 @@ data class HSLColor(
 					h -= 1f
 			}
 
-			return HSLColor((h * 360f).degrees, s, l)
+			return HSLColor(Degrees.of(h * 360f), s, l)
 		}
 	}
 
