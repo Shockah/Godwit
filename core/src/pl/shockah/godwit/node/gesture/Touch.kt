@@ -1,9 +1,9 @@
 package pl.shockah.godwit.node.gesture
 
+import pl.shockah.godwit.GDelegates
 import pl.shockah.godwit.geom.ImmutableVec2
 import pl.shockah.godwit.geom.Vec2
 import java.util.*
-import kotlin.properties.Delegates
 
 class Touch(
 		val pointer: Int,
@@ -11,10 +11,7 @@ class Touch(
 ) {
 	private val mutablePoints = mutableListOf<Point>()
 
-	var recognizer: GestureRecognizer? by Delegates.observable(null) { _, old: GestureRecognizer?, new: GestureRecognizer? ->
-		if (new == old)
-			return@observable
-
+	var recognizer: GestureRecognizer? by GDelegates.changeObservable(null) { _, _: GestureRecognizer?, new: GestureRecognizer? ->
 		new?.stage?.activeContinuousGestureRecognizers?.forEach {
 			if (it != new)
 				it.onTouchUsedByRecognizer(this)

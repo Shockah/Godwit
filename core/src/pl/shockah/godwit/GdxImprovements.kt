@@ -10,7 +10,7 @@ import pl.shockah.godwit.geom.ImmutableVec2
 import pl.shockah.godwit.geom.Rectangle
 
 infix fun Matrix4.equals(other: Matrix4): Boolean {
-	return values!!.contentEquals(other.values)
+	return values contentEquals other.values
 }
 
 infix fun Matrix4.notEquals(other: Matrix4): Boolean {

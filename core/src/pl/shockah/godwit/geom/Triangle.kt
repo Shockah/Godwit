@@ -73,9 +73,9 @@ class Triangle(
 
 	override fun mirror(horizontal: Boolean, vertical: Boolean) {
 		if (horizontal)
-			points.forEach { it.x = -it.x }
+			points.forEach { it.x *= -1f }
 		if (vertical)
-			points.forEach { it.y = -it.y }
+			points.forEach { it.y *= -1f }
 	}
 
 	override fun scale(scale: Float) {

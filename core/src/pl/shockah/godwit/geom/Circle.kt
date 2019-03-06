@@ -68,9 +68,9 @@ class Circle(
 
 	override fun mirror(horizontal: Boolean, vertical: Boolean) {
 		if (horizontal)
-			position.x = -position.x
+			position.x *= -1f
 		if (vertical)
-			position.y = -position.y
+			position.y *= -1f
 	}
 
 	override fun scale(scale: Float) {

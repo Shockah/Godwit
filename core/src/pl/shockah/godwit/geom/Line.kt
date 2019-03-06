@@ -59,12 +59,12 @@ class Line(
 
 	override fun mirror(horizontal: Boolean, vertical: Boolean) {
 		if (horizontal) {
-			point1.x = -point1.x
-			point2.x = -point2.x
+			point1.x *= -1f
+			point2.x *= -1f
 		}
 		if (vertical) {
-			point1.y = -point1.y
-			point2.y = -point2.y
+			point1.y *= -1f
+			point2.y *= -1f
 		}
 	}
 

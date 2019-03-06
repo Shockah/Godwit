@@ -1,9 +1,9 @@
 package pl.shockah.godwit.node.gesture
 
+import pl.shockah.godwit.GDelegates
 import pl.shockah.godwit.LateInitAwaitable
 import pl.shockah.godwit.geom.Vec2
 import pl.shockah.godwit.node.Stage
-import kotlin.properties.Delegates
 
 abstract class GestureRecognizer {
 	private val awaitableStage = LateInitAwaitable<Stage> { _, old, new ->
@@ -13,10 +13,7 @@ abstract class GestureRecognizer {
 	}
 	var stage by awaitableStage
 
-	open var state: State by Delegates.observable(State.Possible) { _, old, new ->
-		if (new == old)
-			return@observable
-
+	open var state: State by GDelegates.changeObservable(State.Possible) { _, _, new ->
 		if (new == State.Ended) {
 			failListeners.forEach { it.onRequiredFailEnded(this) }
 		} else if (new == State.Failed) {
