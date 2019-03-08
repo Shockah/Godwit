@@ -2,6 +2,7 @@ package pl.shockah.godwit.geom
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import pl.shockah.godwit.ease.Easable
+import pl.shockah.godwit.ease.ease
 import pl.shockah.godwit.geom.polygon.Polygon
 import kotlin.math.sqrt
 

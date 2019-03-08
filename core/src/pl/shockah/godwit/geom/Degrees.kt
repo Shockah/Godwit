@@ -1,5 +1,6 @@
 package pl.shockah.godwit.geom
 
+import pl.shockah.godwit.ease.ease
 import kotlin.math.ceil
 
 private fun Float.inCycle(min: Float, max: Float): Float {

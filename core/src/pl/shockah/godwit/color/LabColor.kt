@@ -1,5 +1,6 @@
 package pl.shockah.godwit.color
 
+import pl.shockah.godwit.ease.ease
 import kotlin.math.pow
 import kotlin.math.sqrt
 

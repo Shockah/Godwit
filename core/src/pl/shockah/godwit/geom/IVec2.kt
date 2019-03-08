@@ -2,6 +2,7 @@ package pl.shockah.godwit.geom
 
 import com.badlogic.gdx.math.Vector2
 import pl.shockah.godwit.ease.Easable
+import pl.shockah.godwit.ease.ease
 import kotlin.math.atan2
 import kotlin.math.sqrt
 

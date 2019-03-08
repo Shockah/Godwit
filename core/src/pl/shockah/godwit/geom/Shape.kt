@@ -41,7 +41,7 @@ interface Shape {
 		val infinitePlane = object : Shape.Filled {
 			override val boundingBox: Rectangle
 				get() = Rectangle(
-						ImmutableVec2(-Float.MIN_VALUE, -Float.MIN_VALUE),
+						ImmutableVec2(-Float.MAX_VALUE, -Float.MAX_VALUE),
 						ImmutableVec2(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY)
 				)
 
@@ -60,7 +60,7 @@ interface Shape {
 
 			override fun drawFilled(shapes: ShapeRenderer) {
 				shapes.rect(
-						-Float.MIN_VALUE, -Float.MIN_VALUE,
+						-Float.MAX_VALUE, -Float.MAX_VALUE,
 						Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY
 				)
 			}

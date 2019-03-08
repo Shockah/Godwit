@@ -1,5 +1,6 @@
 package pl.shockah.godwit.color
 
+import pl.shockah.godwit.ease.ease
 import pl.shockah.godwit.geom.Angle
 import pl.shockah.godwit.geom.Degrees
 import kotlin.math.pow

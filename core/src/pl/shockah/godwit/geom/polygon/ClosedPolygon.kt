@@ -1,6 +1,7 @@
 package pl.shockah.godwit.geom.polygon
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
+import pl.shockah.godwit.LazyDirty
 import pl.shockah.godwit.ObservableList
 import pl.shockah.godwit.geom.*
 
@@ -8,18 +9,15 @@ class ClosedPolygon(
 		points: List<Vec2>
 ) : Polygon(points), Shape.Filled {
 	var triangulator: Triangulator = BasicTriangulator()
-	private var dirty: Boolean = false
 
-	private var _triangles: List<Triangle> = listOf()
-	val triangles: List<Triangle>
-		get() {
-			triangulate()
-			return _triangles
-		}
+	private val dirtyTriangles = LazyDirty {
+		triangulator.triangulate(points) ?: throw IllegalStateException("Cannot triangulate polygon.")
+	}
+	val triangles: List<Triangle> by dirtyTriangles
 
 	override val lines: List<Line>
 		get() {
-			val result: MutableList<Line> = mutableListOf()
+			val result = mutableListOf<Line>()
 			for (i in 0 until points.size) {
 				result += Line(points[i], points[(i + 1) % points.size])
 			}
@@ -31,11 +29,11 @@ class ClosedPolygon(
 	init {
 		super.points.listeners += object : ObservableList.ChangeListener<MutableVec2> {
 			override fun onAddedToList(element: MutableVec2) {
-				dirty = true
+				dirtyTriangles.markDirty()
 			}
 
 			override fun onRemovedFromList(element: MutableVec2) {
-				dirty = true
+				dirtyTriangles.markDirty()
 			}
 		}
 	}
@@ -72,12 +70,6 @@ class ClosedPolygon(
 		return ClosedPolygon(points).apply {
 			triangulator = this@ClosedPolygon.triangulator
 		}
-	}
-
-	private fun triangulate() {
-		if (!dirty)
-			return
-		_triangles = triangulator.triangulate(points) ?: throw IllegalStateException("Cannot triangulate polygon.")
 	}
 
 	override fun contains(point: Vec2): Boolean {
