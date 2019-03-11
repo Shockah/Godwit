@@ -40,7 +40,7 @@ class ClosedPolygon(
 
 	companion object {
 		init {
-			Shape.registerCollisionHandler(ClosedPolygon::class, ClosedPolygon::class) { a, b ->
+			Shape.registerCollisionHandler { a: ClosedPolygon, b: ClosedPolygon ->
 				for (aTriangle in a.triangles) {
 					for (bTriangle in b.triangles) {
 						if (aTriangle collides bTriangle)
@@ -49,14 +49,14 @@ class ClosedPolygon(
 				}
 				return@registerCollisionHandler false
 			}
-			Shape.registerCollisionHandler(ClosedPolygon::class, Triangle::class) { polygon, triangle ->
+			Shape.registerCollisionHandler { polygon: ClosedPolygon, triangle: Triangle ->
 				for (polygonTriangle in polygon.triangles) {
 					if (triangle collides polygonTriangle)
 						return@registerCollisionHandler true
 				}
 				return@registerCollisionHandler false
 			}
-			Shape.registerCollisionHandler(ClosedPolygon::class, Line::class) { polygon, line ->
+			Shape.registerCollisionHandler { polygon: ClosedPolygon, line: Line ->
 				for (polygonTriangle in polygon.triangles) {
 					if (line collides polygonTriangle)
 						return@registerCollisionHandler true

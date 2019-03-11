@@ -56,13 +56,13 @@ class Rectangle(
 		}
 
 		init {
-			Shape.registerCollisionHandler(Rectangle::class, Rectangle::class) { a, b ->
+			Shape.registerCollisionHandler { a: Rectangle, b: Rectangle ->
 				a.position.x < b.position.x + b.size.x
 						&& a.position.x + a.size.x > b.position.x
 						&& a.position.y < b.position.y + b.size.y
 						&& a.position.y + a.size.y > b.position.y
 			}
-			Shape.registerCollisionHandler(Rectangle::class, Line::class) { rectangle, line ->
+			Shape.registerCollisionHandler { rectangle: Rectangle, line: Line ->
 				if (line.point1 in rectangle || line.point2 in rectangle)
 					return@registerCollisionHandler true
 				for (rectangleLine in rectangle.lines) {

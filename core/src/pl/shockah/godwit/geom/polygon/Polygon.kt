@@ -37,7 +37,7 @@ open class Polygon(
 
 	companion object {
 		init {
-			Shape.registerCollisionHandler(Polygon::class, Polygon::class) { a, b ->
+			Shape.registerCollisionHandler { a: Polygon, b: Polygon ->
 				for (aLine in a.lines) {
 					for (bLine in b.lines) {
 						if (aLine collides bLine)
@@ -46,7 +46,7 @@ open class Polygon(
 				}
 				return@registerCollisionHandler false
 			}
-			Shape.registerCollisionHandler(Polygon::class, Line::class) { polygon, line ->
+			Shape.registerCollisionHandler { polygon: Polygon, line: Line ->
 				for (polygonLine in polygon.lines) {
 					if (polygonLine collides line)
 						return@registerCollisionHandler true

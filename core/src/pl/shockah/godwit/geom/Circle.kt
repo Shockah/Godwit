@@ -20,13 +20,13 @@ class Circle(
 
 	companion object {
 		init {
-			Shape.registerCollisionHandler(Circle::class, Circle::class) { a, b ->
+			Shape.registerCollisionHandler { a: Circle, b: Circle ->
 				(b.position - a.position).length < b.radius + a.radius
 			}
-			Shape.registerCollisionHandler(Circle::class, Line::class) { circle, line ->
+			Shape.registerCollisionHandler { circle: Circle, line: Line ->
 				line.point1 in circle || line.point2 in circle || !(circle intersect line).isEmpty()
 			}
-			Shape.registerCollisionHandler(Circle::class, Rectangle::class) { circle, rectangle ->
+			Shape.registerCollisionHandler { circle: Circle, rectangle: Rectangle ->
 				val testPoint = circle.position.mutableCopy()
 
 				if (circle.position.x < rectangle.position.x)
@@ -41,7 +41,7 @@ class Circle(
 
 				return@registerCollisionHandler (circle.position - testPoint).length < circle.radius
 			}
-			Shape.registerCollisionHandler(Circle::class, Polygon::class) { circle, polygon ->
+			Shape.registerCollisionHandler { circle: Circle, polygon: Polygon ->
 				for (line in polygon.lines) {
 					if (circle collides line)
 						return@registerCollisionHandler true

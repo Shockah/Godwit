@@ -34,7 +34,7 @@ class Line(
 
 	companion object {
 		init {
-			Shape.registerCollisionHandler(Line::class, Line::class) { a, b ->
+			Shape.registerCollisionHandler { a: Line, b: Line ->
 				a intersect b != null
 			}
 		}

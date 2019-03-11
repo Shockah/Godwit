@@ -30,7 +30,7 @@ class Triangle(
 
 	companion object {
 		init {
-			Shape.registerCollisionHandler(Triangle::class, Triangle::class) { a, b ->
+			Shape.registerCollisionHandler { a: Triangle, b: Triangle ->
 				for (point in b.points) {
 					if (point in a)
 						return@registerCollisionHandler true
@@ -43,7 +43,7 @@ class Triangle(
 				}
 				return@registerCollisionHandler false
 			}
-			Shape.registerCollisionHandler(Triangle::class, Line::class) { triangle, line ->
+			Shape.registerCollisionHandler { triangle: Triangle, line: Line ->
 				if (line.point1 in triangle || line.point2 in triangle)
 					return@registerCollisionHandler true
 				for (triangleLine in triangle.lines) {
