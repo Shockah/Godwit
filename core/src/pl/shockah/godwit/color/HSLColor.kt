@@ -48,7 +48,7 @@ data class HSLColor(
 
 	override val rgb by lazy {
 		if (s == 0f)
-			return@lazy RGBColor(l, l, l)
+			return@lazy RGBColor(l)
 
 		val v2 = if (l < 0.5f) l * (1 + s) else l + s - s * l
 		val v1 = 2 * l - v2

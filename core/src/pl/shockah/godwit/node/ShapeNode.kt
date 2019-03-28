@@ -1,7 +1,7 @@
 package pl.shockah.godwit.node
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
-import pl.shockah.godwit.color.GAlphaColor
+import pl.shockah.godwit.color.RGBColor
 import pl.shockah.godwit.geom.Shape
 
 inline fun <reified S : Shape.Filled> S.asFilledNode(): ShapeNode.Filled<S> {
@@ -15,7 +15,7 @@ inline fun <reified S : Shape.Outline> S.asOutlineNode(): ShapeNode.Outline<S> {
 abstract class ShapeNode<S : Shape>(
 		val shape: S
 ) : Node() {
-	var color = GAlphaColor.white
+	var color = RGBColor.white.alpha()
 
 	class Filled<S : Shape.Filled>(
 			shape: S
