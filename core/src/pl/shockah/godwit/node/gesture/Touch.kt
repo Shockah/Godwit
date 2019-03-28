@@ -11,7 +11,7 @@ class Touch(
 ) {
 	private val mutablePoints = mutableListOf<Point>()
 
-	var recognizer: GestureRecognizer? by GDelegates.changeObservable(null) { _, _: GestureRecognizer?, new: GestureRecognizer? ->
+	var recognizer: GestureRecognizer? by GDelegates.observable(null) { _, _: GestureRecognizer?, new: GestureRecognizer? ->
 		new?.stage?.activeContinuousGestureRecognizers?.forEach {
 			if (it != new)
 				it.onTouchUsedByRecognizer(this)

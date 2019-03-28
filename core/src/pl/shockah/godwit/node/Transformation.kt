@@ -11,7 +11,7 @@ class Transformation {
 	val position = ObservableVec2 { markDirty() }
 	val origin = ObservableVec2 { markDirty() }
 	val scale = ObservableVec2(1f, 1f) { markDirty() }
-	var rotation: Degrees by GDelegates.changeObservable(Degrees()) { -> markDirty() }
+	var rotation: Degrees by GDelegates.observable(Degrees()) { -> markDirty() }
 
 	private var backingMatrix: Matrix4? = null
 	private var backingMatrixWithOrigin: Matrix4? = null

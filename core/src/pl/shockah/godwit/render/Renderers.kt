@@ -41,7 +41,7 @@ open class Renderers : Disposable {
 		currentRenderer?.begin()
 	}
 
-	var shader: ShaderProgram by GDelegates.changeObservable(defaultShader) { _, _, new ->
+	var shader: ShaderProgram by GDelegates.observable(defaultShader) { _, _, new ->
 		currentRenderer?.end()
 		spriteBatch.shader = new
 		currentRenderer?.begin()

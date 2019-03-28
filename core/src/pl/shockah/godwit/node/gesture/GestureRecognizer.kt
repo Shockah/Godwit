@@ -13,7 +13,7 @@ abstract class GestureRecognizer {
 	}
 	var stage by awaitableStage
 
-	open var state: State by GDelegates.changeObservable(State.Possible) { _, _, new ->
+	open var state: State by GDelegates.observable(State.Possible) { _, _, new ->
 		if (new == State.Ended) {
 			failListeners.forEach { it.onRequiredFailEnded(this) }
 		} else if (new == State.Failed) {

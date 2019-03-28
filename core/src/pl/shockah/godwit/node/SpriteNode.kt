@@ -25,9 +25,9 @@ open class SpriteNode(
 	protected val observableSize = ObservableVec2 { setupPoints() }
 	var size: MutableVec2 by observableSize.asMutableProperty()
 
-	var color: GAlphaColor by GDelegates.changeObservable(GAlphaColor.white) { -> setupColor() }
+	var color: GAlphaColor by GDelegates.observable(GAlphaColor.white) { -> setupColor() }
 
-	var usesRectangleTouchShape: Boolean by GDelegates.changeObservable(true) { -> setupRectangleTouchShape() }
+	var usesRectangleTouchShape: Boolean by GDelegates.observable(true) { -> setupRectangleTouchShape() }
 
 	private val vertices = FloatArray(SPRITE_SIZE)
 
