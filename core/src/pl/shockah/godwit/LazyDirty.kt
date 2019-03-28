@@ -8,7 +8,7 @@ class LazyDirty<T : Any>(
 ) : ReadOnlyProperty<Any?, T> {
 	private var value: T? = null
 
-	fun markDirty() {
+	fun invalidate() {
 		value = null
 	}
 

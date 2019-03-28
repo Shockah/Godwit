@@ -29,11 +29,11 @@ class ClosedPolygon(
 	init {
 		super.points.listeners += object : ObservableList.ChangeListener<MutableVec2> {
 			override fun onAddedToList(element: MutableVec2) {
-				dirtyTriangles.markDirty()
+				dirtyTriangles.invalidate()
 			}
 
 			override fun onRemovedFromList(element: MutableVec2) {
-				dirtyTriangles.markDirty()
+				dirtyTriangles.invalidate()
 			}
 		}
 	}
