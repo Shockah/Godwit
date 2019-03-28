@@ -18,7 +18,7 @@ class Triangle(
 			val minY = minOf(points[0].y, points[1].y, points[2].y)
 			val maxX = maxOf(points[0].x, points[1].x, points[2].x)
 			val maxY = maxOf(points[0].y, points[1].y, points[2].y)
-			return Rectangle(ImmutableVec2(minX, minY), ImmutableVec2(maxX - minX, maxY - minY))
+			return Rectangle(vec2(minX, minY), vec2(maxX - minX, maxY - minY))
 		}
 
 	val lines: List<Line>

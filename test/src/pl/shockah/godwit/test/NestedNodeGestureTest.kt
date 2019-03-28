@@ -5,12 +5,13 @@ import pl.shockah.godwit.color.HSLColor
 import pl.shockah.godwit.geom.Degrees
 import pl.shockah.godwit.geom.ImmutableVec2
 import pl.shockah.godwit.geom.Rectangle
+import pl.shockah.godwit.geom.vec2
 import pl.shockah.godwit.node.*
 import pl.shockah.godwit.node.gesture.TapGestureRecognizer
 import pl.shockah.godwit.size
 
 class NestedNodeGestureTest : NodeGame({ Stage(object : StageLayer() {
-	val nodes = Array(3) { Rectangle(size = ImmutableVec2(64f, 64f)).asFilledNode() }
+	val nodes = Array(3) { Rectangle(size = vec2(64f, 64f)).asFilledNode() }
 
 	init {
 		var current: Node = root
@@ -25,7 +26,7 @@ class NestedNodeGestureTest : NodeGame({ Stage(object : StageLayer() {
 	}
 
 	override fun update(delta: Float) {
-		nodes[0].position.set(Gdx.graphics.size * 0.5f - ImmutableVec2(64f, 64f))
+		nodes[0].position.set(Gdx.graphics.size * 0.5f - vec2(64f, 64f))
 		for (i in 1 until nodes.size) {
 			nodes[i].rotation += delta * 100f
 		}

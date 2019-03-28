@@ -23,7 +23,7 @@ open class Polygon(
 			) {
 				return Rectangle(size = ImmutableVec2.ZERO)
 			}
-			return Rectangle(ImmutableVec2(minX, minY), ImmutableVec2(maxX - minX, maxY - minY))
+			return Rectangle(vec2(minX, minY), vec2(maxX - minX, maxY - minY))
 		}
 
 	open val lines: List<Line>

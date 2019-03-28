@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.utils.viewport.Viewport
 import pl.shockah.godwit.geom.ImmutableVec2
 import pl.shockah.godwit.geom.Rectangle
+import pl.shockah.godwit.geom.vec2
 
 infix fun Matrix4.equals(other: Matrix4): Boolean {
 	return values contentEquals other.values
@@ -34,11 +35,11 @@ operator fun Matrix4.set(index: Int, value: Float) {
 }
 
 val Graphics.size: ImmutableVec2
-	get() = ImmutableVec2(width.toFloat(), height.toFloat())
+	get() = vec2(width.toFloat(), height.toFloat())
 
 inline fun <reified T> assetDescriptor(path: String): AssetDescriptor<T> {
 	return AssetDescriptor<T>(path, T::class.java)
 }
 
 val Viewport.boundingBox: Rectangle
-	get() = Rectangle(ImmutableVec2(screenX.toFloat(), screenY.toFloat()), ImmutableVec2(screenWidth.toFloat(), screenHeight.toFloat()))
+	get() = Rectangle(vec2(screenX.toFloat(), screenY.toFloat()), vec2(screenWidth.toFloat(), screenHeight.toFloat()))

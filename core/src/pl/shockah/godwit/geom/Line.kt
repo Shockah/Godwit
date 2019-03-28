@@ -20,7 +20,7 @@ class Line(
 			val minY = min(point1.y, point2.y)
 			val maxX = max(point1.x, point2.x)
 			val maxY = max(point1.y, point2.y)
-			return Rectangle(ImmutableVec2(minX, minY), ImmutableVec2(maxX - minX, maxY - minY))
+			return Rectangle(vec2(minX, minY), vec2(maxX - minX, maxY - minY))
 		}
 
 	override val center: Vec2
@@ -91,7 +91,7 @@ class Line(
 
 		val ix = point1.x + ua * (point2.x - point1.x)
 		val iy = point1.y + ua * (point2.y - point1.y)
-		return ImmutableVec2(ix, iy)
+		return vec2(ix, iy)
 	}
 
 	override fun asPolygon(): Polygon {

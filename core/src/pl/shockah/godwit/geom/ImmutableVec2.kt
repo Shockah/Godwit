@@ -6,6 +6,10 @@ import kotlin.math.sqrt
 val Vector2.godwit: ImmutableVec2
 	get() = ImmutableVec2(x, y)
 
+fun vec2(x: Float, y: Float): ImmutableVec2 {
+	return ImmutableVec2(x, y)
+}
+
 class ImmutableVec2(
 		override val x: Float,
 		override val y: Float

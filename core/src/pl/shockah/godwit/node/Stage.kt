@@ -3,6 +3,7 @@ package pl.shockah.godwit.node
 import com.badlogic.gdx.InputProcessor
 import pl.shockah.godwit.applyEach
 import pl.shockah.godwit.geom.ImmutableVec2
+import pl.shockah.godwit.geom.vec2
 import pl.shockah.godwit.node.gesture.ContinuousGestureRecognizer
 import pl.shockah.godwit.node.gesture.GestureRecognizer
 import pl.shockah.godwit.node.gesture.Touch
@@ -59,14 +60,14 @@ open class Stage(
 
 	override fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
 		val touch = Touch(pointer, button)
-		touch += ImmutableVec2(screenX.toFloat(), screenY.toFloat())
+		touch += vec2(screenX.toFloat(), screenY.toFloat())
 		touches[pointer to button] = touch
 		stageLayers.asReversed().forEach { it.touchDown(screenX, screenY, touch) }
 		return true
 	}
 
 	override fun touchDragged(screenX: Int, screenY: Int, pointer: Int): Boolean {
-		val point = ImmutableVec2(screenX.toFloat(), screenY.toFloat())
+		val point = vec2(screenX.toFloat(), screenY.toFloat())
 		var handled = false
 		touches.forEach { (touchPointer, _), touch ->
 			if (touchPointer == pointer) {
@@ -83,7 +84,7 @@ open class Stage(
 		if (touch.finished)
 			return true
 
-		touch += ImmutableVec2(screenX.toFloat(), screenY.toFloat())
+		touch += vec2(screenX.toFloat(), screenY.toFloat())
 		touch.finish()
 		touches.remove(pointer to button)
 		stageLayers.asReversed().forEach { it.touchUp(screenX, screenY, touch) }

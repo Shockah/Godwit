@@ -15,7 +15,7 @@ interface Shape {
 	companion object {
 		val none = object : Shape.Filled {
 			override val boundingBox: Rectangle
-				get() = Rectangle(size = ImmutableVec2(0f, 0f))
+				get() = Rectangle(size = ImmutableVec2.ZERO)
 
 			override fun copy(): Shape.Filled {
 				return this
@@ -41,8 +41,8 @@ interface Shape {
 		val infinitePlane = object : Shape.Filled {
 			override val boundingBox: Rectangle
 				get() = Rectangle(
-						ImmutableVec2(-Float.MAX_VALUE, -Float.MAX_VALUE),
-						ImmutableVec2(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY)
+						vec2(-Float.MAX_VALUE, -Float.MAX_VALUE),
+						vec2(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY)
 				)
 
 			override fun copy(): Shape.Filled {

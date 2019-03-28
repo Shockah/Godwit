@@ -23,7 +23,7 @@ class RotationAngleTest : NodeGame({ Stage(object : StageLayer() {
 			position.x = -54f
 			group += this
 
-			vectorLine = Line(point2 = ImmutableVec2(32f, 0f)).asOutlineNode().apply { parent += this }
+			vectorLine = Line(point2 = vec2(32f, 0f)).asOutlineNode().apply { parent += this }
 		}
 
 		Circle(radius = 32f).asOutlineNode().apply {
@@ -31,7 +31,7 @@ class RotationAngleTest : NodeGame({ Stage(object : StageLayer() {
 			position.x = 54f
 			group += this
 
-			transformationLine = Line(point2 = ImmutableVec2(32f, 0f)).asOutlineNode().apply { parent += this }
+			transformationLine = Line(point2 = vec2(32f, 0f)).asOutlineNode().apply { parent += this }
 		}
 
 		textNode = TextNode(BitmapFont()).apply {

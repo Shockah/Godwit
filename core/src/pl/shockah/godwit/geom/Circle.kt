@@ -13,7 +13,7 @@ class Circle(
 	var position: MutableVec2 = position.mutableCopy()
 
 	override val boundingBox: Rectangle
-		get() = Rectangle.centered(position, ImmutableVec2(radius * 2, radius * 2))
+		get() = Rectangle.centered(position, vec2(radius * 2, radius * 2))
 
 	override val center: Vec2
 		get() = position
@@ -104,11 +104,11 @@ class Circle(
 		val abScalingFactor1 = -pBy2 + tmpSqrt
 		val abScalingFactor2 = -pBy2 - tmpSqrt
 
-		val p1 = ImmutableVec2(line.point1.x - baX * abScalingFactor1, line.point1.y - baY * abScalingFactor1)
+		val p1 = vec2(line.point1.x - baX * abScalingFactor1, line.point1.y - baY * abScalingFactor1)
 		if (disc == 0f)
 			return listOf(p1)
 
-		val p2 = ImmutableVec2(line.point1.x - baX * abScalingFactor2, line.point1.y - baY * abScalingFactor2)
+		val p2 = vec2(line.point1.x - baX * abScalingFactor2, line.point1.y - baY * abScalingFactor2)
 		return listOf(p1, p2)
 	}
 

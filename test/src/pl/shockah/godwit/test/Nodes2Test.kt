@@ -3,11 +3,12 @@ package pl.shockah.godwit.test
 import com.badlogic.gdx.Gdx
 import pl.shockah.godwit.geom.ImmutableVec2
 import pl.shockah.godwit.geom.Line
+import pl.shockah.godwit.geom.vec2
 import pl.shockah.godwit.node.*
 import pl.shockah.godwit.size
 
 class Nodes2Test : NodeGame({ Stage(object : StageLayer() {
-	val lines = Array(5) { Line(ImmutableVec2(0f, 0f), ImmutableVec2(48f, 0f)).asOutlineNode() }
+	val lines = Array(5) { Line(vec2(0f, 0f), vec2(48f, 0f)).asOutlineNode() }
 
 	init {
 		var current: Node = root

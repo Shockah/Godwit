@@ -34,10 +34,10 @@ class Rectangle(
 		get() = position
 
 	val topRight: Vec2
-		get() = ImmutableVec2(position.x + size.x, position.y)
+		get() = vec2(position.x + size.x, position.y)
 
 	val bottomLeft: Vec2
-		get() = ImmutableVec2(position.x, position.y + size.y)
+		get() = vec2(position.x, position.y + size.y)
 
 	val bottomRight: Vec2
 		get() = position + size
