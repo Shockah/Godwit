@@ -4,6 +4,10 @@ fun <T : Easable<T>> T.ease(other: T, easing: Easing, f: Float): T {
 	return easing.ease(this, other, f)
 }
 
+fun <T : Easable<T>> Float.ease(a: T, b: T): T {
+	return a.ease(b, this)
+}
+
 fun Float.ease(other: Float, f: Float): Float {
 	return this + f * (other - this)
 }
