@@ -1,36 +1,40 @@
 package pl.shockah.godwit.ease
 
 class Gradient<T : Easable<T>>(
-		points: Map<Float, T>,
+		val points: List<Pair<Float, T>>,
 		val easing: Easing = Easing.linear
 ) {
-	val points: Map<Float, T> = LinkedHashMap(points)
-
-	constructor(vararg points: Pair<Float, T>, easing: Easing = Easing.linear) : this(points.toMap(), easing)
-
-	constructor(points: List<T>, easing: Easing = Easing.linear) : this(points.mapIndexed { index, t -> 1f * index / (points.size - 1) to t }.toMap(), easing)
-
-	constructor(vararg points: T, easing: Easing = Easing.linear) : this(points.toList(), easing)
+	constructor(vararg points: Pair<Float, T>, easing: Easing = Easing.linear) : this(points.toList(), easing)
 
 	init {
 		if (points.size < 2)
 			throw IllegalArgumentException()
 
 		var last: Float? = null
-		for (key in points.keys) {
-			if (last != null && key < last)
+		for (point in points) {
+			if (last != null && point.first < last)
 				throw IllegalArgumentException()
-			if (key !in 0f..1f)
+			if (point.first !in 0f..1f)
 				throw IllegalArgumentException()
-			last = key
+			last = point.first
+		}
+	}
+
+	companion object {
+		operator fun <T : Easable<T>> invoke(points: List<T>, easing: Easing = Easing.linear): Gradient<T> {
+			return Gradient(points.mapIndexed { index, t -> 1f * index / (points.size - 1) to t }, easing)
+		}
+
+		operator fun <T : Easable<T>> invoke(vararg points: T, easing: Easing = Easing.linear): Gradient<T> {
+			return Gradient(points.toList(), easing)
 		}
 	}
 
 	operator fun get(f: Float): T {
 		if (f <= 0f)
-			return points.values.first()
+			return points.first().second
 		if (f >= 1f)
-			return points.values.last()
+			return points.last().second
 
 		var lastF: Float? = null
 		var lastT: T? = null
@@ -41,6 +45,6 @@ class Gradient<T : Easable<T>>(
 			lastT = mapT
 		}
 
-		return points.values.last()
+		return points.last().second
 	}
 }
