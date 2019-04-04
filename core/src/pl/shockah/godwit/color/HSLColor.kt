@@ -83,8 +83,8 @@ data class HSLColor(
 	override fun ease(other: HSLColor, f: Float): HSLColor {
 		return HSLColor(
 				h.ease(other.h, f),
-				s.ease(other.s, f),
-				l.ease(other.l, f)
+				f.ease(s, other.s),
+				f.ease(l, other.l)
 		)
 	}
 

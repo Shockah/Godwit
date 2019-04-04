@@ -1,5 +1,6 @@
 package pl.shockah.godwit.color
 
+import pl.shockah.godwit.color.XYZColor.Companion.xyz
 import pl.shockah.godwit.ease.ease
 import pl.shockah.godwit.geom.Angle
 import pl.shockah.godwit.geom.Radians
@@ -24,6 +25,51 @@ data class LCHColor(
 		}
 	}
 
+	data class ReferenceRanges internal constructor(
+			val reference: XYZColor.Reference,
+			val l: ClosedRange<Float>,
+			val c: ClosedRange<Float>
+	) {
+		companion object {
+			val D50_2: ReferenceRanges by lazy { ReferenceRanges(XYZColor.Reference.D50_2) }
+			val D50_10: ReferenceRanges by lazy { ReferenceRanges(XYZColor.Reference.D50_10) }
+
+			val D65_2: ReferenceRanges by lazy { ReferenceRanges(XYZColor.Reference.D65_2) }
+			val D65_10: ReferenceRanges by lazy { ReferenceRanges(XYZColor.Reference.D65_10) }
+
+			operator fun invoke(reference: XYZColor.Reference): ReferenceRanges {
+				val steps = 16
+				var minL: Float? = null
+				var minC: Float? = null
+				var maxL: Float? = null
+				var maxC: Float? = null
+
+				for (bi in 0 until steps) {
+					for (gi in 0 until steps) {
+						for (ri in 0 until steps) {
+							val lch = LabColor.from(RGBColor(
+									1f / (steps - 1) * ri,
+									1f / (steps - 1) * gi,
+									1f / (steps - 1) * bi
+							).xyz, reference).lch
+
+							if (minL == null || lch.l < minL)
+								minL = lch.l
+							if (minC == null || lch.c < minC)
+								minC = lch.c
+							if (maxL == null || lch.l > maxL)
+								maxL = lch.l
+							if (maxC == null || lch.c > maxC)
+								maxC = lch.c
+						}
+					}
+				}
+
+				return ReferenceRanges(reference, minL!!..maxL!!, minC!!..maxC!!)
+			}
+		}
+	}
+
 	override val rgb by lazy { lab.rgb }
 
 	val exactRgb: RGBColor by lazy { lab.exactRgb }
@@ -44,8 +90,8 @@ data class LCHColor(
 
 	override fun ease(other: LCHColor, f: Float): LCHColor {
 		return LCHColor(
-				l.ease(other.l, f),
-				c.ease(other.c, f),
+				f.ease(l, other.l),
+				f.ease(c, other.c),
 				h.ease(other.h, f),
 				reference
 		)

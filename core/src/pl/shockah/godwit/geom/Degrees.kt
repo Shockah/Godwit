@@ -1,19 +1,7 @@
 package pl.shockah.godwit.geom
 
 import pl.shockah.godwit.ease.ease
-import kotlin.math.ceil
-
-private fun Float.inCycle(min: Float, max: Float): Float {
-	val cycle = max - min
-	var new = this - min
-
-	if (new >= cycle)
-		new %= cycle
-	else if (new < 0)
-		new += ceil(-new / cycle) * cycle
-
-	return new + min
-}
+import pl.shockah.godwit.inCycle
 
 inline class Degrees @Deprecated("Use Degrees.Companion.of(value: Float) or Float.degrees instead") constructor(
 		val value: Float
@@ -29,6 +17,11 @@ inline class Degrees @Deprecated("Use Degrees.Companion.of(value: Float) or Floa
 		fun of(value: Float): Degrees {
 			@Suppress("DEPRECATION")
 			return Degrees(value.inCycle(-180f, 180f))
+		}
+
+		fun of(value: Double): Degrees {
+			@Suppress("DEPRECATION")
+			return Degrees(value.inCycle(-180.0, 180.0).toFloat())
 		}
 	}
 
@@ -55,9 +48,9 @@ inline class Degrees @Deprecated("Use Degrees.Companion.of(value: Float) or Floa
 	override fun ease(other: Angle, f: Float): Degrees {
 		val delta = this delta other
 		return if (delta.value > 0)
-			Degrees.of(value.ease(other.degrees.value, f))
+			Degrees.of(f.ease(value, other.degrees.value))
 		else
-			Degrees.of((value + 360).ease(other.degrees.value, f))
+			Degrees.of(f.ease(value + 360, other.degrees.value))
 	}
 
 	override operator fun plus(other: Angle): Degrees {

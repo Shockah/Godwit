@@ -24,6 +24,70 @@ data class XYZColor(
 	}
 
 	companion object {
+		private var backingXRange: ClosedRange<Float>? = null
+		private var backingYRange: ClosedRange<Float>? = null
+		private var backingZRange: ClosedRange<Float>? = null
+
+		val xRange: ClosedRange<Float>
+			get() {
+				if (backingXRange == null)
+					calculateRanges()
+				return backingXRange!!
+			}
+
+		val yRange: ClosedRange<Float>
+			get() {
+				if (backingYRange == null)
+					calculateRanges()
+				return backingYRange!!
+			}
+
+		val zRange: ClosedRange<Float>
+			get() {
+				if (backingZRange == null)
+					calculateRanges()
+				return backingZRange!!
+			}
+
+		private fun calculateRanges() {
+			val steps = 16
+			var minX: Float? = null
+			var minY: Float? = null
+			var minZ: Float? = null
+			var maxX: Float? = null
+			var maxY: Float? = null
+			var maxZ: Float? = null
+
+			for (bi in 0 until steps) {
+				for (gi in 0 until steps) {
+					for (ri in 0 until steps) {
+						val xyz = RGBColor(
+								1f / (steps - 1) * ri,
+								1f / (steps - 1) * gi,
+								1f / (steps - 1) * bi
+						).xyz
+
+						if (minX == null || xyz.x < minX)
+							minX = xyz.x
+						if (minY == null || xyz.y < minY)
+							minY = xyz.y
+						if (minZ == null || xyz.z < minZ)
+							minZ = xyz.z
+						if (maxX == null || xyz.x > maxX)
+							maxX = xyz.x
+						if (maxY == null || xyz.y > maxY)
+							maxY = xyz.y
+						if (maxZ == null || xyz.z > maxZ)
+							maxZ = xyz.z
+					}
+				}
+			}
+
+			backingXRange = minX!!..maxX!!
+			backingYRange = minY!!..maxY!!
+			backingZRange = minZ!!..maxZ!!
+		}
+
 		fun from(rgb: RGBColor): XYZColor {
 			var r = if (rgb.r > 0.04045f) ((rgb.r + 0.055f) / 1.055f).pow(2.4f) else rgb.r / 12.92f
 			var g = if (rgb.g > 0.04045f) ((rgb.g + 0.055f) / 1.055f).pow(2.4f) else rgb.g / 12.92f
@@ -83,9 +147,9 @@ data class XYZColor(
 
 	override fun ease(other: XYZColor, f: Float): XYZColor {
 		return XYZColor(
-				x.ease(other.x, f),
-				y.ease(other.y, f),
-				z.ease(other.z, f)
+				f.ease(x, other.x),
+				f.ease(y, other.y),
+				f.ease(z, other.z)
 		)
 	}
 

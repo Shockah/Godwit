@@ -1,5 +1,6 @@
 package pl.shockah.godwit.color
 
+import pl.shockah.godwit.color.XYZColor.Companion.xyz
 import pl.shockah.godwit.ease.ease
 import kotlin.math.pow
 import kotlin.math.sqrt
@@ -26,6 +27,58 @@ data class LabColor(
 					200 * (y - z),
 					reference
 			)
+		}
+	}
+
+	data class ReferenceRanges internal constructor(
+			val reference: XYZColor.Reference,
+			val l: ClosedRange<Float>,
+			val a: ClosedRange<Float>,
+			val b: ClosedRange<Float>
+	) {
+		companion object {
+			val D50_2: ReferenceRanges by lazy { ReferenceRanges(XYZColor.Reference.D50_2) }
+			val D50_10: ReferenceRanges by lazy { ReferenceRanges(XYZColor.Reference.D50_10) }
+
+			val D65_2: ReferenceRanges by lazy { ReferenceRanges(XYZColor.Reference.D65_2) }
+			val D65_10: ReferenceRanges by lazy { ReferenceRanges(XYZColor.Reference.D65_10) }
+
+			operator fun invoke(reference: XYZColor.Reference): ReferenceRanges {
+				val steps = 16
+				var minL: Float? = null
+				var minA: Float? = null
+				var minB: Float? = null
+				var maxL: Float? = null
+				var maxA: Float? = null
+				var maxB: Float? = null
+
+				for (bi in 0 until steps) {
+					for (gi in 0 until steps) {
+						for (ri in 0 until steps) {
+							val lab = LabColor.from(RGBColor(
+									1f / (steps - 1) * ri,
+									1f / (steps - 1) * gi,
+									1f / (steps - 1) * bi
+							).xyz, reference)
+
+							if (minL == null || lab.l < minL)
+								minL = lab.l
+							if (minA == null || lab.a < minA)
+								minA = lab.a
+							if (minB == null || lab.b < minB)
+								minB = lab.b
+							if (maxL == null || lab.l > maxL)
+								maxL = lab.l
+							if (maxA == null || lab.a > maxA)
+								maxA = lab.a
+							if (maxB == null || lab.b > maxB)
+								maxB = lab.b
+						}
+					}
+				}
+
+				return ReferenceRanges(reference, minL!!..maxL!!, minA!!..maxA!!, minB!!..maxB!!)
+			}
 		}
 	}
 
@@ -57,9 +110,9 @@ data class LabColor(
 
 	override fun ease(other: LabColor, f: Float): LabColor {
 		return LabColor(
-				l.ease(other.l, f),
-				a.ease(other.a, f),
-				b.ease(other.b, f),
+				f.ease(l, other.l),
+				f.ease(a, other.a),
+				f.ease(b, other.b),
 				reference
 		)
 	}

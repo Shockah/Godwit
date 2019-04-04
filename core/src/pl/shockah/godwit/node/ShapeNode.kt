@@ -17,7 +17,7 @@ abstract class ShapeNode<S : Shape>(
 ) : Node() {
 	var color = RGBColor.white.alpha()
 
-	class Filled<S : Shape.Filled>(
+	open class Filled<S : Shape.Filled>(
 			shape: S
 	) : ShapeNode<S>(shape) {
 		init {
@@ -33,7 +33,7 @@ abstract class ShapeNode<S : Shape>(
 		}
 	}
 
-	class Outline<S : Shape.Outline>(
+	open class Outline<S : Shape.Outline>(
 			shape: S
 	) : ShapeNode<S>(shape) {
 		override fun drawSelf(renderers: NodeRenderers) {

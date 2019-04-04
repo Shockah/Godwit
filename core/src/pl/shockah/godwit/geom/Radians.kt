@@ -1,19 +1,11 @@
 package pl.shockah.godwit.geom
 
 import pl.shockah.godwit.ease.ease
-import kotlin.math.*
-
-private fun Float.inCycle(min: Float, max: Float): Float {
-	val cycle = max - min
-	var new = this - min
-
-	if (new >= cycle)
-		new %= cycle
-	else if (new < 0)
-		new += ceil(-new / cycle) * cycle
-
-	return new + min
-}
+import pl.shockah.godwit.inCycle
+import kotlin.math.PI
+import kotlin.math.cos
+import kotlin.math.sin
+import kotlin.math.tan
 
 private const val floatPI = PI.toFloat()
 
@@ -31,6 +23,11 @@ inline class Radians @Deprecated("Use Radians.Companion.of(value: Float) or Floa
 		fun of(value: Float): Radians {
 			@Suppress("DEPRECATION")
 			return Radians(value.inCycle(-floatPI, floatPI))
+		}
+
+		fun of(value: Double): Radians {
+			@Suppress("DEPRECATION")
+			return Radians(value.inCycle(-PI, PI).toFloat())
 		}
 	}
 
@@ -57,9 +54,9 @@ inline class Radians @Deprecated("Use Radians.Companion.of(value: Float) or Floa
 	override fun ease(other: Angle, f: Float): Radians {
 		val delta = this delta other
 		return if (delta.value > 0)
-			Radians.of(value.ease(other.radians.value, f))
+			Radians.of(f.ease(value, other.radians.value))
 		else
-			Radians.of((value + 360).ease(other.radians.value, f))
+			Radians.of(f.ease(value + 360, other.radians.value))
 	}
 
 	override operator fun plus(other: Angle): Radians {

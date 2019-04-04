@@ -115,7 +115,7 @@ class Circle(
 	override fun ease(other: Circle, f: Float): Circle {
 		return Circle(
 				position.ease(other.position, f),
-				radius.ease(other.radius, f)
+				f.ease(radius, other.radius)
 		)
 	}
 

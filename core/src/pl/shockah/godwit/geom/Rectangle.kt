@@ -1,6 +1,8 @@
 package pl.shockah.godwit.geom
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
+import pl.shockah.godwit.color.GAlphaColor
+import pl.shockah.godwit.color.godwit
 import pl.shockah.godwit.ease.Easable
 import pl.shockah.godwit.geom.polygon.ClosedPolygon
 import pl.shockah.godwit.geom.polygon.Polygonable
@@ -11,6 +13,11 @@ class Rectangle(
 ) : Polygonable.Closed, Easable<Rectangle> {
 	var position: MutableVec2 = position.mutableCopy()
 	var size: MutableVec2 = size.mutableCopy()
+
+	var topLeftColor: GAlphaColor? = null
+	var topRightColor: GAlphaColor? = null
+	var bottomLeftColor: GAlphaColor? = null
+	var bottomRightColor: GAlphaColor? = null
 
 	override val boundingBox: Rectangle
 		get() = copy()
@@ -118,7 +125,16 @@ class Rectangle(
 	}
 
 	private fun draw(shapes: ShapeRenderer) {
-		shapes.rect(position.x, position.y, size.x, size.y)
+		if (topLeftColor != null || topRightColor != null || bottomLeftColor != null || bottomRightColor != null) {
+			val baseColor = shapes.color.godwit
+			val topLeftColor = this.topLeftColor ?: baseColor
+			val topRightColor = this.topRightColor ?: baseColor
+			val bottomLeftColor = this.bottomLeftColor ?: baseColor
+			val bottomRightColor = this.bottomRightColor ?: baseColor
+			shapes.rect(position.x, position.y, size.x, size.y, topLeftColor.gdx, topRightColor.gdx, bottomRightColor.gdx, bottomLeftColor.gdx)
+		} else {
+			shapes.rect(position.x, position.y, size.x, size.y)
+		}
 	}
 
 	override fun drawFilled(shapes: ShapeRenderer) {

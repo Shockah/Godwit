@@ -1,5 +1,6 @@
 package pl.shockah.godwit.color
 
+import pl.shockah.godwit.color.XYZColor.Companion.xyz
 import pl.shockah.godwit.ease.ease
 import pl.shockah.godwit.geom.Angle
 import kotlin.math.pow
@@ -72,6 +73,44 @@ data class HSLuvColor(
 		}
 	}
 
+	data class ReferenceRanges internal constructor(
+			val reference: XYZColor.Reference,
+			val luv: ClosedRange<Float>
+	) {
+		companion object {
+			val D50_2: ReferenceRanges by lazy { ReferenceRanges(XYZColor.Reference.D50_2) }
+			val D50_10: ReferenceRanges by lazy { ReferenceRanges(XYZColor.Reference.D50_10) }
+
+			val D65_2: ReferenceRanges by lazy { ReferenceRanges(XYZColor.Reference.D65_2) }
+			val D65_10: ReferenceRanges by lazy { ReferenceRanges(XYZColor.Reference.D65_10) }
+
+			operator fun invoke(reference: XYZColor.Reference): ReferenceRanges {
+				val steps = 16
+				var minLuv: Float? = null
+				var maxLuv: Float? = null
+
+				for (bi in 0 until steps) {
+					for (gi in 0 until steps) {
+						for (ri in 0 until steps) {
+							val hsluv = LabColor.from(RGBColor(
+									1f / (steps - 1) * ri,
+									1f / (steps - 1) * gi,
+									1f / (steps - 1) * bi
+							).xyz, reference).lch.hsluv
+
+							if (minLuv == null || hsluv.luv < minLuv)
+								minLuv = hsluv.luv
+							if (maxLuv == null || hsluv.luv > maxLuv)
+								maxLuv = hsluv.luv
+						}
+					}
+				}
+
+				return ReferenceRanges(reference, minLuv!!..maxLuv!!)
+			}
+		}
+	}
+
 	override val rgb by lazy { lch.rgb }
 
 	val exactRgb: RGBColor by lazy { lch.exactRgb }
@@ -95,8 +134,8 @@ data class HSLuvColor(
 	override fun ease(other: HSLuvColor, f: Float): HSLuvColor {
 		return HSLuvColor(
 				h.ease(other.h, f),
-				s.ease(other.s, f),
-				luv.ease(other.luv, f),
+				f.ease(s, other.s),
+				f.ease(luv, other.luv),
 				reference
 		)
 	}

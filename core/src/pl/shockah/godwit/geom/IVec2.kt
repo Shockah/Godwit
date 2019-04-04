@@ -122,8 +122,8 @@ abstract class IVec2<T : IVec2<T>> : Comparable<IVec2<*>>, Easable<IVec2<*>> {
 
 	override fun ease(other: IVec2<*>, f: Float): IVec2<*> {
 		return ImmutableVec2(
-				x.ease(other.x, f),
-				y.ease(other.y, f)
+				f.ease(x, other.x),
+				f.ease(y, other.y)
 		)
 	}
 }

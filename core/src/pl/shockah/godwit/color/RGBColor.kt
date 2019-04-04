@@ -40,9 +40,9 @@ data class RGBColor(
 
 	override fun ease(other: RGBColor, f: Float): RGBColor {
 		return RGBColor(
-				r.ease(other.r, f),
-				g.ease(other.g, f),
-				b.ease(other.b, f)
+				f.ease(r, other.r),
+				f.ease(g, other.g),
+				f.ease(b, other.b)
 		)
 	}
 
